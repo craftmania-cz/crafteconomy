@@ -9,6 +9,7 @@ public class CraftPlayer {
     private Player player;
     private long coins;
     private long tokens;
+    private long voteTokens;
     private long level;
     private double experience;
     private long karma;
@@ -20,10 +21,11 @@ public class CraftPlayer {
         this.player = player;
     }
 
-    public CraftPlayer(Player player, long coins, long tokens, long level, long experience, long karma){
+    public CraftPlayer(Player player, long coins, long tokens, long voteTokens, long level, long experience, long karma){
         this.player = player;
         this.coins = coins;
         this.tokens = tokens;
+        this.voteTokens = voteTokens;
         this.level = level;
         this.experience = experience;
         this.karma = karma;
@@ -52,6 +54,18 @@ public class CraftPlayer {
 
     public void setTokens(long tokens) {
         this.tokens = tokens;
+    }
+
+    public long getVoteTokens() {
+        return voteTokens;
+    }
+
+    public void setVoteTokens(long voteTokens) {
+        this.voteTokens = voteTokens;
+    }
+
+    public void setExperience(double experience) {
+        this.experience = experience;
     }
 
     public long getLevel() {

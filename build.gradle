@@ -25,4 +25,5 @@ dependencies {
         exclude group: 'net.md-5'
     }
     implementation 'com.github.craftmania-cz.craftcore:CraftCore:v2.0.0'
+    implementation 'com.zaxxer:HikariCP:2.7.4'
 }

@@ -3,18 +3,25 @@ package cz.craftmania.crafteconomy.objects;
 public class Multiplier {
 
     private CraftPlayer owner;
+    private String ownerName;
     private MultiplierType type;
     private double multiply;
     private long startTime;
     private long endTime;
 
-    public Multiplier(){}
+    public Multiplier(String ownerName, MultiplierType type, double multiplier){
+        this.ownerName = ownerName; // Global multiplier nema CraftPlayer
+        this.type = type;
+        this.multiply = multiplier;
+        this.startTime = 0L;
+        this.endTime = 0L;
+    }
 
     public Multiplier(CraftPlayer player, MultiplierType type, double multiplier) {
         this.owner = player;
         this.type = type;
         this.multiply = multiplier;
-        this.startTime = System.currentTimeMillis();
+        this.startTime = 0L;
         this.endTime = 0L;
     }
 
@@ -32,6 +39,14 @@ public class Multiplier {
 
     public void setOwner(CraftPlayer owner) {
         this.owner = owner;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public MultiplierType getType() {
