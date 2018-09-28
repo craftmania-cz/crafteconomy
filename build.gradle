@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'cz.craftmania.crafteconomy'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+clean { delete "../target" }
+
+repositories {
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly ('org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT') {
+        exclude group: 'net.md-5'
+    }
+    implementation 'com.github.craftmania-cz.craftcore:CraftCore:v2.0.0'
+}
