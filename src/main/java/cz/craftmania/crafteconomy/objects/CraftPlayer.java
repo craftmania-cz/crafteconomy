@@ -10,7 +10,7 @@ public class CraftPlayer {
     private long coins;
     private long tokens;
     private long level;
-    private long experience;
+    private double experience;
     private long karma;
     private HashSet<Multiplier> multipliers;
 
@@ -62,7 +62,7 @@ public class CraftPlayer {
         this.level = level;
     }
 
-    public long getExperience() {
+    public double getExperience() {
         return experience;
     }
 
