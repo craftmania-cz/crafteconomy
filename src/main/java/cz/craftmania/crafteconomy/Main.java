@@ -1,7 +1,9 @@
 package cz.craftmania.crafteconomy;
 
+import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
@@ -25,6 +27,11 @@ public class Main extends JavaPlugin {
 
         // HikariCP
         initDatabase();
+
+        // Listeners
+        loadListeners();
+        loadCommands();
+
     }
 
     @Override
@@ -51,6 +58,15 @@ public class Main extends JavaPlugin {
 
     private void initDatabase() {
         sql = new SQLManager(this);
+    }
+
+    private void loadListeners() {
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new PlayerJoinListener(this), this);
+    }
+
+    private void loadCommands() {
+        
     }
 
 }

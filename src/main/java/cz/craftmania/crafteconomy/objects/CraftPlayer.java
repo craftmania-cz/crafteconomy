@@ -7,12 +7,12 @@ import java.util.HashSet;
 public class CraftPlayer {
 
     private Player player;
-    private long coins;
-    private long tokens;
-    private long voteTokens;
-    private long level;
-    private double experience;
-    private long karma;
+    private long coins = 0;
+    private long tokens = 0;
+    private long voteTokens = 0;
+    private long level = 1;
+    private double experience = 0;
+    private long karma = 0;
     private HashSet<Multiplier> multipliers;
 
     public CraftPlayer(){}
