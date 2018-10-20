@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

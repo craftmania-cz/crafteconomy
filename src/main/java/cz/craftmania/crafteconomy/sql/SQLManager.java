@@ -86,4 +86,21 @@ public class SQLManager {
         return null;
     }
 
+    public void setEconomy(final String column, final Player p, final long value) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE player_profile SET " + column + " = ? WHERE uuid = ?");
+            ps.setLong(1, value);
+            ps.setString(2, p.getUniqueId().toString());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+
 }

@@ -11,7 +11,7 @@ public class CraftPlayer {
     private long tokens = 0;
     private long voteTokens = 0;
     private long level = 1;
-    private double experience = 0;
+    private long experience = 0;
     private long karma = 0;
     private HashSet<Multiplier> multipliers;
 
@@ -64,7 +64,7 @@ public class CraftPlayer {
         this.voteTokens = voteTokens;
     }
 
-    public void setExperience(double experience) {
+    public void setExperience(long experience) {
         this.experience = experience;
     }
 
@@ -76,12 +76,8 @@ public class CraftPlayer {
         this.level = level;
     }
 
-    public double getExperience() {
+    public long getExperience() {
         return experience;
-    }
-
-    public void setExperience(long experience) {
-        this.experience = experience;
     }
 
     public void setKarma(long karma) {

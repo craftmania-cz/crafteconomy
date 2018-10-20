@@ -3,3 +3,8 @@ version: 1.0.0
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
+
+commands:
+  craftcoins:
+    description: Zakladni prikaz na CraftCoiny
+    aliases: [cc,coins]
