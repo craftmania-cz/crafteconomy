@@ -30,7 +30,7 @@ public class CraftCoinsAPI {
             manager.getCraftPlayer(player).setCoins(finalCoins);
             Main.getInstance().getMySQL().setEconomy("craftcoins", player, finalCoins);
             if (player.isOnline()) {
-                player.sendMessage("§eBylo ti pridano " + coinsToAdd + " CraftCoins.");
+                player.sendMessage("§aBylo ti pridano §7" + coinsToAdd + " CraftCoins.");
             }
         });
     }
@@ -42,7 +42,7 @@ public class CraftCoinsAPI {
             manager.getCraftPlayer(player).setCoins(finalCoins);
             Main.getInstance().getMySQL().setEconomy("craftcoins", player, finalCoins);
             if (player.isOnline()) {
-                player.sendMessage("§eBylo ti odebrano " + coinsToRemove + " CraftCoins.");
+                player.sendMessage("§cBylo ti odebrano §7" + coinsToRemove + " CraftCoins.");
             }
         });
     }

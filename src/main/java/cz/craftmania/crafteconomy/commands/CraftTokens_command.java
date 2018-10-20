@@ -18,7 +18,7 @@ public class CraftTokens_command implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 long tokens = CraftTokensAPI.getTokens(p);
-                p.sendMessage("§dAktualne mas " + tokens + " CraftTokens.");
+                p.sendMessage("§6Aktualne mas " + tokens + " CraftTokens.");
             }
         } else {
             String subCommand = args[0].toLowerCase();

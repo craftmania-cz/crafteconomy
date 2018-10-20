@@ -18,7 +18,7 @@ public class CraftCoins_command implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 long coins = CraftCoinsAPI.getCoins(p);
-                p.sendMessage("§eAktualne mas " + coins + " CraftCoins.");
+                p.sendMessage("§6Aktualne mas " + coins + " CraftCoins.");
             }
         } else {
             String subCommand = args[0].toLowerCase();

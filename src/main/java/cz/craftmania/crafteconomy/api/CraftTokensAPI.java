@@ -23,7 +23,7 @@ public class CraftTokensAPI {
             manager.getCraftPlayer(player).setTokens(finalTokens);
             Main.getInstance().getMySQL().setEconomy("crafttokens", player, finalTokens);
             if (player.isOnline()) {
-                player.sendMessage("§dBylo ti pridano " + tokensToAdd + " CraftTokens.");
+                player.sendMessage("§aBylo ti pridano §7" + tokensToAdd + " CraftTokens.");
             }
         });
     }
@@ -35,7 +35,7 @@ public class CraftTokensAPI {
             manager.getCraftPlayer(player).setTokens(finalTokens);
             Main.getInstance().getMySQL().setEconomy("crafttokens", player, finalTokens);
             if (player.isOnline()) {
-                player.sendMessage("§dBylo ti odebrano " + tokensToRemove + " CraftTokens.");
+                player.sendMessage("§aBylo ti odebrano §7" + tokensToRemove + " CraftTokens.");
             }
         });
     }

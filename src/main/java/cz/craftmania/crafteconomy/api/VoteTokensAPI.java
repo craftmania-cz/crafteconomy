@@ -23,7 +23,7 @@ public class VoteTokensAPI {
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
             Main.getInstance().getMySQL().setEconomy("votetokens", player, finalVoteTokens);
             if (player.isOnline()) {
-                player.sendMessage("§bBylo ti pridano " + voteTokensToAdd + " VoteTokens.");
+                player.sendMessage("§cBylo ti pridano §7" + voteTokensToAdd + " VoteTokens.");
             }
         });
     }
@@ -35,7 +35,7 @@ public class VoteTokensAPI {
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
             Main.getInstance().getMySQL().setEconomy("votetokens", player, finalVoteTokens);
             if (player.isOnline()) {
-                player.sendMessage("§bBylo ti odebrano " + voteTokensToRemove + " VoteTokens.");
+                player.sendMessage("§cBylo ti odebrano §7" + voteTokensToRemove + " VoteTokens.");
             }
         });
     }

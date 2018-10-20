@@ -18,7 +18,7 @@ public class VoteTokens_command implements CommandExecutor {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 long tokens = VoteTokensAPI.getVoteTokens(p);
-                p.sendMessage("§bAktualne mas " + tokens + " VoteTokens.");
+                p.sendMessage("§6Aktualne mas " + tokens + " VoteTokens.");
             }
         } else {
             String subCommand = args[0].toLowerCase();
