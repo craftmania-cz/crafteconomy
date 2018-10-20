@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.commands;
 
-import cz.craftmania.crafteconomy.api.CraftTokensAPI;
+import cz.craftmania.crafteconomy.api.VoteTokensAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CraftTokens_command implements CommandExecutor {
+public class VoteTokens_command implements CommandExecutor {
 
     private BasicManager manager = new BasicManager();
 
@@ -17,15 +17,15 @@ public class CraftTokens_command implements CommandExecutor {
         if (args.length < 1) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                long tokens = CraftTokensAPI.getTokens(p);
-                p.sendMessage("§dAktualne mas " + tokens + " CraftTokens.");
+                long tokens = VoteTokensAPI.getVoteTokens(p);
+                p.sendMessage("§bAktualne mas " + tokens + " VoteTokens.");
             }
         } else {
             String subCommand = args[0].toLowerCase();
             switch (subCommand) {
                 case "add":
                 case "give":
-                    if (sender.hasPermission("crafteconomy.tokens.give")) {
+                    if (sender.hasPermission("crafteconomy.votetokens.give")) {
                         if (args.length < 2) {
                             sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
@@ -33,11 +33,11 @@ public class CraftTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            CraftTokensAPI.giveTokens(p, tokens);
-                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                            VoteTokensAPI.giveVoteTokens(p, tokens);
+                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §b" + tokens + " VT.");
                             break;
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /tokens give [nick] [castka]");
+                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /vt give [nick] [castka]");
                         }
                     } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
@@ -45,7 +45,7 @@ public class CraftTokens_command implements CommandExecutor {
                     break;
                 case "take":
                 case "remove":
-                    if (sender.hasPermission("crafteconomy.tokens.take")) {
+                    if (sender.hasPermission("crafteconomy.votetokens.take")) {
                         if (args.length < 2) {
                             sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
@@ -53,21 +53,21 @@ public class CraftTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getTokens() - tokens) <= 0) {
-                                sender.sendMessage("cHrac nema dostatek CraftTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getTokens());
+                            if ((manager.getCraftPlayer(p).getVoteTokens() - tokens) <= 0) {
+                                sender.sendMessage("cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getVoteTokens());
                                 break;
                             }
-                            CraftTokensAPI.takeTokens(p, tokens);
-                            sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                            VoteTokensAPI.takeVoteTokens(p, tokens);
+                            sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §d" + tokens + " VT.");
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /tokens take [nick] [castka]");
+                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /vt take [nick] [castka]");
                         }
-                    } else {
+                    }  else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
                     }
                     break;
                 default:
-                    sender.sendMessage("§cNeznamy subprikaz. Zkus /tokens help");
+                    sender.sendMessage("§cNeznamy subprikaz. Zkus /vt help");
             }
         }
         return true;

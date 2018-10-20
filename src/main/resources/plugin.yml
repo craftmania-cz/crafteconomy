@@ -7,7 +7,10 @@ main: cz.craftmania.crafteconomy.Main
 commands:
   craftcoins:
     description: Zakladni prikaz na CraftCoiny
-    aliases: [cc,coins]
+    aliases: [cc, coins]
   crafttokens:
     description: Zakladni prikaz na CraftTokeny
     aliases: [ct, tokens]
+  votetokens:
+    description: Zakladni prikaz na VoteTokeny
+    aliases: [vt, vtokens]
