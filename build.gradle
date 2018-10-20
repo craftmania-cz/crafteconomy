@@ -20,10 +20,15 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+task compileWithDependencies(type: Jar) {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
     compileOnly ('org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
-    implementation 'com.github.craftmania-cz.craftcore:CraftCore:v2.0.0'
-    implementation 'com.zaxxer:HikariCP:2.7.4'
+    compileOnly 'com.github.craftmania-cz.craftcore:CraftCore:v2.0.0'
+    compile 'com.zaxxer:HikariCP:2.7.4'
 }
