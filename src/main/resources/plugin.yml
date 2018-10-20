@@ -8,3 +8,6 @@ commands:
   craftcoins:
     description: Zakladni prikaz na CraftCoiny
     aliases: [cc,coins]
+  crafttokens:
+    description: Zakladni prikaz na CraftTokeny
+    aliases: [ct, tokens]
