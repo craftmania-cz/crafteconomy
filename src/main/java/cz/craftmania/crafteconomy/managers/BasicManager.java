@@ -33,12 +33,7 @@ public class BasicManager {
     }
 
     public CraftPlayer getCraftPlayer(Player p) {
-        for (CraftPlayer cp : players.values()) {
-            if (cp.getPlayer() == p) {
-                return cp;
-            }
-        }
-        return null;
+        return players.values().stream().filter(cp -> cp.getPlayer() == p).findFirst().orElse(null);
     }
 
 
