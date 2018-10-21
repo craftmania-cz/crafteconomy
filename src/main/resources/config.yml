@@ -11,3 +11,6 @@ settings:
   minimumConnections: 2
   maximumConnections: 5
   timeout: 30000
+
+# Zda jsou migrace starych dat zapnute (pouze lobby)
+migrations: false

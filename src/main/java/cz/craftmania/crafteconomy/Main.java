@@ -15,6 +15,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private static AsyncUtils async;
     private SQLManager sql;
+    private static boolean migrations_enabled = false;
 
     @Override
     public void onEnable() {
@@ -28,6 +29,9 @@ public class Main extends JavaPlugin {
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
+
+        // Load config
+        migrations_enabled = getConfig().getBoolean("migrations");
 
         // HikariCP
         initDatabase();
@@ -76,4 +80,7 @@ public class Main extends JavaPlugin {
         getCommand("level").setExecutor(new Level_command());
     }
 
+    public static boolean isMigrations_enabled() {
+        return migrations_enabled;
+    }
 }
