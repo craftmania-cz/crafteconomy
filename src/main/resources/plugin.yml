@@ -14,3 +14,5 @@ commands:
   votetokens:
     description: Zakladni prikaz na VoteTokeny
     aliases: [vt, vtokens]
+  level:
+    description: Globalní ranky

@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy;
 
 import cz.craftmania.crafteconomy.commands.CraftCoins_command;
 import cz.craftmania.crafteconomy.commands.CraftTokens_command;
+import cz.craftmania.crafteconomy.commands.Level_command;
 import cz.craftmania.crafteconomy.commands.VoteTokens_command;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
@@ -72,6 +73,7 @@ public class Main extends JavaPlugin {
         getCommand("craftcoins").setExecutor(new CraftCoins_command());
         getCommand("crafttokens").setExecutor(new CraftTokens_command());
         getCommand("votetokens").setExecutor(new VoteTokens_command());
+        getCommand("level").setExecutor(new Level_command());
     }
 
 }
