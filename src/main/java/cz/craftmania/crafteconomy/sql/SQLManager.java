@@ -159,7 +159,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM craftcoins_Data WHERE uuid = '" + p.getUniqueId().toString() + "';");
+            ps = conn.prepareStatement("DELETE FROM craftcoins_Data WHERE nick = '" + p.getName() + "';");
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,7 +209,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM craftmoney_data WHERE uuid = '" + p.getUniqueId().toString() + "';");
+            ps = conn.prepareStatement("DELETE FROM craftmoney_data WHERE nick = '" + p.getName() + "';");
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
