@@ -39,10 +39,11 @@ public class CraftCoins_command implements CommandExecutor {
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /coins give [nick] [castka]");
                         }
+                        break;
                     } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
+                        break;
                     }
-                    break;
                 case "take":
                 case "remove":
                     if (sender.hasPermission("crafteconomy.coins.take")) {
@@ -62,6 +63,7 @@ public class CraftCoins_command implements CommandExecutor {
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /coins take [nick] [castka]");
                         }
+                        break;
                     } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
                     }

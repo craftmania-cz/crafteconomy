@@ -39,6 +39,7 @@ public class CraftTokens_command implements CommandExecutor {
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /tokens give [nick] [castka]");
                         }
+                        break;
                     } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
                     }
@@ -62,6 +63,7 @@ public class CraftTokens_command implements CommandExecutor {
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /tokens take [nick] [castka]");
                         }
+                        break;
                     } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
                     }
