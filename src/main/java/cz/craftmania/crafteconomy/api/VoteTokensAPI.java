@@ -9,10 +9,22 @@ public class VoteTokensAPI {
     private static final Main plugin = Main.getInstance();
     private static final BasicManager manager = new BasicManager();
 
+    /**
+     * Returns amount tokens that player owns
+     *
+     * @param player Selected player
+     * @return amount of crafttokens
+     */
     public static long getVoteTokens(final Player player) { //TODO: Offline
         return manager.getCraftPlayer(player).getVoteTokens();
     }
 
+    /**
+     * Sets for requested player votetokens + send message about receiving.
+     *
+     * @param player Player
+     * @param voteTokensToAdd Value to give
+     */
     public static void giveVoteTokens(final Player player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
@@ -28,6 +40,12 @@ public class VoteTokensAPI {
         });
     }
 
+    /**
+     * Rake selected amount of tokens from player + send message about taking.
+     *
+     * @param player Player
+     * @param voteTokensToRemove Value to remove
+     */
     public static void takeVoteTokens(final Player player, final long voteTokensToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();

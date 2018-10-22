@@ -9,7 +9,12 @@ public class CraftCoinsAPI {
     private static final Main plugin = Main.getInstance();
     private static final BasicManager manager = new BasicManager();
 
-
+    /**
+     * Returns amount coins that player owns
+     *
+     * @param player Selected player
+     * @return amount of craftcoins
+     */
     public static long getCoins(final Player player) { //TODO: Offline
         return manager.getCraftPlayer(player).getCoins();
     }
@@ -17,8 +22,8 @@ public class CraftCoinsAPI {
     /**
      * Sets for requested player craftcoins + send message about receiving.
      *
-     * @param player Online player
-     * @param coinsToAdd Value of craftcoins to add
+     * @param player Player
+     * @param coinsToAdd Value to give
      */
     public static void giveCoins(final Player player, final long coinsToAdd) {
         Main.getAsync().runAsync(() -> {
@@ -35,6 +40,12 @@ public class CraftCoinsAPI {
         });
     }
 
+    /**
+     * Rake selected amount of coins from player + send message about taking.
+     *
+     * @param player Player
+     * @param coinsToRemove Value to remove
+     */
     public static void takeCoins(final Player player, final long coinsToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualCoins = manager.getCraftPlayer(player).getCoins();
