@@ -22,7 +22,7 @@ public class CraftCoinsAPI {
     /**
      * Sets for requested player craftcoins + send message about receiving.
      *
-     * @param player Player
+     * @param player     Player
      * @param coinsToAdd Value to give
      */
     public static void giveCoins(final Player player, final long coinsToAdd) {
@@ -43,7 +43,7 @@ public class CraftCoinsAPI {
     /**
      * Rake selected amount of coins from player + send message about taking.
      *
-     * @param player Player
+     * @param player        Player
      * @param coinsToRemove Value to remove
      */
     public static void takeCoins(final Player player, final long coinsToRemove) {

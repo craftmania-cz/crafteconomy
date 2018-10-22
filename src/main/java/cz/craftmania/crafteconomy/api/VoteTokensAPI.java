@@ -22,7 +22,7 @@ public class VoteTokensAPI {
     /**
      * Sets for requested player votetokens + send message about receiving.
      *
-     * @param player Player
+     * @param player          Player
      * @param voteTokensToAdd Value to give
      */
     public static void giveVoteTokens(final Player player, final long voteTokensToAdd) {
@@ -43,7 +43,7 @@ public class VoteTokensAPI {
     /**
      * Rake selected amount of tokens from player + send message about taking.
      *
-     * @param player Player
+     * @param player             Player
      * @param voteTokensToRemove Value to remove
      */
     public static void takeVoteTokens(final Player player, final long voteTokensToRemove) {

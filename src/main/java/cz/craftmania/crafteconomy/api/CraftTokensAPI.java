@@ -22,7 +22,7 @@ public class CraftTokensAPI {
     /**
      * Sets for requested player crafttokens + send message about receiving.
      *
-     * @param player Player
+     * @param player      Player
      * @param tokensToAdd Value to give
      */
     public static void giveTokens(final Player player, final long tokensToAdd) {
@@ -43,7 +43,7 @@ public class CraftTokensAPI {
     /**
      * Rake selected amount of tokens from player + send message about taking.
      *
-     * @param player Player
+     * @param player         Player
      * @param tokensToRemove Value to remove
      */
     public static void takeTokens(final Player player, final long tokensToRemove) {

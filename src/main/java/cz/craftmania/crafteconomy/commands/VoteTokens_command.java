@@ -64,7 +64,7 @@ public class VoteTokens_command implements CommandExecutor {
                             sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /vt take [nick] [castka]");
                         }
                         break;
-                    }  else {
+                    } else {
                         sender.sendMessage("§cNa toto nemas dostatecna prava!");
                     }
                     break;

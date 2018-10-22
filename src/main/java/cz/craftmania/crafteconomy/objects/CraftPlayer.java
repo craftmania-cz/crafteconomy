@@ -15,13 +15,14 @@ public class CraftPlayer {
     private long karma = 0;
     private HashSet<Multiplier> multipliers;
 
-    public CraftPlayer(){}
+    public CraftPlayer() {
+    }
 
     public CraftPlayer(Player player) {
         this.player = player;
     }
 
-    public CraftPlayer(Player player, long coins, long tokens, long voteTokens, long level, long experience, long karma){
+    public CraftPlayer(Player player, long coins, long tokens, long voteTokens, long level, long experience, long karma) {
         this.player = player;
         this.coins = coins;
         this.tokens = tokens;

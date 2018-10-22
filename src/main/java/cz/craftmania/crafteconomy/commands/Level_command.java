@@ -21,8 +21,8 @@ public class Level_command implements CommandExecutor {
                 p.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
                 p.sendMessage("");
                 p.sendMessage("§6§lGlobal rank");
-                p.sendMessage("§eLevel: §f" + craftPlayer.getLevel() + " (exp: " + craftPlayer.getExperience() + " " + (LevelUtils.getPercentageToNextLevel(craftPlayer.getExperience())*100) + "%)");
-                p.sendMessage("§eExp do dalsiho lvl: §f" + (int)LevelUtils.getExpFromLevelToNext(craftPlayer.getLevel()));
+                p.sendMessage("§eLevel: §f" + craftPlayer.getLevel() + " (exp: " + craftPlayer.getExperience() + " " + (LevelUtils.getPercentageToNextLevel(craftPlayer.getExperience()) * 100) + "%)");
+                p.sendMessage("§eExp do dalsiho lvl: §f" + (int) LevelUtils.getExpFromLevelToNext(craftPlayer.getLevel()));
                 p.sendMessage("§eKarma: §f0");
                 p.sendMessage("");
                 p.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");

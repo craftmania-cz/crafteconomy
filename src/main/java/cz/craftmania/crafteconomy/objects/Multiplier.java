@@ -9,7 +9,7 @@ public class Multiplier {
     private long startTime;
     private long endTime;
 
-    public Multiplier(String ownerName, MultiplierType type, double multiplier){
+    public Multiplier(String ownerName, MultiplierType type, double multiplier) {
         this.ownerName = ownerName; // Global multiplier nema CraftPlayer
         this.type = type;
         this.multiply = multiplier;

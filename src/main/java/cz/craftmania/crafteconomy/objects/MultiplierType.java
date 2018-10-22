@@ -8,9 +8,10 @@ public enum MultiplierType {
 
     private String normalName;
 
-    MultiplierType(){}
+    MultiplierType() {
+    }
 
-    MultiplierType(String name){
+    MultiplierType(String name) {
         this.normalName = name;
     }
 
