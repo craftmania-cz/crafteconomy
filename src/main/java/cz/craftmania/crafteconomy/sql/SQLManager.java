@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.UUID;
 
 public class SQLManager {
 
@@ -102,49 +103,15 @@ public class SQLManager {
         }
     }
 
-    public final boolean hasCraftCoinsV2Data(final Player p) { // Coins stara db
+    public final int getPlayerEconomy(final String column, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM craftcoins_Data WHERE uuid = ?;");
-            ps.setString(1, p.getUniqueId().toString());
-            ps.executeQuery();
-            return ps.getResultSet().next();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
-    public final boolean hasCraftMoneyData(final Player p) { // Stara table
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM craftmoney_data WHERE uuid = ?;");
-            ps.setString(1, p.getUniqueId().toString());
-            ps.executeQuery();
-            return ps.getResultSet().next();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
-    public final int getCraftCoinsV2Data(final Player player) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT balance FROM craftcoins_Data WHERE uuid = '" + player.getUniqueId().toString() + "';");
+            ps = conn.prepareStatement("SELECT " + column + " FROM player_profile WHERE nick = '" + player + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("balance");
+                return ps.getResultSet().getInt(column);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,29 +121,15 @@ public class SQLManager {
         return 0;
     }
 
-    public void deleteCraftCoinsV2Data(final Player p) {
+    public final int getPlayerEconomy(final String column, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM craftcoins_Data WHERE nick = '" + p.getName() + "';");
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
-
-    public final int getCraftMoneyV1DataCraftTokens(final Player player) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT crafttoken FROM craftmoney_data WHERE uuid = '" + player.getUniqueId().toString() + "';");
+            ps = conn.prepareStatement("SELECT " + column + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("crafttoken");
+                return ps.getResultSet().getInt(column);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,15 +139,15 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getCraftMoneyV1DataVoteTokens(final Player player) {
+    public final int getPlayerEconomy(final String column, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT votetoken FROM craftmoney_data WHERE uuid = '" + player.getUniqueId().toString() + "';");
+            ps = conn.prepareStatement("SELECT " + column + " FROM player_profile WHERE uuid = '" + player.getUniqueId().toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("votetoken");
+                return ps.getResultSet().getInt(column);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,19 +157,7 @@ public class SQLManager {
         return 0;
     }
 
-    public void deleteCraftMoneyV1Data(final Player p) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("DELETE FROM craftmoney_data WHERE nick = '" + p.getName() + "';");
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-    }
+
 
 
 }
