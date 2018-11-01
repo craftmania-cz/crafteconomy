@@ -1,14 +1,12 @@
 plugins {
     id 'java'
-    id "com.zoltu.git-versioning" version "3.0.3"
+    id "org.ajoberstar.grgit" version "1.7.0"
 }
 
-apply plugin: "com.zoltu.git-versioning"
-
-def versionInfo = ZoltuGitVersioning.versionInfo
+apply plugin: 'java'
+apply plugin: 'maven'
 
 group 'cz.craftmania.crafteconomy'
-version "${versionInfo.major}.${versionInfo.minor}.${versionInfo.commitCount}"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -17,20 +15,73 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-clean { delete "../target" }
-clean { delete "../build" }
+clean { delete "./target" }
+clean { delete "./build" }
 
-repositories {
-    mavenCentral()
-    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url "https://packages.craftmania.cz/repository/craftmania/"}
-    maven { url 'https://jitpack.io' }
-    maven { url "https://plugins.gradle.org/m2/" }
+def mainVersion = "1.0.2"
+def branch = "?"
+def gitId = ""
+
+ext {
+    try {
+        git = org.ajoberstar.grgit.Grgit.open(file(".git"))
+        date = git.head().date.format("yy.MM.dd")
+        //gitId = "-${git.head().abbreviatedId}"
+        gitId = "-SNAPSHOT"
+    } catch (Throwable ignore) {
+        gitId = "-unknown"
+    }
+    try {
+        git = org.ajoberstar.grgit.Grgit.open(file(".git"))
+        date = git.head().date.format("yy.MM.dd")
+        branch = "-${git.branch.current.fullName}".replace("refs/heads/", "")
+        print(branch)
+        if (branch.toString().equalsIgnoreCase("-master") || branch.toString().equalsIgnoreCase("-head")) {
+            branch = ""
+            gitId = ""
+        }
+    } catch (Throwable ignore) {
+        branch = "-unknown"
+    }
+}
+
+// Name-master-76735d.jar
+version = mainVersion + branch + gitId
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "${nexusUrl}/repository/release") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+            snapshotRepository(url: "${nexusUrl}/repository/snapshots") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 task compileWithDependencies(type: Jar) {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://packages.craftmania.cz/repository/craftmania/"}
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://jitpack.io' }
+    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 dependencies {
@@ -39,5 +90,5 @@ dependencies {
     }
     compileOnly 'cz.craftmania.craftcore:craftcore:2.0.4'
     compile 'com.zaxxer:HikariCP:2.7.4'
-    compileOnly "gradle.plugin.com.zoltu.gradle.plugin:git-versioning:3.0.3"
+    compileOnly 'org.ajoberstar:grgit:1.7.0'
 }
