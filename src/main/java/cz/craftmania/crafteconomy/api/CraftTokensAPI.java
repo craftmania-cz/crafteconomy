@@ -50,6 +50,9 @@ public class CraftTokensAPI {
         Main.getAsync().runAsync(() -> {
             long actualTokens = manager.getCraftPlayer(player).getTokens();
             long finalTokens = actualTokens - tokensToRemove;
+            if (finalTokens < 0) {
+                return;
+            }
             manager.getCraftPlayer(player).setTokens(finalTokens);
             Main.getInstance().getMySQL().setEconomy("crafttokens", player, finalTokens);
             if (player.isOnline()) {

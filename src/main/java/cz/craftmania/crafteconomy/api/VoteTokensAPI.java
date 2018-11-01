@@ -50,6 +50,9 @@ public class VoteTokensAPI {
         Main.getAsync().runAsync(() -> {
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();
             long finalVoteTokens = actualVoteTokens - voteTokensToRemove;
+            if (finalVoteTokens < 0) {
+                return;
+            }
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
             Main.getInstance().getMySQL().setEconomy("votetokens", player, finalVoteTokens);
             if (player.isOnline()) {

@@ -50,6 +50,9 @@ public class CraftCoinsAPI {
         Main.getAsync().runAsync(() -> {
             long actualCoins = manager.getCraftPlayer(player).getCoins();
             long finalCoins = actualCoins - coinsToRemove;
+            if (finalCoins < 0) {
+                return;
+            }
             manager.getCraftPlayer(player).setCoins(finalCoins);
             Main.getInstance().getMySQL().setEconomy("craftcoins", player, finalCoins);
             if (player.isOnline()) {
