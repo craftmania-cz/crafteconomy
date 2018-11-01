@@ -28,7 +28,7 @@ public class CraftTokensAPI {
     public static void giveTokens(final Player player, final long tokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
-                BasicManager.getOrRegisterPlayer(player);
+                return;
             }
             long actualTokens = manager.getCraftPlayer(player).getTokens();
             long finalTokens = actualTokens + tokensToAdd;

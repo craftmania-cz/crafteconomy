@@ -1,8 +1,11 @@
 package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.exceptions.PlayerIsNotInCacheException;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class CraftCoinsAPI {
 
@@ -20,6 +23,36 @@ public class CraftCoinsAPI {
     }
 
     /**
+     * Returns amount coins by player nick name
+     *
+     * @param player Selected player
+     * @return amount of craftcoins, returns 0 if nick does not exists
+     */
+    public static long getCoins(final String player) {
+        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player1.getName().equals(player)) {
+                return manager.getCraftPlayer(player1).getCoins();
+            }
+        }
+        return Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", player);
+    }
+
+    /**
+     * Returns amount of coins by player uuid
+     *
+     * @param uuid Selected UUID
+     * @return amount of craftcoins, returns 0 if UUID does not exists
+     */
+    public static long getCoins(final UUID uuid) {
+        for (Player player : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player.getUniqueId().toString().equals(uuid)) {
+                return manager.getCraftPlayer(player).getCoins();
+            }
+        }
+        return Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", uuid);
+    }
+
+    /**
      * Sets for requested player craftcoins + send message about receiving.
      *
      * @param player     Player
@@ -28,7 +61,7 @@ public class CraftCoinsAPI {
     public static void giveCoins(final Player player, final long coinsToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
-                BasicManager.getOrRegisterPlayer(player);
+                return;
             }
             long actualCoins = manager.getCraftPlayer(player).getCoins();
             long finalCoins = actualCoins + coinsToAdd;

@@ -28,7 +28,7 @@ public class VoteTokensAPI {
     public static void giveVoteTokens(final Player player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
-                BasicManager.getOrRegisterPlayer(player);
+                return;
             }
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();
             long finalVoteTokens = actualVoteTokens + voteTokensToAdd;
