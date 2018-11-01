@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 public class VoteTokensAPI {
@@ -28,6 +29,7 @@ public class VoteTokensAPI {
     public static void giveVoteTokens(final Player player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache giveVoteTokens zastaven!");
                 return;
             }
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();

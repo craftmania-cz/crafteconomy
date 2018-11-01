@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 public class CraftTokensAPI {
@@ -28,6 +29,7 @@ public class CraftTokensAPI {
     public static void giveTokens(final Player player, final long tokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache giveTokens zastaven!");
                 return;
             }
             long actualTokens = manager.getCraftPlayer(player).getTokens();

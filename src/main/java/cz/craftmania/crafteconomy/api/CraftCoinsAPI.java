@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.exceptions.PlayerIsNotInCacheException;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -61,6 +61,7 @@ public class CraftCoinsAPI {
     public static void giveCoins(final Player player, final long coinsToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache giveCoins zastaven!");
                 return;
             }
             long actualCoins = manager.getCraftPlayer(player).getCoins();
