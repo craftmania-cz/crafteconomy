@@ -15,6 +15,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private static AsyncUtils async;
     private SQLManager sql;
+    private boolean registerEnabled = false;
 
     @Override
     public void onEnable() {
@@ -35,6 +36,9 @@ public class Main extends JavaPlugin {
         // Listeners
         loadListeners();
         loadCommands();
+
+        // Variables
+        registerEnabled = getConfig().getBoolean("registerEnabled");
 
     }
 
@@ -74,5 +78,9 @@ public class Main extends JavaPlugin {
         getCommand("crafttokens").setExecutor(new CraftTokens_command());
         getCommand("votetokens").setExecutor(new VoteTokens_command());
         getCommand("level").setExecutor(new Level_command());
+    }
+
+    public boolean isRegisterEnabled() {
+        return registerEnabled;
     }
 }

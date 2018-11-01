@@ -3,7 +3,9 @@ package cz.craftmania.crafteconomy.sql;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,6 +157,31 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return 0;
+    }
+
+    public final void createCcominutyProfile(final Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_profile (discriminator, nick ,uuid, registred, last_online, last_server) VALUES (?,?,?,?,?,?);");
+                    ps.setString(1, PlayerUtils.createDiscriminator());
+                    ps.setString(2, p.getName());
+                    ps.setString(3, p.getUniqueId().toString());
+                    ps.setLong(4, System.currentTimeMillis());
+                    ps.setLong(5, System.currentTimeMillis());
+                    ps.setString(6, "lobby");
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace(); Schvalne duplikace
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
 

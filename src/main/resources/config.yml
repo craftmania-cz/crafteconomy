@@ -12,5 +12,5 @@ settings:
   maximumConnections: 5
   timeout: 30000
 
-# Zda jsou migrace starych dat zapnute (pouze lobby)
-migrations: false
+# Registrace profilu do Ccomunity (pouze lobby)
+registerEnabled: false
