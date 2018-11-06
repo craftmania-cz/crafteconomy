@@ -20,11 +20,6 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
-        // Registrace do Ccominuty prvni
-        if (main.isRegisterEnabled()) {
-            Main.getInstance().getMySQL().createCcominutyProfile(player);
-        }
-
         // Zakladni nacteni dat do cache
         BasicManager.loadPlayerData(player);
     }
@@ -33,6 +28,6 @@ public class PlayerJoinListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         final Player player = e.getPlayer();
 
-        //TODO: Ukladani
+        BasicManager.getCraftPlayersCache().remove(player);
     }
 }

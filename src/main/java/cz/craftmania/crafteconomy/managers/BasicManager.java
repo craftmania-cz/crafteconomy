@@ -11,9 +11,7 @@ public class BasicManager {
     public static HashMap<Player, CraftPlayer> players = new HashMap<>();
 
     public static void loadPlayerData(final Player player) {
-
         CraftPlayer cp = getOrRegisterPlayer(player);
-
         players.put(player, cp);
     }
 
@@ -28,7 +26,12 @@ public class BasicManager {
     public static CraftPlayer getOrRegisterPlayer(final Player player) {
         CraftPlayer cp = null;
         if (!Main.getInstance().getMySQL().hasData(player)) {
-            // Register
+            if (Main.getInstance().isRegisterEnabled()) {
+
+                // Vytvoreni
+                Main.getInstance().getMySQL().createCcominutyProfile(player);
+
+            }
         } else {
             cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
         }
