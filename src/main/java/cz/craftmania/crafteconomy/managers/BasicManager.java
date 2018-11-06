@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.Bukkit;
@@ -37,6 +38,9 @@ public class BasicManager {
                 final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
                 Bukkit.getPluginManager().callEvent(event);
 
+                // Player's changelog
+                Main.getInstance().getMySQL().insertChangeIntoChangelog(player, "server",
+                        ChangeActions.ECONOMY_REGISTER, "0", "0", "lobby");
             }
         } else {
             cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);

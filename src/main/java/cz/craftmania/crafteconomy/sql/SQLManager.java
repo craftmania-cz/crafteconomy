@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
@@ -178,10 +179,37 @@ public class SQLManager {
                     ps.setString(6, "lobby");
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    //e.printStackTrace(); Schvalne duplikace
+                    e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
-                    Logger.success("Vytvoren novy profil: §f" + p.getName() + "#" + discriminator);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final void insertChangeIntoChangelog(final Player player, final String sender, final ChangeActions action,
+                                                final String oldValue, final String newValue, final String server) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_changelog (uuid, nick, sender, server, action, old_value, new_value, time) VALUES (?,?,?,?,?,?,?,?);");
+                    ps.setString(1, player.getUniqueId().toString());
+                    ps.setString(2, player.getName());
+                    ps.setString(3, sender);
+                    ps.setString(4, "no-server"); //TODO: CraftCore server
+                    ps.setString(5, action.toString());
+                    ps.setString(6, oldValue);
+                    ps.setString(7, newValue);
+                    ps.setLong(8, System.currentTimeMillis());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
                 }
             }
         }.runTaskAsynchronously(Main.getInstance());
