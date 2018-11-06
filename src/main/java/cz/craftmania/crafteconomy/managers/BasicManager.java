@@ -1,7 +1,9 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -30,6 +32,10 @@ public class BasicManager {
 
                 // Vytvoreni
                 Main.getInstance().getMySQL().createCcominutyProfile(player);
+
+                // Event
+                final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
+                Bukkit.getPluginManager().callEvent(event);
 
             }
         } else {
