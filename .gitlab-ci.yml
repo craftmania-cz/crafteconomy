@@ -36,16 +36,15 @@ build:
     paths:
     - target/*.jar
 
-snapshots:
+deploy:master:
   stage: deploy
   script:
   - './gradlew uploadArchives -PnexusUsername=$PACKAGES_USER -PnexusPassword=$PACKAGES_PASSWORD'
   only:
-  - branches
-  except:
-  - master@craftmania/CraftCore
+  - master@craftmania/crafteconomy
+  when: manual
 
-packages:
+deploy:release:
   stage: deploy
   script:
   - './gradlew uploadArchives -PnexusUsername=$PACKAGES_USER -PnexusPassword=$PACKAGES_PASSWORD'
