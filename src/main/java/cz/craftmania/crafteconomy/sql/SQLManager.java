@@ -179,7 +179,7 @@ public class SQLManager {
                     ps.setString(6, "lobby");
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    //e.printStackTrace(); // Schvalne ignorovani, kazdy hrac pohybujici se po CM *musi* mít profil.
                 } finally {
                     pool.close(conn, ps, null);
                 }
