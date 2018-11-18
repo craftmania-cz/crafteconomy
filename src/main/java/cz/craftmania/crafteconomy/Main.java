@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.commands.CraftCoins_command;
 import cz.craftmania.crafteconomy.commands.CraftTokens_command;
 import cz.craftmania.crafteconomy.commands.Level_command;
 import cz.craftmania.crafteconomy.commands.VoteTokens_command;
+import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
@@ -70,7 +71,12 @@ public class Main extends JavaPlugin {
 
     private void loadListeners() {
         PluginManager pm = getServer().getPluginManager();
+
+        // Bukkit
         pm.registerEvents(new PlayerJoinListener(this), this);
+
+        // Economy
+        pm.registerEvents(new PlayerCreateProfileListener(), this);
     }
 
     private void loadCommands() {

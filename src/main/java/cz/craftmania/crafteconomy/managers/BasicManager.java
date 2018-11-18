@@ -37,10 +37,6 @@ public class BasicManager {
                 // Event
                 final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
                 Bukkit.getPluginManager().callEvent(event);
-
-                // Player's changelog
-                Main.getInstance().getMySQL().insertChangeIntoChangelog(player, "server",
-                        ChangeActions.ECONOMY_REGISTER, "0", "0", "lobby");
             }
         } else {
             cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);

@@ -16,7 +16,7 @@ public class PlayerJoinListener implements Listener {
         this.main = main;
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
