@@ -57,6 +57,8 @@ sast:
   variables:
     DOCKER_DRIVER: overlay2
   allow_failure: true
+  tags:
+  - privileged
   services:
   - docker:stable-dind
   script:
