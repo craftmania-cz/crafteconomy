@@ -88,7 +88,7 @@ dependencies {
     compileOnly ('org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.0.4'
+    compileOnly 'cz.craftmania.craftcore:craftcore:2.0.11'
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
 }
