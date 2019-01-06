@@ -1,0 +1,109 @@
+package cz.craftmania.crafteconomy.api;
+
+import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.PlayerExpGainEvent;
+import cz.craftmania.crafteconomy.events.PlayerLevelGainEvent;
+import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.utils.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+public class LevelAPI {
+
+    private static final Main plugin = Main.getInstance();
+    private static final BasicManager manager = new BasicManager();
+
+    /**
+     * Returns player's level
+     *
+     * @param player selected player
+     * @return player's level
+     */
+    public static long getLevel(final Player player) {
+        return manager.getCraftPlayer(player).getLevel();
+    }
+
+    public static Long getExp(final Player player) {
+        return manager.getCraftPlayer(player).getExperience();
+    }
+
+    /**
+     * Add selected amount of levels to player
+     *
+     * @param player player
+     * @param levelsToAdd value to take
+     */
+    public static void addLevel(final Player player, final int levelsToAdd) {
+        Main.getAsync().runAsync(() -> {
+            if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache addLevel zastaven!");
+                return;
+            }
+            long actualLevel = manager.getCraftPlayer(player).getLevel();
+            long finalLevel = actualLevel + levelsToAdd;
+            manager.getCraftPlayer(player).setLevel(finalLevel);
+            Main.getInstance().getMySQL().setEconomy("level", player, finalLevel);
+            Bukkit.getPluginManager().callEvent(new PlayerLevelGainEvent(manager.getCraftPlayer(player), levelsToAdd));
+        });
+    }
+
+    /**
+     * Take selected amount of levels to player
+     *
+     * @param player player
+     * @param levelsToAdd value to add
+     */
+    public static void takeLevel(final Player player, final int levelsToTake) {
+        Main.getAsync().runAsync(() -> {
+            if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache takeLevel zastaven!");
+                return;
+            }
+            long actualLevel = manager.getCraftPlayer(player).getLevel();
+            long finalLevel = actualLevel - levelsToTake;
+            if (finalLevel < 0 ) return;
+            manager.getCraftPlayer(player).setLevel(finalLevel);
+            Main.getInstance().getMySQL().setEconomy("level", player, finalLevel);
+        });
+    }
+
+    /**
+     * Add selected amount of exp to player
+     *
+     * @param player player
+     * @param levelsToAdd value to add
+     */
+    public static void addExp(final Player player, final int expToAdd) {
+        Main.getAsync().runAsync(() -> {
+            if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache addExp zastaven!");
+                return;
+            }
+            long actualExp = manager.getCraftPlayer(player).getExperience();
+            long finalExp = actualExp + expToAdd;
+            manager.getCraftPlayer(player).setExperience(finalExp);
+            Main.getInstance().getMySQL().setEconomy("experience", player, finalExp);
+            Bukkit.getPluginManager().callEvent(new PlayerExpGainEvent(manager.getCraftPlayer(player), expToAdd));
+        });
+    }
+
+    /**
+     * Take selected amount of exp to player
+     *
+     * @param player player
+     * @param expToTake value to take
+     */
+    public static void takeExp(final Player player, final int expToTake) {
+        Main.getAsync().runAsync(() -> {
+            if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+                Logger.danger("Hrac " + player.getName() + " neni v cache takeExp zastaven!");
+                return;
+            }
+            long actualExp = manager.getCraftPlayer(player).getExperience();
+            long finalExp = actualExp - expToTake;
+            if (finalExp < 0 ) return;
+            manager.getCraftPlayer(player).setExperience(finalExp);
+            Main.getInstance().getMySQL().setEconomy("experience", player, finalExp);
+        });
+    }
+}
