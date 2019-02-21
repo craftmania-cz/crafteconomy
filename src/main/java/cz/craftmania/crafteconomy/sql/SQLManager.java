@@ -215,5 +215,45 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
+    public final void updateCcominutyForceNick(final Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_profile SET nick = ? WHERE uuid = '" + p.getUniqueId().toString() + "';");
+                    ps.setString(1, p.getName());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final void updateCcominutyForceUUID(final Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_profile SET uuid = ? WHERE nick = '" + p.getName() + "';");
+                    ps.setString(1, p.getUniqueId().toString());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
 
 }

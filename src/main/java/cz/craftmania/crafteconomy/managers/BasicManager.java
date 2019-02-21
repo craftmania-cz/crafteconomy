@@ -29,6 +29,15 @@ public class BasicManager {
     public static CraftPlayer getOrRegisterPlayer(final Player player) {
         CraftPlayer cp = null;
         if (!Main.getInstance().getMySQL().hasData(player)) {
+
+            // Pokud je v SQL spatny UUID, je nutny ho opravit a nacist
+            if (Main.getInstance().getMySQL().hasDataByName(player.getName())) {
+                Main.getInstance().getMySQL().updateCcominutyForceUUID(player);
+                System.out.println("[CraftEconomy] Update UUID v SQL pro: " + player.getName());
+                return Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+            }
+
+            // Pokud hrac neni vubec v SQL, tak se provede register
             if (Main.getInstance().isRegisterEnabled()) {
 
                 // Vytvoreni
