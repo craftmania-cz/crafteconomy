@@ -126,6 +126,6 @@ public interface LevelUtils {
      */
     static double getPercentageToNextLevel(double exp) {
         double lv = LevelUtils.getLevel(exp), x0 = getTotalExpToLevel(lv);
-        return (exp - x0) / (LevelUtils.getTotalExpToLevel(lv + 1) - x0);
+        return FormatUtils.roundDouble((exp - x0) / (LevelUtils.getTotalExpToLevel(lv + 1) - x0), 3);
     }
 }
