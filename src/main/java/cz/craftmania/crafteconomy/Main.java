@@ -5,7 +5,9 @@ import cz.craftmania.crafteconomy.commands.CraftTokens_command;
 import cz.craftmania.crafteconomy.commands.Level_command;
 import cz.craftmania.crafteconomy.commands.VoteTokens_command;
 import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
+import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
+import cz.craftmania.crafteconomy.listener.PlayerLevelGainListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import org.bukkit.plugin.PluginManager;
@@ -77,6 +79,9 @@ public class Main extends JavaPlugin {
 
         // Economy
         pm.registerEvents(new PlayerCreateProfileListener(), this);
+
+        pm.registerEvents(new PlayerExpGainListener(), this);
+        pm.registerEvents(new PlayerLevelGainListener(), this);
     }
 
     private void loadCommands() {

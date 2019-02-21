@@ -1,5 +1,5 @@
 name: CraftEconomy
-version: 1.0.4
+version: 1.0.6
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
@@ -16,3 +16,19 @@ commands:
     aliases: [vt, vtokens]
   level:
     description: Globalní ranky
+    aliases: [lvl]
+
+permissions:
+  crafteconomy.*:
+    description: Prava ku vsem prikazum
+    children:
+      crafteconomy.level.give: true
+      crafteconomy.level.take: true
+      crafteconomy.xp.give: true
+      crafteconomy.xp.take: true
+      crafteconomy.tokens.give: true
+      crafteconomy.tokens.take: true
+      crafteconomy.coins.take: true
+      crafteconomy.coins.give: true
+      crafteconomy.votetokens.give: true
+      crafteconomy.votetokens.take: true
