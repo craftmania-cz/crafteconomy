@@ -7,13 +7,13 @@ import org.bukkit.event.HandlerList;
 /*
 Spustí se, když hráč získa nový level
  */
-public class PlayerLevelGainEvent extends Event {
+public class PlayerLevelUpEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private CraftPlayer player;
     private long amount;
 
-    public PlayerLevelGainEvent(CraftPlayer p, long amount) {
+    public PlayerLevelUpEvent(CraftPlayer p, long amount) {
         this.player = p;
         this.amount = amount;
     }

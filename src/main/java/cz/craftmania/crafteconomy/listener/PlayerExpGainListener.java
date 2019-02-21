@@ -2,10 +2,8 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.events.PlayerExpGainEvent;
-import cz.craftmania.crafteconomy.events.PlayerLevelGainEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

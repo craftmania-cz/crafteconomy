@@ -2,7 +2,7 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.PlayerExpGainEvent;
-import cz.craftmania.crafteconomy.events.PlayerLevelGainEvent;
+import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
@@ -43,7 +43,7 @@ public class LevelAPI {
             long finalLevel = actualLevel + levelsToAdd;
             manager.getCraftPlayer(player).setLevel(finalLevel);
             Main.getInstance().getMySQL().setEconomy("level", player, finalLevel);
-            Bukkit.getPluginManager().callEvent(new PlayerLevelGainEvent(manager.getCraftPlayer(player), levelsToAdd));
+            Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd));
         });
     }
 
