@@ -14,3 +14,11 @@ settings:
 
 # Registrace profilu do Ccomunity (pouze lobby)
 registerEnabled: false
+
+# Nahodne davani expu za urceny cas
+random-exp:
+  enabled: false
+  settings:
+    every: 6000
+    min: 30
+    max: 60

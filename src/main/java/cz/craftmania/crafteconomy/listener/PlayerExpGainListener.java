@@ -15,8 +15,7 @@ public class PlayerExpGainListener implements Listener {
         CraftPlayer p = e.getPlayer();
         long amount = e.getAmount();
 
-        p.getPlayer().sendMessage("§a+ §7" + amount + "XP");
-        p.getPlayer().playSound(p.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1F, 1.0F);
+        p.getPlayer().sendMessage("§6+ " + amount + "XP");
         if (p.getExperience() >= LevelUtils.getExpFromLevelToNext(p.getLevel())) {
             LevelAPI.addLevel(p.getPlayer(), 1);
         }

@@ -9,6 +9,7 @@ import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
+import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,7 @@ public class Main extends JavaPlugin {
     private static AsyncUtils async;
     private SQLManager sql;
     private boolean registerEnabled = false;
+    private int minExp, maxExp, time;
 
     @Override
     public void onEnable() {
@@ -29,6 +31,11 @@ public class Main extends JavaPlugin {
         // Config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        // Values
+        minExp = getConfig().getInt("random-exp.settings.min", 30);
+        maxExp = getConfig().getInt("random-exp.settings.max", 60);
+        time = getConfig().getInt("random-exp.settings.every", 6000);
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -42,6 +49,11 @@ public class Main extends JavaPlugin {
 
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
+
+        // Tasks
+        if (getConfig().getBoolean("random-exp.enabled", false)) {
+            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new AddRandomExpTask(), 0, time);
+        }
 
     }
 
@@ -79,7 +91,6 @@ public class Main extends JavaPlugin {
 
         // Economy
         pm.registerEvents(new PlayerCreateProfileListener(), this);
-
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
     }
@@ -93,5 +104,13 @@ public class Main extends JavaPlugin {
 
     public boolean isRegisterEnabled() {
         return registerEnabled;
+    }
+
+    public int getMinExp() {
+        return minExp;
+    }
+
+    public int getMaxExp() {
+        return maxExp;
     }
 }
