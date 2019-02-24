@@ -2,8 +2,8 @@ package cz.craftmania.crafteconomy.utils;
 
 public interface LevelUtils {
 
-    double BASE = 10_000;
-    double GROWTH = 2_500;
+    double BASE = 1_000;
+    double GROWTH = 250;
 
     /* Constants to generate the total amount of XP to complete a level */
     double HALF_GROWTH = 0.5 * GROWTH;
@@ -126,6 +126,6 @@ public interface LevelUtils {
      */
     static double getPercentageToNextLevel(double exp) {
         double lv = LevelUtils.getLevel(exp), x0 = getTotalExpToLevel(lv);
-        return FormatUtils.roundDouble((exp - x0) / (LevelUtils.getTotalExpToLevel(lv + 1) - x0), 3);
+        return (exp - x0) / (LevelUtils.getTotalExpToLevel(lv + 1) - x0);
     }
 }
