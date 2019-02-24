@@ -76,6 +76,7 @@ task compileWithDependencies(type: Jar) {
 }
 
 repositories {
+    flatDir {dirs 'libs'}
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://packages.craftmania.cz/repository/craftmania/"}
@@ -91,4 +92,5 @@ dependencies {
     compileOnly 'cz.craftmania.craftcore:craftcore:2.0.11'
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
+    compileOnly name: 'MVdWPlaceholderAPI'
 }

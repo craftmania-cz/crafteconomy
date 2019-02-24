@@ -2,7 +2,7 @@ package cz.craftmania.crafteconomy.utils;
 
 public interface LevelUtils {
 
-    double BASE = 1_000;
+    double BASE = 1_500;
     double GROWTH = 250;
 
     /* Constants to generate the total amount of XP to complete a level */

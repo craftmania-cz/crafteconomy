@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
 import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
+import cz.craftmania.crafteconomy.placeholders.PlaceholderRegister;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
@@ -49,6 +50,10 @@ public class Main extends JavaPlugin {
 
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
+
+        // Placeholders
+        PlaceholderRegister pr = new PlaceholderRegister(this);
+        pr.registerPlaceholders();
 
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
