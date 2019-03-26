@@ -54,7 +54,7 @@ public class CraftTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getTokens() - tokens) <= 0) {
+                            if ((manager.getCraftPlayer(p).getTokens() - tokens) < 0) {
                                 sender.sendMessage("cHrac nema dostatek CraftTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getTokens());
                                 break;
                             }

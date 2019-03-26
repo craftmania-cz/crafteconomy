@@ -54,7 +54,7 @@ public class    VoteTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getVoteTokens() - tokens) <= 0) {
+                            if ((manager.getCraftPlayer(p).getVoteTokens() - tokens) < 0) {
                                 sender.sendMessage("cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getVoteTokens());
                                 break;
                             }

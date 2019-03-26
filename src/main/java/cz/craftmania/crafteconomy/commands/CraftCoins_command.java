@@ -54,7 +54,7 @@ public class CraftCoins_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long coins = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getCoins() - coins) <= 0) {
+                            if ((manager.getCraftPlayer(p).getCoins() - coins) < 0) {
                                 sender.sendMessage("cHrac nema dostatek CraftCoins! Ma k dispozici: " + manager.getCraftPlayer(p).getCoins());
                                 break;
                             }
