@@ -27,7 +27,7 @@ public class CraftCoins_command implements CommandExecutor {
                 case "give":
                     if (sender.hasPermission("crafteconomy.coins.give")) {
                         if (args.length < 2) {
-                            sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
+                            sender.sendMessage("§c§l(!) §cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
                         }
                         try {
@@ -37,35 +37,35 @@ public class CraftCoins_command implements CommandExecutor {
                             sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
                             break;
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /coins give [nick] [castka]");
+                            sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu give! Spravne: §f/coins give [nick] [castka]");
                         }
                         break;
                     } else {
-                        sender.sendMessage("§cNa toto nemas dostatecna prava!");
+                        sender.sendMessage("§c§l(!) §cNa toto nemas dostatecna prava!");
                         break;
                     }
                 case "take":
                 case "remove":
                     if (sender.hasPermission("crafteconomy.coins.take")) {
                         if (args.length < 2) {
-                            sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
+                            sender.sendMessage("§c§l(!) §cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
                         }
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long coins = Long.valueOf(args[2]);
                             if ((manager.getCraftPlayer(p).getCoins() - coins) < 0) {
-                                sender.sendMessage("cHrac nema dostatek CraftCoins! Ma k dispozici: " + manager.getCraftPlayer(p).getCoins());
+                                sender.sendMessage("§c§l(!) §cHrac nema dostatek CraftCoins! Ma k dispozici: " + manager.getCraftPlayer(p).getCoins());
                                 break;
                             }
                             CraftCoinsAPI.takeCoins(p, coins);
                             sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /coins take [nick] [castka]");
+                            sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu take! Spravne: §f/coins take [nick] [castka]");
                         }
                         break;
                     } else {
-                        sender.sendMessage("§cNa toto nemas dostatecna prava!");
+                        sender.sendMessage("§c§l(!) §cNa toto nemas dostatecna prava!");
                     }
                     break;
                 case "help":
@@ -80,7 +80,7 @@ public class CraftCoins_command implements CommandExecutor {
                     sender.sendMessage("§e\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
                     break;
                 default:
-                    sender.sendMessage("§cNeznamy subprikaz. Zkus /coins help");
+                    sender.sendMessage("§c§l(!) §cNeznamy subprikaz. Zkus §f/coins help");
             }
         }
         return true;

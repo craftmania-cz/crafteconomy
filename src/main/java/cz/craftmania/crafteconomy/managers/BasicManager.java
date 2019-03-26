@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -26,14 +27,14 @@ public class BasicManager {
         return players.values().stream().filter(cp -> cp.getPlayer() == p).findFirst().orElse(null);
     }
 
-    public static CraftPlayer getOrRegisterPlayer(final Player player) {
+    private static CraftPlayer getOrRegisterPlayer(final Player player) {
         CraftPlayer cp = null;
         if (!Main.getInstance().getMySQL().hasData(player)) {
 
             // Pokud je v SQL spatny UUID, je nutny ho opravit a nacist
             if (Main.getInstance().getMySQL().hasDataByName(player.getName())) {
                 Main.getInstance().getMySQL().updateCcominutyForceUUID(player);
-                System.out.println("[CraftEconomy] Update UUID v SQL pro: " + player.getName());
+                Logger.info("Update UUID v SQL pro: " + player.getName() + " (" + player.getUniqueId().toString() + ")");
                 return Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
             }
 

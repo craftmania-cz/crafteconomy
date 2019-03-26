@@ -27,7 +27,7 @@ public class    VoteTokens_command implements CommandExecutor {
                 case "give":
                     if (sender.hasPermission("crafteconomy.votetokens.give")) {
                         if (args.length < 2) {
-                            sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
+                            sender.sendMessage("§c§l(!) §cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
                         }
                         try {
@@ -37,35 +37,35 @@ public class    VoteTokens_command implements CommandExecutor {
                             sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §b" + tokens + " VT.");
                             break;
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /vt give [nick] [castka]");
+                            sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu give! Spravne: §f/vt give [nick] [castka]");
                         }
                         break;
                     } else {
-                        sender.sendMessage("§cNa toto nemas dostatecna prava!");
+                        sender.sendMessage("§c§l(!) §cNa toto nemas dostatecna prava!");
                     }
                     break;
                 case "take":
                 case "remove":
                     if (sender.hasPermission("crafteconomy.votetokens.take")) {
                         if (args.length < 2) {
-                            sender.sendMessage("§cSpatne zadany prikaz! Chybi hrac nebo castka!");
+                            sender.sendMessage("§c§l(!) §cSpatne zadany prikaz! Chybi hrac nebo castka!");
                             break;
                         }
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
                             if ((manager.getCraftPlayer(p).getVoteTokens() - tokens) < 0) {
-                                sender.sendMessage("cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getVoteTokens());
+                                sender.sendMessage("§c§l(!) §cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getVoteTokens());
                                 break;
                             }
                             VoteTokensAPI.takeVoteTokens(p, tokens);
                             sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §d" + tokens + " VT.");
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /vt take [nick] [castka]");
+                            sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu take! Spravne: §f/vt take [nick] [castka]");
                         }
                         break;
                     } else {
-                        sender.sendMessage("§cNa toto nemas dostatecna prava!");
+                        sender.sendMessage("§c§l(!) §cNa toto nemas dostatecna prava!");
                     }
                     break;
                 case "help":
@@ -78,7 +78,7 @@ public class    VoteTokens_command implements CommandExecutor {
                     sender.sendMessage("§e\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
                     break;
                 default:
-                    sender.sendMessage("§cNeznamy subprikaz. Zkus /vt help");
+                    sender.sendMessage("§c§l(!) §cNeznamy subprikaz. Zkus §f/vt help");
             }
         }
         return true;
