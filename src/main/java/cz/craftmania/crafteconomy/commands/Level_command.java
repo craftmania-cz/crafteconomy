@@ -68,7 +68,7 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long levels = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getLevel() - levels) <= 0) {
+                            if ((manager.getCraftPlayer(p).getLevel() - levels) < 0) {
                                 sender.sendMessage("§cHrac nema dostatek Levels! Ma k dispozici: " + manager.getCraftPlayer(p).getLevel());
                                 break;
                             }
@@ -113,7 +113,7 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long exp = Long.valueOf(args[2]);
-                            if ((manager.getCraftPlayer(p).getExperience() - exp) <= 0) {
+                            if ((manager.getCraftPlayer(p).getExperience() - exp) < 0) {
                                 sender.sendMessage("§cHrac nema dostatek EXP! Ma k dispozici: " + manager.getCraftPlayer(p).getExperience());
                                 break;
                             }
