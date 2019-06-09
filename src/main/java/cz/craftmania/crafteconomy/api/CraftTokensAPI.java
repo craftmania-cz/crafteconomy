@@ -43,6 +43,18 @@ public class CraftTokensAPI {
     }
 
     /**
+     * Sets for requested player crafttokens
+     *
+     * @param player      Player name
+     * @param tokensToAdd Value to give
+     */
+    public static void giveOfflineTokens(final String player, final long tokensToAdd) {
+        Main.getAsync().runAsync(() -> {
+            Main.getInstance().getMySQL().addEconomy("crafttokens", player, tokensToAdd);
+        });
+    }
+
+    /**
      * Rake selected amount of tokens from player + send message about taking.
      *
      * @param player         Player
@@ -60,6 +72,23 @@ public class CraftTokensAPI {
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti odebrano §7" + tokensToRemove + " CraftTokens.");
             }
+        });
+    }
+
+    /**
+     * Rake selected amount of tokens from player
+     *
+     * @param player         Player name
+     * @param tokensToRemove Value to remove
+     */
+    public static void takeOfflineTokens(final String player, final long tokensToRemove) {
+        Main.getAsync().runAsync(() -> {
+            long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy("crafttokens", player);
+            long finalTokens = actualTokens - tokensToRemove;
+            if (finalTokens < 0) {
+                return;
+            }
+            Main.getInstance().getMySQL().takeEconomy("crafttokens", player, tokensToRemove);
         });
     }
 }

@@ -75,6 +75,19 @@ public class CraftCoinsAPI {
     }
 
     /**
+     * Sets for requested player craftcoins
+     *
+     * @param player     Player name
+     * @param coinsToAdd Value to give
+     */
+    public static void giveOfflineCoins(final String player, final long coinsToAdd) {
+        Main.getAsync().runAsync(() -> {
+            Main.getInstance().getMySQL().addEconomy("craftcoins", player, coinsToAdd);
+        });
+    }
+
+
+    /**
      * Rake selected amount of coins from player + send message about taking.
      *
      * @param player        Player
@@ -92,6 +105,23 @@ public class CraftCoinsAPI {
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + coinsToRemove + " CraftCoins.");
             }
+        });
+    }
+
+    /**
+     * Rake selected amount of coins from player
+     *
+     * @param player        Player name
+     * @param coinsToRemove Value to remove
+     */
+    public static void takeOfflineCoins(final String player, final long coinsToRemove) {
+        Main.getAsync().runAsync(() -> {
+            long actualCoins = Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", player);
+            long finalCoins = actualCoins - coinsToRemove;
+            if (finalCoins < 0) {
+                return;
+            }
+            Main.getInstance().getMySQL().takeEconomy("craftcoins", player, coinsToRemove);
         });
     }
 

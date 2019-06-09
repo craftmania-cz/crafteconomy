@@ -48,6 +48,18 @@ public class LevelAPI {
     }
 
     /**
+     * Add selected amount of levels to player
+     *
+     * @param player player
+     * @param levelsToAdd value to take
+     */
+    public static void addOfflineLevel(final String player, final int levelsToAdd) {
+        Main.getAsync().runAsync(() -> {
+            Main.getInstance().getMySQL().addEconomy("level", player, levelsToAdd);
+        });
+    }
+
+    /**
      * Take selected amount of levels to player
      *
      * @param player player
@@ -64,6 +76,22 @@ public class LevelAPI {
             if (finalLevel < 0 ) return;
             manager.getCraftPlayer(player).setLevel(finalLevel);
             Main.getInstance().getMySQL().setEconomy("level", player, finalLevel);
+        });
+    }
+
+    /**
+     * Take selected amount of levels to player
+     *
+     * @param player player name
+     * @param levelsToAdd value to add
+     */
+    public static void takeOfflineLevel(final String player, final int levelsToTake) {
+        Main.getAsync().runAsync(() -> {
+            long actualLevel = Main.getInstance().getMySQL().getPlayerEconomy("level", player);
+            long finalLevel = actualLevel - levelsToTake;
+            if (finalLevel < 0 ) return;
+
+            Main.getInstance().getMySQL().takeEconomy("level", player, levelsToTake);
         });
     }
 
@@ -88,6 +116,18 @@ public class LevelAPI {
     }
 
     /**
+     * Add selected amount of exp to player
+     *
+     * @param player player name
+     * @param levelsToAdd value to add
+     */
+    public static void addOfflineExp(final String player, final int expToAdd) {
+        Main.getAsync().runAsync(() -> {
+            Main.getInstance().getMySQL().addEconomy("experience", player, expToAdd);
+        });
+    }
+
+    /**
      * Take selected amount of exp to player
      *
      * @param player player
@@ -104,6 +144,21 @@ public class LevelAPI {
             if (finalExp < 0 ) return;
             manager.getCraftPlayer(player).setExperience(finalExp);
             Main.getInstance().getMySQL().setEconomy("experience", player, finalExp);
+        });
+    }
+
+    /**
+     * Take selected amount of exp to player
+     *
+     * @param player player
+     * @param expToTake value to take
+     */
+    public static void takeOfflineExp(final String player, final int expToTake) {
+        Main.getAsync().runAsync(() -> {
+            long actualExp = Main.getInstance().getMySQL().getPlayerEconomy("experience", player);
+            long finalExp = actualExp - expToTake;
+            if (finalExp < 0 ) return;
+            Main.getInstance().getMySQL().takeEconomy("experience", player, expToTake);
         });
     }
 }

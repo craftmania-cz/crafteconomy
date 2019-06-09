@@ -33,8 +33,13 @@ public class CraftTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            CraftTokensAPI.giveTokens(p, tokens);
-                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                            if (p != null) {
+                                CraftTokensAPI.giveTokens(p, tokens);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                            } else {
+                                CraftTokensAPI.giveOfflineTokens(args[1], tokens);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                            }
                             break;
                         } catch (Exception e) {
                             sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu give! Spravne: §f/tokens give [nick] [castka]");
@@ -54,6 +59,11 @@ public class CraftTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
+                            if (p == null) {
+                                CraftTokensAPI.takeOfflineTokens(args[1], tokens);
+                                sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §d" + tokens + " CT.");
+                                break;
+                            }
                             if ((manager.getCraftPlayer(p).getTokens() - tokens) < 0) {
                                 sender.sendMessage("§c§l(!) §cHrac nema dostatek CraftTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getTokens());
                                 break;

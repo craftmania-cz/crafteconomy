@@ -33,8 +33,13 @@ public class    VoteTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
-                            VoteTokensAPI.giveVoteTokens(p, tokens);
-                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §b" + tokens + " VT.");
+                            if (p != null) {
+                                VoteTokensAPI.giveVoteTokens(p, tokens);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §b" + tokens + " VT.");
+                            } else {
+                                VoteTokensAPI.giveOfflineVoteTokens(args[1], tokens);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §b" + tokens + " VT.");
+                            }
                             break;
                         } catch (Exception e) {
                             sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu give! Spravne: §f/vt give [nick] [castka]");
@@ -54,6 +59,11 @@ public class    VoteTokens_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long tokens = Long.valueOf(args[2]);
+                            if (p == null) {
+                                VoteTokensAPI.takeOfflineVoteTOkens(args[1], tokens);
+                                sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §d" + tokens + " VT.");
+                                break;
+                            }
                             if ((manager.getCraftPlayer(p).getVoteTokens() - tokens) < 0) {
                                 sender.sendMessage("§c§l(!) §cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(p).getVoteTokens());
                                 break;

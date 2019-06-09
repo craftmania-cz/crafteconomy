@@ -107,6 +107,38 @@ public class SQLManager {
         }
     }
 
+    public void addEconomy(final String column, final String p, final long value) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE player_profile SET " + column + " = " + column + " + ? WHERE nick = ?");
+            ps.setLong(1, value);
+            ps.setString(2, p);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public void takeEconomy(final String column, final String p, final long value) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE player_profile SET " + column + " = " + column + " - ? WHERE nick = ?");
+            ps.setLong(1, value);
+            ps.setString(2, p);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
     public final int getPlayerEconomy(final String column, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;

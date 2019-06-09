@@ -47,8 +47,13 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long levels = Long.valueOf(args[2]);
-                            LevelAPI.addLevel(p, (int) levels);
-                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
+                            if (p != null) {
+                                LevelAPI.addLevel(p, (int) levels);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
+                            } else {
+                                LevelAPI.addOfflineLevel(args[1], (int) levels);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
+                            }
                             break;
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /level give [nick] [castka]");
@@ -68,6 +73,11 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long levels = Long.valueOf(args[2]);
+                            if (p == null) {
+                                LevelAPI.takeOfflineLevel(args[1], (int) levels);
+                                sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
+                                break;
+                            }
                             if ((manager.getCraftPlayer(p).getLevel() - levels) < 0) {
                                 sender.sendMessage("§cHrac nema dostatek Levels! Ma k dispozici: " + manager.getCraftPlayer(p).getLevel());
                                 break;
@@ -113,6 +123,11 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long exp = Long.valueOf(args[2]);
+                            if (p == null) {
+                                LevelAPI.takeOfflineLevel(args[1], (int) exp);
+                                sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + exp + " LVL.");
+                                break;
+                            }
                             if ((manager.getCraftPlayer(p).getExperience() - exp) < 0) {
                                 sender.sendMessage("§cHrac nema dostatek EXP! Ma k dispozici: " + manager.getCraftPlayer(p).getExperience());
                                 break;
