@@ -43,6 +43,18 @@ public class VoteTokensAPI {
     }
 
     /**
+     * Sets for requested player votetokens
+     *
+     * @param player          Player name
+     * @param voteTokensToAdd Value to give
+     */
+    public static void giveOfflineVoteTokens(final String player, final long voteTokensToAdd) {
+        Main.getAsync().runAsync(() -> {
+            Main.getInstance().getMySQL().addEconomy("votetokens", player, voteTokensToAdd);
+        });
+    }
+
+    /**
      * Rake selected amount of tokens from player + send message about taking.
      *
      * @param player             Player
@@ -60,6 +72,23 @@ public class VoteTokensAPI {
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + voteTokensToRemove + " VoteTokens.");
             }
+        });
+    }
+
+    /**
+     * Rake selected amount of tokens from player
+     *
+     * @param player             Player name
+     * @param voteTokensToRemove Value to remove
+     */
+    public static void takeOfflineVoteTOkens(final String player, final long voteTokensToRemove) {
+        Main.getAsync().runAsync(() -> {
+            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy("votetokens", player);
+            long finalVoteTokens = actualVoteTokens - voteTokensToRemove;
+            if (finalVoteTokens < 0) {
+                return;
+            }
+            Main.getInstance().getMySQL().takeEconomy("votetokens", player, voteTokensToRemove);
         });
     }
 }

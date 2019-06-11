@@ -33,10 +33,16 @@ public class CraftCoins_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long coins = Long.valueOf(args[2]);
-                            CraftCoinsAPI.giveCoins(p, coins);
-                            sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
+                            if (p != null) {
+                                CraftCoinsAPI.giveCoins(p, coins);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
+                            } else {
+                                CraftCoinsAPI.giveOfflineCoins(args[1], coins);
+                                sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
+                            }
                             break;
                         } catch (Exception e) {
+                            e.printStackTrace();
                             sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu give! Spravne: §f/coins give [nick] [castka]");
                         }
                         break;
@@ -54,6 +60,11 @@ public class CraftCoins_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long coins = Long.valueOf(args[2]);
+                            if (p == null) {
+                                CraftCoinsAPI.takeOfflineCoins(args[1], coins);
+                                sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
+                                break;
+                            }
                             if ((manager.getCraftPlayer(p).getCoins() - coins) < 0) {
                                 sender.sendMessage("§c§l(!) §cHrac nema dostatek CraftCoins! Ma k dispozici: " + manager.getCraftPlayer(p).getCoins());
                                 break;
@@ -61,6 +72,7 @@ public class CraftCoins_command implements CommandExecutor {
                             CraftCoinsAPI.takeCoins(p, coins);
                             sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + coins + " CC.");
                         } catch (Exception e) {
+                            e.printStackTrace();
                             sender.sendMessage("§c§l(!) §cChyba pri zpracovani prikazu take! Spravne: §f/coins take [nick] [castka]");
                         }
                         break;
