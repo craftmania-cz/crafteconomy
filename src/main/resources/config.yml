@@ -15,6 +15,8 @@ settings:
 # Registrace profilu do Ccomunity (pouze lobby)
 registerEnabled: false
 
+server: survival
+
 # Nahodne davani expu za urceny cas
 random-exp:
   enabled: false

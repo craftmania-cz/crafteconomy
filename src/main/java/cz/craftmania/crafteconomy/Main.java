@@ -21,6 +21,7 @@ public class Main extends JavaPlugin {
     private SQLManager sql;
     private boolean registerEnabled = false;
     private int minExp, maxExp, time;
+    private static String server = null;
 
     @Override
     public void onEnable() {
@@ -36,6 +37,7 @@ public class Main extends JavaPlugin {
         minExp = getConfig().getInt("random-exp.settings.min", 30);
         maxExp = getConfig().getInt("random-exp.settings.max", 60);
         time = getConfig().getInt("random-exp.settings.every", 6000);
+        server = getConfig().getString("server", "survival");
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -112,5 +114,9 @@ public class Main extends JavaPlugin {
 
     public int getMaxExp() {
         return maxExp;
+    }
+
+    public String getServerName() {
+        return server;
     }
 }

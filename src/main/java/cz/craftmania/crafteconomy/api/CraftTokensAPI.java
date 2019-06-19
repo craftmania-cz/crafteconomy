@@ -2,12 +2,12 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 public class CraftTokensAPI {
 
-    private static final Main plugin = Main.getInstance();
     private static final BasicManager manager = new BasicManager();
 
     /**
@@ -18,6 +18,21 @@ public class CraftTokensAPI {
      */
     public static long getTokens(final Player player) {
         return manager.getCraftPlayer(player).getTokens();
+    }
+
+    /**
+     * Returns amount tokens by player nick name
+     *
+     * @param player Selected player
+     * @return amount of crafttokens, returns 0 if nick does not exists
+     */
+    public static long getTokens(final String player) {
+        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player1.getName().equals(player)) {
+                return manager.getCraftPlayer(player1).getTokens();
+            }
+        }
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player);
     }
 
     /**
@@ -35,7 +50,7 @@ public class CraftTokensAPI {
             long actualTokens = manager.getCraftPlayer(player).getTokens();
             long finalTokens = actualTokens + tokensToAdd;
             manager.getCraftPlayer(player).setTokens(finalTokens);
-            Main.getInstance().getMySQL().setEconomy("crafttokens", player, finalTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTTOKENS, player, finalTokens);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + tokensToAdd + " CraftTokens.");
             }
@@ -50,7 +65,7 @@ public class CraftTokensAPI {
      */
     public static void giveOfflineTokens(final String player, final long tokensToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy("crafttokens", player, tokensToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFTTOKENS, player, tokensToAdd);
         });
     }
 
@@ -68,7 +83,7 @@ public class CraftTokensAPI {
                 return;
             }
             manager.getCraftPlayer(player).setTokens(finalTokens);
-            Main.getInstance().getMySQL().setEconomy("crafttokens", player, finalTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTTOKENS, player, finalTokens);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti odebrano §7" + tokensToRemove + " CraftTokens.");
             }
@@ -83,12 +98,12 @@ public class CraftTokensAPI {
      */
     public static void takeOfflineTokens(final String player, final long tokensToRemove) {
         Main.getAsync().runAsync(() -> {
-            long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy("crafttokens", player);
+            long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player);
             long finalTokens = actualTokens - tokensToRemove;
             if (finalTokens < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy("crafttokens", player, tokensToRemove);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFTTOKENS, player, tokensToRemove);
         });
     }
 }
