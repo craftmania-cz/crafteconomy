@@ -102,5 +102,45 @@ public class BasicManager {
         }
     }
 
+    public LevelType resolveLevelTypeByString(String server) {
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_LEVEL;
+            case "skyblock":
+                return LevelType.SKYBLOCK_LEVEL;
+            case "creative":
+                return LevelType.CREATIVE_LEVEL;
+            case "vanilla":
+                return LevelType.VANILLA_LEVEL;
+            case "vanillasb":
+            case "vanilla-skyblock":
+                return LevelType.VANILLASB_LEVEL;
+            case "prison":
+                return LevelType.PRISON_LEVEL;
+            default:
+                return LevelType.GLOBAL_LEVEL;
+        }
+    }
+
+    public LevelType resolveExperienceTypeByString(String server) {
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_EXPERIENCE;
+            case "skyblock":
+                return LevelType.SKYBLOCK_EXPERIENCE;
+            case "creative":
+                return LevelType.CREATIVE_EXPERIENCE;
+            case "vanilla":
+                return LevelType.VANILLA_EXPERIENCE;
+            case "vanillasb":
+            case "vanilla-skyblock":
+                return LevelType.VANILLASB_EXPERIENCE;
+            case "prison":
+                return LevelType.PRISON_EXPERIENCE;
+            default:
+                return LevelType.GLOBAL_EXPERIENCE;
+        }
+    }
+
 
 }

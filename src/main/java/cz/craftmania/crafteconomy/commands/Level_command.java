@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.FormatUtils;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
 import org.bukkit.Bukkit;
@@ -27,10 +28,10 @@ public class Level_command implements CommandExecutor {
                 p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
                 p.sendMessage("");
                 p.sendMessage("§6§lGlobal rank");
-                p.sendMessage("§eLevel: §f" + craftPlayer.getLevel() + " §7(dokonceno: " + FormatUtils.roundDouble((LevelUtils.getPercentageToNextLevel(craftPlayer.getExperience()) * 100), 3) + "%, celkem: " + craftPlayer.getExperience() + " XP)");
+                p.sendMessage("§eLevel: §f" + craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) + " §7(dokonceno: " + FormatUtils.roundDouble((LevelUtils.getPercentageToNextLevel(craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE)) * 100), 3) + "%, celkem: " + craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE) + " XP)");
                 p.sendMessage("§bKarma: §f0 §8| §aAchievmentPoints: §f0");
                 p.sendMessage("");
-                p.sendMessage("§eExp do level up: §f" + (int) (LevelUtils.getExpFromLevelToNext(craftPlayer.getLevel() + 1) - craftPlayer.getExperience()) + " XP");
+                p.sendMessage("§eExp do level up: §f" + (int) (LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) + 1) - craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE)) + " XP");
                 p.sendMessage("");
                 p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
             }
@@ -47,16 +48,17 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long levels = Long.valueOf(args[2]);
+                            LevelType server = manager.resolveLevelTypeByString(args[3]);
                             if (p != null) {
-                                LevelAPI.addLevel(p, (int) levels);
+                                LevelAPI.addLevel(p, server, (int) levels);
                                 sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
                             } else {
-                                LevelAPI.addOfflineLevel(args[1], (int) levels);
+                                LevelAPI.addOfflineLevel(args[1], server, (int) levels);
                                 sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
                             }
                             break;
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /level give [nick] [castka]");
+                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /level give [nick] [castka] [server]");
                         }
                         break;
                     } else {
@@ -73,19 +75,20 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long levels = Long.valueOf(args[2]);
+                            LevelType server = manager.resolveLevelTypeByString(args[3]);
                             if (p == null) {
-                                LevelAPI.takeOfflineLevel(args[1], (int) levels);
+                                LevelAPI.takeOfflineLevel(args[1], server, (int) levels);
                                 sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
                                 break;
                             }
-                            if ((manager.getCraftPlayer(p).getLevel() - levels) < 0) {
-                                sender.sendMessage("§cHrac nema dostatek Levels! Ma k dispozici: " + manager.getCraftPlayer(p).getLevel());
+                            if ((manager.getCraftPlayer(p).getLevelByType(server) - levels) < 0) {
+                                sender.sendMessage("§cHrac nema dostatek Levels! Ma k dispozici: " + manager.getCraftPlayer(p).getLevelByType(server));
                                 break;
                             }
-                            LevelAPI.takeLevel(p, (int) levels);
+                            LevelAPI.takeLevel(p, server, (int) levels);
                             sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + levels + " LVL.");
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /level take [nick] [castka]");
+                            sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /level take [nick] [castka] [server]");
                         }
                         break;
                     } else {
@@ -102,11 +105,12 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long exp = Long.valueOf(args[2]);
-                            LevelAPI.addExp(p, (int) exp);
+                            LevelType server = manager.resolveExperienceTypeByString(args[3]);
+                            LevelAPI.addExp(p, server, (int) exp);
                             sender.sendMessage("§aPridal jsi hraci §f" + args[1] + " §7- §6" + exp + " EXP.");
                             break;
                         } catch (Exception e) {
-                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /level givexp [nick] [castka]");
+                            sender.sendMessage("§cChyba pri zpracovani prikazu give! Spravne: /level givexp [nick] [castka] [server]");
                         }
                         break;
                     } else {
@@ -123,16 +127,17 @@ public class Level_command implements CommandExecutor {
                         try {
                             Player p = Bukkit.getPlayer(args[1]);
                             long exp = Long.valueOf(args[2]);
+                            LevelType server = manager.resolveExperienceTypeByString(args[3]);
                             if (p == null) {
-                                LevelAPI.takeOfflineLevel(args[1], (int) exp);
+                                LevelAPI.takeOfflineLevel(args[1], server, (int) exp);
                                 sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + exp + " LVL.");
                                 break;
                             }
-                            if ((manager.getCraftPlayer(p).getExperience() - exp) < 0) {
-                                sender.sendMessage("§cHrac nema dostatek EXP! Ma k dispozici: " + manager.getCraftPlayer(p).getExperience());
+                            if ((manager.getCraftPlayer(p).getExperienceByType(server) - exp) < 0) {
+                                sender.sendMessage("§cHrac nema dostatek EXP! Ma k dispozici: " + manager.getCraftPlayer(p).getExperienceByType(server));
                                 break;
                             }
-                            LevelAPI.takeExp(p, (int) exp);
+                            LevelAPI.takeExp(p, server, (int) exp);
                             sender.sendMessage("§cOdebral jsi hraci §f" + args[1] + " §7- §6" + exp + " LVL.");
                         } catch (Exception e) {
                             sender.sendMessage("§cChyba pri zpracovani prikazu take! Spravne: /level takexp [nick] [castka]");
