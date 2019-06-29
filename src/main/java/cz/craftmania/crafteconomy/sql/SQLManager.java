@@ -337,7 +337,7 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("INSERT INTO player_changelog (uuid, nick, sender, server, action, old_value, new_value, time) VALUES (?,?,?,?,?,?,?,?) WHERE NOT EXISTS (SELECT FROM player_changelog WHERE nick = ? AND time = ?);");
+                    ps = conn.prepareStatement("INSERT INTO player_changelog (uuid, nick, sender, server, action, old_value, new_value, time) VALUES (?,?,?,?,?,?,?,?);");
                     ps.setString(1, player.getUniqueId().toString());
                     ps.setString(2, player.getName());
                     ps.setString(3, sender);
