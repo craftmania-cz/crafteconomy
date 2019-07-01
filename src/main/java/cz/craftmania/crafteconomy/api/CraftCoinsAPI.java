@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
@@ -9,7 +10,6 @@ import java.util.UUID;
 
 public class CraftCoinsAPI {
 
-    private static final Main plugin = Main.getInstance();
     private static final BasicManager manager = new BasicManager();
 
     /**
@@ -18,7 +18,7 @@ public class CraftCoinsAPI {
      * @param player Selected player
      * @return amount of craftcoins
      */
-    public static long getCoins(final Player player) { //TODO: Offline
+    public static long getCoins(final Player player) {
         return manager.getCraftPlayer(player).getCoins();
     }
 
@@ -34,7 +34,7 @@ public class CraftCoinsAPI {
                 return manager.getCraftPlayer(player1).getCoins();
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player);
     }
 
     /**
@@ -49,7 +49,7 @@ public class CraftCoinsAPI {
                 return manager.getCraftPlayer(player).getCoins();
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", uuid);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, uuid);
     }
 
     /**
@@ -67,7 +67,7 @@ public class CraftCoinsAPI {
             long actualCoins = manager.getCraftPlayer(player).getCoins();
             long finalCoins = actualCoins + coinsToAdd;
             manager.getCraftPlayer(player).setCoins(finalCoins);
-            Main.getInstance().getMySQL().setEconomy("craftcoins", player, finalCoins);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, player, finalCoins);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + coinsToAdd + " CraftCoins.");
             }
@@ -82,7 +82,7 @@ public class CraftCoinsAPI {
      */
     public static void giveOfflineCoins(final String player, final long coinsToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy("craftcoins", player, coinsToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFTCOINS, player, coinsToAdd);
         });
     }
 
@@ -101,7 +101,7 @@ public class CraftCoinsAPI {
                 return;
             }
             manager.getCraftPlayer(player).setCoins(finalCoins);
-            Main.getInstance().getMySQL().setEconomy("craftcoins", player, finalCoins);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, player, finalCoins);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + coinsToRemove + " CraftCoins.");
             }
@@ -116,12 +116,12 @@ public class CraftCoinsAPI {
      */
     public static void takeOfflineCoins(final String player, final long coinsToRemove) {
         Main.getAsync().runAsync(() -> {
-            long actualCoins = Main.getInstance().getMySQL().getPlayerEconomy("craftcoins", player);
+            long actualCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player);
             long finalCoins = actualCoins - coinsToRemove;
             if (finalCoins < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy("craftcoins", player, coinsToRemove);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFTCOINS, player, coinsToRemove);
         });
     }
 

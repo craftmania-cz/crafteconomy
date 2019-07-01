@@ -11,6 +11,7 @@ import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,7 @@ public class Main extends JavaPlugin {
     private SQLManager sql;
     private boolean registerEnabled = false;
     private int minExp, maxExp, time;
+    private static String server = null;
 
     @Override
     public void onEnable() {
@@ -36,6 +38,7 @@ public class Main extends JavaPlugin {
         minExp = getConfig().getInt("random-exp.settings.min", 30);
         maxExp = getConfig().getInt("random-exp.settings.max", 60);
         time = getConfig().getInt("random-exp.settings.every", 6000);
+        server = getConfig().getString("server", "survival");
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -49,10 +52,14 @@ public class Main extends JavaPlugin {
 
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
+        if (registerEnabled) {
+            Logger.info("Aktivace novych hracu do SQL aktivovano.");
+        }
 
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
-            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new AddRandomExpTask(), 0, time);
+            Logger.info("Aktivace nahodneho davani expu na serveru!");
+            Main.getInstance().getServer().getScheduler().runTaskTimer(this, new AddRandomExpTask(), 0, time);
         }
 
     }
@@ -112,5 +119,9 @@ public class Main extends JavaPlugin {
 
     public int getMaxExp() {
         return maxExp;
+    }
+
+    public String getServerName() {
+        return server;
     }
 }

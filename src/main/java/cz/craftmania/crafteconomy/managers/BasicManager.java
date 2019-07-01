@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -57,6 +58,80 @@ public class BasicManager {
             cp = new CraftPlayer(player);
         }
         return cp;
+    }
+
+    public LevelType getExperienceByServer(){
+        String server = Main.getInstance().getServerName();
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_EXPERIENCE;
+            case "skyblock":
+                return LevelType.SKYBLOCK_EXPERIENCE;
+            case "creative":
+                return LevelType.CREATIVE_EXPERIENCE;
+            case "vanilla":
+                return LevelType.VANILLA_EXPERIENCE;
+            case "vanillasb":
+                return LevelType.VANILLASB_EXPERIENCE;
+            case "prison":
+                return LevelType.PRISON_EXPERIENCE;
+        }
+        return null;
+    }
+
+    public LevelType getLevelByServer(){
+        String server = Main.getInstance().getServerName();
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_LEVEL;
+            case "skyblock":
+                return LevelType.SKYBLOCK_LEVEL;
+            case "creative":
+                return LevelType.CREATIVE_LEVEL;
+            case "vanilla":
+                return LevelType.VANILLA_LEVEL;
+            case "vanillasb":
+                return LevelType.VANILLASB_LEVEL;
+            case "prison":
+                return LevelType.PRISON_LEVEL;
+        }
+        return null;
+    }
+
+    public LevelType resolveLevelTypeByString(String server) {
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_LEVEL;
+            case "skyblock":
+                return LevelType.SKYBLOCK_LEVEL;
+            case "creative":
+                return LevelType.CREATIVE_LEVEL;
+            case "vanilla":
+                return LevelType.VANILLA_LEVEL;
+            case "vanillasb":
+                return LevelType.VANILLASB_LEVEL;
+            case "prison":
+                return LevelType.PRISON_LEVEL;
+        }
+        return null;
+    }
+
+    public LevelType resolveExperienceTypeByString(String server) {
+        switch (server.toLowerCase()) {
+            case "survival":
+                return LevelType.SURVIVAL_EXPERIENCE;
+            case "skyblock":
+                return LevelType.SKYBLOCK_EXPERIENCE;
+            case "creative":
+                return LevelType.CREATIVE_EXPERIENCE;
+            case "vanilla":
+                return LevelType.VANILLA_EXPERIENCE;
+            case "vanillasb":
+                return LevelType.VANILLASB_EXPERIENCE;
+            case "prison":
+                return LevelType.PRISON_EXPERIENCE;
+        }
+        return null;
     }
 
 

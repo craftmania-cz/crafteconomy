@@ -2,12 +2,12 @@ package cz.craftmania.crafteconomy.api;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 public class VoteTokensAPI {
 
-    private static final Main plugin = Main.getInstance();
     private static final BasicManager manager = new BasicManager();
 
     /**
@@ -16,8 +16,23 @@ public class VoteTokensAPI {
      * @param player Selected player
      * @return amount of crafttokens
      */
-    public static long getVoteTokens(final Player player) { //TODO: Offline
+    public static long getVoteTokens(final Player player) {
         return manager.getCraftPlayer(player).getVoteTokens();
+    }
+
+    /**
+     * Returns amount tokens by player nick name
+     *
+     * @param player Selected player
+     * @return amount of votetokens, returns 0 if nick does not exists
+     */
+    public static long getVoteTokens(final String player) {
+        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player1.getName().equals(player)) {
+                return manager.getCraftPlayer(player1).getVoteTokens();
+            }
+        }
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player);
     }
 
     /**
@@ -35,7 +50,7 @@ public class VoteTokensAPI {
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();
             long finalVoteTokens = actualVoteTokens + voteTokensToAdd;
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy("votetokens", player, finalVoteTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS, player, finalVoteTokens);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti pridano §7" + voteTokensToAdd + " VoteTokens.");
             }
@@ -50,7 +65,7 @@ public class VoteTokensAPI {
      */
     public static void giveOfflineVoteTokens(final String player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy("votetokens", player, voteTokensToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.VOTETOKENS, player, voteTokensToAdd);
         });
     }
 
@@ -68,7 +83,7 @@ public class VoteTokensAPI {
                 return;
             }
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy("votetokens", player, finalVoteTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS, player, finalVoteTokens);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + voteTokensToRemove + " VoteTokens.");
             }
@@ -83,12 +98,12 @@ public class VoteTokensAPI {
      */
     public static void takeOfflineVoteTOkens(final String player, final long voteTokensToRemove) {
         Main.getAsync().runAsync(() -> {
-            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy("votetokens", player);
+            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player);
             long finalVoteTokens = actualVoteTokens - voteTokensToRemove;
             if (finalVoteTokens < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy("votetokens", player, voteTokensToRemove);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.VOTETOKENS, player, voteTokensToRemove);
         });
     }
 }
