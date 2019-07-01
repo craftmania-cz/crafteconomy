@@ -24,9 +24,9 @@ public class PlayerLevelUpListener implements Listener {
         p.sendMessage("");
         p.sendMessage("§6§l* LEVEL UP! *");
         p.sendMessage("§eNyni jsi level: §f" + cp.getLevelByType(basicManager.getLevelByServer()));
-        p.sendMessage("§eNa level up potrebujes: §f" + ((int) (LevelUtils.getExpFromLevelToNext(cp.getLevelByType(basicManager.getLevelByServer())) + 1) - cp.getExperienceByType(basicManager.getExperienceByServer())) + " XP!");
+        //p.sendMessage("§eNa level up potrebujes: §f" +  + " XP!");
         p.sendMessage("");
-        p.sendMessage("§8Odmeny zatim zadny nejsou, ale brzo budou!");
+        p.sendMessage("§8Odmenu si vyzvedni v §b/rewards");
         p.sendMessage("");
         p.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
 

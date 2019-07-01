@@ -72,13 +72,11 @@ public class BasicManager {
             case "vanilla":
                 return LevelType.VANILLA_EXPERIENCE;
             case "vanillasb":
-            case "vanilla-skyblock":
                 return LevelType.VANILLASB_EXPERIENCE;
             case "prison":
                 return LevelType.PRISON_EXPERIENCE;
-            default:
-                return LevelType.GLOBAL_EXPERIENCE;
         }
+        return null;
     }
 
     public LevelType getLevelByServer(){
@@ -93,13 +91,11 @@ public class BasicManager {
             case "vanilla":
                 return LevelType.VANILLA_LEVEL;
             case "vanillasb":
-            case "vanilla-skyblock":
                 return LevelType.VANILLASB_LEVEL;
             case "prison":
                 return LevelType.PRISON_LEVEL;
-            default:
-                return LevelType.GLOBAL_LEVEL;
         }
+        return null;
     }
 
     public LevelType resolveLevelTypeByString(String server) {
@@ -113,13 +109,11 @@ public class BasicManager {
             case "vanilla":
                 return LevelType.VANILLA_LEVEL;
             case "vanillasb":
-            case "vanilla-skyblock":
                 return LevelType.VANILLASB_LEVEL;
             case "prison":
                 return LevelType.PRISON_LEVEL;
-            default:
-                return LevelType.GLOBAL_LEVEL;
         }
+        return null;
     }
 
     public LevelType resolveExperienceTypeByString(String server) {
@@ -133,13 +127,11 @@ public class BasicManager {
             case "vanilla":
                 return LevelType.VANILLA_EXPERIENCE;
             case "vanillasb":
-            case "vanilla-skyblock":
                 return LevelType.VANILLASB_EXPERIENCE;
             case "prison":
                 return LevelType.PRISON_EXPERIENCE;
-            default:
-                return LevelType.GLOBAL_EXPERIENCE;
         }
+        return null;
     }
 
 
