@@ -28,10 +28,10 @@ public class Level_command implements CommandExecutor {
                 p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
                 p.sendMessage("");
                 p.sendMessage("§6§lGlobal rank");
-                p.sendMessage("§eLevel: §f" + craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) + " §7(dokonceno: " + FormatUtils.roundDouble((LevelUtils.getPercentageToNextLevel(craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE)) * 100), 3) + "%, celkem: " + craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE) + " XP)");
+                p.sendMessage("§eLevel: §f" + craftPlayer.getLevelByType(manager.getLevelByServer()) + " §7(dokonceno: " + FormatUtils.roundDouble((LevelUtils.getPercentageToNextLevel(craftPlayer.getExperienceByType(manager.getExperienceByServer())) * 100), 3) + "%, celkem: " + craftPlayer.getExperienceByType(manager.getExperienceByServer()) + " XP)");
                 p.sendMessage("§bKarma: §f0 §8| §aAchievmentPoints: §f0");
                 p.sendMessage("");
-                p.sendMessage("§eExp do level up: §f" + (int) (LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) + 1) - craftPlayer.getExperienceByType(LevelType.GLOBAL_EXPERIENCE)) + " XP");
+                p.sendMessage("§eExp do level up: §f" + (int) (LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(manager.getLevelByServer()) + 1) - craftPlayer.getExperienceByType(manager.getExperienceByServer())) + " XP");
                 p.sendMessage("");
                 p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
             }

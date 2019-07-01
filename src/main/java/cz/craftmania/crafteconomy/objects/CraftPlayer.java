@@ -144,18 +144,25 @@ public class CraftPlayer {
         switch(type) {
             case GLOBAL_LEVEL:
                 this.globalLevel = level;
+                break;
             case SURVIVAL_LEVEL:
                 this.survivalLevel = level;
+                break;
             case SKYBLOCK_LEVEL:
                 this.skyblockLevel = level;
+                break;
             case CREATIVE_LEVEL:
                 this.creativeLevel = level;
+                break;
             case PRISON_LEVEL:
                 this.prisonLevel = level;
+                break;
             case VANILLA_LEVEL:
                 this.vanillaLevel = level;
+                break;
             case VANILLASB_LEVEL:
                 this.vanillaSkyblockLevel = level;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -182,22 +189,29 @@ public class CraftPlayer {
         }
     }
 
-    public long setExperienceByType(final LevelType type, final long experience) {
+    public void setExperienceByType(final LevelType type, final long experience) {
         switch(type) {
             case GLOBAL_EXPERIENCE:
                 this.globalExperience = experience;
+                break;
             case SURVIVAL_EXPERIENCE:
                 this.survivalExperience = experience;
+                break;
             case SKYBLOCK_EXPERIENCE:
                 this.skyblockExperience = experience;
+                break;
             case CREATIVE_EXPERIENCE:
                 this.creativeExperence = experience;
+                break;
             case PRISON_EXPERIENCE:
                 this.prisonExperience = experience;
+                break;
             case VANILLA_EXPERIENCE:
                 this.vanillaExperience = experience;
+                break;
             case VANILLASB_EXPERIENCE:
                 this.vanillaSkyblockExperience = experience;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

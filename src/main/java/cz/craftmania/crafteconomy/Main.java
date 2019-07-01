@@ -11,6 +11,7 @@ import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -51,10 +52,14 @@ public class Main extends JavaPlugin {
 
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
+        if (registerEnabled) {
+            Logger.info("Aktivace novych hracu do SQL aktivovano.");
+        }
 
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
-            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new AddRandomExpTask(), 0, time);
+            Logger.info("Aktivace nahodneho davani expu na serveru!");
+            Main.getInstance().getServer().getScheduler().runTaskTimer(this, new AddRandomExpTask(), 0, time);
         }
 
     }
