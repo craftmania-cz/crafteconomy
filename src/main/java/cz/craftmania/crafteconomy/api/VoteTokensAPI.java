@@ -17,7 +17,12 @@ public class VoteTokensAPI {
      * @return amount of crafttokens
      */
     public static long getVoteTokens(final Player player) {
-        return manager.getCraftPlayer(player).getVoteTokens();
+        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player1.getPlayer().equals(player)) {
+                return manager.getCraftPlayer(player1).getVoteTokens();
+            }
+        }
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player.getUniqueId());
     }
 
     /**

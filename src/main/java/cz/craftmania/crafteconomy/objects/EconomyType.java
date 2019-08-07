@@ -5,7 +5,8 @@ public enum EconomyType {
     // Basic economy
     CRAFTCOINS,
     CRAFTTOKENS,
-    VOTETOKENS;
+    VOTETOKENS,
+    ACHIEVEMENT_POINTS;
 
 
     EconomyType() {

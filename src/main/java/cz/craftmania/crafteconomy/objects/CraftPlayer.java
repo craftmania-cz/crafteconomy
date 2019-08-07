@@ -34,7 +34,7 @@ public class CraftPlayer {
 
     // Others
     private long karma = 0;
-    private long achievementPoints = 0; //TODO: Achiement points
+    private long achievementPoints = 0;
     private HashSet<Multiplier> multipliers;
 
     public CraftPlayer() {
@@ -60,7 +60,7 @@ public class CraftPlayer {
         this.vanillaSkyblockExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLASB_EXPERIENCE, player.getUniqueId());
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
-
+        this.achievementPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
     }
 
     public CraftPlayer(final Player player, final long coins, final long tokens, final long voteTokens) {
@@ -117,6 +117,14 @@ public class CraftPlayer {
 
     public void setMultipliers(HashSet<Multiplier> multipliers) {
         this.multipliers = multipliers;
+    }
+
+    public long getAchievementPoints() {
+        return achievementPoints;
+    }
+
+    public void setAchievementPoints(long achievementPoints) {
+        this.achievementPoints = achievementPoints;
     }
 
     public long getLevelByType(final LevelType type) {
