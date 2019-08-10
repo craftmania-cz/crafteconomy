@@ -71,8 +71,8 @@ public class BasicManager {
                 return LevelType.CREATIVE_EXPERIENCE;
             case "vanilla":
                 return LevelType.VANILLA_EXPERIENCE;
-            case "vanillasb":
-                return LevelType.VANILLASB_EXPERIENCE;
+            case "skycloud":
+                return LevelType.SKYCLOUD_EXPERIENCE;
             case "prison":
                 return LevelType.PRISON_EXPERIENCE;
         }
@@ -90,8 +90,8 @@ public class BasicManager {
                 return LevelType.CREATIVE_LEVEL;
             case "vanilla":
                 return LevelType.VANILLA_LEVEL;
-            case "vanillasb":
-                return LevelType.VANILLASB_LEVEL;
+            case "skycloud":
+                return LevelType.SKYCLOUD_LEVEL;
             case "prison":
                 return LevelType.PRISON_LEVEL;
         }
@@ -108,8 +108,8 @@ public class BasicManager {
                 return LevelType.CREATIVE_LEVEL;
             case "vanilla":
                 return LevelType.VANILLA_LEVEL;
-            case "vanillasb":
-                return LevelType.VANILLASB_LEVEL;
+            case "skycloud":
+                return LevelType.SKYCLOUD_LEVEL;
             case "prison":
                 return LevelType.PRISON_LEVEL;
         }
@@ -126,8 +126,8 @@ public class BasicManager {
                 return LevelType.CREATIVE_EXPERIENCE;
             case "vanilla":
                 return LevelType.VANILLA_EXPERIENCE;
-            case "vanillasb":
-                return LevelType.VANILLASB_EXPERIENCE;
+            case "skycloud":
+                return LevelType.SKYCLOUD_EXPERIENCE;
             case "prison":
                 return LevelType.PRISON_EXPERIENCE;
         }

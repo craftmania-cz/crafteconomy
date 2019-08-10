@@ -29,8 +29,8 @@ public class CraftPlayer {
     private long prisonExperience = 0;
     private long vanillaLevel = 1;
     private long vanillaExperience = 0;
-    private long vanillaSkyblockLevel = 1;
-    private long vanillaSkyblockExperience = 0;
+    private long skycloudLevel = 1;
+    private long skycloudExperience = 0;
 
     // Others
     private long karma = 0;
@@ -56,8 +56,8 @@ public class CraftPlayer {
         this.creativeExperence = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.CREATIVE_EXPERIENCE, player.getUniqueId());
         this.vanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_LEVEL, player.getUniqueId());
         this.vanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_EXPERIENCE, player.getUniqueId());
-        this.vanillaSkyblockLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLASB_LEVEL, player.getUniqueId());
-        this.vanillaSkyblockExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLASB_EXPERIENCE, player.getUniqueId());
+        this.skycloudLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_LEVEL, player.getUniqueId());
+        this.skycloudExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_EXPERIENCE, player.getUniqueId());
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
         this.achievementPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
@@ -141,8 +141,8 @@ public class CraftPlayer {
                 return this.prisonLevel;
             case VANILLA_LEVEL:
                 return this.vanillaLevel;
-            case VANILLASB_LEVEL:
-                return this.vanillaSkyblockLevel;
+            case SKYCLOUD_LEVEL:
+                return this.skycloudLevel;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -168,8 +168,8 @@ public class CraftPlayer {
             case VANILLA_LEVEL:
                 this.vanillaLevel = level;
                 break;
-            case VANILLASB_LEVEL:
-                this.vanillaSkyblockLevel = level;
+            case SKYCLOUD_LEVEL:
+                this.skycloudLevel = level;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
@@ -190,8 +190,8 @@ public class CraftPlayer {
                 return this.prisonExperience;
             case VANILLA_EXPERIENCE:
                 return this.vanillaExperience;
-            case VANILLASB_EXPERIENCE:
-                return this.vanillaSkyblockExperience;
+            case SKYCLOUD_EXPERIENCE:
+                return this.skycloudExperience;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -217,8 +217,8 @@ public class CraftPlayer {
             case VANILLA_EXPERIENCE:
                 this.vanillaExperience = experience;
                 break;
-            case VANILLASB_EXPERIENCE:
-                this.vanillaSkyblockExperience = experience;
+            case SKYCLOUD_EXPERIENCE:
+                this.skycloudExperience = experience;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
@@ -231,7 +231,7 @@ public class CraftPlayer {
         finalValue += canBeAdded(this.skyblockLevel);
         finalValue += canBeAdded(this.creativeLevel);
         finalValue += canBeAdded(this.vanillaLevel);
-        finalValue += canBeAdded(this.vanillaSkyblockLevel);
+        finalValue += canBeAdded(this.skycloudLevel);
         finalValue += canBeAdded(this.prisonLevel);
         this.globalLevel = finalValue;
     }

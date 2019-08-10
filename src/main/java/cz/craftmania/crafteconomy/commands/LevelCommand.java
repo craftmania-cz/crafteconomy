@@ -57,7 +57,7 @@ public class LevelCommand {
                     generateServerLevelMessage(player, "Vanilla", LevelType.VANILLA_LEVEL, LevelType.VANILLA_EXPERIENCE);
                     break;
                 case "skycloud":
-                    generateServerLevelMessage(player, "Skycloud", LevelType.VANILLASB_LEVEL, LevelType.VANILLASB_EXPERIENCE);
+                    generateServerLevelMessage(player, "Skycloud", LevelType.SKYCLOUD_LEVEL, LevelType.SKYCLOUD_EXPERIENCE);
                     break;
             }
         });
