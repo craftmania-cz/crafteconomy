@@ -1,9 +1,9 @@
 package cz.craftmania.crafteconomy;
 
-import cz.craftmania.crafteconomy.commands.CraftCoins_command;
-import cz.craftmania.crafteconomy.commands.CraftTokens_command;
-import cz.craftmania.crafteconomy.commands.Level_command;
-import cz.craftmania.crafteconomy.commands.VoteTokens_command;
+import cz.craftmania.crafteconomy.commands.CraftCoinsCommand;
+import cz.craftmania.crafteconomy.commands.CraftTokensCommand;
+import cz.craftmania.crafteconomy.commands.LevelCommand;
+import cz.craftmania.crafteconomy.commands.VoteTokensCommand;
 import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
 import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
@@ -103,10 +103,10 @@ public class Main extends JavaPlugin {
     }
 
     private void loadCommands() {
-        getCommand("craftcoins").setExecutor(new CraftCoins_command());
-        getCommand("crafttokens").setExecutor(new CraftTokens_command());
-        getCommand("votetokens").setExecutor(new VoteTokens_command());
-        getCommand("level").setExecutor(new Level_command());
+        CraftCoinsCommand.register();
+        CraftTokensCommand.register();
+        VoteTokensCommand.register();
+        LevelCommand.register();
     }
 
     public boolean isRegisterEnabled() {

@@ -18,7 +18,7 @@ public enum LevelType {
     PRISON_LEVEL,
     PRISON_EXPERIENCE,
 
-    VANILLA_LEVEL,
+    VANILLA_LEVEL, //TODO: Skycloud
     VANILLA_EXPERIENCE,
 
     VANILLASB_LEVEL,

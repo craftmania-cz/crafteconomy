@@ -4,32 +4,12 @@ description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 softdepend: [MVdWPlaceholderAPI]
+depend: [CommandAPI]
 
 commands:
-  craftcoins:
-    description: Zakladni prikaz na CraftCoiny
-    aliases: [cc, coins]
-  crafttokens:
-    description: Zakladni prikaz na CraftTokeny
-    aliases: [ct, tokens]
-  votetokens:
-    description: Zakladni prikaz na VoteTokeny
-    aliases: [vt, vtokens]
-  level:
-    description: Globalní ranky
-    aliases: [lvl]
 
 permissions:
   crafteconomy.*:
     description: Prava ku vsem prikazum
     children:
-      crafteconomy.level.give: true
-      crafteconomy.level.take: true
-      crafteconomy.xp.give: true
-      crafteconomy.xp.take: true
-      crafteconomy.tokens.give: true
-      crafteconomy.tokens.take: true
-      crafteconomy.coins.take: true
-      crafteconomy.coins.give: true
-      crafteconomy.votetokens.give: true
-      crafteconomy.votetokens.take: true
+      crafteconomy.admin: true
