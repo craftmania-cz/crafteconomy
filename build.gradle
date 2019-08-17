@@ -84,6 +84,7 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/" }
+    maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
 }
 
 dependencies {
@@ -94,4 +95,5 @@ dependencies {
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
     compile 'io.github.jorelali:commandapi:2.2'
+    compileOnly 'com.hm.achievement:advanced-achievements-api:1.2.0'
 }

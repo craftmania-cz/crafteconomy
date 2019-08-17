@@ -1,5 +1,7 @@
 package cz.craftmania.crafteconomy;
 
+import cz.craftmania.crafteconomy.achievements.AchievementManager;
+import cz.craftmania.crafteconomy.achievements.AdvancedAchievementsListener;
 import cz.craftmania.crafteconomy.commands.CraftCoinsCommand;
 import cz.craftmania.crafteconomy.commands.CraftTokensCommand;
 import cz.craftmania.crafteconomy.commands.LevelCommand;
@@ -13,6 +15,7 @@ import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,6 +27,8 @@ public class Main extends JavaPlugin {
     private boolean registerEnabled = false;
     private int minExp, maxExp, time;
     private static ServerType serverType = ServerType.UNKNOWN;
+
+    private boolean isAchievementPluginEnabled = false;
 
     @Override
     public void onEnable() {
@@ -50,9 +55,12 @@ public class Main extends JavaPlugin {
         // HikariCP
         initDatabase();
 
-        // Listeners
-        loadListeners();
-        loadCommands();
+        // AdvancedAchievements API
+        if(Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
+            isAchievementPluginEnabled = true;
+            Logger.info("Detekovan plugin: AdvancedAchievements");
+            AchievementManager.loadServerAchievements();
+        }
 
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
@@ -65,6 +73,10 @@ public class Main extends JavaPlugin {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
             Main.getInstance().getServer().getScheduler().runTaskTimer(this, new AddRandomExpTask(), 0, time);
         }
+
+        // Listeners
+        loadListeners();
+        loadCommands();
 
     }
 
@@ -104,9 +116,14 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new PlayerCreateProfileListener(), this);
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
+
+        // AdvancedAchievements Events
+        if (isAchievementPluginEnabled) {
+            pm.registerEvents(new AdvancedAchievementsListener(), this);
+        }
     }
 
-    private void loadCommands() {
+    private void loadCommands() { //TODO: Nenačítat, když nebude CommandAPI na serveru
         CraftCoinsCommand.register();
         CraftTokensCommand.register();
         VoteTokensCommand.register();
