@@ -5,8 +5,7 @@ author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 softdepend: [MVdWPlaceholderAPI]
 depend: [CommandAPI]
-
-commands:
+api-version: '1.14'
 
 permissions:
   crafteconomy.*:
