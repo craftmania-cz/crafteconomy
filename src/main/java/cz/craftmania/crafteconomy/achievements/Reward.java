@@ -11,6 +11,7 @@ public class Reward {
     private int level;
     private String id;
     private String name = "[Unknown]";
+    private Rarity rarity = Rarity.COMMON;
     private List<String> description = new ArrayList<>();
     private boolean requireSlotInInventory = false;
     private int achievementValue = 0;
@@ -50,12 +51,17 @@ public class Reward {
         return this;
     }
 
-    public Reward setAchievementValue(final int value) {
+    public Reward overrideAchievementValue(final int value) {
         this.achievementValue = value;
         return this;
     }
 
-    public Reward setExperienceValue(final int experienceValue) {
+    public Reward setRarity(Rarity rarity) {
+        this.rarity = rarity;
+        return this;
+    }
+
+    public Reward overrideExperienceValue(final int experienceValue) {
         this.experienceValue = experienceValue;
         return this;
     }
@@ -90,8 +96,41 @@ public class Reward {
         return requireSlotInInventory;
     }
 
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    /**
+     * Metoda, ktera vrací hodnoty AchievementPoints, které dostane hráč za splnění achievementu.
+     * @return Hodnota AchievementPoints
+     */
     public int getAchievementValue() {
-        return achievementValue;
+
+        // Override
+        if (achievementValue > 0) {
+            return achievementValue;
+        }
+
+        // Pokud neni override, tak podle rarity
+        if (rarity == Rarity.COMMON) {
+            return 5;
+        }
+        if (rarity == Rarity.RARE) {
+            return 7;
+        }
+        if (rarity == Rarity.EPIC) {
+            return 10;
+        }
+        if (rarity == Rarity.LEGENDARY) {
+            return 15;
+        }
+        if (rarity == Rarity.MYTHIC) {
+            return 20;
+        }
+        if (rarity == Rarity.SECRET) {
+            return 30;
+        }
+        return 0;
     }
 
     public List<ItemStack> getItems() {
@@ -103,7 +142,32 @@ public class Reward {
     }
 
     public int getExperienceValue() {
-        return experienceValue;
+
+        // Override
+        if (experienceValue > 0) {
+            return experienceValue;
+        }
+
+        // Pokud neni override, tak podle rarity
+        if (rarity == Rarity.COMMON) {
+            return 100;
+        }
+        if (rarity == Rarity.RARE) {
+            return 250;
+        }
+        if (rarity == Rarity.EPIC) {
+            return 500;
+        }
+        if (rarity == Rarity.LEGENDARY) {
+            return 1000;
+        }
+        if (rarity == Rarity.MYTHIC) {
+            return 5000;
+        }
+        if (rarity == Rarity.SECRET) {
+            return 7500;
+        }
+        return 0;
     }
 
 

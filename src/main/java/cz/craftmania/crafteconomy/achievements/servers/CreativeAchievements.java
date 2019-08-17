@@ -1,7 +1,7 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
+import cz.craftmania.crafteconomy.achievements.Rarity;
 import cz.craftmania.crafteconomy.achievements.Reward;
-import cz.craftmania.crafteconomy.utils.Logger;
 
 import java.util.List;
 
@@ -14,13 +14,25 @@ public class CreativeAchievements {
     }
 
     public void load() {
-
-        Logger.info("Priprava nacteni achievementu.");
-
-        Reward break_10_ice = new Reward("break_10_ice").setAchievementValue(20).setDescription("Výborně rozbil jsi 10 Ice Bloků!").setName("Cold Drink Supplier");
-        rewards.add(break_10_ice);
-
-        Logger.success("Celkove nacteno: " + this.rewards.size() + " achievementu!");
+        this.rewards.add(new Reward("common_breaks_bedrock_1").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("rare_breaks_grass_500").setRarity(Rarity.RARE));
+        this.rewards.add(new Reward("rare_connections_1").setRarity(Rarity.RARE));
+        this.rewards.add(new Reward("common_custom_playedtime_creative_1").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("rare_custom_playedtime_creative_12").setRarity(Rarity.RARE));
+        this.rewards.add(new Reward("epic_custom_playedtime_creative_24").setRarity(Rarity.EPIC));
+        this.rewards.add(new Reward("legendary_custom_playedtime_creative_168").setRarity(Rarity.LEGENDARY));
+        this.rewards.add(new Reward("legendary_custom_playedtime_creative_720").setRarity(Rarity.LEGENDARY));
+        this.rewards.add(new Reward("common_deaths_1").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("epic_deaths_100").setRarity(Rarity.EPIC));
+        this.rewards.add(new Reward("epic_distancehorse_10000").setRarity(Rarity.EPIC));
+        this.rewards.add(new Reward("epic_distancepig_1000").setRarity(Rarity.EPIC));
+        this.rewards.add(new Reward("common_fireworks_50").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("common_musicdiscs_1").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("common_places_grass_500").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("common_places_stone_50").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("common_places_stone_500").setRarity(Rarity.COMMON));
+        this.rewards.add(new Reward("rare_places_stone_5000").setRarity(Rarity.RARE));
+        this.rewards.add(new Reward("rare_places_tnt_1").setRarity(Rarity.RARE));
 
     }
 }

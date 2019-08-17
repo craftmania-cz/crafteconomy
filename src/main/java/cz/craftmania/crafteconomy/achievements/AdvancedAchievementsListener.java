@@ -39,17 +39,17 @@ public class AdvancedAchievementsListener implements Listener {
 
         StringBuilder finalRewards = new StringBuilder();
 
-        // Achievement Points
-        if (achievement.getAchievementValue() > 0) { // Default = 0
-            AchievementPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
-            finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
-        }
-
         // Items
         if (!achievement.getItems().isEmpty()) { //TODO: Kontrola inventáře zda je plný nebo ne
             achievement.getItems().forEach(itemStack -> {
                 player.getInventory().addItem(itemStack);
             });
+        }
+
+        // Achievement Points
+        if (achievement.getAchievementValue() > 0) { // Default = 0
+            AchievementPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
+            finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
         }
 
         // Server Experience
@@ -68,9 +68,9 @@ public class AdvancedAchievementsListener implements Listener {
         // Notify
         player.sendMessage("§d\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         player.sendMessage("");
-        player.sendMessage("§c§lSplnil jsi achievement: §f" + achievement.getName());
-        achievement.getDescription().forEach(description -> { //TODO: Null?
-            player.sendMessage("§7" + description);
+        player.sendMessage("§c§lSplnil jsi achievement: §f" + achievement.getName()); //TODO: Name z AACH
+        achievement.getDescription().forEach(description -> {
+            player.sendMessage("§7" + description); //TODO: Description z AACH
         });
         player.sendMessage("");
         player.sendMessage("§eDostal jsi: " + finalRewards.toString());
