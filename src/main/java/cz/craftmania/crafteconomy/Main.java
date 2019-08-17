@@ -12,6 +12,7 @@ import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +23,7 @@ public class Main extends JavaPlugin {
     private SQLManager sql;
     private boolean registerEnabled = false;
     private int minExp, maxExp, time;
-    private static String server = null;
+    private static ServerType serverType = ServerType.UNKNOWN;
 
     @Override
     public void onEnable() {
@@ -38,7 +39,10 @@ public class Main extends JavaPlugin {
         minExp = getConfig().getInt("random-exp.settings.min", 30);
         maxExp = getConfig().getInt("random-exp.settings.max", 60);
         time = getConfig().getInt("random-exp.settings.every", 6000);
-        server = getConfig().getString("server", "survival");
+
+        // ID serveru a typ
+        serverType = resolveServerType();
+        Logger.info("Server zaevidovany jako: " + serverType.name());
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -121,7 +125,29 @@ public class Main extends JavaPlugin {
         return maxExp;
     }
 
-    public String getServerName() {
-        return server;
+    public static ServerType getServerType() {
+        return serverType;
+    }
+
+    private ServerType resolveServerType() {
+        String type = getInstance().getConfig().getString("server");
+        if (type == null) {
+            return ServerType.UNKNOWN;
+        }
+        if (type.equalsIgnoreCase("survival")) {
+            return ServerType.SURVIVAL;
+        } else if (type.equalsIgnoreCase("skyblock")) {
+            return ServerType.SKYBLOCK;
+        } else if (type.equalsIgnoreCase("creative") || type.equalsIgnoreCase("creative2")) { // creative2 = 1.14
+            return ServerType.CREATIVE;
+        } else if (type.equalsIgnoreCase("prison")) {
+            return ServerType.PRISON;
+        } else if (type.equalsIgnoreCase("vanilla")) {
+            return ServerType.VANILLA;
+        } else if (type.equalsIgnoreCase("skycloud")) {
+            return ServerType.SKYCLOUD;
+        } else {
+            return ServerType.UNKNOWN;
+        }
     }
 }

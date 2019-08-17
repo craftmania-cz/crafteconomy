@@ -6,6 +6,7 @@ import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -61,38 +62,38 @@ public class BasicManager {
     }
 
     public LevelType getExperienceByServer(){
-        String server = Main.getInstance().getServerName();
-        switch (server.toLowerCase()) {
-            case "survival":
+        ServerType server = Main.getServerType();
+        switch (server) {
+            case SURVIVAL:
                 return LevelType.SURVIVAL_EXPERIENCE;
-            case "skyblock":
+            case SKYBLOCK:
                 return LevelType.SKYBLOCK_EXPERIENCE;
-            case "creative":
+            case CREATIVE:
                 return LevelType.CREATIVE_EXPERIENCE;
-            case "vanilla":
+            case VANILLA:
                 return LevelType.VANILLA_EXPERIENCE;
-            case "skycloud":
+            case SKYCLOUD:
                 return LevelType.SKYCLOUD_EXPERIENCE;
-            case "prison":
+            case PRISON:
                 return LevelType.PRISON_EXPERIENCE;
         }
         return null;
     }
 
     public LevelType getLevelByServer(){
-        String server = Main.getInstance().getServerName();
-        switch (server.toLowerCase()) {
-            case "survival":
+        ServerType server = Main.getServerType();
+        switch (server) {
+            case SURVIVAL:
                 return LevelType.SURVIVAL_LEVEL;
-            case "skyblock":
+            case SKYBLOCK:
                 return LevelType.SKYBLOCK_LEVEL;
-            case "creative":
+            case CREATIVE:
                 return LevelType.CREATIVE_LEVEL;
-            case "vanilla":
+            case VANILLA:
                 return LevelType.VANILLA_LEVEL;
-            case "skycloud":
+            case SKYCLOUD:
                 return LevelType.SKYCLOUD_LEVEL;
-            case "prison":
+            case PRISON:
                 return LevelType.PRISON_LEVEL;
         }
         return null;
