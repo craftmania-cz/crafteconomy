@@ -1,12 +1,13 @@
-package cz.craftmania.crafteconomy.achievements;
+package cz.craftmania.crafteconomy.objects;
 
+import cz.craftmania.crafteconomy.achievements.Rarity;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Reward {
+public class AchievementReward {
 
     private int level;
     private String id;
@@ -19,59 +20,59 @@ public class Reward {
     private List<ItemStack> items = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
 
-    public Reward(){};
+    public AchievementReward(){};
 
-    public Reward(final int level) {
+    public AchievementReward(final int level) {
         this.level = level;
         this.id = "unknown_" + level;
     }
 
-    public Reward(final String id) {
+    public AchievementReward(final String id) {
         this.level = 0;
         this.id = id;
     }
 
-    public Reward(final int level, final String id) {
+    public AchievementReward(final int level, final String id) {
         this.level = level;
         this.id = id;
     }
 
-    public Reward setName(final String name) {
+    public AchievementReward setName(final String name) {
         this.name = name;
         return this;
     }
 
-    public Reward setDescription(final String... description) {
+    public AchievementReward setDescription(final String... description) {
         Collections.addAll(this.description, description);
         return this;
     }
 
-    public Reward setRequiareSlotInInventory() {
+    public AchievementReward setRequiareSlotInInventory() {
         this.requireSlotInInventory = true;
         return this;
     }
 
-    public Reward overrideAchievementValue(final int value) {
+    public AchievementReward overrideAchievementValue(final int value) {
         this.achievementValue = value;
         return this;
     }
 
-    public Reward setRarity(Rarity rarity) {
+    public AchievementReward setRarity(Rarity rarity) {
         this.rarity = rarity;
         return this;
     }
 
-    public Reward overrideExperienceValue(final int experienceValue) {
+    public AchievementReward overrideExperienceValue(final int experienceValue) {
         this.experienceValue = experienceValue;
         return this;
     }
 
-    public Reward setItems(final ItemStack... items) {
+    public AchievementReward setItems(final ItemStack... items) {
         Collections.addAll(this.items, items);
         return this;
     }
 
-    public Reward setPermissions(final String... permissions) {
+    public AchievementReward setPermissions(final String... permissions) {
         Collections.addAll(this.permissions, permissions);
         return this;
     }

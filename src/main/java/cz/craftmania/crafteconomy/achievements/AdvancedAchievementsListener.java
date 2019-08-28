@@ -5,6 +5,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.AchievementPointsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class AdvancedAchievementsListener implements Listener {
 
     }
 
-    private void doAction(Reward achievement, Player player) {
+    private void doAction(AchievementReward achievement, Player player) {
 
         if (achievement == null || player == null) {
             return;

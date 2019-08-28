@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.achievements;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.GlobalAchievements;
+import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class AchievementManager {
 
-    public static List<Reward> serverAchievementList = new ArrayList<>();
+    public static List<AchievementReward> serverAchievementList = new ArrayList<>();
 
     public static void loadServerAchievements() {
         Logger.info("Priprava nacteni achievementu.");
@@ -34,7 +35,7 @@ public class AchievementManager {
         Logger.success("Celkove nacteno: " + serverAchievementList.size() + " achievementu!");
     }
 
-    public static List<Reward> getServerAchievementList() {
+    public static List<AchievementReward> getServerAchievementList() {
         return serverAchievementList;
     }
 }
