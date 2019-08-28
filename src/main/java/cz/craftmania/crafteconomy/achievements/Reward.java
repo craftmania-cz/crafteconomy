@@ -150,16 +150,16 @@ public class Reward {
 
         // Pokud neni override, tak podle rarity
         if (rarity == Rarity.COMMON) {
-            return 100;
+            return 150;
         }
         if (rarity == Rarity.RARE) {
-            return 250;
+            return 300;
         }
         if (rarity == Rarity.EPIC) {
-            return 500;
+            return 600;
         }
         if (rarity == Rarity.LEGENDARY) {
-            return 1000;
+            return 1500;
         }
         if (rarity == Rarity.MYTHIC) {
             return 5000;
