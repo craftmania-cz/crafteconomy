@@ -16,7 +16,7 @@ public class CreativeAchievements {
     public void load() {
         this.rewards.add(new Reward("common_breaks_bedrock_1").setRarity(Rarity.COMMON));
         this.rewards.add(new Reward("rare_breaks_grass_500").setRarity(Rarity.RARE));
-        this.rewards.add(new Reward("rare_connections_1").setRarity(Rarity.RARE));
+        this.rewards.add(new Reward("rare_connections_1").setRarity(Rarity.RARE).overrideExperienceValue(1000));
         this.rewards.add(new Reward("common_custom_playedtime_creative_1").setRarity(Rarity.COMMON));
         this.rewards.add(new Reward("rare_custom_playedtime_creative_12").setRarity(Rarity.RARE));
         this.rewards.add(new Reward("epic_custom_playedtime_creative_24").setRarity(Rarity.EPIC));
