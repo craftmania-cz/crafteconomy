@@ -81,14 +81,12 @@ public class SQLManager {
                         ps.getResultSet().getLong("craftcoins"),
                         ps.getResultSet().getLong("crafttokens"),
                         ps.getResultSet().getLong("votetokens"));
-                craftPlayer.setLevelByType(LevelType.GLOBAL_LEVEL, ps.getResultSet().getLong("global_level"));
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_LEVEL, ps.getResultSet().getLong("survival_level"));
                 craftPlayer.setLevelByType(LevelType.SKYBLOCK_LEVEL, ps.getResultSet().getLong("skyblock_level"));
                 craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong("creative_level"));
                 craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, ps.getResultSet().getLong("prison_level"));
                 craftPlayer.setLevelByType(LevelType.VANILLA_LEVEL, ps.getResultSet().getLong("vanilla_level"));
                 craftPlayer.setLevelByType(LevelType.SKYCLOUD_LEVEL, ps.getResultSet().getLong("skycloud_level"));
-                craftPlayer.setExperienceByType(LevelType.GLOBAL_EXPERIENCE, ps.getResultSet().getLong("global_experience"));
                 craftPlayer.setExperienceByType(LevelType.SURVIVAL_EXPERIENCE, ps.getResultSet().getLong("survival_experience"));
                 craftPlayer.setExperienceByType(LevelType.SKYBLOCK_EXPERIENCE, ps.getResultSet().getLong("skyblock_experience"));
                 craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, ps.getResultSet().getLong("creative_experience"));

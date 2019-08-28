@@ -21,17 +21,16 @@ public class LevelCommand {
         CommandAPI.getInstance().register("level", new String[] {"lvl"}, null, (sender, args) -> {
             Player p = (Player) sender;
             CraftPlayer craftPlayer = manager.getCraftPlayer(p);
-            long actualLevel = craftPlayer.getLevelByType(manager.getLevelByServer());
-            long totalExperience = craftPlayer.getExperienceByType(manager.getExperienceByServer());
-            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(manager.getLevelByServer()));
-            double expForLevelUp = totalExperienceForNextLevel - craftPlayer.getExperienceByType(manager.getExperienceByServer());
+
+            long totalGlobalLevel = craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL);
+
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
             p.sendMessage("");
-            p.sendMessage("§6§lGlobal rank"); //TODO: Global level je generovaný součtem all levlu!
-            p.sendMessage("§eLevel: §f" + actualLevel + " §7(dokonceno: " + FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%, celkem: " + totalExperience + " XP)");
-            p.sendMessage("§bKarma: §f0 §8| §aAchievmentPoints: §f0");
-            p.sendMessage("");
-            p.sendMessage("§eExp do level up: §f" + expForLevelUp + " XP");
+            p.sendMessage("§6§lGlobal rank"); //TODO: Předělat na menu
+            p.sendMessage("§eCelkovy level: §f" + totalGlobalLevel);
+            p.sendMessage("§eServer levels: §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "]");
+            p.sendMessage("§bKarma: §f0");
+            p.sendMessage("§aAchievmentPoints: §f" + craftPlayer.getAchievementPoints());
             p.sendMessage("");
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         });
