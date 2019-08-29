@@ -9,7 +9,6 @@ import java.util.List;
 
 public class AchievementReward {
 
-    private int level;
     private String id;
     private String name = "[Unknown]";
     private Rarity rarity = Rarity.COMMON;
@@ -22,18 +21,7 @@ public class AchievementReward {
 
     public AchievementReward(){};
 
-    public AchievementReward(final int level) {
-        this.level = level;
-        this.id = "unknown_" + level;
-    }
-
     public AchievementReward(final String id) {
-        this.level = 0;
-        this.id = id;
-    }
-
-    public AchievementReward(final int level, final String id) {
-        this.level = level;
         this.id = id;
     }
 
@@ -75,10 +63,6 @@ public class AchievementReward {
     public AchievementReward setPermissions(final String... permissions) {
         Collections.addAll(this.permissions, permissions);
         return this;
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public String getId() {

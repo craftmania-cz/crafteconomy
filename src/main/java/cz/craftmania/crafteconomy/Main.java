@@ -1,7 +1,7 @@
 package cz.craftmania.crafteconomy;
 
-import cz.craftmania.crafteconomy.achievements.AchievementManager;
-import cz.craftmania.crafteconomy.achievements.AdvancedAchievementsListener;
+import cz.craftmania.crafteconomy.managers.ProprietaryManager;
+import cz.craftmania.crafteconomy.listener.AdvancedAchievementsListener;
 import cz.craftmania.crafteconomy.commands.CraftCoinsCommand;
 import cz.craftmania.crafteconomy.commands.CraftTokensCommand;
 import cz.craftmania.crafteconomy.commands.LevelCommand;
@@ -59,7 +59,8 @@ public class Main extends JavaPlugin {
         if(Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
             isAchievementPluginEnabled = true;
             Logger.info("Detekovan plugin: AdvancedAchievements");
-            AchievementManager.loadServerAchievements();
+            ProprietaryManager.loadServerAchievements();
+            ProprietaryManager.loadServerLevelRewards();
         }
 
         // Variables

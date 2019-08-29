@@ -1,9 +1,10 @@
-package cz.craftmania.crafteconomy.achievements;
+package cz.craftmania.crafteconomy.listener;
 
 import com.hm.achievement.utils.PlayerAdvancedAchievementEvent;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.AchievementPointsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
+import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -24,7 +25,7 @@ public class AdvancedAchievementsListener implements Listener {
 
         Logger.info("Hrac: " + player.getName() + ", splnil achievement: " + name);
 
-        AchievementManager.getServerAchievementList().forEach(achievement -> {
+        ProprietaryManager.getServerAchievementList().forEach(achievement -> {
             if (achievement.getId().equalsIgnoreCase(name)) {
                 doAction(achievement, player);
             }
