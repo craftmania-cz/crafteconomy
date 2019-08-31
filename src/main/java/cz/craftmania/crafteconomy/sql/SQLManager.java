@@ -93,6 +93,7 @@ public class SQLManager {
                 craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong("prison_experience"));
                 craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong("vanilla_experience"));
                 craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong("skycloud_experience"));
+                craftPlayer.setAchievementPoints(ps.getResultSet().getLong("achievement_points"));
                 return craftPlayer;
             }
         } catch (Exception e) {

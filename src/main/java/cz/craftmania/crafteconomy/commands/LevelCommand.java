@@ -30,7 +30,7 @@ public class LevelCommand {
             p.sendMessage("§eCelkovy level: §f" + totalGlobalLevel);
             p.sendMessage("§eServer levels: §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "]");
             p.sendMessage("§bKarma: §f0");
-            p.sendMessage("§aAchievmentPoints: §f" + craftPlayer.getAchievementPoints());
+            p.sendMessage("§dAchievmentPoints: §f" + craftPlayer.getAchievementPoints());
             p.sendMessage("");
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         });
