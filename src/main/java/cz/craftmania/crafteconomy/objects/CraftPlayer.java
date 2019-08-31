@@ -228,14 +228,15 @@ public class CraftPlayer {
      * Prepocitava globalni level v souctu (kde hrac musi mit min 2 level abys se hodnota změnila).
      */
     private void recalculateGlobalLevel() {
-        long finalValue = 0;
+        long finalValue = 1;
         finalValue += canBeAdded(this.survivalLevel);
         finalValue += canBeAdded(this.skyblockLevel);
         finalValue += canBeAdded(this.creativeLevel);
         finalValue += canBeAdded(this.vanillaLevel);
         finalValue += canBeAdded(this.skycloudLevel);
         finalValue += canBeAdded(this.prisonLevel);
-        this.globalLevel = finalValue;
+        // Pokud je level větší jak 1, nezapočítávat default 1 level jinak by došlo k +1 navýšení získaných levelů.
+        this.globalLevel = finalValue > 1 ? --finalValue : finalValue;
     }
 
     /**
