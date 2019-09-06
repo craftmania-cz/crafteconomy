@@ -22,7 +22,7 @@ public class VoteTokensAPI {
                 return manager.getCraftPlayer(player1).getVoteTokens();
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player.getUniqueId());
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS_2, player.getUniqueId());
     }
 
     /**
@@ -37,7 +37,7 @@ public class VoteTokensAPI {
                 return manager.getCraftPlayer(player1).getVoteTokens();
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS_2, player);
     }
 
     /**
@@ -55,7 +55,7 @@ public class VoteTokensAPI {
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();
             long finalVoteTokens = actualVoteTokens + voteTokensToAdd;
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS, player, finalVoteTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS_2, player, finalVoteTokens);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti pridano §7" + voteTokensToAdd + " VoteTokens.");
             }
@@ -70,7 +70,7 @@ public class VoteTokensAPI {
      */
     public static void giveOfflineVoteTokens(final String player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy(EconomyType.VOTETOKENS, player, voteTokensToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.VOTETOKENS_2, player, voteTokensToAdd);
         });
     }
 
@@ -88,7 +88,7 @@ public class VoteTokensAPI {
                 return;
             }
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS, player, finalVoteTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS_2, player, finalVoteTokens);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + voteTokensToRemove + " VoteTokens.");
             }
@@ -103,12 +103,12 @@ public class VoteTokensAPI {
      */
     public static void takeOfflineVoteTOkens(final String player, final long voteTokensToRemove) {
         Main.getAsync().runAsync(() -> {
-            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS, player);
+            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS_2, player);
             long finalVoteTokens = actualVoteTokens - voteTokensToRemove;
             if (finalVoteTokens < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy(EconomyType.VOTETOKENS, player, voteTokensToRemove);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.VOTETOKENS_2, player, voteTokensToRemove);
         });
     }
 }

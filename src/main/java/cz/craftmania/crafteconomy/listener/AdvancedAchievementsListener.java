@@ -71,9 +71,9 @@ public class AdvancedAchievementsListener implements Listener {
         // Notify
         player.sendMessage("§d\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         player.sendMessage("");
-        player.sendMessage("§c§lSplnil jsi achievement: §f" + achievement.getName()); //TODO: Name z AACH
+        player.sendMessage("§c§lSplnil jsi achievement: §f" + achievement.getName());
         achievement.getDescription().forEach(description -> {
-            player.sendMessage("§7" + description); //TODO: Description z AACH
+            player.sendMessage("§7" + description);
         });
         player.sendMessage("");
         player.sendMessage("§eDostal jsi: " + finalRewards.toString());

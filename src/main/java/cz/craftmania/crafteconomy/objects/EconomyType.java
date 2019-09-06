@@ -5,7 +5,7 @@ public enum EconomyType {
     // Basic economy
     CRAFTCOINS,
     CRAFTTOKENS,
-    VOTETOKENS,
+    VOTETOKENS_2, // "votetokens_2" je kvůli 1.14!
     ACHIEVEMENT_POINTS;
 
 

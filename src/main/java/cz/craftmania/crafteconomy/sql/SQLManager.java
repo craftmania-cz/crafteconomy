@@ -80,7 +80,7 @@ public class SQLManager {
                 CraftPlayer craftPlayer = new CraftPlayer(p,
                         ps.getResultSet().getLong("craftcoins"),
                         ps.getResultSet().getLong("crafttokens"),
-                        ps.getResultSet().getLong("votetokens"));
+                        ps.getResultSet().getLong("votetokens_2"));
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_LEVEL, ps.getResultSet().getLong("survival_level"));
                 craftPlayer.setLevelByType(LevelType.SKYBLOCK_LEVEL, ps.getResultSet().getLong("skyblock_level"));
                 craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong("creative_level"));
