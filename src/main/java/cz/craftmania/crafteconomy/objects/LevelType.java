@@ -21,8 +21,8 @@ public enum LevelType {
     VANILLA_LEVEL,
     VANILLA_EXPERIENCE,
 
-    VANILLASB_LEVEL,
-    VANILLASB_EXPERIENCE
+    SKYCLOUD_LEVEL,
+    SKYCLOUD_EXPERIENCE
     ;
 
     LevelType() {

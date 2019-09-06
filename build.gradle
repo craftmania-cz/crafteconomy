@@ -18,7 +18,7 @@ tasks.withType(JavaCompile) {
 clean { delete "./target" }
 clean { delete "./build" }
 
-def mainVersion = "1.1.0"
+def mainVersion = "1.2.0"
 def branch = "?"
 def gitId = ""
 
@@ -46,7 +46,7 @@ ext {
 }
 
 // Name-master-76735d.jar
-version = mainVersion + branch + gitId
+version = mainVersion
 
 uploadArchives {
     repositories {
@@ -83,13 +83,17 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
+    maven { url "https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/" }
+    maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
 }
 
 dependencies {
     compileOnly ('org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.0.11'
+    compileOnly 'cz.craftmania.craftcore:craftcore:2.2.1'
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
+    compile 'io.github.jorelali:commandapi:2.2'
+    compileOnly 'com.hm.achievement:advanced-achievements-api:1.2.0'
 }

@@ -13,16 +13,6 @@ public class CraftCoinsAPI {
     private static final BasicManager manager = new BasicManager();
 
     /**
-     * Returns amount coins that player owns
-     *
-     * @param player Selected player
-     * @return amount of craftcoins
-     */
-    public static long getCoins(final Player player) {
-        return manager.getCraftPlayer(player).getCoins();
-    }
-
-    /**
      * Returns amount coins by player nick name
      *
      * @param player Selected player
@@ -40,16 +30,16 @@ public class CraftCoinsAPI {
     /**
      * Returns amount of coins by player uuid
      *
-     * @param uuid Selected UUID
-     * @return amount of craftcoins, returns 0 if UUID does not exists
+     * @param player Selected Player
+     * @return amount of craftcoins, returns 0 if player does not exists
      */
-    public static long getCoins(final UUID uuid) {
-        for (Player player : BasicManager.getCraftPlayersCache().keySet()) {
-            if (player.getUniqueId().toString().equals(uuid)) {
+    public static long getCoins(final Player player) {
+        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
+            if (player1.getPlayer().equals(player)) {
                 return manager.getCraftPlayer(player).getCoins();
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, uuid);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player.getUniqueId());
     }
 
     /**
@@ -88,7 +78,7 @@ public class CraftCoinsAPI {
 
 
     /**
-     * Rake selected amount of coins from player + send message about taking.
+     * Take selected amount of coins from player + send message about taking.
      *
      * @param player        Player
      * @param coinsToRemove Value to remove
@@ -109,7 +99,7 @@ public class CraftCoinsAPI {
     }
 
     /**
-     * Rake selected amount of coins from player
+     * Take selected amount of coins from player
      *
      * @param player        Player name
      * @param coinsToRemove Value to remove
