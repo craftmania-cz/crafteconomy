@@ -26,7 +26,7 @@ public class CreativeLevelReward {
                 .setRewardDescription("§7Pomocí příkazu §b/p download §7nyní můžeš stáhnout pozemek!")
                 .setPermissions("plots.download"));
 
-        // LEVEL 10
+        /*// LEVEL 10
         this.list.add(new LevelReward(10).setName("Disguise přeměny (Zvířata)")
                 .setDescription("§7Přístup k přeměnám na zvířata!")
                 .setRewardDescription("§7Pomocí příkazu §b/disguise §7se nyní můžeš přeměnit na zvíře!")
@@ -36,7 +36,7 @@ public class CreativeLevelReward {
         this.list.add(new LevelReward(20).setName("Disguise přeměny (Zvířata)")
                 .setDescription("§7Přístup k přeměnám na monstra!")
                 .setRewardDescription("§7Pomocí příkazu §b/disguise §7se nyní můžeš přeměnit na monstra!")
-                .setPermissions("")); //TODO: Permissions
+                .setPermissions("")); //TODO: Permissions*/
     }
 
 }
