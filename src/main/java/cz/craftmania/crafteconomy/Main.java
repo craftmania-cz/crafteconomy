@@ -74,13 +74,19 @@ public class Main extends JavaPlugin {
 
         // Listeners
         loadListeners();
-        loadCommands();
 
-        // Prikazy zavisly na CraftCore
-        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-            RewardsCommand.register();
+        // Commands
+        if (Bukkit.getPluginManager().isPluginEnabled("CommandAPI")) {
+            Logger.info("CommandsAPI detekovano, prikazy budou registrovany!");
+            loadCommands();
+
+            // Prikazy zavisly na CraftCore
+            if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
+                RewardsCommand.register();
+            }
+        } else {
+            Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
         }
-
     }
 
     @Override

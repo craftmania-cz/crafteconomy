@@ -3,8 +3,7 @@ version: 1.1.0
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
-softdepend: [MVdWPlaceholderAPI,AdvancedAchievements,CraftCore]
-depend: [CommandAPI]
+softdepend: [MVdWPlaceholderAPI,AdvancedAchievements,CraftCore,CommandAPI]
 api-version: '1.14'
 
 permissions:
