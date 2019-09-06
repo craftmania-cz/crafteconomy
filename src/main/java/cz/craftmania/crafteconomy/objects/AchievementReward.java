@@ -135,22 +135,22 @@ public class AchievementReward {
 
         // Pokud neni override, tak podle rarity
         if (rarity == Rarity.COMMON) {
-            return 150;
+            return 500;
         }
         if (rarity == Rarity.RARE) {
-            return 300;
+            return 750;
         }
         if (rarity == Rarity.EPIC) {
-            return 600;
-        }
-        if (rarity == Rarity.LEGENDARY) {
             return 1500;
         }
+        if (rarity == Rarity.LEGENDARY) {
+            return 3000;
+        }
         if (rarity == Rarity.MYTHIC) {
-            return 5000;
+            return 10000;
         }
         if (rarity == Rarity.SECRET) {
-            return 7500;
+            return 15000;
         }
         return 0;
     }
