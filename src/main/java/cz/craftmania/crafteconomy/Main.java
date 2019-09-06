@@ -1,11 +1,8 @@
 package cz.craftmania.crafteconomy;
 
+import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.listener.AdvancedAchievementsListener;
-import cz.craftmania.crafteconomy.commands.CraftCoinsCommand;
-import cz.craftmania.crafteconomy.commands.CraftTokensCommand;
-import cz.craftmania.crafteconomy.commands.LevelCommand;
-import cz.craftmania.crafteconomy.commands.VoteTokensCommand;
 import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
 import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
@@ -56,7 +53,7 @@ public class Main extends JavaPlugin {
         initDatabase();
 
         // AdvancedAchievements API
-        if(Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
+        if (Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
             isAchievementPluginEnabled = true;
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
@@ -78,6 +75,11 @@ public class Main extends JavaPlugin {
         // Listeners
         loadListeners();
         loadCommands();
+
+        // Prikazy zavisly na CraftCore
+        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
+            RewardsCommand.register();
+        }
 
     }
 
