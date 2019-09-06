@@ -3,11 +3,13 @@ package cz.craftmania.crafteconomy.sql;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
+import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -390,6 +392,33 @@ public class SQLManager {
                     ps.executeUpdate();
                 } catch (Exception e) {
                     //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final void sendPlayerAchievementLog(final Player p, final AchievementReward achievement) {
+        final String server = Main.getServerType().name().toLowerCase();
+        final long currentTime = System.currentTimeMillis();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_achievement_log (nick,uuid,ach_name,ach_value,ach_server,date) VALUES (?,?,?,?,?,?);");
+                    ps.setString(1, p.getName());
+                    ps.setString(2, p.getUniqueId().toString());
+                    ps.setString(3, achievement.getName());
+                    ps.setInt(4, achievement.getAchievementValue());
+                    ps.setString(5, server);
+                    ps.setLong(6, currentTime);
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
                 }

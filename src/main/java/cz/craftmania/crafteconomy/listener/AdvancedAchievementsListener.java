@@ -23,9 +23,6 @@ public class AdvancedAchievementsListener implements Listener {
         String name = event.getName();
         Player player = event.getPlayer();
 
-        Logger.info("Hrac: " + player.getName() + ", splnil achievement: " + name);
-        //TODO: Ukladání do SQL
-
         ProprietaryManager.getServerAchievementList().forEach(achievement -> {
             if (achievement.getId().equalsIgnoreCase(name)) {
                 doAction(achievement, player);
@@ -39,6 +36,9 @@ public class AdvancedAchievementsListener implements Listener {
         if (achievement == null || player == null) {
             return;
         }
+
+        Logger.info("Hrac: " + player.getName() + ", splnil achievement: " + achievement.getName());
+        Main.getInstance().getMySQL().sendPlayerAchievementLog(player, achievement);
 
         StringBuilder finalRewards = new StringBuilder();
 
