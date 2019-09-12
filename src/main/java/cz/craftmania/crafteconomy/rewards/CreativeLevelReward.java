@@ -20,6 +20,17 @@ public class CreativeLevelReward {
                 .setRewardDescription("§7Pomocí příkazu §b/p music §7si nyní můžeš nastavit hudbu!")
                 .setPermissions("plots.music"));
 
+        // LEVEL 4
+        this.list.add(new LevelReward(4).setName("Přístup k Fish Spawn Eggs")
+                .setDescription("§7Přístup k používání Fish,", "§7Cod, Salmon a Pufferfish Eggs.")
+                .setRewardDescription("§7Nyní můžeš spawnovat rybičky pomocí spawn eggů!")
+                .setPermissions(
+                        "rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG",
+                        "rc.bypass.disable.interacting.in-hand.SALMON_SPAWN_EGG",
+                        "rc.bypass.disable.interacting.in-hand.PUFFERFISH_SPAWN_EGG",
+                        "rc.bypass.disable.interacting.in-hand.TROPICAL_FISH_SPAWN_EGG"
+                ));
+
         // LEVEL 5
         this.list.add(new LevelReward(6).setName("Stažení pozemku")
                 .setDescription("§7Přístup k příkzu §a/p download")

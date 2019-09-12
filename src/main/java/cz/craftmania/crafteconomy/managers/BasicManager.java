@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -16,9 +17,10 @@ public class BasicManager {
 
     public static HashMap<Player, CraftPlayer> players = new HashMap<>();
 
-    public static void loadPlayerData(final Player player) {
+    public static CraftPlayer loadPlayerData(final Player player) {
         CraftPlayer cp = getOrRegisterPlayer(player);
         players.put(player, cp);
+        return cp;
     }
 
     public static HashMap<Player, CraftPlayer> getCraftPlayersCache() {
@@ -133,6 +135,45 @@ public class BasicManager {
                 return LevelType.PRISON_EXPERIENCE;
         }
         return null;
+    }
+
+    /**
+     * Dá hráči reward podle zadaného levelu!
+     * @param player Zvolený hráč
+     * @param level Požadovaná odměna dle levelu
+     */
+    public void givePlayerLevelReward(final Player player, final int level) {
+        ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
+            if (levelReward.getLevel() == level) {
+                this.givePlayerLevelReward(levelReward, player);
+            }
+        });
+    }
+
+    /**
+     * Dá hráči reward podle zadaného LevelReward
+     * @param level LevelReward objekt
+     * @param player Zvolený hráč
+     */
+    public void givePlayerLevelReward(LevelReward level, Player player) {
+        if (level == null || player == null) {
+            return;
+        }
+        if (!level.getPermissions().isEmpty()) {
+            level.getPermissions().forEach(permission -> {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+            });
+        }
+
+        // Notify
+        player.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+        player.sendMessage("");
+        player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
+        level.getRewardDescription().forEach(description -> {
+            player.sendMessage("§7" + description);
+        });
+        player.sendMessage("");
+        player.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
     }
 
 

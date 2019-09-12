@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerJoinListener implements Listener {
 
     private Main main;
+    private BasicManager bm = new BasicManager();
 
     public PlayerJoinListener(Main main) {
         this.main = main;
@@ -21,8 +23,13 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
-        // Zakladni nacteni dat do cache
-        BasicManager.loadPlayerData(player);
+        // Zakladni nacteni dat do cache a vytvoření objektu
+        CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
+
+        // Fix pro ty, co mají vyšší lvl jak 4 ale nemají reward za lvl 4
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 4);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
