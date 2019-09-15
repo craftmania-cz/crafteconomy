@@ -31,11 +31,23 @@ public class CreativeLevelReward {
                         "rc.bypass.disable.interacting.in-hand.TROPICAL_FISH_SPAWN_EGG"
                 ));
 
-        // LEVEL 5
+        // LEVEL 6
         this.list.add(new LevelReward(6).setName("Stažení pozemku")
                 .setDescription("§7Přístup k příkzu §a/p download")
                 .setRewardDescription("§7Pomocí příkazu §b/p download §7nyní můžeš stáhnout pozemek!")
                 .setPermissions("plots.download"));
+
+        // LEVEL 7
+        this.list.add(new LevelReward(7).setName("Přístup k Pig Eggs")
+                .setDescription("§7Přístup k používání Pig Eggs.")
+                .setRewardDescription("§7Nyní můžeš spawnovat prasátka pomocí spawn eggů!")
+                .setPermissions("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG"));
+
+        // LEVEL 9
+        this.list.add(new LevelReward(9).setName("Přístip k Fox Eggs")
+                .setDescription("§7Přístup k použivání Fox Eggs.")
+                .setRewardDescription("§7Nyní si můžeš spawnout lišku", "§7pomocí Fox spawn Eggu.")
+                .setPermissions("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG"));
 
         /*// LEVEL 10
         this.list.add(new LevelReward(10).setName("Disguise přeměny (Zvířata)")

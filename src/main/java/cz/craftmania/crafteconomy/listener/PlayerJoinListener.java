@@ -30,6 +30,12 @@ public class PlayerJoinListener implements Listener {
         if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
             bm.givePlayerLevelReward(player, 4);
         }
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 7 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 7);
+        }
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 9);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
