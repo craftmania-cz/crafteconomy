@@ -7,16 +7,22 @@ import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
 import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
 import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
 import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
+import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public class Main extends JavaPlugin {
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+
+public class Main extends JavaPlugin implements PluginMessageListener {
 
     private static Main instance;
     private static AsyncUtils async;
@@ -36,6 +42,9 @@ public class Main extends JavaPlugin {
         // Config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        // Plugin messages
+        Bukkit.getMessenger().registerIncomingPluginChannel(this, "craftbungee:vote", this);
 
         // Values
         minExp = getConfig().getInt("random-exp.settings.min", 30);
@@ -174,6 +183,21 @@ public class Main extends JavaPlugin {
             return ServerType.SKYCLOUD;
         } else {
             return ServerType.UNKNOWN;
+        }
+    }
+
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(message));
+        try {
+            String sub = in.readUTF();
+            if (sub.equals("vote")) {
+                String nick = in.readUTF();
+                String coins = in.readUTF();
+                VoteManager.playerVote(nick, null, coins); //TODO: UUID
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

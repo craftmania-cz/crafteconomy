@@ -32,6 +32,12 @@ public class CraftPlayer {
     private long skycloudLevel = 1;
     private long skycloudExperience = 0;
 
+    // Votes
+    private long week_votes = 0;
+    private long month_votes = 0;
+    private long total_votes = 0;
+    private long last_vote = 0;
+
     // Others
     private long karma = 0;
     private long achievementPoints = 0;
@@ -59,6 +65,9 @@ public class CraftPlayer {
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
         this.achievementPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
+        this.total_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
+        this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
+        this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
         recalculateGlobalLevel();
     }
 
@@ -125,6 +134,18 @@ public class CraftPlayer {
 
     public void setAchievementPoints(long achievementPoints) {
         this.achievementPoints = achievementPoints;
+    }
+
+    public long getTotalVotes() {
+        return total_votes;
+    }
+
+    public long getMonthVotes() {
+        return month_votes;
+    }
+
+    public long getWeekVotes() {
+        return week_votes;
     }
 
     public long getLevelByType(final LevelType type) {
