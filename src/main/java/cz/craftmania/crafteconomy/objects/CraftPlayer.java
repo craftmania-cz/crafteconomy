@@ -41,6 +41,7 @@ public class CraftPlayer {
     // Others
     private long karma = 0;
     private long achievementPoints = 0;
+    private long eventPoints = 0;
     private HashSet<Multiplier> multipliers;
 
     public CraftPlayer() {
@@ -68,6 +69,7 @@ public class CraftPlayer {
         this.total_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
         this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
         this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
+        this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
         recalculateGlobalLevel();
     }
 
@@ -146,6 +148,14 @@ public class CraftPlayer {
 
     public long getWeekVotes() {
         return week_votes;
+    }
+
+    public long getEventPoints() {
+        return eventPoints;
+    }
+
+    public void setEventPoints(long eventPoints) {
+        this.eventPoints = eventPoints;
     }
 
     public long getLevelByType(final LevelType type) {
