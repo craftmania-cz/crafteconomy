@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id "org.ajoberstar.grgit" version "1.7.0"
 }
 
@@ -88,9 +87,10 @@ repositories {
 }
 
 dependencies {
-    compileOnly ('org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT') {
+    compileOnly ('org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
+    compileOnly 'org.bukkit:bukkit:1.13.2-R0.1-SNAPSHOT'
     compileOnly 'cz.craftmania.craftcore:craftcore:2.2.1'
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
