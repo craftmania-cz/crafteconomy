@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+/**
+ * API for changing player's CraftCoins
+ */
 public class CraftCoinsAPI {
 
     private static final BasicManager manager = new BasicManager();

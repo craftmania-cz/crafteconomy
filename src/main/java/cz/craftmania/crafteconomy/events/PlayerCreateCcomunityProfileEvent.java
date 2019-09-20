@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Spusti se, kdyz se hrac poprvi pripoji na lobby a CraftEconomy ho zaregistruje!
+ * Runs, when a new player is connected on our lobby and CraftEconomy register him into our database.
  */
 public class PlayerCreateCcomunityProfileEvent extends Event {
 

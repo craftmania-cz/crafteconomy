@@ -1,5 +1,8 @@
 package cz.craftmania.crafteconomy.api;
 
+/**
+ * Basic change actions for requesting MySQL, internal events and player logs
+ */
 public enum ChangeActions {
 
     ECONOMY_REGISTER,

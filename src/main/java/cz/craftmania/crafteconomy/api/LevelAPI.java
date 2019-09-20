@@ -9,6 +9,9 @@ import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+/**
+ * API for changing player's experience and levels
+ */
 public class LevelAPI {
 
     private static final Main plugin = Main.getInstance();

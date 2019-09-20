@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Spustí se, když hráč získa exp
+ * Runs when player recieve some amount of experience
  */
 public class PlayerExpGainEvent extends Event {
 

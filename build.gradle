@@ -74,6 +74,11 @@ task compileWithDependencies(type: Jar) {
     with jar
 }
 
+task generateJavadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    classpath = sourceSets.main.compileClasspath
+}
+
 repositories {
     flatDir {dirs 'libs'}
     mavenCentral()

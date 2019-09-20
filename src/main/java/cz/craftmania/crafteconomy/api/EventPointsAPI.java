@@ -6,25 +6,28 @@ import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
+/**
+ * API for out Event server and economy for events
+ */
 public class EventPointsAPI {
 
     private static final BasicManager manager = new BasicManager();
 
     /**
-     * Vrací hodnotu počtu Event points hráče
+     * Returns amount of Event Points for selected player
      *
-     * @param player Vybraný hráč
-     * @return počet event points
+     * @param player Selected player
+     * @return Amount of Event Points
      */
     public static long getEventPoints(final Player player) {
         return manager.getCraftPlayer(player).getEventPoints();
     }
 
     /**
-     * Vrací hodnotu počtu Event points hráče podle stringu
+     * Returns amount of Event Points for selected player by String
      *
-     * @param player Vybraný hráč
-     * @return počet event points
+     * @param player Selected player
+     * @return Amount of Event Points
      */
     public static long getEventPoints(final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
@@ -36,10 +39,10 @@ public class EventPointsAPI {
     }
 
     /**
-     * Přidá požadovanému hráči Event Points podle zadaného počtu
+     * Adds selected player requested amount of Event Points
      *
-     * @param player Zvolený hráč
-     * @param pointsToAdd Počet k přidání
+     * @param player Selected player
+     * @param pointsToAdd Amount for add
      */
     public static void giveEventPoints(final Player player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
@@ -58,10 +61,10 @@ public class EventPointsAPI {
     }
 
     /**
-     * Odebere požadovanému hráči Event Points podle požadovaného počtu
+     * Remove selected player requested amount of Event Poins
      *
-     * @param player Zvolený hráč
-     * @param pointsToTake Počet k odebrání
+     * @param player Selected player
+     * @param pointsToTake Amount for remove
      */
     public static void takeEventPoints(final Player player, final long pointsToTake) {
         Main.getAsync().runAsync(() -> {

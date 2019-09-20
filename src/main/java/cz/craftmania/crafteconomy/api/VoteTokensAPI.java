@@ -6,6 +6,9 @@ import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
+/**
+ * API for changing player's VoteTokens
+ */
 public class VoteTokensAPI {
 
     private static final BasicManager manager = new BasicManager();

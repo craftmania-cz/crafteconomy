@@ -4,7 +4,7 @@ stages:
 - validate
 - build
 - review
-#- pages
+- pages
 - deploy
 
 before_script:
@@ -34,19 +34,36 @@ build:
   artifacts:
     expire_in: 1 week
     paths:
-    - target/*.jar
+    - build/libs/*.jar
 
-deploy:master:
+javadoc:
+  stage: build
+  script:
+    - ./gradlew generateJavadocs
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build/docs/javadoc/*
+  only:
+    - tags
+
+pages:
+  stage: pages
+  script:
+    - 'mkdir .public'
+    - 'cp -r build/docs/javadoc/ public'
+    - 'mv .public public'
+  artifacts:
+    paths:
+      - public
+  only:
+    - tags
+
+deploy:
   stage: deploy
   script:
-  - './gradlew uploadArchives -PnexusUsername=$PACKAGES_USER -PnexusPassword=$PACKAGES_PASSWORD'
+    - './gradlew compileWithDependencies'
+    - './gradlew uploadArchives -PnexusUsername=$PACKAGES_USER -PnexusPassword=$PACKAGES_PASSWORD'
   only:
-  - master@craftmania/crafteconomy
+    - master@craftmania/crafteconomy
   when: manual
-
-deploy:release:
-  stage: deploy
-  script:
-  - './gradlew uploadArchives -PnexusUsername=$PACKAGES_USER -PnexusPassword=$PACKAGES_PASSWORD'
-  only:
-  - tags

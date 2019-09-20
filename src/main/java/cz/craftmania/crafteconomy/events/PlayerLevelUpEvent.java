@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Spustí se, když hráč získa nový level
+ * Runs when player recieve level up
  */
 public class PlayerLevelUpEvent extends Event {
 
@@ -25,17 +25,17 @@ public class PlayerLevelUpEvent extends Event {
     }
 
     /**
-     * Vrací hodnotu kolik levelů hráč dostal
-     * @return počet levelů
+     * Returns value what player recieved
+     * @return amount of levels
      */
     public long getAmount() {
         return amount;
     }
 
     /**
-     * Vrací hodnotu levelu po level-upu hráče.
-     * Příklad: hráč má level up z 5 -> 6 => vrátí 6
-     * @return počet levelů
+     * Returns new level of player
+     * Example: player level up from 5 to 6 returns 6
+     * @return final value of level
      */
     public long getNewLevel() {
         return newLevel;

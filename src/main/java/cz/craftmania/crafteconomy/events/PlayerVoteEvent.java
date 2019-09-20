@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Spustí se, když hráč je online na serveru a provede úspěšné zahlasování pro server.
+ * Runs when player cast vote and is online
  */
 public class PlayerVoteEvent extends Event {
 
