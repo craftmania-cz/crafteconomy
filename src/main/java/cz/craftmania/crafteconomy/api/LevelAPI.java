@@ -43,7 +43,7 @@ public class LevelAPI {
         long finalLevel = actualLevel + levelsToAdd; // final level
         manager.getCraftPlayer(player).setLevelByType(type, finalLevel);
         Main.getInstance().getMySQL().setEconomy(type, player, finalLevel);
-        Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd));
+        Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd, finalLevel));
     }
 
     /**

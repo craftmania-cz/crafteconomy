@@ -4,8 +4,8 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-/*
-Spustí se, když hráč získa exp
+/**
+ * Spustí se, když hráč získa exp
  */
 public class PlayerExpGainEvent extends Event {
 
