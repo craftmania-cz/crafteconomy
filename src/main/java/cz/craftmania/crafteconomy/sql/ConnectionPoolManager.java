@@ -50,6 +50,7 @@ public class ConnectionPoolManager {
         config.setMinimumIdle(minimumConnections);
         config.setMaximumPoolSize(maximumConnections);
         config.setConnectionTimeout(connectionTimeout);
+        config.setPoolName("crafteconomy");
         dataSource = new HikariDataSource(config);
     }
 

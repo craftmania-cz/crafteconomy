@@ -7,9 +7,7 @@ import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
-import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
-import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
