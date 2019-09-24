@@ -173,7 +173,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             return ServerType.SURVIVAL;
         } else if (type.equalsIgnoreCase("skyblock")) {
             return ServerType.SKYBLOCK;
-        } else if (type.equalsIgnoreCase("creative") || type.equalsIgnoreCase("creative2")) { // creative2 = 1.14
+        } else if (type.equalsIgnoreCase("creative") || type.equalsIgnoreCase("creative2")) { // creative2 = 1.12
             return ServerType.CREATIVE;
         } else if (type.equalsIgnoreCase("prison")) {
             return ServerType.PRISON;
@@ -189,12 +189,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(message));
+        VoteManager voteManager = new VoteManager();
         try {
             String sub = in.readUTF();
             if (sub.equals("vote")) {
                 String nick = in.readUTF();
                 String coins = in.readUTF();
-                VoteManager.playerVote(nick, null, coins); //TODO: UUID
+                voteManager.playerVote(nick, null, coins); //TODO: UUID
             }
         } catch (Exception e) {
             e.printStackTrace();

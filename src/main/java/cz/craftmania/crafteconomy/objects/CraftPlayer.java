@@ -150,12 +150,32 @@ public class CraftPlayer {
         return week_votes;
     }
 
+    public long getLastVoteTime() {
+        return last_vote;
+    }
+
     public long getEventPoints() {
         return eventPoints;
     }
 
     public void setEventPoints(long eventPoints) {
         this.eventPoints = eventPoints;
+    }
+
+    public void addWeekVote() {
+        this.week_votes++;
+    }
+
+    public void addMonthVote() {
+        this.month_votes++;
+    }
+
+    public void addTotalVote() {
+        this.total_votes++;
+    }
+
+    public void setLastVote(long last_vote) {
+        this.last_vote = last_vote;
     }
 
     public long getLevelByType(final LevelType type) {
@@ -273,7 +293,6 @@ public class CraftPlayer {
     /**
      * Kontroluje zda se zadana hodnota muze precist k vysledny hodnote (global level)
      * @param amount Pocet levlu
-     * @return
      */
     private long canBeAdded(long amount) {
         if (amount > 1) {
