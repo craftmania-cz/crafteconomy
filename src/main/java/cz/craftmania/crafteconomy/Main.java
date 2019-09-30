@@ -1,12 +1,8 @@
 package cz.craftmania.crafteconomy;
 
 import cz.craftmania.crafteconomy.commands.*;
+import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
-import cz.craftmania.crafteconomy.listener.AdvancedAchievementsListener;
-import cz.craftmania.crafteconomy.listener.PlayerCreateProfileListener;
-import cz.craftmania.crafteconomy.listener.PlayerExpGainListener;
-import cz.craftmania.crafteconomy.listener.PlayerJoinListener;
-import cz.craftmania.crafteconomy.listener.PlayerLevelUpListener;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
@@ -32,6 +28,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static ServerType serverType = ServerType.UNKNOWN;
 
     private boolean isAchievementPluginEnabled = false;
+    private boolean isCMIPluginEnabled = false;
 
     @Override
     public void onEnable() {
@@ -80,6 +77,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
             Main.getInstance().getServer().getScheduler().runTaskTimer(this, new AddRandomExpTask(), 0, time);
         }
+
+        // Final boolean values
+        isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
         // Listeners
         loadListeners();
@@ -138,6 +138,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // AdvancedAchievements Events
         if (isAchievementPluginEnabled) {
             pm.registerEvents(new AdvancedAchievementsListener(), this);
+        }
+
+        // CMI Events
+        if (isCMIPluginEnabled) {
+            pm.registerEvents(new PlayerAfkListener(), this);
         }
     }
 

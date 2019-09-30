@@ -43,6 +43,7 @@ public class CraftPlayer {
     private long achievementPoints = 0;
     private long eventPoints = 0;
     private HashSet<Multiplier> multipliers;
+    private boolean isAfk = false;
 
     public CraftPlayer() {
     }
@@ -176,6 +177,14 @@ public class CraftPlayer {
 
     public void setLastVote(long last_vote) {
         this.last_vote = last_vote;
+    }
+
+    public boolean isAfk() {
+        return isAfk;
+    }
+
+    public void setAfk(boolean afk) {
+        isAfk = afk;
     }
 
     public long getLevelByType(final LevelType type) {

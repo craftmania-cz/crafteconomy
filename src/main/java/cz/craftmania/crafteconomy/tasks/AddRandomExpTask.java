@@ -11,8 +11,11 @@ public class AddRandomExpTask implements Runnable {
 
     @Override
     public void run() {
-        Bukkit.getOnlinePlayers()
-                .forEach(p -> LevelAPI.addExp(p, bm.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp())));
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            if (!bm.getCraftPlayer(p).isAfk()) {
+                LevelAPI.addExp(p, bm.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp()));
+            }
+        });
     }
 
     private static int randomRangeInt(int min, int max) {
