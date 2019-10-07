@@ -75,7 +75,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
-            Main.getInstance().getServer().getScheduler().runTaskTimer(this, new AddRandomExpTask(), 0, time);
+            Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
         }
 
         // Final boolean values
