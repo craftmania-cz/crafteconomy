@@ -19,7 +19,7 @@ public class PlayerCreateProfileListener implements Listener {
 
         // Player's changelog
         Main.getInstance().getMySQL().insertChangeIntoChangelog(e.getPlayer(), "server",
-                ChangeActions.ECONOMY_REGISTER, "0", "0", "lobby");
+                ChangeActions.ECONOMY_REGISTER, "0", "0");
 
     }
 }
