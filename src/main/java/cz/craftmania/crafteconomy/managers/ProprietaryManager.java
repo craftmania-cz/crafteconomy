@@ -7,6 +7,7 @@ import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.rewards.CreativeLevelReward;
+import cz.craftmania.crafteconomy.rewards.VanillaLevelRewards;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 
@@ -56,7 +57,7 @@ public class ProprietaryManager {
         } else if (Main.getServerType() == ServerType.SKYCLOUD) {
             Logger.danger("Skycloud nema nastavene zadne server odmeny!");
         } else if (Main.getServerType() == ServerType.VANILLA) {
-            Logger.danger("Vanilla nema nastavene zadne server odmeny!");
+            new VanillaLevelRewards(serverLevelRewardsList).load();
         } else {
             Logger.danger("Nenalezeny zadne achievementy k nacteni!");
         }
