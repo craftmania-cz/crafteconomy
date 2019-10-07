@@ -327,8 +327,9 @@ public class SQLManager {
     }
 
     public final void insertChangeIntoChangelog(final Player player, final String sender, final ChangeActions action,
-                                                final String oldValue, final String newValue, final String server) {
+                                                final String oldValue, final String newValue) {
         long currentTime = System.currentTimeMillis();
+        String serverName = Main.getServerType().name().toLowerCase();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -340,13 +341,11 @@ public class SQLManager {
                     ps.setString(1, player.getUniqueId().toString());
                     ps.setString(2, player.getName());
                     ps.setString(3, sender);
-                    ps.setString(4, "no-server"); //TODO: CraftCore server
+                    ps.setString(4, serverName);
                     ps.setString(5, action.toString());
                     ps.setString(6, oldValue);
                     ps.setString(7, newValue);
                     ps.setLong(8, currentTime);
-                    ps.setString(9, player.getName());
-                    ps.setLong(10, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
                     e.printStackTrace();
