@@ -443,5 +443,94 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
+    public final void createPlayerProfileTable() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement(
+                            "CREATE TABLE `player_profile` (" +
+                            " `id` int(255) NOT NULL AUTO_INCREMENT," +
+                            " `discriminator` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                            " `nick` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                            " `uuid` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                            " `web_group` int(32) NOT NULL DEFAULT '0'," +
+                            " `registred` bigint(64) NOT NULL," +
+                            " `last_online` bigint(64) NOT NULL," +
+                            " `last_server` varchar(32) COLLATE latin2_czech_cs NOT NULL," +
+                            " `is_online` int(12) NOT NULL DEFAULT '0'," +
+                            " `played_time` int(64) NOT NULL DEFAULT '0'," +
+                            " `craftcoins` bigint(32) NOT NULL DEFAULT '0'," +
+                            " `crafttokens` bigint(32) NOT NULL DEFAULT '0'," +
+                            " `votetokens` bigint(32) NOT NULL DEFAULT '0'," +
+                            " `votetokens_2` bigint(32) NOT NULL DEFAULT '0'," +
+                            " `level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `global_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `global_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `survival_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `survival_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `skyblock_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `skyblock_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `creative_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `creative_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `prison_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `prison_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `vanilla_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `vanilla_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `skycloud_level` bigint(64) NOT NULL DEFAULT '1'," +
+                            " `skycloud_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `karma` bigint(32) NOT NULL DEFAULT '0'," +
+                            " `achievement_points` int(64) NOT NULL DEFAULT '0'," +
+                            " `event_points` bigint(64) NOT NULL DEFAULT '0'," +
+                            " `total_votes` int(64) NOT NULL DEFAULT '0'," +
+                            " `month_votes` int(64) NOT NULL DEFAULT '0'," +
+                            " `week_votes` int(64) NOT NULL DEFAULT '0'," +
+                            " `last_vote` bigint(255) NOT NULL DEFAULT '0'," +
+                            " `status` varchar(100) COLLATE latin2_czech_cs NOT NULL DEFAULT 'Tento hráč nemá nastavený status...'," +
+                            " `soc_facebook` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `soc_twitter` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `soc_ytb` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `soc_steam` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `soc_twitch` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `soc_web` varchar(256) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `mc_version` varchar(32) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                            " `discord_user_id` varchar(64) COLLATE latin2_czech_cs DEFAULT NULL," +
+                            " `discord_reward` int(12) NOT NULL DEFAULT '0'," +
+                            " `lobby_daily_bonus` int(12) NOT NULL DEFAULT '0'," +
+                            " `lobby_vip_bonus` int(12) NOT NULL DEFAULT '0'," +
+                            " `seen_latest_news` int(2) NOT NULL DEFAULT '0'," +
+                            " PRIMARY KEY (`id`)," +
+                            " UNIQUE KEY `uuid` (`uuid`)," +
+                            " UNIQUE KEY `nick` (`nick`)" +
+                            ") ENGINE=InnoDB AUTO_INCREMENT=131544 DEFAULT CHARSET=latin2 COLLATE=latin2_czech_cs");
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final boolean tablePlayerProfileExists() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT uuid FROM player_profile");
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            return false;
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
 
 }

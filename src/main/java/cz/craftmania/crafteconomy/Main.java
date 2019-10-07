@@ -122,6 +122,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     private void initDatabase() {
         sql = new SQLManager(this);
+
+        // Kdyz tabulka neexistuje, vytvoř
+        if (!Main.getInstance().getMySQL().tablePlayerProfileExists()) {
+            Main.getInstance().getMySQL().createPlayerProfileTable();
+        }
     }
 
     private void loadListeners() {
