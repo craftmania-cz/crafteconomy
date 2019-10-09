@@ -109,10 +109,10 @@ public class VanillaAchievements {
         this.rewards.add(new AchievementReward("vanilla_epic_crafts_golden_apple_10").setRarity(Rarity.EPIC).setName("GoldenApple II"));
         this.rewards.add(new AchievementReward("vanilla_legendary_crafts_golden_apple_30").setRarity(Rarity.LEGENDARY).setName("GoldenApple III"));
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_golden_axe_1").setRarity(Rarity.RARE).setName("GoldenAge"));
-        this.rewards.add(new AchievementReward("vanilla_common_crafts_golden_block_1").setRarity(Rarity.COMMON).setName("GoldenAge II"));
-        this.rewards.add(new AchievementReward("vanilla_rare_crafts_golden_block_25").setRarity(Rarity.RARE).setName("GoldenAge III"));
-        this.rewards.add(new AchievementReward("vanilla_epic_crafts_golden_block_75").setRarity(Rarity.EPIC).setName("GoldenAge IV"));
-        this.rewards.add(new AchievementReward("vanilla_legendary_crafts_golden_block_200").setRarity(Rarity.LEGENDARY).setName("GoldenAge V"));
+        this.rewards.add(new AchievementReward("vanilla_common_crafts_gold_block_1").setRarity(Rarity.COMMON).setName("GoldenAge II"));
+        this.rewards.add(new AchievementReward("vanilla_rare_crafts_gold_block_25").setRarity(Rarity.RARE).setName("GoldenAge III"));
+        this.rewards.add(new AchievementReward("vanilla_epic_crafts_gold_block_75").setRarity(Rarity.EPIC).setName("GoldenAge IV"));
+        this.rewards.add(new AchievementReward("vanilla_legendary_crafts_gold_block_200").setRarity(Rarity.LEGENDARY).setName("GoldenAge V"));
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_iron_axe_1").setRarity(Rarity.RARE).setName("IronAge"));
         this.rewards.add(new AchievementReward("vanilla_common_crafts_iron_block_1").setRarity(Rarity.COMMON).setName("IronAge II"));
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_iron_block_25").setRarity(Rarity.RARE).setName("IronAge III"));
