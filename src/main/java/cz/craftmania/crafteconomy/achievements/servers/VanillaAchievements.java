@@ -76,7 +76,7 @@ public class VanillaAchievements {
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_arrow_50").setRarity(Rarity.RARE).setName("Shooter II"));
         this.rewards.add(new AchievementReward("vanilla_epic_crafts_arrow_300").setRarity(Rarity.EPIC).setName("Shooter III"));
         this.rewards.add(new AchievementReward("vanilla_mythic_crafts_beacon_1").setRarity(Rarity.MYTHIC).setName("Crafter II"));
-        this.rewards.add(new AchievementReward("vanilla_legendary_crafts_bell_1").setRarity(Rarity.LEGENDARY).setName("Questions IX"));
+        this.rewards.add(new AchievementReward("vanilla_legendary_crafts_turtle_helmet_1").setRarity(Rarity.LEGENDARY).setName("Questions IX"));
         this.rewards.add(new AchievementReward("vanilla_common_crafts_bookshelf_5").setRarity(Rarity.COMMON).setName("Bookshelf I"));
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_bow_1").setRarity(Rarity.RARE).setName("Shooter"));
         this.rewards.add(new AchievementReward("vanilla_rare_crafts_bread_20").setRarity(Rarity.RARE).setName("Farmer I"));
@@ -174,7 +174,7 @@ public class VanillaAchievements {
         this.rewards.add(new AchievementReward("vanilla_rare_kills_sheep_100").setRarity(Rarity.RARE).setName("Hunter XVIII"));
         this.rewards.add(new AchievementReward("vanilla_rare_kills_shulker_50").setRarity(Rarity.RARE).setName("Hunter XVI"));
         this.rewards.add(new AchievementReward("vanilla_rare_kills_skeleton_100").setRarity(Rarity.RARE).setName("Hunter VII"));
-        this.rewards.add(new AchievementReward("vanilla_rare_kills_slime_750").setRarity(Rarity.RARE).setName("Hunter IX"));
+        this.rewards.add(new AchievementReward("vanilla_rare_kills_slime_150").setRarity(Rarity.RARE).setName("Hunter IX"));
         this.rewards.add(new AchievementReward("vanilla_rare_kills_squid_50").setRarity(Rarity.RARE).setName("Hunter XX"));
         this.rewards.add(new AchievementReward("vanilla_rare_kills_stray_100").setRarity(Rarity.RARE).setName("Hunter II"));
         this.rewards.add(new AchievementReward("vanilla_rare_kills_vindicator_100").setRarity(Rarity.RARE).setName("Hunter V"));
