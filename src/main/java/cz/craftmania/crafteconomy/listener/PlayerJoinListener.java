@@ -32,15 +32,17 @@ public class PlayerJoinListener implements Listener {
         // Zakladni nacteni dat do cache a vytvoření objektu
         CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
 
-        // Fix pro ty, co mají vyšší lvl jak 4 ale nemají reward za lvl 4
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 4);
-        }
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 7 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 7);
-        }
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 9);
+        if (Main.getServerType() == ServerType.CREATIVE) {
+            // Fix pro ty, co mají vyšší lvl jak 4 ale nemají reward za lvl 4
+            if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
+                bm.givePlayerLevelReward(player, 4);
+            }
+            if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 7 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG")) {
+                bm.givePlayerLevelReward(player, 7);
+            }
+            if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
+                bm.givePlayerLevelReward(player, 9);
+            }
         }
     }
 
