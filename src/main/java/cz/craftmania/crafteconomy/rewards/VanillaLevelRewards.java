@@ -3,7 +3,6 @@ package cz.craftmania.crafteconomy.rewards;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public class VanillaLevelRewards {
 
@@ -94,7 +93,7 @@ public class VanillaLevelRewards {
                 .setPermissions("lands.ownlands.2"));
 
         // Level 22
-        this.list.add(new LevelReward(17).setName("Člen ve 3 území")
+        this.list.add(new LevelReward(22).setName("Člen ve 3 území")
                 .setDescription("§7Můžeš být členem ve 3 území")
                 .setRewardDescription("§7Nyní můžeš být členem ve 3 území!")
                 .setPermissions("lands.lands.3"));
