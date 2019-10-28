@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.managers;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.GlobalAchievements;
+import cz.craftmania.crafteconomy.achievements.servers.HalloweenAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
@@ -21,7 +22,8 @@ public class ProprietaryManager {
 
     public static void loadServerAchievements() {
         Logger.info("Priprava nacteni achievementu.");
-        new GlobalAchievements(serverAchievementList).load();
+        //new GlobalAchievements(serverAchievementList).load(); //TODO: Přesunout do speciální kategorie
+        new HalloweenAchievements(serverAchievementList).load();
         if (Main.getServerType() == ServerType.SURVIVAL) {
             Logger.danger("Survival nema nastavene zadne achievementy!");
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
@@ -35,7 +37,8 @@ public class ProprietaryManager {
         } else if (Main.getServerType() == ServerType.VANILLA) {
             new VanillaAchievements(serverAchievementList).load();
         } else {
-            Logger.danger("Nenalezeny zadne achievementy k nacteni!");
+            Logger.danger("Nenalezeny zadne achievementy k nacteni pro konkrétní server!");
+            Logger.info("Mohou byt ale pridany globalni nebo specialni achievementy!");
         }
         Logger.success("Celkove nacteno: " + serverAchievementList.size() + " achievementu!");
     }
@@ -59,7 +62,7 @@ public class ProprietaryManager {
         } else if (Main.getServerType() == ServerType.VANILLA) {
             new VanillaLevelRewards(serverLevelRewardsList).load();
         } else {
-            Logger.danger("Nenalezeny zadne achievementy k nacteni!");
+            Logger.danger("Nenalezeny zadne odmeny k nacteni!");
         }
         Logger.success("Celkove nacteno: " + serverLevelRewardsList.size() + " server odmen!");
     }

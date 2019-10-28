@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -114,7 +115,9 @@ public class AchievementPointsAPI {
         //TODO: Reset to zero
     }
 
-
+    public static void giveAchievement(final Player player, final String achievementId) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "aach give " + achievementId + " " + player.getName());
+    }
 
 
 }

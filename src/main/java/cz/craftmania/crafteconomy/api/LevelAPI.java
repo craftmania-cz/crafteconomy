@@ -102,7 +102,7 @@ public class LevelAPI {
             Logger.danger("Hrac " + player.getName() + " neni v cache addExp zastaven!");
             return;
         }
-        long actualExp = manager.getCraftPlayer(player).getExperienceByType(type);
+        long actualExp = manager.getCraftPlayer(player).getExperienceByType(type); //TODO: Když je null? Přidat all do try?
         long finalExp = actualExp + expToAdd;
         manager.getCraftPlayer(player).setExperienceByType(type, finalExp);
         Main.getInstance().getMySQL().setEconomy(type, player, finalExp);
