@@ -17,7 +17,7 @@ tasks.withType(JavaCompile) {
 clean { delete "./target" }
 clean { delete "./build" }
 
-def mainVersion = "1.2.2"
+def mainVersion = "1.2.3"
 def branch = "?"
 def gitId = ""
 
