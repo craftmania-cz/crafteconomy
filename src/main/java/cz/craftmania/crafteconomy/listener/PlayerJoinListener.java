@@ -1,15 +1,18 @@
 package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.AchievementPointsAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerJoinListener implements Listener {
 
@@ -24,13 +27,13 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
+        // Zakladni nacteni dat do cache a vytvoření objektu
+        CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
+
         // Ignorování unknown serverů
         if (Main.getServerType() == ServerType.UNKNOWN) {
             return;
         }
-
-        // Zakladni nacteni dat do cache a vytvoření objektu
-        CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
 
         if (Main.getServerType() == ServerType.VANILLA) {
             if (craftPlayer.getLevelByType(bm.getLevelByServer()) < 22 && player.hasPermission("lands.lands.3")) {
