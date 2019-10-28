@@ -129,7 +129,7 @@ public class AchievementReward {
     public int getExperienceValue() {
 
         // Override
-        if (experienceValue > 0) {
+        if (experienceValue >= 0) {
             return experienceValue;
         }
 
