@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerJoinListener implements Listener {
 
@@ -45,11 +44,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent e) {
         final Player player = e.getPlayer();
-
-        // Ignorování unknown serverů
-        if (Main.getServerType() == ServerType.UNKNOWN) {
-            return;
-        }
 
         BasicManager.getCraftPlayersCache().remove(player);
     }
