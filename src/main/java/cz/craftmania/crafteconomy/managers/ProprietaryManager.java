@@ -2,8 +2,6 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
-import cz.craftmania.crafteconomy.achievements.servers.GlobalAchievements;
-import cz.craftmania.crafteconomy.achievements.servers.HalloweenAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
@@ -23,7 +21,6 @@ public class ProprietaryManager {
     public static void loadServerAchievements() {
         Logger.info("Priprava nacteni achievementu.");
         //new GlobalAchievements(serverAchievementList).load(); //TODO: Přesunout do speciální kategorie
-        new HalloweenAchievements(serverAchievementList).load();
         if (Main.getServerType() == ServerType.SURVIVAL) {
             Logger.danger("Survival nema nastavene zadne achievementy!");
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
