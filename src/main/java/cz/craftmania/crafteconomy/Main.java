@@ -191,6 +191,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             return ServerType.VANILLA;
         } else if (type.equalsIgnoreCase("skycloud")) {
             return ServerType.SKYCLOUD;
+        } else if (type.equalsIgnoreCase("lobby")) {
+            return ServerType.LOBBY;
+        } else if (type.equalsIgnoreCase("event-server")) {
+            return ServerType.EVENT_SERVER;
         } else {
             return ServerType.UNKNOWN;
         }

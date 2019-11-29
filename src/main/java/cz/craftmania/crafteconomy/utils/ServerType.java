@@ -8,6 +8,8 @@ public enum ServerType {
     PRISON,
     VANILLA,
     SKYCLOUD,
+    LOBBY,
+    EVENT_SERVER,
     SKYGRID,
     UNKNOWN;
 
