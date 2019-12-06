@@ -20,11 +20,6 @@ public class PlayerQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         final Player player = e.getPlayer();
 
-        // Ignorování unknown serverů
-        if (Main.getServerType() == ServerType.UNKNOWN) {
-            return;
-        }
-
         BasicManager.getCraftPlayersCache().remove(player);
     }
 }

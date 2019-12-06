@@ -3,12 +3,12 @@ package cz.craftmania.crafteconomy.listener;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerJoinListener implements Listener {
 
@@ -26,16 +26,18 @@ public class PlayerJoinListener implements Listener {
         // Zakladni nacteni dat do cache a vytvoření objektu
         CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
 
-        // Načtení vault money do craftplayer
+        // Vytvoření a načtení vault money do craftplayer
         if (Main.getInstance().isVaultEconomyEnabled()) {
-            craftPlayer.setMoney(Main.getInstance().getMySQL().getVaultEcoBalance(player.getName()));
+            if (!main.getMySQL().hasVaultEcoProfile(player.getName())) {
+                main.getMySQL().createVaultEcoProfile(player);
+            }
+            craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getName()));
         }
 
         // Opravy práv pro achievementy
         if (Main.getServerType() == ServerType.CREATIVE) {
             this.creativeAchievemenntFixes(craftPlayer, player);
         }
-
 
     }
 
@@ -54,12 +56,5 @@ public class PlayerJoinListener implements Listener {
         if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
             bm.givePlayerLevelReward(player, 9);
         }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onQuit(PlayerQuitEvent e) {
-        final Player player = e.getPlayer();
-
-        BasicManager.getCraftPlayersCache().remove(player);
     }
 }

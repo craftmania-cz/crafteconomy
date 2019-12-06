@@ -569,6 +569,30 @@ public class SQLManager {
         }
     }
 
+    public final void createVaultEcoProfile(final Player player) {
+        long currentTime = System.currentTimeMillis();
+        final String server = Main.getServerType().name().toLowerCase();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, last_update) VALUES (?,?,?);");
+                    ps.setString(1, player.getName());
+                    ps.setString(2, player.getUniqueId().toString());
+                    ps.setLong(3, currentTime);
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
 
     public final boolean tablePlayerProfileExists() {
         Connection conn = null;
