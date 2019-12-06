@@ -442,6 +442,23 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
+    public final boolean hasVaultEcoProfile(final String player) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM player_economy_" + server + " WHERE nick = ?;");
+            ps.setString(1, player);
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
     public final void createPlayerProfileTable() {
         new BukkitRunnable() {
             @Override
@@ -515,6 +532,43 @@ public class SQLManager {
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
+
+    public final int getVaultEcoBalance(final String player) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE nick = '" + player + "';");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt("balance");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return 0;
+    }
+
+    public void setVaultEcoBalance(final String player, final long amount) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ? WHERE nick = ?");
+            ps.setLong(1, amount);
+            ps.setString(2, player);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
 
     public final boolean tablePlayerProfileExists() {
         Connection conn = null;

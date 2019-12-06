@@ -25,6 +25,35 @@ public class PlayerJoinListener implements Listener {
 
         // Zakladni nacteni dat do cache a vytvoření objektu
         CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
+
+        // Načtení vault money do craftplayer
+        if (Main.getInstance().isVaultEconomyEnabled()) {
+            craftPlayer.setMoney(Main.getInstance().getMySQL().getVaultEcoBalance(player.getName()));
+        }
+
+        // Opravy práv pro achievementy
+        if (Main.getServerType() == ServerType.CREATIVE) {
+            this.creativeAchievemenntFixes(craftPlayer, player);
+        }
+
+
+    }
+
+    /**
+     * Tato metoda opravuje hráči práva, pokud proběhla nějaká dřívější změna v achievementech a hráč nemusí mít tedy danou výhodu.
+     * @param craftPlayer CraftPlayer objekt
+     * @param player Player objekt
+     */
+    private void creativeAchievemenntFixes(CraftPlayer craftPlayer, Player player) {
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 4);
+        }
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 7 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 7);
+        }
+        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
+            bm.givePlayerLevelReward(player, 9);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

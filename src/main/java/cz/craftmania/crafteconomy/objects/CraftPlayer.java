@@ -18,7 +18,6 @@ public class CraftPlayer {
 
     // Experience and levels
     private long globalLevel = 1;
-
     private long survivalLevel = 1;
     private long survivalExperience = 0;
     private long skyblockLevel = 1;
@@ -37,6 +36,9 @@ public class CraftPlayer {
     private long month_votes = 0;
     private long total_votes = 0;
     private long last_vote = 0;
+
+    // Vault economy
+    private long serverMoney = -1;
 
     // Others
     private long karma = 0;
@@ -177,6 +179,14 @@ public class CraftPlayer {
 
     public void setLastVote(long last_vote) {
         this.last_vote = last_vote;
+    }
+
+    public long getMoney() {
+        return serverMoney;
+    }
+
+    public void setMoney(long serverMoney) {
+        this.serverMoney = serverMoney;
     }
 
     public boolean isAfk() {

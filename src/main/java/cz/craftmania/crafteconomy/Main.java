@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy;
 
 import cz.craftmania.crafteconomy.commands.*;
+import cz.craftmania.crafteconomy.commands.vault.MoneyCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -9,9 +10,12 @@ import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import cz.craftmania.crafteconomy.utils.VaultUtils;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -24,7 +28,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static AsyncUtils async;
     private SQLManager sql;
     private boolean registerEnabled = false;
+    private boolean vaultEconomyEnabled = false;
     private int minExp, maxExp, time;
+    private static Economy vaultEconomy = null;
     private static ServerType serverType = ServerType.UNKNOWN;
 
     private boolean isAchievementPluginEnabled = false;
@@ -66,6 +72,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             ProprietaryManager.loadServerLevelRewards();
         }
 
+        // Vault init
+        vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
+        if (vaultEconomyEnabled && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            Logger.info("Vault economy bude aktivní!");
+
+            this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
+            vaultEconomy = new VaultUtils();
+
+            MoneyCommand.register();
+        }
+
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
         if (registerEnabled) {
@@ -105,7 +122,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         sql.onDisable();
 
         instance = null;
-
     }
 
     public static Main getInstance() {
@@ -129,13 +145,18 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
+    public static Economy getVaultEconomy() {
+        return vaultEconomy;
+    }
+
     private void loadListeners() {
         PluginManager pm = getServer().getPluginManager();
 
         // Bukkit
         pm.registerEvents(new PlayerJoinListener(this), this);
+        pm.registerEvents(new PlayerQuitListener(this), this);
 
-        // Economy
+        // CraftEconomy
         pm.registerEvents(new PlayerCreateProfileListener(), this);
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
@@ -151,7 +172,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    private void loadCommands() { //TODO: Nenačítat, když nebude CommandAPI na serveru
+    private void loadCommands() {
         CraftCoinsCommand.register();
         CraftTokensCommand.register();
         VoteTokensCommand.register();
@@ -172,6 +193,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public static ServerType getServerType() {
         return serverType;
+    }
+
+    public boolean isVaultEconomyEnabled() {
+        return vaultEconomyEnabled;
     }
 
     private ServerType resolveServerType() {
