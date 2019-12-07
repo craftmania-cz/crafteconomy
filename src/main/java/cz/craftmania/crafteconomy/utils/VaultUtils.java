@@ -16,7 +16,7 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return Main.getInstance().isEnabled();
     }
 
     @Override
@@ -79,10 +79,9 @@ public class VaultUtils extends AbstractEconomy {
         return this.getBalance(playerName);
     }
 
-    //TODO: Create
     @Override
     public boolean has(String playerName, double amount) {
-        return false;
+        return getBalance(playerName) >= amount;
     }
 
     @Override
@@ -90,10 +89,29 @@ public class VaultUtils extends AbstractEconomy {
         return this.has(playerName, amount);
     }
 
-    //TODO: Create
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        return null;
+        if (!hasAccount(playerName)){
+            return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Tento hrac nema vytvoreny balance profil!");
+        }
+        if (amount < 0) {
+            return new EconomyResponse(0.0, getBalance(playerName), EconomyResponse.ResponseType.FAILURE, "Hodnota je mensi nez 0!");
+        }
+        double actualBalance = getBalance(playerName);
+        double finalBalance = actualBalance - amount;
+        if (finalBalance < 0) {
+           return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.FAILURE, "Hrac nema dostatek penez!");
+        }
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            CraftPlayer craftPlayer = manager.getCraftPlayer(player);
+            craftPlayer.setMoney((long) finalBalance);
+            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
+            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + amount + "$");
+        } else {
+            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
+        }
+        return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
     }
 
     @Override
@@ -106,8 +124,8 @@ public class VaultUtils extends AbstractEconomy {
         if (!hasAccount(playerName)){
             return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Tento hrac nema vytvoreny balance profil!");
         }
-        if (amount < 0) { //TODO: Nefunkční check
-            return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Hodnota je mensi nez 0!");
+        if (amount < 0) {
+            return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.FAILURE, "Hodnota je mensi nez 0!");
         }
         double actualBalance = getBalance(playerName);
         double finalBalance = actualBalance + amount;
@@ -118,9 +136,9 @@ public class VaultUtils extends AbstractEconomy {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             player.sendMessage("§a§l[*] §aBylo ti pridano: " + amount + "$");
         } else {
-            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance); //TODO: Kontrola i offline
+            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
         }
-        return new EconomyResponse(amount, 0.0, EconomyResponse.ResponseType.SUCCESS, ""); //TODO: Přesunout do ifů
+        return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
 
     }
 
