@@ -22,22 +22,28 @@ public class MoneyCommand {
     public static void register() {
 
         // Default: /money
-        CommandAPI.getInstance().register("money", new String[] {"eco"}, null, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[] {}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
             p.sendMessage("§e§l[*] §eAktualne mas " + money + Main.getInstance().getCurrency());
-            System.out.println(Arrays.toString(Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
         });
 
-
+        // Default: /money [nick]
+        LinkedHashMap<String, Argument> moneyArguments = new LinkedHashMap<>();
+        moneyArguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
+        CommandAPI.getInstance().register("money", new String[] {}, moneyArguments, (sender, args) -> {
+            String searchPlayer = (String)args[0];
+            long money = (long) Main.getVaultEconomy().getBalance(searchPlayer);
+            sender.sendMessage("§e§l[WB] §eHráč " + searchPlayer + " má na účtě: §f" + money + Main.getInstance().getCurrency());
+        });
 
         // Admin prikaz: /money give|take [player] [value]
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("prikaz", new StringArgument().overrideSuggestions("give", "take").withPermission(CommandPermission.fromString("crafteconomy.admin")));
-        arguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
-        arguments.put("hodnota", new IntegerArgument());
+        LinkedHashMap<String, Argument> moneyAdminArgumenets = new LinkedHashMap<>();
+        moneyAdminArgumenets.put("prikaz", new StringArgument().overrideSuggestions("give", "take").withPermission(CommandPermission.fromString("crafteconomy.admin")));
+        moneyAdminArgumenets.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
+        moneyAdminArgumenets.put("hodnota", new IntegerArgument());
 
-        CommandAPI.getInstance().register("money", new String[] {"eco"}, arguments, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[] {"eco"}, moneyAdminArgumenets, (sender, args) -> {
 
             String subCommand = (String)args[0];
             String playerName = (String)args[1];
