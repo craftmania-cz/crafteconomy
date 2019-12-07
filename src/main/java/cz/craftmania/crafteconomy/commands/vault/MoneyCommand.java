@@ -25,7 +25,7 @@ public class MoneyCommand {
         CommandAPI.getInstance().register("money", new String[] {"eco"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
-            p.sendMessage("§e§l[*] §eAktualne mas " + money + "$");
+            p.sendMessage("§e§l[*] §eAktualne mas " + money + Main.getInstance().getCurrency());
             System.out.println(Arrays.toString(Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
         });
 
@@ -54,11 +54,11 @@ public class MoneyCommand {
                     // Give
                     if (player != null) {
                         Main.getVaultEconomy().depositPlayer(player, moneyToGive);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + "$.");
+                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
                     } else {
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney + moneyToGive);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + "$.");
+                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
                     }
                     break;
                 case "take":
@@ -72,19 +72,19 @@ public class MoneyCommand {
                     if (player != null) {
                         long money = manager.getCraftPlayer(player).getMoney();
                         if ((money - moneyToTake) < 0) {
-                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + money + "$");
+                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + money + Main.getInstance().getCurrency());
                             return;
                         }
                         Main.getVaultEconomy().withdrawPlayer(player, moneyToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + "$.");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
                     } else {
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
                         if ((actualMoney - moneyToTake) < 0) {
-                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + actualMoney + "$");
+                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + actualMoney + Main.getInstance().getCurrency());
                             return;
                         }
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney - moneyToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + "$.");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
                     }
                     break;
 

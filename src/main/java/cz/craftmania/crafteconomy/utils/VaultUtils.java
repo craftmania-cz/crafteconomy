@@ -41,12 +41,12 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public String currencyNamePlural() {
-        return "";
+        return Main.getInstance().getCurrency();
     }
 
     @Override
     public String currencyNameSingular() {
-        return "";
+        return Main.getInstance().getCurrency();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + amount + "$");
+            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + amount + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
         }
@@ -134,7 +134,7 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            player.sendMessage("§a§l[*] §aBylo ti pridano: " + amount + "$");
+            player.sendMessage("§a§l[*] §aBylo ti pridano: " + amount + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
         }

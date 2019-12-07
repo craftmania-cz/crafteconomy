@@ -27,14 +27,20 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static Main instance;
     private static AsyncUtils async;
     private SQLManager sql;
-    private boolean registerEnabled = false;
-    private boolean vaultEconomyEnabled = false;
     private int minExp, maxExp, time;
+
+    // Vault
     private static Economy vaultEconomy = null;
+    private String currency = "$";
+
+    // Server
     private static ServerType serverType = ServerType.UNKNOWN;
 
+    // Enabled properties
+    private boolean registerEnabled = false;
     private boolean isAchievementPluginEnabled = false;
     private boolean isCMIPluginEnabled = false;
+    private boolean vaultEconomyEnabled = false;
 
     @Override
     public void onEnable() {
@@ -79,6 +85,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
             this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
             vaultEconomy = new VaultUtils();
+
+            currency = getConfig().getString("vault-economy.name");
+            Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             MoneyCommand.register();
         }
@@ -197,6 +206,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public boolean isVaultEconomyEnabled() {
         return vaultEconomyEnabled;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
     private ServerType resolveServerType() {
