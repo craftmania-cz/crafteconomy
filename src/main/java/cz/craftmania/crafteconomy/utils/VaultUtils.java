@@ -6,6 +6,7 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -70,6 +71,16 @@ public class VaultUtils extends AbstractEconomy {
             return manager.getCraftPlayer(player).getMoney();
         } else if (hasAccount(playerName)) {
             return Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+        }
+        return 0;
+    }
+
+    @Override
+    public double getBalance(OfflinePlayer playerName) {
+        if (playerName.isOnline()) {
+            return manager.getCraftPlayer((Player) playerName).getMoney();
+        } else if (hasAccount(playerName)) {
+            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getName());
         }
         return 0;
     }
