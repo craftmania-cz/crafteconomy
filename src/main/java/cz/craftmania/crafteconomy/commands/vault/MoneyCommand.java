@@ -6,10 +6,7 @@ import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
-import io.github.jorelali.commandapi.api.arguments.Argument;
-import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
-import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
-import io.github.jorelali.commandapi.api.arguments.StringArgument;
+import io.github.jorelali.commandapi.api.arguments.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -22,16 +19,17 @@ public class MoneyCommand {
     public static void register() {
 
         // Default: /money
-        CommandAPI.getInstance().register("money", new String[] {}, null, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[]{"eco"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
             p.sendMessage("§e§l[*] §eAktualne mas " + money + Main.getInstance().getCurrency());
         });
 
-        // Default: /money [nick]
+        // Default: /money balance [nick]
         LinkedHashMap<String, Argument> moneyArguments = new LinkedHashMap<>();
+        moneyArguments.put("prikaz", new LiteralArgument("balance").withPermission(CommandPermission.fromString("crafteconomy.command.money.balance")));
         moneyArguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
-        CommandAPI.getInstance().register("money", new String[] {}, moneyArguments, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[] {"eco"}, moneyArguments, (sender, args) -> {
             String searchPlayer = (String)args[0];
             long money = (long) Main.getVaultEconomy().getBalance(searchPlayer);
             sender.sendMessage("§e§l[WB] §eHráč " + searchPlayer + " má na účtě: §f" + money + Main.getInstance().getCurrency());
@@ -39,7 +37,7 @@ public class MoneyCommand {
 
         // Admin prikaz: /money give|take [player] [value]
         LinkedHashMap<String, Argument> moneyAdminArgumenets = new LinkedHashMap<>();
-        moneyAdminArgumenets.put("prikaz", new StringArgument().overrideSuggestions("give", "take").withPermission(CommandPermission.fromString("crafteconomy.admin")));
+        moneyAdminArgumenets.put("prikaz", new StringArgument().overrideSuggestions("give", "take").withPermission(CommandPermission.fromString("crafteconomy.command.money.edit")));
         moneyAdminArgumenets.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
         moneyAdminArgumenets.put("hodnota", new IntegerArgument());
 
