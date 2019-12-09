@@ -110,6 +110,10 @@ public class MoneyCommand {
                 sender.sendMessage("§c§l[!] §cSám sobě nelze zasílat částky, bankovní podvody nevedeme!");
                 return;
             }
+            if (moneyToSend > Main.getVaultEconomy().getBalance(sender.getName())) {
+                sender.sendMessage("§c§l[!] §cNemáš dostatek peněz k odeslání zadané částky.");
+                return;
+            }
             Player playerReciever = Bukkit.getPlayer(reciever);
             Player playerSender = Bukkit.getPlayer(String.valueOf(sender.getName()));
             if (playerReciever != null) {
