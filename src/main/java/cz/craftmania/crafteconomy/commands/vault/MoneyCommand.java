@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.commands.vault;
 import cz.craftmania.craftcore.core.builders.ArrayBuilder;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.managers.vault.VaultDepositManager;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
@@ -16,6 +17,7 @@ import java.util.*;
 public class MoneyCommand {
 
     private static BasicManager manager = new BasicManager();
+    private static VaultDepositManager vaultDepositManager = new VaultDepositManager();
 
     public static void register() {
 
@@ -23,7 +25,7 @@ public class MoneyCommand {
         CommandAPI.getInstance().register("money", new String[]{"eco"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
-            p.sendMessage("§e§l[*] §eAktualne mas " + money + Main.getInstance().getCurrency());
+            p.sendMessage("§e§l[*] §eAktuálně máš " + money + Main.getInstance().getCurrency());
         });
 
         // Default: /money balance [nick]
@@ -124,6 +126,12 @@ public class MoneyCommand {
             } else {
                 sender.sendMessage("§c§l[!] §cHráč není online, nelze mu zaslat peníze!");
             }
+        });
+
+        // Default: /deposit
+        CommandAPI.getInstance().register("deposit", new String[]{"vlozit"}, null, (sender, args) -> {
+            Player player = (Player) sender;
+            vaultDepositManager.startDeposit(player);
         });
     }
 }

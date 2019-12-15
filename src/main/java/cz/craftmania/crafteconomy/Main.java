@@ -5,6 +5,7 @@ import cz.craftmania.crafteconomy.commands.vault.MoneyCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
+import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
@@ -169,6 +170,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         pm.registerEvents(new PlayerCreateProfileListener(), this);
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
+
+        pm.registerEvents(new DepositGUI(), this);
 
         // AdvancedAchievements Events
         if (isAchievementPluginEnabled) {
