@@ -1,15 +1,12 @@
 package cz.craftmania.crafteconomy.commands.vault;
 
-import cz.craftmania.craftcore.core.builders.ArrayBuilder;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.managers.vault.VaultDepositManager;
-import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
 import io.github.jorelali.commandapi.api.arguments.*;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -17,7 +14,7 @@ import java.util.*;
 public class MoneyCommand {
 
     private static BasicManager manager = new BasicManager();
-    private static VaultDepositManager vaultDepositManager = new VaultDepositManager();
+    private static VaultEconomyManager vaultEconomyManager = new VaultEconomyManager();
 
     public static void register() {
 
@@ -131,7 +128,13 @@ public class MoneyCommand {
         // Default: /deposit
         CommandAPI.getInstance().register("deposit", new String[]{"vlozit"}, null, (sender, args) -> {
             Player player = (Player) sender;
-            vaultDepositManager.startDeposit(player);
+            vaultEconomyManager.startDeposit(player);
+        });
+
+        // Default: /withdraw
+        CommandAPI.getInstance().register("withdraw", new String[]{"vybrat"}, null, (sender, args) -> {
+            Player player = (Player) sender;
+            vaultEconomyManager.startWithdraw(player);
         });
     }
 }
