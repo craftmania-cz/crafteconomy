@@ -19,6 +19,9 @@ public class AchievementReward {
     private List<ItemStack> items = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
 
+    private boolean useOverrideExperienceValue = false;
+    private boolean useOverrideAchievementValue = false;
+
     public AchievementReward(){};
 
     public AchievementReward(final String id) {
@@ -41,6 +44,7 @@ public class AchievementReward {
     }
 
     public AchievementReward overrideAchievementValue(final int value) {
+        this.useOverrideAchievementValue = true;
         this.achievementValue = value;
         return this;
     }
@@ -51,6 +55,7 @@ public class AchievementReward {
     }
 
     public AchievementReward overrideExperienceValue(final int experienceValue) {
+        this.useOverrideExperienceValue = true;
         this.experienceValue = experienceValue;
         return this;
     }
@@ -92,7 +97,7 @@ public class AchievementReward {
     public int getAchievementValue() {
 
         // Override
-        if (achievementValue > 0) {
+        if (this.useOverrideAchievementValue) {
             return achievementValue;
         }
 
@@ -122,14 +127,22 @@ public class AchievementReward {
         return items;
     }
 
+    /**
+     * Vrací seznam všech permissions, které se aktivují hráči
+     * @return List permissí
+     */
     public List<String> getPermissions() {
         return permissions;
     }
 
+    /**
+     * Metoda která vrací experience value podle Rarity
+     * @return Hodnota expů, kterou dostane hráč na serveru
+     */
     public int getExperienceValue() {
 
         // Override
-        if (experienceValue >= 0) {
+        if (this.useOverrideExperienceValue) {
             return experienceValue;
         }
 
