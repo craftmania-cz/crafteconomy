@@ -23,7 +23,7 @@ public class PlayerAfkListener implements Listener {
         Player player = event.getPlayer();
         try {
             manager.getCraftPlayer(player).setAfk(false); // Když je CMI rychlejší jak CraftEconomy
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     @EventHandler
@@ -31,6 +31,6 @@ public class PlayerAfkListener implements Listener {
         Player player = event.getPlayer();
         try {
             manager.getCraftPlayer(player).setAfk(false);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 }

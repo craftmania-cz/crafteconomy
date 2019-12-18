@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
+import cz.craftmania.crafteconomy.achievements.servers.SkycloudAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
@@ -30,7 +31,7 @@ public class ProprietaryManager {
         } else if (Main.getServerType() == ServerType.PRISON) {
             Logger.danger("Prison nema nastavene zadne achievementy!");
         } else if (Main.getServerType() == ServerType.SKYCLOUD) {
-            Logger.danger("Skycloud nema nastavene zadne achievementy!");
+            new SkycloudAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.VANILLA) {
             new VanillaAchievements(serverAchievementList).load();
         } else {
