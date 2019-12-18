@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +39,10 @@ public class AdvancedAchievementsListener implements Listener {
         }
 
         Logger.info("Hrac: " + player.getName() + ", splnil achievement: " + achievement.getName());
-        Main.getInstance().getMySQL().sendPlayerAchievementLog(player, achievement);
+
+        if (!Main.getInstance().getConfig().getBoolean("disables.achievement-log", false)) {
+            Main.getInstance().getMySQL().sendPlayerAchievementLog(player, achievement);
+        }
 
         StringBuilder finalRewards = new StringBuilder();
 
@@ -51,14 +55,18 @@ public class AdvancedAchievementsListener implements Listener {
 
         // Achievement Points
         if (achievement.getAchievementValue() > 0) { // Default = 0
-            AchievementPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
-            finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
+            if (!Main.getInstance().getConfig().getBoolean("disables.achievement-points", false)) {
+                AchievementPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
+                finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
+            }
         }
 
         // Server Experience
         if (achievement.getExperienceValue() > 0) {
-            LevelAPI.addExp(player, manager.getExperienceByServer(), achievement.getExperienceValue());
-            finalRewards.append("§6" + achievement.getExperienceValue() + " EXP");
+            if (!Main.getInstance().getConfig().getBoolean("disables.achievement-experience", false)) {
+                LevelAPI.addExp(player, manager.getExperienceByServer(), achievement.getExperienceValue());
+                finalRewards.append("§6" + achievement.getExperienceValue() + " EXP");
+            }
         }
 
         // Permissions

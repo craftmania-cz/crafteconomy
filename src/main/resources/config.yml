@@ -17,6 +17,12 @@ registerEnabled: false
 
 server: survival
 
+# Deaktivace určitých věcí z důvodu testů a různých nastavení na serverech
+disables:
+  achievement-log: false
+  achievement-points: false
+  achievement-experience: false
+
 # Nahodne davani expu za urceny cas
 random-exp:
   enabled: false
