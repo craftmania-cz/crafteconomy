@@ -1,7 +1,9 @@
 package cz.craftmania.crafteconomy;
 
 import cz.craftmania.crafteconomy.commands.*;
+import cz.craftmania.crafteconomy.commands.vault.BankCommand;
 import cz.craftmania.crafteconomy.commands.vault.MoneyCommand;
+import cz.craftmania.crafteconomy.commands.vault.PayCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -91,6 +93,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             MoneyCommand.register();
+            PayCommand.register();
+
+            if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
+                BankCommand.register();
+            }
         }
 
         // Variables
