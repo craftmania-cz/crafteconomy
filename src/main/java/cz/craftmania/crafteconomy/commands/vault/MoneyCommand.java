@@ -94,6 +94,11 @@ public class MoneyCommand {
             }
         });
 
+        // Default: /pay
+        CommandAPI.getInstance().register("pay", new String[]{}, null, (sender, args) -> {
+            sender.sendMessage("§c§l[!] §cŠpatné použití příkazu: §f/pay [nick] [částka]");
+        });
+
         // Default: /pay [castka] [nick]
         LinkedHashMap<String, Argument> payArguments = new LinkedHashMap<>();
         payArguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> ((Player) p1).getName()).toArray(String[]::new)));
