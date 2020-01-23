@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.commands.vault;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyMoneyGiveEvent;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyMoneySetEvent;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyMoneyTakeEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
@@ -93,6 +94,25 @@ public class MoneyCommand {
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney - moneyToTake);
                         sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
+                    }
+                    break;
+                case "set":
+                    long moneyToSet = Long.valueOf((Integer) args[2]);
+                    if (moneyToSet >= 0) {
+                        sender.sendMessage("§c§l[!] §cNelze nastavovat nulovou nebo zápornou hodnotu!");
+                        return;
+                    }
+                    if (player != null) {
+                        long oldBalance = manager.getCraftPlayer(player).getMoney();
+                        manager.getCraftPlayer(player).setMoney(moneyToSet);
+                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + moneyToSet + Main.getInstance().getCurrency());
+                        player.sendMessage("§e§l[*] §eTvoje peníze byly nastaveny na §7- §f" + moneyToSet + Main.getInstance().getCurrency());
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));
+                    } else {
+                        long oldBalance = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+                        Main.getInstance().getMySQL().setVaultEcoBalance(playerName, moneyToSet);
+                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + moneyToSet + Main.getInstance().getCurrency());
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));
                     }
                     break;
             }
