@@ -10,6 +10,6 @@ public class VaultEconomyManager {
     }
 
     public void startWithdraw(final Player player) {
-        SmartInventory.builder().size(5, 9).title("[WB] Vybrání prostředků").provider(new WithdrawGUI()).build().open(player);
+        SmartInventory.builder().size(5, 9).title("[B] Vybrání prostředků").provider(new WithdrawGUI()).build().open(player);
     }
 }

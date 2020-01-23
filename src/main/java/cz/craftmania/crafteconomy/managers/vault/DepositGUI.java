@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.managers.vault;
 
 import cz.craftmania.craftcore.spigot.builders.items.ItemBuilder;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyBankDepositEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -111,6 +112,7 @@ public class DepositGUI implements Listener {
                 int count = countEmeralds(event.getView().getTopInventory(), player);
                 Main.getVaultEconomy().depositPlayer(player.getName(), count);
                 event.getView().setItem(22, null);
+                Bukkit.getPluginManager().callEvent(new CraftEconomyBankDepositEvent(player, count));
             }
         }
     }

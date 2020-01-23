@@ -1,6 +1,8 @@
 package cz.craftmania.crafteconomy.commands.vault;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyMoneyGiveEvent;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyMoneyTakeEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
@@ -30,7 +32,7 @@ public class MoneyCommand {
         CommandAPI.getInstance().register("money", new String[]{"eco"}, moneyArguments, (sender, args) -> {
             String searchPlayer = (String) args[0];
             long money = (long) Main.getVaultEconomy().getBalance(searchPlayer);
-            sender.sendMessage("§e§l[WB] §eHráč " + searchPlayer + " má na účtě: §f" + money + Main.getInstance().getCurrency());
+            sender.sendMessage("§e§l[B] §eHráč " + searchPlayer + " má na účtě: §f" + money + Main.getInstance().getCurrency());
         });
 
         // Admin prikaz: /money give|take [player] [value]
@@ -57,10 +59,12 @@ public class MoneyCommand {
                     if (player != null) {
                         Main.getVaultEconomy().depositPlayer(player, moneyToGive);
                         sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
                     } else {
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney + moneyToGive);
                         sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
                     }
                     break;
                 case "take":
@@ -79,6 +83,7 @@ public class MoneyCommand {
                         }
                         Main.getVaultEconomy().withdrawPlayer(player, moneyToTake);
                         sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
                     } else {
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
                         if ((actualMoney - moneyToTake) < 0) {
@@ -87,6 +92,7 @@ public class MoneyCommand {
                         }
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney - moneyToTake);
                         sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
+                        Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
                     }
                     break;
             }

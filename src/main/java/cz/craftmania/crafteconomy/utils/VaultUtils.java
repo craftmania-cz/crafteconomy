@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.utils;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.events.vault.PlayerDepositEvent;
-import cz.craftmania.crafteconomy.events.vault.PlayerWithdrawEvent;
+import cz.craftmania.crafteconomy.events.vault.PlayerVaultDepositEvent;
+import cz.craftmania.crafteconomy.events.vault.PlayerVaultWithdrawEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import net.milkbowl.vault.economy.AbstractEconomy;
@@ -150,11 +150,11 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
+            callEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + amount + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
+            callEvent(new PlayerVaultWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
         }
         return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
     }
@@ -189,11 +189,11 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
+            callEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§a§l[*] §aBylo ti pridano: " + amount + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
+            callEvent(new PlayerVaultDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
         }
         return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
 

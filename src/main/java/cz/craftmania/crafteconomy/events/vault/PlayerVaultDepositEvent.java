@@ -9,20 +9,20 @@ import org.bukkit.event.HandlerList;
 import java.util.Optional;
 
 /**
- * Event that is fired when Economy#withdrawPlayer(OfflinePlayer, double) is called.
+ * Spustí se, když proběhne uložení přes Vault - Economy#depositPlayer(OfflinePlayer, double)
  */
-public class PlayerWithdrawEvent extends Event {
+public class PlayerVaultDepositEvent extends Event {
 
     private final OfflinePlayer player;
     private final double amount;
     private final String world;
     private final EconomyResponse.ResponseType response;
 
-    public PlayerWithdrawEvent(OfflinePlayer player, double amount, EconomyResponse.ResponseType response) {
+    public PlayerVaultDepositEvent(OfflinePlayer player, double amount, EconomyResponse.ResponseType response) {
         this(player, amount, null, response);
     }
 
-    public PlayerWithdrawEvent(OfflinePlayer player, double amount, String world, EconomyResponse.ResponseType response) {
+    public PlayerVaultDepositEvent(OfflinePlayer player, double amount, String world, EconomyResponse.ResponseType response) {
         super(!Bukkit.isPrimaryThread());
         this.player = player;
         this.amount = amount;

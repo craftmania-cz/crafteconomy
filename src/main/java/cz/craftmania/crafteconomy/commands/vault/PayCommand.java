@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.commands.vault;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyPlayerPayEvent;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.arguments.Argument;
 import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
@@ -19,7 +20,7 @@ public class PayCommand {
             sender.sendMessage("§c§l[!] §cŠpatné použití příkazu: §f/pay [nick] [částka]");
         });
 
-        // Default: /pay [castka] [nick]
+        // Default: /pay [nick] [castka]
         LinkedHashMap<String, Argument> payArguments = new LinkedHashMap<>();
         payArguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> p1.getName()).toArray(String[]::new)));
         payArguments.put("money", new IntegerArgument());
@@ -45,6 +46,7 @@ public class PayCommand {
                 Main.getVaultEconomy().depositPlayer(playerReciever, moneyToSend);
                 sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + moneyToSend + Main.getInstance().getCurrency());
                 playerReciever.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + playerSender.getName() + " §7- §a" + moneyToSend + Main.getInstance().getCurrency());
+                Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(playerSender, playerReciever, moneyToSend));
             } else {
                 sender.sendMessage("§c§l[!] §cHráč není online, nelze mu zaslat peníze!");
             }
