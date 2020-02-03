@@ -5,7 +5,7 @@ author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 softdepend: [MVdWPlaceholderAPI,AdvancedAchievements,CraftCore,CommandAPI,CMI,Vault]
 loadbefore: [TradeMe]
-api-version: '1.13'
+api-version: '1.14'
 
 permissions:
   crafteconomy.*:
