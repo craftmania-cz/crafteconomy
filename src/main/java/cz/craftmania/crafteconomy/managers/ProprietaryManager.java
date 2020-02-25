@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.managers;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.SkycloudAchievements;
+import cz.craftmania.crafteconomy.achievements.servers.SurvivalAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
@@ -23,7 +24,7 @@ public class ProprietaryManager {
         Logger.info("Priprava nacteni achievementu.");
         //new GlobalAchievements(serverAchievementList).load(); //TODO: Přesunout do speciální kategorie
         if (Main.getServerType() == ServerType.SURVIVAL) {
-            Logger.danger("Survival nema nastavene zadne achievementy!");
+            new SurvivalAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
             Logger.danger("Skyblock nema nastavene zadne achievementy!");
         } else if (Main.getServerType() == ServerType.CREATIVE) {
