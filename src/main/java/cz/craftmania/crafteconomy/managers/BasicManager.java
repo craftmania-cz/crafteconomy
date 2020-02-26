@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class BasicManager {
 
@@ -29,6 +30,15 @@ public class BasicManager {
     public CraftPlayer getCraftPlayer(Player p) {
         return players.values().stream().filter(cp -> cp.getPlayer() == p).findFirst().orElse(null);
     }
+
+    public CraftPlayer getCraftPlayer(String name) {
+        return players.values().stream().filter(cp -> cp.getPlayer().getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public CraftPlayer getCraftPlayer(UUID uuid) {
+        return players.values().stream().filter(cp -> cp.getPlayer().getUniqueId().equals(uuid)).findFirst().orElse(null);
+    }
+
 
     private static CraftPlayer getOrRegisterPlayer(final Player player) {
         CraftPlayer cp = null;

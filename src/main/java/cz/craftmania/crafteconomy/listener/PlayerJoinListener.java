@@ -28,10 +28,10 @@ public class PlayerJoinListener implements Listener {
 
         // Vytvoření a načtení vault money do craftplayer
         if (Main.getInstance().isVaultEconomyEnabled()) {
-            if (!main.getMySQL().hasVaultEcoProfile(player.getName())) {
+            if (!main.getMySQL().hasVaultEcoProfile(player.getUniqueId())) {
                 main.getMySQL().createVaultEcoProfile(player);
             }
-            craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getName()));
+            craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
         }
 
         // Opravy práv pro achievementy

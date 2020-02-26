@@ -64,11 +64,14 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        Player player = Bukkit.getPlayer(playerName);
-        if (player != null) {
-            return manager.getCraftPlayer(player).getMoney() > -1; // Pokud ma account, má 0$
+        if (playerName == null ){
+            return false;
         }
-        return Main.getInstance().getMySQL().hasVaultEcoProfile(playerName);
+        CraftPlayer player = manager.getCraftPlayer(playerName);
+        if (player.getMoney() >= 0) {
+            return true;
+        }
+        return Main.getInstance().getMySQL().hasVaultEcoProfile(player.getUUID());
     }
 
     @Override
@@ -83,13 +86,11 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public double getBalance(String playerName) {
-        Player player = Bukkit.getPlayer(playerName);
-        if (player != null) {
-            return manager.getCraftPlayer(player).getMoney();
-        } else if (hasAccount(playerName)) {
-            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+        CraftPlayer player = manager.getCraftPlayer(playerName);
+        if (player == null) {
+            return Main.getInstance().getMySQL().getVaultEcoBalance(player.getUUID());
         }
-        return 0;
+        return player.getMoney();
     }
 
     @Override
@@ -97,7 +98,7 @@ public class VaultUtils extends AbstractEconomy {
         if (playerName.isOnline()) {
             return manager.getCraftPlayer((Player) playerName).getMoney();
         } else if (hasAccount(playerName)) {
-            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getName());
+            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getUniqueId());
         }
         return 0;
     }

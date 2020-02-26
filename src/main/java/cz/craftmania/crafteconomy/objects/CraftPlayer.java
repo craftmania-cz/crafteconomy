@@ -5,6 +5,7 @@ import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 public class CraftPlayer {
 
@@ -86,7 +87,11 @@ public class CraftPlayer {
     }
 
     public Player getPlayer() {
-        return player;
+        return this.player;
+    }
+
+    public UUID getUUID() {
+        return this.player.getUniqueId();
     }
 
     public void setPlayer(Player player) {

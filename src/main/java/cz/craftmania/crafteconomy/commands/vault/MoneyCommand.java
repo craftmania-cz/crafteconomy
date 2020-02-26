@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
+import java.util.UUID;
 
 public class MoneyCommand {
 
@@ -62,7 +63,13 @@ public class MoneyCommand {
                         sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
                     } else {
-                        long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+                        UUID playerUUID = null;
+                        try {
+                            playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(playerName);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney + moneyToGive);
                         sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
@@ -86,7 +93,13 @@ public class MoneyCommand {
                         sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
                     } else {
-                        long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+                        UUID playerUUID = null;
+                        try {
+                            playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(playerName);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         if ((actualMoney - moneyToTake) < 0) {
                             sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + actualMoney + Main.getInstance().getCurrency());
                             return;
@@ -109,7 +122,13 @@ public class MoneyCommand {
                         player.sendMessage("§e§l[*] §eTvoje peníze byly nastaveny na §7- §f" + moneyToSet + Main.getInstance().getCurrency());
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));
                     } else {
-                        long oldBalance = Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
+                        UUID playerUUID = null;
+                        try {
+                            playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(playerName);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        long oldBalance = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, moneyToSet);
                         sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + moneyToSet + Main.getInstance().getCurrency());
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));

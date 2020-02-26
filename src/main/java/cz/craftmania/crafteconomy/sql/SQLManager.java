@@ -442,14 +442,14 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final boolean hasVaultEcoProfile(final String player) {
+    public final boolean hasVaultEcoProfile(final UUID uuid) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM player_economy_" + server + " WHERE nick = ?;");
-            ps.setString(1, player);
+            ps = conn.prepareStatement("SELECT * FROM player_economy_" + server + " WHERE uuid = ?;");
+            ps.setString(1, uuid.toString());
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
@@ -533,13 +533,13 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final int getVaultEcoBalance(final String player) {
+    public final int getVaultEcoBalance(final UUID uuid) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE nick = '" + player + "';");
+            ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE uuid = '" + uuid + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
                 return ps.getResultSet().getInt("balance");
@@ -550,6 +550,25 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
         return 0;
+    }
+
+    public final UUID fetchUUIDbyName(final String name) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT uuid FROM player_economy_" + server + " WHERE nick = '" + name + "';");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return UUID.fromString(ps.getResultSet().getString("uuid"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        throw new NullPointerException("UUID pro hrace (" + name + ") nebylo nalezeno!") ;
     }
 
     public void setVaultEcoBalance(final String player, final long amount) {
