@@ -4,7 +4,7 @@ description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 softdepend: [MVdWPlaceholderAPI,AdvancedAchievements,CraftCore,CommandAPI,CMI,Vault]
-loadbefore: [TradeMe]
+loadbefore: [TradeMe,ShopGUIPlus]
 api-version: '1.14'
 
 permissions:
