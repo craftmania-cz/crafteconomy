@@ -24,12 +24,13 @@ public class AdvancedAchievementsListener implements Listener {
         String name = event.getName();
         Player player = event.getPlayer();
 
-        ProprietaryManager.getServerAchievementList().forEach(achievement -> {
-            if (achievement.getId().equalsIgnoreCase(name)) {
-                doAction(achievement, player);
-            }
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
+            ProprietaryManager.getServerAchievementList().forEach(achievement -> {
+                if (achievement.getId().equalsIgnoreCase(name)) {
+                    doAction(achievement, player);
+                }
+            });
         });
-
     }
 
     private void doAction(AchievementReward achievement, Player player) {
