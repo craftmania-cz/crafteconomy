@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.rewards.CreativeLevelReward;
+import cz.craftmania.crafteconomy.rewards.SurvivalLevelRewards;
 import cz.craftmania.crafteconomy.rewards.VanillaLevelRewards;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -49,7 +50,7 @@ public class ProprietaryManager {
     public static void loadServerLevelRewards() {
         Logger.info("Priprava nacteni level odmen.");
         if (Main.getServerType() == ServerType.SURVIVAL) {
-            Logger.danger("Survival nema nastavene zadne server odmeny!");
+            new SurvivalLevelRewards(serverLevelRewardsList).load();
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
             Logger.danger("Skyblock nema nastavene zadne server odmeny!");
         } else if (Main.getServerType() == ServerType.CREATIVE) {
