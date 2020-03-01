@@ -21,7 +21,7 @@ public class MoneyCommand {
     public static void register() {
 
         // Default: /money
-        CommandAPI.getInstance().register("money", new String[]{"eco"}, null, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
             p.sendMessage("§e§l[*] §eAktuálně máš " + money + Main.getInstance().getCurrency());
@@ -43,7 +43,7 @@ public class MoneyCommand {
         moneyAdminArgumenets.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> p1.getName()).toArray(String[]::new)));
         moneyAdminArgumenets.put("hodnota", new IntegerArgument());
 
-        CommandAPI.getInstance().register("money", new String[]{"eco"}, moneyAdminArgumenets, (sender, args) -> {
+        CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, moneyAdminArgumenets, (sender, args) -> {
 
             String subCommand = (String) args[0];
             String playerName = (String) args[1];
