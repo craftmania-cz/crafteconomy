@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy;
 
 import cz.craftmania.crafteconomy.commands.*;
+import cz.craftmania.crafteconomy.commands.vault.BaltopCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommand;
 import cz.craftmania.crafteconomy.commands.vault.MoneyCommand;
 import cz.craftmania.crafteconomy.commands.vault.PayCommand;
@@ -156,6 +157,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private void initDatabase() {
         sql = new SQLManager(this);
 
+
+
         // Kdyz tabulka neexistuje, vytvoř
         if (!Main.getInstance().getMySQL().tablePlayerProfileExists()) {
             Main.getInstance().getMySQL().createPlayerProfileTable();
@@ -196,6 +199,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         CraftTokensCommand.register();
         VoteTokensCommand.register();
         LevelCommand.register();
+        BaltopCommand.register();
     }
 
     public boolean isRegisterEnabled() {
