@@ -21,7 +21,7 @@ public class BaltopCommand {
         CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, null, (sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                Map<Integer, List> listMap = SQLManager.getVaultAllEcosWithNicks();
+                Map<Integer, List> listMap = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
                 printTableForPlayer(player, listMap, 1);
             }
         });
@@ -37,7 +37,7 @@ public class BaltopCommand {
                     return;
                 }
 
-                Map<Integer, List> listMap = SQLManager.getVaultAllEcosWithNicks();
+                Map<Integer, List> listMap = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
                 printTableForPlayer(player, listMap, (int) args[0]);
             }
         });
@@ -52,15 +52,15 @@ public class BaltopCommand {
         }
 
         player.sendMessage("");
-        player.sendMessage("§e ---- §aBalanceTop §e-- §7Strana §c" + page + "§8/§c" + (int)(Math.round((double)nicks.size()/10)) + " §e-- ");
+        player.sendMessage("§e---- §aBalanceTop §e-- §7Strana §c" + page + "§8/§c" + (int)(Math.round((double)nicks.size()/10)) + " §e-- ");
         try {
             for (int x=page * 10 - maxTableSize; x<page * 10; x++) {
-                player.sendMessage("§a" + (x+1) + "§8. §e" + nicks.get(x) + "§8 - §e" + balances.get(x) + Main.getInstance().getCurrency());
+                player.sendMessage("§a" + (x+1) + "§7. §b" + nicks.get(x) + "§8 - §e" + balances.get(x) + "§6" + Main.getInstance().getCurrency());
             }
         } catch (Exception ignored) {}
-        player.sendMessage("§e---- ----");
-        player.sendMessage(" §7Tvoje pozice: §a" + (nicks.indexOf(player.getName())+1) + "§8. - §e" + balances.get(nicks.indexOf(player.getName())) + Main.getInstance().getCurrency());
-        //player.sendMessage("§e---- ----");
+        player.sendMessage("§e--------");
+        player.sendMessage("§7Tvoje pozice: §a" + (nicks.indexOf(player.getName())+1) + "§7. - §e" + balances.get(nicks.indexOf(player.getName())) + Main.getInstance().getCurrency());
+        //player.sendMessage("§e--------");
         //player.sendMessage("§b<- §7Předchozí strana §8| §7 Další Strana §b->");
         player.sendMessage("");
     }
