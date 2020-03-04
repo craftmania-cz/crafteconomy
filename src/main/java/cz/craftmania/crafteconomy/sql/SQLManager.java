@@ -13,7 +13,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.UUID;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.*;
 
 public class SQLManager {
 
@@ -552,6 +554,64 @@ public class SQLManager {
         return 0;
     }
 
+    public static Map<Integer, List> getVaultAllEcosWithNicks() {
+        Map<Integer, List> listMap = new HashMap<Integer, List>();
+        List<String> nicks = new ArrayList<>();
+        List<Long> balances = new ArrayList<>();
+
+        final String server = Main.getServerType().name().toLowerCase();
+        ConnectionPoolManager pool = Main.getInstance().getMySQL().getPool();
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement st = null;
+
+        try {
+            conn = pool.getConnection();
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 ORDER BY `balance` DESC");
+            while (rs.next()) {
+                nicks.add(rs.getString("nick"));
+                balances.add(rs.getLong("balance"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+        }
+
+        listMap.put(1, nicks);
+        listMap.put(2, balances);
+        return listMap;
+    }
+
+    public static List<Long> getVaultAllEcos() {
+        List<Long> balances = new ArrayList<>();
+
+        final String server = Main.getServerType().name().toLowerCase();
+        ConnectionPoolManager pool = Main.getInstance().getMySQL().getPool();
+        Connection conn = null;
+        ResultSet rs = null;
+        Statement st = null;
+
+        try {
+            conn = pool.getConnection();
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0");
+            while (rs.next()) {
+                balances.add(rs.getLong("balance"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {};
+            try { if (st != null) st.close(); } catch (Exception e) {};
+            try { if (conn != null) conn.close(); } catch (Exception e) {};
+        }
+        return balances;
+    }
+
     public final UUID fetchUUIDbyName(final String name) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
@@ -611,7 +671,6 @@ public class SQLManager {
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
-
 
     public final boolean tablePlayerProfileExists() {
         Connection conn = null;
