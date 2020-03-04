@@ -20,7 +20,7 @@ public class PlayerJoinListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
         // Zakladni nacteni dat do cache a vytvoření objektu
@@ -28,9 +28,19 @@ public class PlayerJoinListener implements Listener {
 
         // Vytvoření a načtení vault money do craftplayer
         if (Main.getInstance().isVaultEconomyEnabled()) {
+
             if (!main.getMySQL().hasVaultEcoProfile(player.getUniqueId())) {
                 main.getMySQL().createVaultEcoProfile(player);
             }
+
+            // Update nicku v DB kvůli změně nicku
+            String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+            assert sqlNick != null;
+            if (!sqlNick.equals(player.getName())) {
+                Main.getInstance().getMySQL().updateNickInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+            }
+            
+            // Finální nastavení hodnoty peněz na učet
             craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
         }
 

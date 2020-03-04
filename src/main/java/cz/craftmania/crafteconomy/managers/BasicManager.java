@@ -43,14 +43,6 @@ public class BasicManager {
     private static CraftPlayer getOrRegisterPlayer(final Player player) {
         CraftPlayer cp = null;
         if (!Main.getInstance().getMySQL().hasData(player)) {
-
-            // Pokud je v SQL spatny UUID, je nutny ho opravit a nacist
-            if (Main.getInstance().getMySQL().hasDataByName(player.getName())) {
-                Main.getInstance().getMySQL().updateCcominutyForceUUID(player);
-                Logger.info("Update UUID v SQL pro: " + player.getName() + " (" + player.getUniqueId().toString() + ")");
-                return Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
-            }
-
             // Pokud hrac neni vubec v SQL, tak se provede register
             if (Main.getInstance().isRegisterEnabled()) {
 
@@ -62,6 +54,12 @@ public class BasicManager {
                 Bukkit.getPluginManager().callEvent(event);
             }
         } else {
+            // Kontrola zda si originalka nezměnila nick
+            String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_profile", player);
+            assert sqlNick != null;
+            if (!sqlNick.equals(player.getName())) {
+                Main.getInstance().getMySQL().updateNickInTable("player_profile", player);
+            }
             cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
         }
 

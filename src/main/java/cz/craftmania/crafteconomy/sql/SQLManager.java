@@ -53,13 +53,13 @@ public class SQLManager {
         }
     }
 
-    public final boolean hasDataByName(final String p) {
+    public final boolean hasDataByUUID(final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE nick = ?;");
-            ps.setString(1, p);
+            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
+            ps.setString(1, uuid.toString());
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
@@ -358,7 +358,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final void updateCcominutyForceNick(final Player p) {
+    public final void updateNickInTable(final String table, final Player p) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -366,7 +366,7 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("UPDATE player_profile SET nick = ? WHERE uuid = '" + p.getUniqueId().toString() + "';");
+                    ps = conn.prepareStatement("UPDATE " + table + " SET nick = ? WHERE uuid = '" + p.getUniqueId().toString() + "';");
                     ps.setString(1, p.getName());
                     ps.executeUpdate();
                 } catch (Exception e) {
@@ -378,7 +378,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final void updateCcominutyForceUUID(final Player p) {
+    public final void updateUUIDInTable(final String table, final Player p) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -386,7 +386,7 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("UPDATE player_profile SET uuid = ? WHERE nick = '" + p.getName() + "';");
+                    ps = conn.prepareStatement("UPDATE " + table + " SET uuid = ? WHERE nick = '" + p.getName() + "';");
                     ps.setString(1, p.getUniqueId().toString());
                     ps.executeUpdate();
                 } catch (Exception e) {
@@ -715,6 +715,24 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
+    }
+
+    public final String getNickFromTable(final String table, final Player player) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT nick FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "';");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getString("nick");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return null;
     }
 
 
