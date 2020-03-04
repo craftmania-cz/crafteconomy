@@ -46,7 +46,7 @@ public class PlayerJoinListener implements Listener {
 
         // Opravy práv pro achievementy
         if (Main.getServerType() == ServerType.CREATIVE) {
-            this.creativeAchievemenntFixes(craftPlayer, player);
+            //this.creativeAchievemenntFixes(craftPlayer, player);
         }
 
     }
