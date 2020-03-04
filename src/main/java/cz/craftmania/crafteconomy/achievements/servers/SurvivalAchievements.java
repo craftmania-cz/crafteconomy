@@ -71,50 +71,6 @@ public class SurvivalAchievements {
         this.rewards.add(new AchievementReward("survival_epic_consumedpotions_250").setRarity(Rarity.EPIC).setName("DrinkIt III"));
         this.rewards.add(new AchievementReward("survival_legendary_consumedpotions_1000").setRarity(Rarity.LEGENDARY).setName("DrinkIt IV"));
 
-        // Distance Boat
-        this.rewards.add(new AchievementReward("survival_common_distanceboat_200").setRarity(Rarity.COMMON).setName("DistanceBoat I"));
-        this.rewards.add(new AchievementReward("survival_rare_distanceboat_2500").setRarity(Rarity.RARE).setName("DistanceBoat II"));
-        this.rewards.add(new AchievementReward("survival_epic_distanceboat_10000").setRarity(Rarity.EPIC).setName("DistanceBoat III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distanceboat_50000").setRarity(Rarity.LEGENDARY).setName("DistanceBoat IV"));
-
-        // Distance Foot
-        this.rewards.add(new AchievementReward("survival_common_distancefoot_1000").setRarity(Rarity.COMMON).setName("DistanceFoot I"));
-        this.rewards.add(new AchievementReward("survival_rare_distancefoot_10000").setRarity(Rarity.RARE).setName("DistanceFoot II"));
-        this.rewards.add(new AchievementReward("survival_epic_distancefoot_50000").setRarity(Rarity.EPIC).setName("DistanceFoot III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancefoot_500000").setRarity(Rarity.LEGENDARY).setName("DistanceFoot IV"));
-
-        // Distance Gliding
-        this.rewards.add(new AchievementReward("survival_common_distancegliding_1000").setRarity(Rarity.COMMON).setName("DistanceGliding I"));
-        this.rewards.add(new AchievementReward("survival_rare_distancegliding_20000").setRarity(Rarity.RARE).setName("DistanceGliding II"));
-        this.rewards.add(new AchievementReward("survival_epic_distancegliding_50000").setRarity(Rarity.EPIC).setName("DistanceGliding III"));
-        this.rewards.add(new AchievementReward("survival_epic_distancegliding_100000").setRarity(Rarity.EPIC).setName("DistanceGliding IV"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancegliding_200000").setRarity(Rarity.LEGENDARY).setName("DistanceGliding V"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancegliding_500000").setRarity(Rarity.LEGENDARY).setName("DistanceGliding VI"));
-
-        // Distance Horse
-        this.rewards.add(new AchievementReward("survival_common_distancehorse_500").setRarity(Rarity.COMMON).setName("DistanceHorse I"));
-        this.rewards.add(new AchievementReward("survival_rare_distancehorse_5000").setRarity(Rarity.RARE).setName("DistanceHorse II"));
-        this.rewards.add(new AchievementReward("survival_epic_distancehorse_20000").setRarity(Rarity.EPIC).setName("DistanceHorse III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancehorse_50000").setRarity(Rarity.LEGENDARY).setName("DistanceHorse IV"));
-
-        // Distance Llama
-        this.rewards.add(new AchievementReward("survival_common_distancellama_500").setRarity(Rarity.COMMON).setName("DistanceLlama I"));
-        this.rewards.add(new AchievementReward("survival_rare_distancellama_5000").setRarity(Rarity.RARE).setName("DistanceLlama II"));
-        this.rewards.add(new AchievementReward("survival_epic_distancellama_20000").setRarity(Rarity.EPIC).setName("DistanceLlama III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancellama_50000").setRarity(Rarity.LEGENDARY).setName("DistanceLlama IV"));
-
-        // Distance Minecart
-        this.rewards.add(new AchievementReward("survival_common_distanceminecart_1000").setRarity(Rarity.COMMON).setName("DistanceMinecart I"));
-        this.rewards.add(new AchievementReward("survival_rare_distanceminecart_10000").setRarity(Rarity.RARE).setName("DistanceMinecart II"));
-        this.rewards.add(new AchievementReward("survival_epic_distanceminecart_100000").setRarity(Rarity.EPIC).setName("DistanceMinecrat III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distanceminecart_500000").setRarity(Rarity.LEGENDARY).setName("DistanceMinecart IV"));
-
-        // Distance Pig
-        this.rewards.add(new AchievementReward("survival_common_distancepig_100").setRarity(Rarity.COMMON).setName("DistancePig I"));
-        this.rewards.add(new AchievementReward("survival_rare_distancepig_1000").setRarity(Rarity.RARE).setName("DistancePig II"));
-        this.rewards.add(new AchievementReward("survival_epic_distancepig_5000").setRarity(Rarity.EPIC).setName("DistancePig III"));
-        this.rewards.add(new AchievementReward("survival_legendary_distancepig_20000").setRarity(Rarity.LEGENDARY).setName("DistancePig IV"));
-
         // Eat
         this.rewards.add(new AchievementReward("survival_common_eatenitems_1").setRarity(Rarity.COMMON).setName("EatThis I"));
         this.rewards.add(new AchievementReward("survival_rare_eatenitems_50").setRarity(Rarity.RARE).setName("EatThis II"));
