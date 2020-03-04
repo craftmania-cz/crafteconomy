@@ -2,9 +2,9 @@ package cz.craftmania.crafteconomy.commands.vault;
 
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.sql.SQLManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.arguments.Argument;
-import cz.craftmania.crafteconomy.commands.vault.BaltopSql;
 import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.soap.Text;
 
 public class BaltopCommand {
 
@@ -23,7 +21,7 @@ public class BaltopCommand {
         CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, null, (sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                Map<Integer, List> listMap = BaltopSql.reqBaltopList();
+                Map<Integer, List> listMap = SQLManager.getVaultAllEcosWithNicks();
                 printTableForPlayer(player, listMap, 1);
             }
         });
@@ -39,8 +37,7 @@ public class BaltopCommand {
                     return;
                 }
 
-                //!!! Zde se mění z jaké tabulky to bude číst !!!
-                Map<Integer, List> listMap = BaltopSql.reqBaltopList();
+                Map<Integer, List> listMap = SQLManager.getVaultAllEcosWithNicks();
                 printTableForPlayer(player, listMap, (int) args[0]);
             }
         });
