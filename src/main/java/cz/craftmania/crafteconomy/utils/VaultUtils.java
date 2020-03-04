@@ -64,14 +64,14 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public boolean hasAccount(String playerName) {
-        if (playerName == null ){
+        if (playerName == null){
             return false;
         }
         CraftPlayer player = manager.getCraftPlayer(playerName);
-        if (player.getMoney() >= 0) {
+        if (player != null && player.getMoney() >= 0) {
             return true;
         }
-        return Main.getInstance().getMySQL().hasVaultEcoProfile(player.getUUID());
+        return Main.getInstance().getMySQL().hasVaultEcoProfile(playerName);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class VaultUtils extends AbstractEconomy {
     public double getBalance(String playerName) {
         CraftPlayer player = manager.getCraftPlayer(playerName);
         if (player == null) {
-            return Main.getInstance().getMySQL().getVaultEcoBalance(player.getUUID());
+            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName);
         }
         return player.getMoney();
     }
