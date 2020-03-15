@@ -155,8 +155,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private void initDatabase() {
         sql = new SQLManager(this);
 
-
-
         // Kdyz tabulka neexistuje, vytvoř
         if (!Main.getInstance().getMySQL().tablePlayerProfileExists()) {
             Main.getInstance().getMySQL().createPlayerProfileTable();
@@ -229,7 +227,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (type == null) {
             return ServerType.UNKNOWN;
         }
-        if (type.equalsIgnoreCase("survival")) {
+        if (type.equalsIgnoreCase("survival") || type.equalsIgnoreCase("survival2")) { // survival2 = 1.15
             return ServerType.SURVIVAL;
         } else if (type.equalsIgnoreCase("skyblock")) {
             return ServerType.SKYBLOCK;
