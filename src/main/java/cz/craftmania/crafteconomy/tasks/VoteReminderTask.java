@@ -12,8 +12,10 @@ public class VoteReminderTask implements Runnable {
     public void run() {
         //TODO: Napojit pozdeji na CraftEconomy API
         Bukkit.getOnlinePlayers().forEach(player -> {
-            CraftPlayer craftPlayer = bm.getCraftPlayer(player);
-            player.sendMessage("§cNezapomen hlasovat! Tento mesic mas §f" + craftPlayer.getMonthVotes() + " §chlasu! §8(Celkem: " + craftPlayer.getTotalVotes() + ")");
+            if (bm.getCraftPlayer(player) != null) {
+                CraftPlayer craftPlayer = bm.getCraftPlayer(player);
+                player.sendMessage("§cNezapomen hlasovat! Tento mesic mas §f" + craftPlayer.getMonthVotes() + " §chlasu! §8(Celkem: " + craftPlayer.getTotalVotes() + ")");
+            }
         });
     }
 }
