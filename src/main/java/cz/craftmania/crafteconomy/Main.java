@@ -91,7 +91,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             MoneyCommand.register();
-            moneylogCommand.register();
+            MoneylogCommand.register();
             PayCommand.register();
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
