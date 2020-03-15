@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
+import cz.craftmania.craftcore.core.mojang.MojangAPI;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
@@ -617,6 +618,91 @@ public class SQLManager {
 
         listMap.put(1, nicks);
         listMap.put(2, balances);
+        return listMap;
+    }
+    public Map<Integer, List> getVaultAllLogsByUUID(String UUIDstring) {
+        Map<Integer, List> listMap = new HashMap<Integer, List>();
+        List<String> recieverNick = new ArrayList<>();
+        List<String> recieverUUID = new ArrayList<>();
+        List<String> senderNick = new ArrayList<>();
+        List<String> senderUUID = new ArrayList<>();
+        List<String> action = new ArrayList<>();
+        List<Long> amount = new ArrayList<>();
+        List<Long> time = new ArrayList<>();
+
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `r_uuid` = \"" + UUIDstring + "\" ORDER BY `economy_unknown_log`.`time` DESC");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                recieverNick.add(ps.getResultSet().getString("reciever"));
+                recieverUUID.add(ps.getResultSet().getString("r_uuid"));
+                senderNick.add(ps.getResultSet().getString("sender"));
+                senderUUID.add(ps.getResultSet().getString("s_uuid"));
+                action.add(ps.getResultSet().getString("action"));
+                amount.add(ps.getResultSet().getLong("amount"));
+                time.add(ps.getResultSet().getLong("time"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+
+        listMap.put(1, recieverNick);
+        listMap.put(2, recieverUUID);
+        listMap.put(3, senderNick);
+        listMap.put(4, senderUUID);
+        listMap.put(5, action);
+        listMap.put(6, amount);
+        listMap.put(7, time);
+        return listMap;
+    }
+
+    public Map<Integer, List> getVaultAllLogsByNickname(String playerNickname) {
+        Map<Integer, List> listMap = new HashMap<Integer, List>();
+        List<String> recieverNick = new ArrayList<>();
+        List<String> recieverUUID = new ArrayList<>();
+        List<String> senderNick = new ArrayList<>();
+        List<String> senderUUID = new ArrayList<>();
+        List<String> action = new ArrayList<>();
+        List<Long> amount = new ArrayList<>();
+        List<Long> time = new ArrayList<>();
+
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `reciever` = \"" + playerNickname+ "\" ORDER BY `economy_unknown_log`.`time` DESC");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                recieverNick.add(ps.getResultSet().getString("reciever"));
+                recieverUUID.add(ps.getResultSet().getString("r_uuid"));
+                senderNick.add(ps.getResultSet().getString("sender"));
+                senderUUID.add(ps.getResultSet().getString("s_uuid"));
+                action.add(ps.getResultSet().getString("action"));
+                amount.add(ps.getResultSet().getLong("amount"));
+                time.add(ps.getResultSet().getLong("time"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+
+        listMap.put(1, recieverNick);
+        listMap.put(2, recieverUUID);
+        listMap.put(3, senderNick);
+        listMap.put(4, senderUUID);
+        listMap.put(5, action);
+        listMap.put(6, amount);
+        listMap.put(7, time);
         return listMap;
     }
 
