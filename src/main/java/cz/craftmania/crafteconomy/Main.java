@@ -79,26 +79,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             ProprietaryManager.loadServerLevelRewards();
         }
 
-        // Vault init
-        vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
-        if (vaultEconomyEnabled && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            Logger.info("Vault economy bude aktivní!");
-
-            this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
-            vaultEconomy = new VaultUtils();
-
-            currency = getConfig().getString("vault-economy.name");
-            Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
-
-            MoneyCommand.register();
-            MoneylogCommand.register();
-            PayCommand.register();
-
-            if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
-                BankCommand.register();
-            }
-        }
-
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
         if (registerEnabled) {
@@ -128,6 +108,27 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             }
         } else {
             Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
+        }
+
+        // Vault init
+        vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
+        if (vaultEconomyEnabled && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            Logger.info("Vault economy bude aktivní!");
+
+            this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
+            vaultEconomy = new VaultUtils();
+
+            currency = getConfig().getString("vault-economy.name");
+            Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
+
+            MoneyCommand.register();
+            MoneylogCommand.register();
+            PayCommand.register();
+            BaltopCommand.register();
+
+            if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
+                BankCommand.register();
+            }
         }
     }
 
@@ -195,7 +196,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         CraftTokensCommand.register();
         VoteTokensCommand.register();
         LevelCommand.register();
-        BaltopCommand.register();
     }
 
     public boolean isRegisterEnabled() {
