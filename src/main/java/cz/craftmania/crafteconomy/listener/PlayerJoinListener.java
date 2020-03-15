@@ -35,9 +35,10 @@ public class PlayerJoinListener implements Listener {
 
             // Update nicku v DB kvůli změně nicku
             String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
-            assert sqlNick != null;
-            if (!sqlNick.equals(player.getName())) {
-                Main.getInstance().getMySQL().updateNickInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+            if (sqlNick != null) { //TODO: Why null?
+                if (!sqlNick.equals(player.getName())) {
+                    Main.getInstance().getMySQL().updateNickInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                }
             }
             
             // Finální nastavení hodnoty peněz na učet
