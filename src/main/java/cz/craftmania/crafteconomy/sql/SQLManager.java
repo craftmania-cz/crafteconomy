@@ -636,7 +636,7 @@ public class SQLManager {
 
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `r_uuid` = \"" + UUIDstring + "\" ORDER BY `economy_unknown_log`.`time` DESC");
+            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `r_uuid` = \"" + UUIDstring + "\" ORDER BY `economy_" + server + "_log`.`time` DESC");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 recieverNick.add(ps.getResultSet().getString("reciever"));
@@ -679,7 +679,7 @@ public class SQLManager {
 
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `reciever` = \"" + playerNickname+ "\" ORDER BY `economy_unknown_log`.`time` DESC");
+            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `reciever` = \"" + playerNickname+ "\" ORDER BY `economy_" + server + "_log`.`time` DESC");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 recieverNick.add(ps.getResultSet().getString("reciever"));
