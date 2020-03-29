@@ -9,9 +9,8 @@ import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.NumberFormat;
+import java.util.*;
 
 public class BaltopCommand {
 
@@ -55,12 +54,12 @@ public class BaltopCommand {
         player.sendMessage("§e---- §aBalanceTop §e-- §7Strana §c" + page + "§8/§c" + (int)(Math.round((double)nicks.size()/10)) + " §e-- ");
         try {
             for (int x=page * 10 - maxTableSize; x<page * 10; x++) {
-                player.sendMessage("§a" + (x+1) + "§7. §b" + nicks.get(x) + "§8 - §e" + balances.get(x) + "§6" + Main.getInstance().getCurrency());
+                player.sendMessage("§a" + (x+1) + "§7. §b" + nicks.get(x) + "§8 - §e" + Main.getInstance().getFormattedNumber(balances.get(x)) + "§6" + Main.getInstance().getCurrency());
             }
         } catch (Exception ignored) {}
         player.sendMessage("§e--------");
         try {
-            player.sendMessage("§7Tvoje pozice: §a" + (nicks.indexOf(player.getName())+1) + "§7. - §e" + balances.get(nicks.indexOf(player.getName())) + "§6" + Main.getInstance().getCurrency());
+            player.sendMessage("§7Tvoje pozice: §a" + (nicks.indexOf(player.getName())+1) + "§7. - §e" + Main.getInstance().getFormattedNumber(balances.get(nicks.indexOf(player.getName()))) + "§6" + Main.getInstance().getCurrency());
         } catch (Exception ignored) {
             player.sendMessage(" §7Tvoje pozice: §a#§7. - §e0§6" + Main.getInstance().getCurrency());
         }

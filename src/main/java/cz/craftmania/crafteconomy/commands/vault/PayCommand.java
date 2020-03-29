@@ -44,8 +44,8 @@ public class PayCommand {
             if (playerReciever != null) {
                 Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
                 Main.getVaultEconomy().depositPlayer(playerReciever, moneyToSend);
-                sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + moneyToSend + Main.getInstance().getCurrency());
-                playerReciever.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + playerSender.getName() + " §7- §a" + moneyToSend + Main.getInstance().getCurrency());
+                sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
+                playerReciever.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + playerSender.getName() + " §7- §a" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
                 Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(playerSender, playerReciever, moneyToSend));
             } else {
                 sender.sendMessage("§c§l[!] §cHráč není online, nelze mu zaslat peníze!");

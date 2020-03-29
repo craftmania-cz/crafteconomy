@@ -22,6 +22,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -220,6 +222,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public String getCurrency() {
         return currency;
+    }
+
+    /**
+     * Will convert unformatted Long into formatted String.
+     * Usually used for formatting money numbers into readable ones.
+     *
+     * @param number Any (long) number
+     * @return (Long)18748724 -> (String)18,748,724
+     */
+    public String getFormattedNumber(Long number) {
+        return NumberFormat.getInstance(Locale.US).format(number);
     }
 
     private ServerType resolveServerType() {

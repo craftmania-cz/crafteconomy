@@ -24,7 +24,7 @@ public class MoneyCommand {
         CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long money = (long) Main.getVaultEconomy().getBalance(p);
-            p.sendMessage("§e§l[*] §eAktuálně máš " + money + Main.getInstance().getCurrency());
+            p.sendMessage("§e§l[*] §eAktuálně máš " + Main.getInstance().getFormattedNumber(money) + Main.getInstance().getCurrency());
         });
 
         // Default: /money balance [nick]
@@ -34,7 +34,7 @@ public class MoneyCommand {
         CommandAPI.getInstance().register("money", new String[]{"eco"}, moneyArguments, (sender, args) -> {
             String searchPlayer = (String) args[0];
             long money = (long) Main.getVaultEconomy().getBalance(searchPlayer);
-            sender.sendMessage("§e§l[B] §eHráč " + searchPlayer + " má na účtě: §f" + money + Main.getInstance().getCurrency());
+            sender.sendMessage("§e§l[B] §eHráč " + searchPlayer + " má na účtě: §f" + Main.getInstance().getFormattedNumber(money) + Main.getInstance().getCurrency());
         });
 
         // Admin prikaz: /money give|take [player] [value]
@@ -60,7 +60,7 @@ public class MoneyCommand {
                     // Give
                     if (player != null) {
                         Main.getVaultEconomy().depositPlayer(player, moneyToGive);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
+                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + Main.getInstance().getFormattedNumber(moneyToGive) + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
                     } else {
                         UUID playerUUID = null;
@@ -71,7 +71,7 @@ public class MoneyCommand {
                         }
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney + moneyToGive);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + moneyToGive + Main.getInstance().getCurrency() + ".");
+                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + Main.getInstance().getFormattedNumber(moneyToGive) + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), playerName, moneyToGive));
                     }
                     break;
@@ -86,11 +86,11 @@ public class MoneyCommand {
                     if (player != null) {
                         long money = manager.getCraftPlayer(player).getMoney();
                         if ((money - moneyToTake) < 0) {
-                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + money + Main.getInstance().getCurrency());
+                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + Main.getInstance().getFormattedNumber(money) + Main.getInstance().getCurrency());
                             return;
                         }
                         Main.getVaultEconomy().withdrawPlayer(player, moneyToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + Main.getInstance().getFormattedNumber(moneyToTake) + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
                     } else {
                         UUID playerUUID = null;
@@ -101,11 +101,11 @@ public class MoneyCommand {
                         }
                         long actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         if ((actualMoney - moneyToTake) < 0) {
-                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + actualMoney + Main.getInstance().getCurrency());
+                            sender.sendMessage("§c§l[!] §cHráč nemá dostatek peněz. Vlastní: " + Main.getInstance().getFormattedNumber(actualMoney) + Main.getInstance().getCurrency());
                             return;
                         }
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, actualMoney - moneyToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + moneyToTake + Main.getInstance().getCurrency() + ".");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName + " §7- §6" + Main.getInstance().getFormattedNumber(moneyToTake) + Main.getInstance().getCurrency() + ".");
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), playerName, moneyToTake));
                     }
                     break;
@@ -118,8 +118,8 @@ public class MoneyCommand {
                     if (player != null) {
                         long oldBalance = manager.getCraftPlayer(player).getMoney();
                         manager.getCraftPlayer(player).setMoney(moneyToSet);
-                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + moneyToSet + Main.getInstance().getCurrency());
-                        player.sendMessage("§e§l[*] §eTvoje peníze byly nastaveny na §7- §f" + moneyToSet + Main.getInstance().getCurrency());
+                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + Main.getInstance().getFormattedNumber(moneyToSet) + Main.getInstance().getCurrency());
+                        player.sendMessage("§e§l[*] §eTvoje peníze byly nastaveny na §7- §f" + Main.getInstance().getFormattedNumber(moneyToSet) + Main.getInstance().getCurrency());
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));
                     } else {
                         UUID playerUUID = null;
@@ -130,7 +130,7 @@ public class MoneyCommand {
                         }
                         long oldBalance = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                         Main.getInstance().getMySQL().setVaultEcoBalance(playerName, moneyToSet);
-                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + moneyToSet + Main.getInstance().getCurrency());
+                        sender.sendMessage("§e§l[*] §eNastavil jsi hráči " + playerName + " počet peněz na §7- §b" + Main.getInstance().getFormattedNumber(moneyToSet) + Main.getInstance().getCurrency());
                         Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), playerName, oldBalance, moneyToSet));
                     }
                     break;

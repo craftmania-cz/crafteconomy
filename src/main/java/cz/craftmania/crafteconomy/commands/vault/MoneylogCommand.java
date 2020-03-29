@@ -110,13 +110,11 @@ public class MoneylogCommand {
                     default:
                         akceTranslated = action.get(x) + "(unknown)";
                 }
-                player.sendMessage("§a" + (x + 1) + "§7. §7Akce: " + akceTranslated + "§8; §7Částka: §e" + amount.get(x) + "§6" + Main.getInstance().getCurrency() + "§8; §7Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(time.get(x)));
+                player.sendMessage("§a" + (x + 1) + "§7. §7Akce: " + akceTranslated + "§8; §7Částka: §e" + Main.getInstance().getFormattedNumber(amount.get(x)) + "§6" + Main.getInstance().getCurrency() + "§8; §7Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(time.get(x)));
             }
         } catch (Exception ignored) {
         }
         player.sendMessage("§e--------");
-        //player.sendMessage("§7Tvoje pozice: §a" + (nicks.indexOf(player.getName())+1) + "§7. - §e" + balances.get(nicks.indexOf(player.getName())) + Main.getInstance().getCurrency());
-        //player.sendMessage("§e--------");
         //player.sendMessage("§b<- §7Předchozí strana §8| §7 Další Strana §b->");
         player.sendMessage("");
     }
