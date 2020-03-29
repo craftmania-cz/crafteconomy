@@ -152,7 +152,7 @@ public class VaultUtils extends AbstractEconomy {
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
-            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + amount + Main.getInstance().getCurrency());
+            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callEvent(new PlayerVaultWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
@@ -191,7 +191,7 @@ public class VaultUtils extends AbstractEconomy {
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
-            player.sendMessage("§a§l[*] §aBylo ti pridano: " + amount + Main.getInstance().getCurrency());
+            player.sendMessage("§a§l[*] §aBylo ti pridano: " + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callEvent(new PlayerVaultDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
