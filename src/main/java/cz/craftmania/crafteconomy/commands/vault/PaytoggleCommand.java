@@ -11,8 +11,7 @@ public class PaytoggleCommand {
         CommandAPI.getInstance().register("paytoggle", new String[]{}, null, (sender, args) -> {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                int paytoggle = Main.getInstance().getMySQL().getSettings(p, "paytoggle");
-                switch (paytoggle) {
+                switch (Main.getInstance().getMySQL().getSettings(p, "paytoggle")) {
                     case 0: {
                         p.sendMessage("§e§l[*] §eZapl sis přijímání peněz!");
                         Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 1);
