@@ -42,11 +42,16 @@ public class PayCommand {
             Player playerReciever = Bukkit.getPlayer(reciever);
             Player playerSender = Bukkit.getPlayer(String.valueOf(sender.getName()));
             if (playerReciever != null) {
-                Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
-                Main.getVaultEconomy().depositPlayer(playerReciever, moneyToSend);
-                sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
-                playerReciever.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + playerSender.getName() + " §7- §a" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
-                Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(playerSender, playerReciever, moneyToSend));
+                if (Main.getInstance().getMySQL().getSettings(playerReciever, "paytoggle") == 1) {
+                    Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
+                    Main.getVaultEconomy().depositPlayer(playerReciever, moneyToSend);
+                    sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
+                    playerReciever.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + playerSender.getName() + " §7- §a" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
+                    Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(playerSender, playerReciever, moneyToSend));
+                } else {
+                    playerSender.sendMessage("§c§l[!] §cTento hráč má vypnuté přijímání peněz!");
+                    playerReciever.sendMessage("§e§l[*] §eHráč " + playerSender.getName() + " se ti snaží poslat peníze, ale máš vypnutý /paytoggle!");
+                }
             } else {
                 sender.sendMessage("§c§l[!] §cHráč není online, nelze mu zaslat peníze!");
             }

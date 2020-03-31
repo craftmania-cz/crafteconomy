@@ -821,5 +821,55 @@ public class SQLManager {
         return null;
     }
 
+    /**
+     * Will return selected player settings.
+     *
+     * @param p Player object
+     * @param settings Settings name
+     * @return Selected settings value
+     */
+    public final int getSettings(final Player p, final String settings) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT " + settings + " FROM player_settings WHERE nick = '" + p.getName() + "'");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt(settings);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return -1;
+    }
 
+    /**
+     * Will update selected player settings.
+     *
+     * @param p Player object
+     * @param settings Settings name
+     * @param value New value for selected settings
+     */
+    public final void updateSettings(final Player p, final String settings, final int value) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_settings SET " + settings + " = " + value + " WHERE nick = ?;");
+                    ps.setString(1, p.getName());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
 }

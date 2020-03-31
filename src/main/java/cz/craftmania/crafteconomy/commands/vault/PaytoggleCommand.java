@@ -1,0 +1,32 @@
+package cz.craftmania.crafteconomy.commands.vault;
+
+import cz.craftmania.crafteconomy.Main;
+import io.github.jorelali.commandapi.api.CommandAPI;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+public class PaytoggleCommand {
+
+    public static void register() {
+        CommandAPI.getInstance().register("paytoggle", new String[]{}, null, (sender, args) -> {
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                int paytoggle = Main.getInstance().getMySQL().getSettings(p, "paytoggle");
+                switch (paytoggle) {
+                    case 0: {
+                        p.sendMessage("§e§l[*] §eZapl sis přijímání peněz!");
+                        Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 1);
+                        break;
+                    }
+                    case 1: {
+                        p.sendMessage("§e§l[*] §eVypl sis přijímání peněz!");
+                        Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 0);
+                        break;
+                    }
+                }
+            } else {
+                sender.sendMessage("§c§l[!] §cTento příkaz nelze použít v konzoli!");
+            }
+        });
+    }
+}
