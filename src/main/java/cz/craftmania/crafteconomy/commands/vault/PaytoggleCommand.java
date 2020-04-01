@@ -13,7 +13,7 @@ public class PaytoggleCommand {
                 Player p = (Player) sender;
                 switch (Main.getInstance().getMySQL().getSettings(p, "paytoggle")) {
                     case 0: {
-                        p.sendMessage("§e§l[*] §eZapl sis přijímání peněz!");
+                        p.sendMessage("§e§l[*] §eAktivoval jsi přijímání peněz!");
                         Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 1);
                         break;
                     }
