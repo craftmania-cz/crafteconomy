@@ -18,7 +18,7 @@ public class PaytoggleCommand {
                         break;
                     }
                     case 1: {
-                        p.sendMessage("§e§l[*] §eVypl sis přijímání peněz!");
+                        p.sendMessage("§e§l[*] §eDeaktivoval jsi přijímání peněz! Nyní ti nikdo nemůže poslat peníze.");
                         Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 0);
                         break;
                     }
