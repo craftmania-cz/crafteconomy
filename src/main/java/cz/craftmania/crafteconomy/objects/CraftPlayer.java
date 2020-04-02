@@ -48,6 +48,9 @@ public class CraftPlayer {
     private HashSet<Multiplier> multipliers;
     private boolean isAfk = false;
 
+    // Player settings
+    private boolean payToggle = false;
+
     public CraftPlayer() {
     }
 
@@ -74,6 +77,8 @@ public class CraftPlayer {
         this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
         this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
         this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
+
+        this.payToggle = (Main.getInstance().getMySQL().getSettings(player, "paytoggle") != 0);
         recalculateGlobalLevel();
     }
 
@@ -200,6 +205,14 @@ public class CraftPlayer {
 
     public void setAfk(boolean afk) {
         isAfk = afk;
+    }
+
+    public void setPayToggle(boolean payToggle) {
+        this.payToggle = payToggle;
+    }
+
+    public boolean getPayToggle() {
+        return payToggle;
     }
 
     public long getLevelByType(final LevelType type) {

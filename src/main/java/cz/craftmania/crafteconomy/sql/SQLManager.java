@@ -76,7 +76,7 @@ public class SQLManager {
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
+            ps = conn.prepareStatement("SELECT player_profile.*, player_settings.paytoggle FROM player_profile, player_settings WHERE player_profile.uuid = ? AND player_profile.nick = player_settings.Nick;");
             ps.setString(1, p.getUniqueId().toString());
             ps.executeQuery();
             if (ps.getResultSet().next()) {
@@ -97,6 +97,8 @@ public class SQLManager {
                 craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong("vanilla_experience"));
                 craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong("skycloud_experience"));
                 craftPlayer.setAchievementPoints(ps.getResultSet().getLong("achievement_points"));
+
+                craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
                 return craftPlayer;
             }
         } catch (Exception e) {

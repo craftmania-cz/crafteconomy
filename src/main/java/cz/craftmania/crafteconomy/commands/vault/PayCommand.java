@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.commands.vault;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyPlayerPayEvent;
+import cz.craftmania.crafteconomy.managers.BasicManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.arguments.Argument;
 import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import java.util.LinkedHashMap;
 
 public class PayCommand {
+
+    private static BasicManager manager = new BasicManager();
 
     public static void register() {
 
@@ -42,7 +45,7 @@ public class PayCommand {
             Player playerReciever = Bukkit.getPlayer(reciever);
             Player playerSender = Bukkit.getPlayer(String.valueOf(sender.getName()));
             if (playerReciever != null) {
-                if (Main.getInstance().getMySQL().getSettings(playerReciever, "paytoggle") == 1) {
+                if (manager.getCraftPlayer(playerReciever).getPayToggle()) {
                     Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
                     Main.getVaultEconomy().depositPlayer(playerReciever, moneyToSend);
                     sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
