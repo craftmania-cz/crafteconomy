@@ -126,6 +126,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             MoneyCommand.register();
             MoneylogCommand.register();
             PayCommand.register();
+            PaytoggleCommand.register();
             BaltopCommand.register();
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
