@@ -5,14 +5,18 @@ import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
-import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * BasicManager spravuje základní data hráčů v CraftEconomy
+ */
 public class BasicManager {
 
     public static HashMap<Player, CraftPlayer> players = new HashMap<>();
@@ -27,20 +31,43 @@ public class BasicManager {
         return players;
     }
 
-    public CraftPlayer getCraftPlayer(Player p) {
+    /**
+     * Vrací {@link CraftPlayer} dle zadaného objektu hráče
+     * @param p {@link Player} objekct hráče
+     * @return {@link CraftPlayer}
+     * @see CraftPlayer
+     */
+    public CraftPlayer getCraftPlayer(@NonNull Player p) {
         return players.values().stream().filter(cp -> cp.getPlayer() == p).findFirst().orElse(null);
     }
 
-    public CraftPlayer getCraftPlayer(String name) {
+    /**
+     * Vrací {@link CraftPlayer} dle zadaného stringu
+     * @param name Nick hráče
+     * @return {@link CraftPlayer}
+     * @see CraftPlayer
+     */
+    public CraftPlayer getCraftPlayer(@NonNull String name) {
         return players.values().stream().filter(cp -> cp.getPlayer().getName().equals(name)).findFirst().orElse(null);
     }
 
-    public CraftPlayer getCraftPlayer(UUID uuid) {
+    /**
+     * Vrací {@link CraftPlayer} dle zadaného {@link UUID}
+     * @param uuid UUID hráče
+     * @return {@link CraftPlayer}
+     * @see CraftPlayer
+     */
+    public CraftPlayer getCraftPlayer(@NonNull UUID uuid) {
         return players.values().stream().filter(cp -> cp.getPlayer().getUniqueId().equals(uuid)).findFirst().orElse(null);
     }
 
-
-    private static CraftPlayer getOrRegisterPlayer(final Player player) {
+    /**
+     * Registruje hráče do SQL, základní kontroly změny nicku
+     * @param player Hráč
+     * @return {@link CraftPlayer}
+     * @see CraftPlayer
+     */
+    private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) {
         CraftPlayer cp = null;
         if (!Main.getInstance().getMySQL().hasData(player)) {
             // Pokud hrac neni vubec v SQL, tak se provede register
@@ -70,6 +97,10 @@ public class BasicManager {
         return cp;
     }
 
+    /**
+     * Vrací aktuální {@link LevelType} dle nastaveného ID serveru v configu
+     * @return {@link LevelType}
+     */
     public LevelType getExperienceByServer(){
         ServerType server = Main.getServerType();
         switch (server) {
@@ -89,6 +120,10 @@ public class BasicManager {
         return null;
     }
 
+    /**
+     * Vrací aktuální {@link LevelType} dle nastaveného ID serveru v configu
+     * @return {@link LevelType}
+     */
     public LevelType getLevelByServer(){
         ServerType server = Main.getServerType();
         switch (server) {
@@ -108,6 +143,11 @@ public class BasicManager {
         return null;
     }
 
+    /**
+     * Vrací typ {@link LevelType} dle stringu.
+     * @param server ID serveru
+     * @return {@link LevelType} když existuje, jinak null
+     */
     public LevelType resolveLevelTypeByString(String server) {
         switch (server.toLowerCase()) {
             case "survival":
@@ -126,6 +166,11 @@ public class BasicManager {
         return null;
     }
 
+    /**
+     * Vrací typ {@link LevelType} dle stringu.
+     * @param server ID serveru
+     * @return {@link LevelType} když existuje, jinak null
+     */
     public LevelType resolveExperienceTypeByString(String server) {
         switch (server.toLowerCase()) {
             case "survival":
@@ -145,22 +190,27 @@ public class BasicManager {
     }
 
     /**
-     * Dá hráči reward podle zadaného levelu!
+     * Zkontroluje všechny rewardy podle nastaveného serveru a dá je hráči, pokud nemá.
      * @param player Zvolený hráč
      * @param level Požadovaná odměna dle levelu
      */
-    public void givePlayerLevelReward(final Player player, final int level) {
+    public void givePlayerManualLevelReward(final Player player, final int level) {
         ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
             if (levelReward.getLevel() == level) {
-                this.givePlayerLevelReward(levelReward, player);
+                this.givePlayerManualLevelReward(levelReward, player, false);
             }
         });
     }
 
-    public void removePlayerReward(final Player player, final int level) {
+    /**
+     * Zkontruje zda hráč vlastní daný reward, pokud ano odebere mu jej
+     * @param player Zvolený hráč
+     * @param level Požadovaná odměna dle levelu
+     */
+    public void removePlayerManualReward(final Player player, final int level) {
         ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
             if (levelReward.getLevel() == level) {
-                this.removePlayerLevelReward(levelReward, player);
+                this.removePlayerLevelReward(levelReward, player, true);
             }
         });
     }
@@ -169,8 +219,9 @@ public class BasicManager {
      * Dá hráči reward podle zadaného LevelReward
      * @param level LevelReward objekt
      * @param player Zvolený hráč
+     * @param announce Zda se má ukázat v chatu oznámení
      */
-    public void givePlayerLevelReward(LevelReward level, Player player) {
+    public void givePlayerManualLevelReward(LevelReward level, Player player, boolean announce) {
         if (level == null || player == null) {
             return;
         }
@@ -181,17 +232,25 @@ public class BasicManager {
         }
 
         // Notify
-        player.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-        player.sendMessage("");
-        player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
-        level.getRewardDescription().forEach(description -> {
-            player.sendMessage("§7" + description);
-        });
-        player.sendMessage("");
-        player.sendMessage("§b\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+        if (announce) {
+            player.sendMessage("§b" + Constants.CHAT_BOXES);
+            player.sendMessage("");
+            player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
+            level.getRewardDescription().forEach(description -> {
+                player.sendMessage("§7" + description);
+            });
+            player.sendMessage("");
+            player.sendMessage("§b" + Constants.CHAT_BOXES);
+        }
     }
 
-    public void removePlayerLevelReward(LevelReward level, Player player) {
+    /**
+     * Odebere reward hráči podle zadaného LevelReward
+     * @param level LevelReward objekt
+     * @param player Zvolený hráč
+     * @param announce Zda se má ukázat v chatu oznámení
+     */
+    public void removePlayerLevelReward(LevelReward level, Player player, boolean announce) {
         if (level == null || player == null) {
             return;
         }
@@ -202,12 +261,13 @@ public class BasicManager {
         }
 
         // Notify
-        player.sendMessage("§c\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-        player.sendMessage("");
-        player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
-        player.sendMessage("§7Ti byla odebrana z duvodu bugu!");
-        player.sendMessage("");
-        player.sendMessage("§c\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+        if (announce) {
+            player.sendMessage("§c" + Constants.CHAT_BOXES);player.sendMessage("");
+            player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
+            player.sendMessage("§7Ti byla odebrana z duvodu bugu!");
+            player.sendMessage("");
+            player.sendMessage("§c" + Constants.CHAT_BOXES);
+        }
     }
 
 

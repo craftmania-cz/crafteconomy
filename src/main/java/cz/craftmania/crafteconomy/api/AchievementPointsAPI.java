@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,7 +21,7 @@ public class AchievementPointsAPI {
      * @param player Selected player
      * @return amount of achievement points
      */
-    public static long getAchievementPoints(final Player player) {
+    public static long getAchievementPoints(@NonNull final Player player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getPlayer().equals(player)) {
                 return manager.getCraftPlayer(player1).getAchievementPoints();
@@ -35,7 +36,7 @@ public class AchievementPointsAPI {
      * @param player Selected player
      * @return amount of achievement points, returns 0 if player does not exists
      */
-    public static long getAchievementPoints(final String player) {
+    public static long getAchievementPoints(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
                 return manager.getCraftPlayer(player1).getAchievementPoints();
@@ -50,7 +51,7 @@ public class AchievementPointsAPI {
      * @param player      Player
      * @param pointsToAdd Value to give
      */
-    public static void giveAchievementPoints(final Player player, final long pointsToAdd) {
+    public static void giveAchievementPoints(@NonNull final Player player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveAchievementPoints zastaven!");
@@ -72,7 +73,7 @@ public class AchievementPointsAPI {
      * @param player      Player name
      * @param pointsToAdd Value to give
      */
-    public static void giveOfflineAchievementPoints(final String player, final long pointsToAdd) {
+    public static void giveOfflineAchievementPoints(@NonNull final String player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().addEconomy(EconomyType.ACHIEVEMENT_POINTS, player, pointsToAdd);
         });
@@ -84,7 +85,7 @@ public class AchievementPointsAPI {
      * @param player         Player
      * @param pointsToRemove Value to remove
      */
-    public static void takeAchievementPoints(final Player player, final long pointsToRemove) {
+    public static void takeAchievementPoints(@NonNull final Player player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualPoints = manager.getCraftPlayer(player).getAchievementPoints();
             long finalPoints = actualPoints - pointsToRemove;
@@ -105,17 +106,17 @@ public class AchievementPointsAPI {
      * @param player        Player name
      * @param pointsToRemove Value to remove
      */
-    public static void takeOfflineAchievementPoints(final String player, final long pointsToRemove) {
+    public static void takeOfflineAchievementPoints(@NonNull final String player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().takeEconomy(EconomyType.ACHIEVEMENT_POINTS, player, pointsToRemove);
         });
     }
 
-    public static void resetAchievementPoints(final Player player) {
+    public static void resetAchievementPoints(@NonNull final Player player) {
         //TODO: Reset to zero
     }
 
-    public static void giveAchievement(final Player player, final String achievementId) {
+    public static void giveAchievement(@NonNull final Player player, final String achievementId) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "aach give " + achievementId + " " + player.getName());
     }
 

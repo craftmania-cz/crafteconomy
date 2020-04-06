@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +20,7 @@ public class CraftTokensAPI {
      * @param player Selected player
      * @return amount of crafttokens
      */
-    public static long getTokens(final Player player) {
+    public static long getTokens(@NonNull final Player player) {
         return manager.getCraftPlayer(player).getTokens();
     }
 
@@ -29,7 +30,7 @@ public class CraftTokensAPI {
      * @param player Selected player
      * @return amount of crafttokens, returns 0 if nick does not exists
      */
-    public static long getTokens(final String player) {
+    public static long getTokens(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
                 return manager.getCraftPlayer(player1).getTokens();
@@ -44,7 +45,7 @@ public class CraftTokensAPI {
      * @param player      Player
      * @param tokensToAdd Value to give
      */
-    public static void giveTokens(final Player player, final long tokensToAdd) {
+    public static void giveTokens(@NonNull final Player player, final long tokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveTokens zastaven!");
@@ -66,7 +67,7 @@ public class CraftTokensAPI {
      * @param player      Player name
      * @param tokensToAdd Value to give
      */
-    public static void giveOfflineTokens(final String player, final long tokensToAdd) {
+    public static void giveOfflineTokens(@NonNull final String player, final long tokensToAdd) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFTTOKENS, player, tokensToAdd);
         });
@@ -78,7 +79,7 @@ public class CraftTokensAPI {
      * @param player         Player
      * @param tokensToRemove Value to remove
      */
-    public static void takeTokens(final Player player, final long tokensToRemove) {
+    public static void takeTokens(@NonNull final Player player, final long tokensToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualTokens = manager.getCraftPlayer(player).getTokens();
             long finalTokens = actualTokens - tokensToRemove;
@@ -99,7 +100,7 @@ public class CraftTokensAPI {
      * @param player         Player name
      * @param tokensToRemove Value to remove
      */
-    public static void takeOfflineTokens(final String player, final long tokensToRemove) {
+    public static void takeOfflineTokens(@NonNull final String player, final long tokensToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player);
             long finalTokens = actualTokens - tokensToRemove;

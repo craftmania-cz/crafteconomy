@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.objects;
 
 import cz.craftmania.crafteconomy.achievements.Rarity;
+import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -24,16 +25,16 @@ public class AchievementReward {
 
     public AchievementReward(){};
 
-    public AchievementReward(final String id) {
+    public AchievementReward(@NonNull final String id) {
         this.id = id;
     }
 
-    public AchievementReward setName(final String name) {
+    public AchievementReward setName(@NonNull final String name) {
         this.name = name;
         return this;
     }
 
-    public AchievementReward setDescription(final String... description) {
+    public AchievementReward setDescription(@NonNull final String... description) {
         Collections.addAll(this.description, description);
         return this;
     }
@@ -60,12 +61,12 @@ public class AchievementReward {
         return this;
     }
 
-    public AchievementReward setItems(final ItemStack... items) {
+    public AchievementReward setItems(@NonNull final ItemStack... items) {
         Collections.addAll(this.items, items);
         return this;
     }
 
-    public AchievementReward setPermissions(final String... permissions) {
+    public AchievementReward setPermissions(@NonNull final String... permissions) {
         Collections.addAll(this.permissions, permissions);
         return this;
     }

@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.objects;
 
+import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -21,17 +22,17 @@ public class LevelReward {
         this.name = "[Unknown_" + level + "]";
     }
 
-    public LevelReward setName(final String name) {
+    public LevelReward setName(@NonNull final String name) {
         this.name = name;
         return this;
     }
 
-    public LevelReward setDescription(final String... description) {
+    public LevelReward setDescription(@NonNull final String... description) {
         Collections.addAll(this.description, description);
         return this;
     }
 
-    public LevelReward setRewardDescription(final String... description) {
+    public LevelReward setRewardDescription(@NonNull final String... description) {
         Collections.addAll(this.rewardDescription, description);
         return this;
     }
@@ -41,12 +42,12 @@ public class LevelReward {
         return this;
     }
 
-    public LevelReward setItems(final ItemStack... items) {
+    public LevelReward setItems(@NonNull final ItemStack... items) {
         Collections.addAll(this.items, items);
         return this;
     }
 
-    public LevelReward setPermissions(final String... permissions) {
+    public LevelReward setPermissions(@NonNull final String... permissions) {
         Collections.addAll(this.permissions, permissions);
         return this;
     }

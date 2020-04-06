@@ -6,6 +6,7 @@ import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -23,11 +24,11 @@ public class LevelAPI {
      * @param player selected player
      * @return player's level
      */
-    public static long getLevel(final Player player, final LevelType type) {
+    public static long getLevel(@NonNull final Player player, @NonNull final LevelType type) {
         return manager.getCraftPlayer(player).getLevelByType(type);
     }
 
-    public static Long getExp(final Player player, final LevelType type) {
+    public static Long getExp(@NonNull final Player player, @NonNull final LevelType type) {
         return manager.getCraftPlayer(player).getExperienceByType(type);
     }
 
@@ -37,7 +38,7 @@ public class LevelAPI {
      * @param player player
      * @param levelsToAdd value to take
      */
-    public static void addLevel(final Player player, final LevelType type, final int levelsToAdd) {
+    public static void addLevel(@NonNull final Player player, @NonNull final LevelType type, final int levelsToAdd) {
         if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
             Logger.danger("Hrac " + player.getName() + " neni v cache addLevel zastaven!");
             return;
@@ -55,7 +56,7 @@ public class LevelAPI {
      * @param player player
      * @param levelsToAdd value to take
      */
-    public static void addOfflineLevel(final String player, final LevelType type, final int levelsToAdd) {
+    public static void addOfflineLevel(@NonNull final String player, @NonNull final LevelType type, final int levelsToAdd) {
         Main.getInstance().getMySQL().addEconomy(type, player, levelsToAdd);
     }
 
@@ -65,7 +66,7 @@ public class LevelAPI {
      * @param player player
      * @param levelsToTake value to add
      */
-    public static void takeLevel(final Player player, final LevelType type, final int levelsToTake) {
+    public static void takeLevel(@NonNull final Player player, @NonNull final LevelType type, final int levelsToTake) {
         if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
             Logger.danger("Hrac " + player.getName() + " neni v cache takeLevel zastaven!");
             return;
@@ -83,7 +84,7 @@ public class LevelAPI {
      * @param player player name
      * @param levelsToTake value to add
      */
-    public static void takeOfflineLevel(final String player, final LevelType type, final int levelsToTake) {
+    public static void takeOfflineLevel(@NonNull final String player, @NonNull final LevelType type, final int levelsToTake) {
         long actualLevel = Main.getInstance().getMySQL().getPlayerEconomy(type, player);
         long finalLevel = actualLevel - levelsToTake;
         if (finalLevel < 0 ) return;
@@ -97,7 +98,7 @@ public class LevelAPI {
      * @param player player
      * @param expToAdd value to add
      */
-    public static void addExp(final Player player, final LevelType type, final int expToAdd) {
+    public static void addExp(@NonNull final Player player, @NonNull final LevelType type, final int expToAdd) {
         if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
             Logger.danger("Hrac " + player.getName() + " neni v cache addExp zastaven!");
             return;
@@ -115,7 +116,7 @@ public class LevelAPI {
      * @param player player name
      * @param expToAdd value to add
      */
-    public static void addOfflineExp(final String player, final LevelType type, final int expToAdd) {
+    public static void addOfflineExp(@NonNull final String player, @NonNull final LevelType type, final int expToAdd) {
         Main.getInstance().getMySQL().addEconomy(type, player, expToAdd);
     }
 
@@ -125,7 +126,7 @@ public class LevelAPI {
      * @param player player
      * @param expToTake value to take
      */
-    public static void takeExp(final Player player, final LevelType type, final int expToTake) {
+    public static void takeExp(@NonNull final Player player, @NonNull final LevelType type, final int expToTake) {
         if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
             Logger.danger("Hrac " + player.getName() + " neni v cache takeExp zastaven!");
             return;
@@ -143,7 +144,7 @@ public class LevelAPI {
      * @param player player
      * @param expToTake value to take
      */
-    public static void takeOfflineExp(final String player, final LevelType type, final int expToTake) {
+    public static void takeOfflineExp(@NonNull final String player, @NonNull final LevelType type, final int expToTake) {
         long actualExp = Main.getInstance().getMySQL().getPlayerEconomy(type, player);
         long finalExp = actualExp - expToTake;
         if (finalExp < 0 ) return;

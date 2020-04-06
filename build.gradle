@@ -103,4 +103,9 @@ dependencies {
     compileOnly 'com.hm.achievement:advanced-achievements-api:1.2.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.zrips:cmi:8.6.21.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testCompileOnly 'org.projectlombok:lombok:1.18.12'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 }

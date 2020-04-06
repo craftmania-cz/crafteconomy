@@ -1,5 +1,7 @@
 package cz.craftmania.crafteconomy.objects;
 
+import lombok.NonNull;
+
 public enum MultiplierType {
 
     GLOBAL("Global"),
@@ -11,7 +13,7 @@ public enum MultiplierType {
     MultiplierType() {
     }
 
-    MultiplierType(String name) {
+    MultiplierType(@NonNull String name) {
         this.normalName = name;
     }
 

@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.objects;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class CraftPlayer {
     public CraftPlayer() {
     }
 
-    public CraftPlayer(final Player player) {
+    public CraftPlayer(@NonNull final Player player) {
         this.player = player;
         this.multipliers = new HashSet<>();
         this.coins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player.getUniqueId());
@@ -82,7 +83,7 @@ public class CraftPlayer {
         recalculateGlobalLevel();
     }
 
-    public CraftPlayer(final Player player, final long coins, final long tokens, final long voteTokens) {
+    public CraftPlayer(@NonNull final Player player, final long coins, final long tokens, final long voteTokens) {
         this.player = player;
         this.coins = coins;
         this.tokens = tokens;
@@ -215,7 +216,7 @@ public class CraftPlayer {
         return payToggle;
     }
 
-    public long getLevelByType(final LevelType type) {
+    public long getLevelByType(@NonNull final LevelType type) {
         switch(type) {
             case GLOBAL_LEVEL:
                 recalculateGlobalLevel();
@@ -237,7 +238,7 @@ public class CraftPlayer {
         }
     }
 
-    public void setLevelByType(final LevelType type, final long level) {
+    public void setLevelByType(@NonNull final LevelType type, final long level) {
         switch(type) {
             case GLOBAL_LEVEL:
                 Logger.danger("Nelze nastavit global level!");
@@ -265,7 +266,7 @@ public class CraftPlayer {
         }
     }
 
-    public long getExperienceByType(final LevelType type) {
+    public long getExperienceByType(@NonNull final LevelType type) {
         switch(type) {
             case SURVIVAL_EXPERIENCE:
                 return this.survivalExperience;
@@ -284,7 +285,7 @@ public class CraftPlayer {
         }
     }
 
-    public void setExperienceByType(final LevelType type, final long experience) {
+    public void setExperienceByType(@NonNull final LevelType type, final long experience) {
         switch(type) {
             case GLOBAL_EXPERIENCE:
                 Logger.danger("Nelze nastavit global experience!");

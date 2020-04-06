@@ -16,11 +16,17 @@ import cz.craftmania.crafteconomy.utils.ServerType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ProprietaryManager spravuje načtení achievementů a servers rewards
+ */
 public class ProprietaryManager {
 
     public static List<AchievementReward> serverAchievementList = new ArrayList<>();
     public static List<LevelReward> serverLevelRewardsList = new ArrayList<>();
 
+    /**
+     * Načte všechny achievementy dle {@link ServerType}
+     */
     public static void loadServerAchievements() {
         Logger.info("Priprava nacteni achievementu.");
         //new GlobalAchievements(serverAchievementList).load(); //TODO: Přesunout do speciální kategorie
@@ -43,10 +49,17 @@ public class ProprietaryManager {
         Logger.success("Celkove nacteno: " + serverAchievementList.size() + " achievementu!");
     }
 
+    /**
+     * Vrací list všech achievementů načtených v cache
+     * @return List {@link AchievementReward}
+     */
     public static List<AchievementReward> getServerAchievementList() {
         return serverAchievementList;
     }
 
+    /**
+     * Načte všechny server rewards dle {@link ServerType}
+     */
     public static void loadServerLevelRewards() {
         Logger.info("Priprava nacteni level odmen.");
         if (Main.getServerType() == ServerType.SURVIVAL) {
@@ -67,6 +80,10 @@ public class ProprietaryManager {
         Logger.success("Celkove nacteno: " + serverLevelRewardsList.size() + " server odmen!");
     }
 
+    /**
+     * Vrací list všech rewards načtených v cache
+     * @return List {@link LevelReward}
+     */
     public static List<LevelReward> getServerLevelRewardsList() {
         return serverLevelRewardsList;
     }
