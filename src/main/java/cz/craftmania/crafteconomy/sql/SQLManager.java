@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -782,12 +783,36 @@ public class SQLManager {
                     ps.setLong(3, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // Hráč má špatný UUID!
+                    Logger.danger("POZOR! Hráč " + player.getName() + " má špatné UUID! Nefungoval mu správně AutoLogin.");
+                    udpateUUIDInEconomyTable(player);
+                    //e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
                 }
             }
         }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public void udpateUUIDInEconomyTable(final Player player) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET uuid = ? WHERE nick = ?");
+            ps.setString(1, player.getUniqueId().toString());
+            ps.setString(2, player.getName());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        Logger.success("Automatická oprava UUID dokončena.");
+        player.sendMessage(" ");
+        player.sendMessage("§e§l[*] §eNa tvém účtu proběhla interní změna dat. Prosíme jdi do lobby a zpět!");
+        player.sendMessage(" ");
     }
 
     public final boolean tablePlayerProfileExists() {
