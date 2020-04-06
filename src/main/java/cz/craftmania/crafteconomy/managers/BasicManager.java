@@ -2,10 +2,12 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
+import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Constants;
+import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -221,10 +223,8 @@ public class BasicManager {
      * @param player Zvolený hráč
      * @param announce Zda se má ukázat v chatu oznámení
      */
-    public void givePlayerManualLevelReward(LevelReward level, Player player, boolean announce) {
-        if (level == null || player == null) {
-            return;
-        }
+    public void givePlayerManualLevelReward(@NonNull LevelReward level, @NonNull Player player, boolean announce) {
+        Logger.info("Davam manualni reward: Level (" + level.getLevel() + ") -> " + level.getName() + ", hrac: " + player.getName());
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
@@ -250,10 +250,7 @@ public class BasicManager {
      * @param player Zvolený hráč
      * @param announce Zda se má ukázat v chatu oznámení
      */
-    public void removePlayerLevelReward(LevelReward level, Player player, boolean announce) {
-        if (level == null || player == null) {
-            return;
-        }
+    public void removePlayerLevelReward(@NonNull LevelReward level, @NonNull Player player, boolean announce) {
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset " + permission + " " + Main.getServerType().name().toLowerCase());
@@ -269,6 +266,4 @@ public class BasicManager {
             player.sendMessage("§c" + Constants.CHAT_BOXES);
         }
     }
-
-
 }
