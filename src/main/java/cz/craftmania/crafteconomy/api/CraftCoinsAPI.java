@@ -118,5 +118,35 @@ public class CraftCoinsAPI {
         });
     }
 
+    /**
+     * Transfer CC from sender to target
+     *
+     * @param sender     Player (Sender)
+     * @param target     Player (Reciever - Target)
+     * @param coinsToPay Value to transter
+     */
+    public static void payCoins(Player sender, Player target, long coinsToPay) {
+        if(CraftCoinsAPI.getCoins(sender) < coinsToPay) {
+            return;
+        }
+        Main.getAsync().runAsync(() -> {
+            if (!BasicManager.getCraftPlayersCache().containsKey(sender)) {
+                Logger.danger("Hráč " + sender.getName() + " není v cache giveCoins zastaven!");
+                return;
+            }
 
+            long currentCoinsSender = manager.getCraftPlayer(sender).getCoins();
+            long newCoinsSender = currentCoinsSender - coinsToPay;
+
+            long currentCoinsTarget = manager.getCraftPlayer(target).getCoins();
+            long newCoinsTarget = currentCoinsTarget + coinsToPay;
+
+            manager.getCraftPlayer(sender).setCoins(newCoinsSender);
+            manager.getCraftPlayer(target).setCoins(newCoinsTarget);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, sender, newCoinsSender);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, target, newCoinsTarget);
+
+            target.sendMessage("§aHráč " + sender.getName() + " ti poslal §7" + coinsToPay + " §aCC. Nyní máš §7" + newCoinsTarget + " §aCC.");
+        });
+    }
 }

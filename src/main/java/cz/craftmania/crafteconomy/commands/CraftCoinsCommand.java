@@ -60,6 +60,40 @@ public class CraftCoinsCommand {
                     CraftCoinsAPI.takeCoins(player2, coinsToTake);
                     sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §6" + coinsToTake + " CC.");
                     break;
+                case "pay":
+                    if(!sender.hasPermission("crafteconomy.pay")) {
+                        sender.sendMessage("§e§l[*] §cNa toto nemáš práva.");
+                        return;
+                    }
+
+                    if(!(sender instanceof Player)) {
+                        sender.sendMessage("§c§l[!] §cTento příkaz nelze použít v konzoli!");
+                        return;
+                    }
+
+                    Player senderPlayer = (Player) sender;
+                    String targetName = (String)args[1];
+                    Player targetPlayer = Bukkit.getPlayer(targetName);
+                    long coinsToPay = Long.valueOf((Integer)args[2]);
+                    long senderCoins = CraftCoinsAPI.getCoins(senderPlayer);
+
+                    if(senderPlayer.getName().equalsIgnoreCase(targetName)) {
+                        sender.sendMessage("§e§l[*] §eNemůžeš poslat CraftCoiny sobě.");
+                        return;
+                    }
+
+                    if(senderCoins < coinsToPay) {
+                        sender.sendMessage("§e§l[*] §eNemáš nedostatek CraftCoinů pro tuto platbu!");;
+                        return;
+                    }
+
+                    if (targetPlayer != null) {
+                        CraftCoinsAPI.payCoins(senderPlayer, targetPlayer, coinsToPay);
+                        sender.sendMessage("§e§l[*] §ePoslal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToPay + " CC.");
+                    } else {
+                        sender.sendMessage("§c§l[!] §cNemůžeš posílat CraftCoiny hráči, který není online!");
+                    }
+                    break;
             }
         });
     }
