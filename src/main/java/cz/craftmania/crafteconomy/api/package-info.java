@@ -1,4 +1,4 @@
 /**
- * Main directory for all apis for changing player coins, tokens and more.
+ * Hlavní adresář pro všechny economy API
  */
 package cz.craftmania.crafteconomy.api;

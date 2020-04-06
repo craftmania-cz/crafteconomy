@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +20,7 @@ public class EventPointsAPI {
      * @param player Selected player
      * @return Amount of Event Points
      */
-    public static long getEventPoints(final Player player) {
+    public static long getEventPoints(@NonNull final Player player) {
         return manager.getCraftPlayer(player).getEventPoints();
     }
 
@@ -29,7 +30,7 @@ public class EventPointsAPI {
      * @param player Selected player
      * @return Amount of Event Points
      */
-    public static long getEventPoints(final String player) {
+    public static long getEventPoints(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
                 return manager.getCraftPlayer(player1).getEventPoints();
@@ -44,7 +45,7 @@ public class EventPointsAPI {
      * @param player Selected player
      * @param pointsToAdd Amount for add
      */
-    public static void giveEventPoints(final Player player, final long pointsToAdd) {
+    public static void giveEventPoints(@NonNull final Player player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveEventPoints zastaven!");
@@ -66,7 +67,7 @@ public class EventPointsAPI {
      * @param player Selected player
      * @param pointsToTake Amount for remove
      */
-    public static void takeEventPoints(final Player player, final long pointsToTake) {
+    public static void takeEventPoints(@NonNull final Player player, final long pointsToTake) {
         Main.getAsync().runAsync(() -> {
             long actualPoints = manager.getCraftPlayer(player).getEventPoints();
             long finalPoints = actualPoints - pointsToTake;

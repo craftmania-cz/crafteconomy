@@ -1,13 +1,10 @@
 package cz.craftmania.crafteconomy.listener;
 
-import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
-import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.utils.Logger;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +17,6 @@ public class PlayerLevelUpListener implements Listener {
         final CraftPlayer cp = e.getPlayer();
         final Player p = cp.getPlayer();
 
-        //TODO: Ukladání do SQL
         BasicManager basicManager = new BasicManager();
         long currentLevel = cp.getLevelByType(basicManager.getLevelByServer());
 
@@ -28,7 +24,7 @@ public class PlayerLevelUpListener implements Listener {
 
         ProprietaryManager.getServerLevelRewardsList().forEach(level -> {
             if (level.getLevel() == currentLevel) {
-                basicManager.givePlayerLevelReward(level, p);
+                basicManager.givePlayerManualLevelReward(level, p, true);
             }
         });
 

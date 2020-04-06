@@ -2,7 +2,9 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,26 +48,24 @@ public class PlayerJoinListener implements Listener {
         }
 
         // Opravy práv pro achievementy
-        if (Main.getServerType() == ServerType.CREATIVE) {
-            //this.creativeAchievemenntFixes(craftPlayer, player);
+        // EXTRA: Toto právo se dává pouze, pokud hráč požádá o převod
+        if (player.hasPermission("crafteconomy.levels.past-fix")) {
+            Logger.info("Hrac " + player.getName() + " ma pravo na opravu Levels. Spustim...");
+            this.fixLevelRewardsForPlayer(craftPlayer);
         }
 
     }
 
     /**
-     * Tato metoda opravuje hráči práva, pokud proběhla nějaká dřívější změna v achievementech a hráč nemusí mít tedy danou výhodu.
-     * @param craftPlayer CraftPlayer objekt
-     * @param player Player objekt
+     * Tato metoda projede všechny level rewards co jsou načteny v cache a opraví je hráči.
+     * <strong>Tato metoda se používá pouze při převodech účtu.</strong>
+     * @param craftPlayer {@link CraftPlayer}
      */
-    private void creativeAchievemenntFixes(CraftPlayer craftPlayer, Player player) {
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 4 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.COD_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 4);
-        }
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 7 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.PIG_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 7);
-        }
-        if (craftPlayer.getLevelByType(bm.getLevelByServer()) >= 9 && !player.hasPermission("rc.bypass.disable.interacting.in-hand.FOX_SPAWN_EGG")) {
-            bm.givePlayerLevelReward(player, 9);
-        }
+    private void fixLevelRewardsForPlayer(CraftPlayer craftPlayer) {
+        ProprietaryManager.getServerLevelRewardsList().forEach((levelReward -> {
+            bm.givePlayerManualLevelReward(levelReward, craftPlayer.getPlayer(), false);
+        }));
     }
+
+
 }

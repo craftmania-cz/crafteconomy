@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +20,7 @@ public class VoteTokensAPI {
      * @param player Selected player
      * @return amount of crafttokens
      */
-    public static long getVoteTokens(final Player player) {
+    public static long getVoteTokens(@NonNull final Player player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getPlayer().equals(player)) {
                 return manager.getCraftPlayer(player1).getVoteTokens();
@@ -34,7 +35,7 @@ public class VoteTokensAPI {
      * @param player Selected player
      * @return amount of votetokens, returns 0 if nick does not exists
      */
-    public static long getVoteTokens(final String player) {
+    public static long getVoteTokens(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
                 return manager.getCraftPlayer(player1).getVoteTokens();
@@ -49,7 +50,7 @@ public class VoteTokensAPI {
      * @param player          Player
      * @param voteTokensToAdd Value to give
      */
-    public static void giveVoteTokens(final Player player, final long voteTokensToAdd) {
+    public static void giveVoteTokens(@NonNull final Player player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveVoteTokens zastaven!");
@@ -71,7 +72,7 @@ public class VoteTokensAPI {
      * @param player          Player name
      * @param voteTokensToAdd Value to give
      */
-    public static void giveOfflineVoteTokens(final String player, final long voteTokensToAdd) {
+    public static void giveOfflineVoteTokens(@NonNull final String player, final long voteTokensToAdd) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().addEconomy(EconomyType.VOTETOKENS_2, player, voteTokensToAdd);
         });
@@ -83,7 +84,7 @@ public class VoteTokensAPI {
      * @param player             Player
      * @param voteTokensToRemove Value to remove
      */
-    public static void takeVoteTokens(final Player player, final long voteTokensToRemove) {
+    public static void takeVoteTokens(@NonNull final Player player, final long voteTokensToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualVoteTokens = manager.getCraftPlayer(player).getVoteTokens();
             long finalVoteTokens = actualVoteTokens - voteTokensToRemove;
@@ -104,7 +105,7 @@ public class VoteTokensAPI {
      * @param player             Player name
      * @param voteTokensToRemove Value to remove
      */
-    public static void takeOfflineVoteTOkens(final String player, final long voteTokensToRemove) {
+    public static void takeOfflineVoteTOkens(@NonNull final String player, final long voteTokensToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS_2, player);
             long finalVoteTokens = actualVoteTokens - voteTokensToRemove;

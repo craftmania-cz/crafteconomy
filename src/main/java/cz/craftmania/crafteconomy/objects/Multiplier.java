@@ -1,5 +1,7 @@
 package cz.craftmania.crafteconomy.objects;
 
+import lombok.NonNull;
+
 public class Multiplier {
 
     private CraftPlayer owner;
@@ -9,7 +11,7 @@ public class Multiplier {
     private long startTime;
     private long endTime;
 
-    public Multiplier(String ownerName, MultiplierType type, double multiplier) {
+    public Multiplier(@NonNull String ownerName, @NonNull MultiplierType type, double multiplier) {
         this.ownerName = ownerName; // Global multiplier nema CraftPlayer
         this.type = type;
         this.multiply = multiplier;
@@ -17,7 +19,7 @@ public class Multiplier {
         this.endTime = 0L;
     }
 
-    public Multiplier(CraftPlayer player, MultiplierType type, double multiplier) {
+    public Multiplier(@NonNull CraftPlayer player, @NonNull MultiplierType type, double multiplier) {
         this.owner = player;
         this.type = type;
         this.multiply = multiplier;
@@ -25,7 +27,7 @@ public class Multiplier {
         this.endTime = 0L;
     }
 
-    public Multiplier(CraftPlayer player, MultiplierType type, double multiplier, long startTime, long endTime) {
+    public Multiplier(@NonNull CraftPlayer player, @NonNull MultiplierType type, double multiplier, long startTime, long endTime) {
         this.owner = player;
         this.type = type;
         this.multiply = multiplier;
