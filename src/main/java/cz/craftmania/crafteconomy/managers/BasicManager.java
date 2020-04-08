@@ -195,11 +195,12 @@ public class BasicManager {
      * Zkontroluje všechny rewardy podle nastaveného serveru a dá je hráči, pokud nemá.
      * @param player Zvolený hráč
      * @param level Požadovaná odměna dle levelu
+     * @param announce Oznámení
      */
-    public void givePlayerManualLevelReward(final Player player, final int level) {
+    public void givePlayerManualLevelReward(final Player player, final int level, final boolean announce) {
         ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
             if (levelReward.getLevel() == level) {
-                this.givePlayerManualLevelReward(levelReward, player, false);
+                this.givePlayerManualLevelReward(levelReward, player, announce);
             }
         });
     }
