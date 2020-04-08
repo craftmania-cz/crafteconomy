@@ -199,6 +199,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         CraftTokensCommand.register();
         VoteTokensCommand.register();
         LevelCommand.register();
+        EventPointsCommand.register();
     }
 
     public boolean isRegisterEnabled() {
