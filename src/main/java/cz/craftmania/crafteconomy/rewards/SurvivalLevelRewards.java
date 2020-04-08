@@ -66,7 +66,7 @@ public class SurvivalLevelRewards {
         this.list.add(new LevelReward(30).setName("Přístip do Special Shop")
                 .setDescription("§7Přístup do speciální sekce", "§7v /shop k zakoupení těch nejvíc OP věcí!")
                 .setRewardDescription("§7Nyní máš přístup do Special Shopu v §a/shop")
-                .setPermissions("")); //TODO: Doplnit až bude
+                .setPermissions("shopguiplus.shops.special"));
 
         // LEVEL 35
         this.list.add(new LevelReward(35).setName("Residence 600x600")
