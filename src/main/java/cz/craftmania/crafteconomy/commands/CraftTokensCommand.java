@@ -19,8 +19,8 @@ public class CraftTokensCommand {
         // Default: /crafttokens
         CommandAPI.getInstance().register("crafttokens", new String[] {"ct"}, null, (sender, args) -> {
             Player p = (Player) sender;
-            long tokens = CraftTokensAPI.getTokens(p); //TODO: Cache?
-            p.sendMessage("§e§l[*] §eAktualne mas " + tokens + " CraftTokens.");
+            long tokens = CraftTokensAPI.getTokens(p);
+            p.sendMessage("§e§l[*] §eAktuálně máš " + tokens + " CraftTokens.");
         });
 
         // Admin prikaz: /crafttokens give [player] [value]
@@ -38,10 +38,10 @@ public class CraftTokensCommand {
                     long tokensToAdd = Long.valueOf((Integer)args[2]);
                     if (p != null) {
                         CraftTokensAPI.giveTokens(p, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
                     } else {
                         CraftTokensAPI.giveOfflineTokens(playerName, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
                     }
                     break;
                 case "take": case "remove":
@@ -50,15 +50,15 @@ public class CraftTokensCommand {
                     long tokensToTake = Long.valueOf((Integer)args[2]);
                     if (player2 == null) { //TODO: Chybi offline kontrola, lze jit do minusu
                         CraftTokensAPI.takeOfflineTokens(playerName2, tokensToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
                         break;
                     }
                     if ((manager.getCraftPlayer(player2).getTokens() - tokensToTake) < 0) {
-                        sender.sendMessage("§c§l[!] §cHrac nema dostatek CraftTokens! Ma k dispozici: " + manager.getCraftPlayer(player2).getTokens());
+                        sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getTokens());
                         break;
                     }
                     CraftTokensAPI.takeTokens(player2, tokensToTake);
-                    sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
+                    sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
                     break;
             }
         });

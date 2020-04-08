@@ -20,7 +20,7 @@ public class VoteTokensCommand {
         CommandAPI.getInstance().register("votetokens", new String[] {"vt"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long tokens = VoteTokensAPI.getVoteTokens(p);
-            p.sendMessage("§e§l[*] §eAktualne mas " + tokens + " VoteTokens.");
+            p.sendMessage("§e§l[*] §eAktuálně máš " + tokens + " VoteTokens.");
         });
 
         // Admin prikaz: /votetokens give [player] [value]
@@ -38,10 +38,10 @@ public class VoteTokensCommand {
                     long tokensToAdd = Long.valueOf((Integer)args[2]);
                     if (p != null) {
                         VoteTokensAPI.giveVoteTokens(p, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §b" + tokensToAdd + " VT.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §b" + tokensToAdd + " VT.");
                     } else {
                         VoteTokensAPI.giveOfflineVoteTokens(playerName, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §b" + tokensToAdd + " VT.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §b" + tokensToAdd + " VT.");
                     }
                     break;
                 case "take": case "remove":
@@ -50,15 +50,15 @@ public class VoteTokensCommand {
                     long tokensToTake = Long.valueOf((Integer)args[2]);
                     if (player2 == null) {
                         VoteTokensAPI.takeOfflineVoteTOkens(playerName2, tokensToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §d" + tokensToTake + " VT.");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " VT.");
                         break;
                     }
                     if ((manager.getCraftPlayer(player2).getVoteTokens() - tokensToTake) < 0) {
-                        sender.sendMessage("§c§l[!] §cHrac nema dostatek VoteTokens! Ma k dispozici: " + manager.getCraftPlayer(player2).getVoteTokens());
+                        sender.sendMessage("§c§l[!] §cHráč nemá dostatek VoteTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getVoteTokens());
                         break;
                     }
                     VoteTokensAPI.takeVoteTokens(player2, tokensToTake);
-                    sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §d" + tokensToTake + " VT.");
+                    sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " VT.");
                     break;
             }
         });

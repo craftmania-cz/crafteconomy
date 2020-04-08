@@ -20,7 +20,7 @@ public class CraftCoinsCommand {
         CommandAPI.getInstance().register("craftcoins", new String[] {"cc"}, null, (sender, args) -> {
             Player p = (Player) sender;
             long coins = CraftCoinsAPI.getCoins(p);
-            p.sendMessage("§e§l[*] §eAktualne mas " + coins + " CraftCoins.");
+            p.sendMessage("§e§l[*] §eAktuálně máš " + coins + " CraftCoins.");
         });
 
         // Admin prikaz: /craftcoins give [player] [value]
@@ -38,10 +38,10 @@ public class CraftCoinsCommand {
                     long coinsToAdd = Long.valueOf((Integer)args[2]);
                     if (p != null) {
                         CraftCoinsAPI.giveCoins(p, coinsToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + coinsToAdd + " CC.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §6" + coinsToAdd + " CC.");
                     } else {
                         CraftCoinsAPI.giveOfflineCoins(playerName, coinsToAdd);
-                        sender.sendMessage("§e§l[*] §ePridal jsi hraci §f" + playerName + " §7- §6" + coinsToAdd + " CC.");
+                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §6" + coinsToAdd + " CC.");
                     }
                     break;
                 case "take": case "remove":
@@ -50,15 +50,15 @@ public class CraftCoinsCommand {
                     long coinsToTake = Long.valueOf((Integer)args[2]);
                     if (player2 == null) {
                         CraftCoinsAPI.takeOfflineCoins(playerName2, coinsToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + args[1] + " §7- §6" + coinsToTake + " CC.");
+                        sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + args[1] + " §7- §6" + coinsToTake + " CC.");
                         break;
                     }
                     if ((manager.getCraftPlayer(player2).getCoins() - coinsToTake) < 0) {
-                        sender.sendMessage("§c§l[!] §cHrac nema dostatek CraftCoins! Ma k dispozici: " + manager.getCraftPlayer(player2).getCoins());
+                        sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftCoins! Má k dispozici: " + manager.getCraftPlayer(player2).getCoins());
                         break;
                     }
                     CraftCoinsAPI.takeCoins(player2, coinsToTake);
-                    sender.sendMessage("§e§l[*] §eOdebral jsi hraci §f" + playerName2 + " §7- §6" + coinsToTake + " CC.");
+                    sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §6" + coinsToTake + " CC.");
                     break;
                 case "pay":
                     if(!sender.hasPermission("crafteconomy.pay")) {

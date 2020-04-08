@@ -26,8 +26,8 @@ public class LevelCommand {
 
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
             p.sendMessage("");
-            p.sendMessage("§6§lGlobal rank"); //TODO: Předělat na menu
-            p.sendMessage("§eCelkovy level: §f" + totalGlobalLevel);
+            p.sendMessage("§6§lGlobální rank"); //TODO: Předělat na menu
+            p.sendMessage("§eCelkový level: §f" + totalGlobalLevel);
             p.sendMessage("§eServer levels: §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "]§7, §3Cloud §7[" + craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL) + "§7]");
             p.sendMessage("§bKarma: §f0");
             p.sendMessage("§dAchievementPoints: §f" + craftPlayer.getAchievementPoints());
@@ -71,7 +71,7 @@ public class LevelCommand {
         player.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         player.sendMessage("");
         player.sendMessage("§6§lServer rank: §f" + server);
-        player.sendMessage("§eLevel: §f" + actualLevel + " §7(dokonceno: " + FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%, celkem: " + totalExperience + " XP)");
+        player.sendMessage("§eLevel: §f" + actualLevel + " §7(dokončeno: " + FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%, celkem: " + totalExperience + " XP)");
         player.sendMessage("");
         player.sendMessage("§eExp do level up: §f" + expForLevelUp + " XP");
         player.sendMessage("");
