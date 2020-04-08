@@ -25,7 +25,7 @@ public class PlayerExpGainListener implements Listener {
             if (p.getExperienceByType(bm.getExperienceByServer())
                     >= LevelUtils.getExpFromLevelToNext(p.getLevelByType(bm.getLevelByServer()))) {
                 LevelAPI.addLevel(p.getPlayer(), bm.getLevelByServer(), 1);
-                p.setExperienceByType(bm.getExperienceByServer(), 0);
+                LevelAPI.resetExperienceToZero(p.getPlayer(), bm.getLevelByServer());
             }
         });
     }

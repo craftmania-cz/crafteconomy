@@ -150,4 +150,18 @@ public class LevelAPI {
         if (finalExp < 0 ) return;
         Main.getInstance().getMySQL().takeEconomy(type, player, expToTake);
     }
+
+    /**
+     * Vyresetuje expy na 0 (pouze při level upu)
+     * @param player Player
+     * @param type {@link LevelType}
+     */
+    public static void resetExperienceToZero(@NonNull final Player player, @NonNull final LevelType type) {
+        if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
+            Logger.danger("Hrac " + player.getName() + " neni v cache takeExp zastaven!");
+            return;
+        }
+        manager.getCraftPlayer(player).setExperienceByType(manager.getExperienceByServer(), 0);
+        Main.getInstance().getMySQL().setEconomy(type, player, 0);
+    }
 }
