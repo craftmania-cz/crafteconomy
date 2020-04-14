@@ -32,6 +32,10 @@ public class WithdrawGUI implements InventoryProvider {
 
         if (this.canWithdrawEmeralds) { // 1
             contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.EMERALD).setName("§aVybrat 1 Emerald").setLore("§71x EM -> 1x EM", "", "§7Klikni pro směnu").build(), item -> {
+                if (hasFullInventory(player)) {
+                    player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
+                    return;
+                }
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 1);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 1)));
@@ -42,6 +46,10 @@ public class WithdrawGUI implements InventoryProvider {
 
         if (this.canWithdrawEmeraldBlocks) { // 9
             contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.EMERALD_BLOCK).setName("§aVybrat 1 Emerald Block").setLore("§71x EB -> 9x EM", "", "§7Klikni pro směnu").build(), item -> {
+                if (hasFullInventory(player)) {
+                    player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
+                    return;
+                }
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 9);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD_BLOCK).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9)));
@@ -52,6 +60,10 @@ public class WithdrawGUI implements InventoryProvider {
 
         if (this.canWithdrawDiamond) { // 9
             contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.DIAMOND).setName("§bVybrat 1 Diamond").setLore("§71x DM -> 9x EM", "", "§7Klikni pro směnu").build(), item -> {
+                if (hasFullInventory(player)) {
+                    player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
+                    return;
+                }
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 9);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9)));
@@ -62,6 +74,10 @@ public class WithdrawGUI implements InventoryProvider {
 
         if (this.canWithdrawDiamondBlock) { // 81
             contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.DIAMOND_BLOCK).setName("§bVybrat 1 Diamond Block").setLore("§71x DB -> 81x EM", "", "§7Klikni pro směnu").build(), item -> {
+                if (hasFullInventory(player)) {
+                    player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
+                    return;
+                }
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 81);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 81)));
@@ -95,5 +111,9 @@ public class WithdrawGUI implements InventoryProvider {
         if (!this.canWithdrawDiamondBlock) {
             contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Diamond Block").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
         }
+    }
+
+    private boolean hasFullInventory(Player player) {
+        return player.getInventory().firstEmpty() == -1;
     }
 }
