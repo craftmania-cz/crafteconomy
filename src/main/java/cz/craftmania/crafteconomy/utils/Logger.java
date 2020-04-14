@@ -16,4 +16,8 @@ public class Logger {
     public static void success(String s) {
         Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "[CraftEconomy] " + ChatColor.GREEN + s);
     }
+
+    public static void debug(String s) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "[DEBUG - CraftEconomy] " + ChatColor.WHITE + s);
+    }
 }

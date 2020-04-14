@@ -13,6 +13,7 @@ public class CraftEconomyBankWithdrawEvent extends Event {
     private final int amount;
 
     public CraftEconomyBankWithdrawEvent(Player player, int amount) {
+        super(true);
         this.player = player;
         this.amount = amount;
     }

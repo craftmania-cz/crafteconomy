@@ -34,7 +34,7 @@ public class WithdrawGUI implements InventoryProvider {
             contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.EMERALD).setName("§aVybrat 1 Emerald").setLore("§71x EM -> 1x EM", "", "§7Klikni pro směnu").build(), item -> {
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 1);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD).setAmount(1).build());
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 1));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 1)));
             }));
         } else {
             contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Emerald").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -44,7 +44,7 @@ public class WithdrawGUI implements InventoryProvider {
             contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.EMERALD_BLOCK).setName("§aVybrat 1 Emerald Block").setLore("§71x EB -> 9x EM", "", "§7Klikni pro směnu").build(), item -> {
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 9);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD_BLOCK).setAmount(1).build());
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9)));
             }));
         } else {
             contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Emerald Block").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -54,7 +54,7 @@ public class WithdrawGUI implements InventoryProvider {
             contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.DIAMOND).setName("§bVybrat 1 Diamond").setLore("§71x DM -> 9x EM", "", "§7Klikni pro směnu").build(), item -> {
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 9);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND).setAmount(1).build());
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9)));
             }));
         } else {
             contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Diamond").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -64,7 +64,7 @@ public class WithdrawGUI implements InventoryProvider {
             contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.DIAMOND_BLOCK).setName("§bVybrat 1 Diamond Block").setLore("§71x DB -> 81x EM", "", "§7Klikni pro směnu").build(), item -> {
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 81);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setAmount(1).build());
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 81));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 81)));
             }));
         } else {
             contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Diamond Block").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));

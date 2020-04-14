@@ -47,7 +47,7 @@ public class LevelAPI {
         long finalLevel = actualLevel + levelsToAdd; // final level
         manager.getCraftPlayer(player).setLevelByType(type, finalLevel);
         Main.getInstance().getMySQL().setEconomy(type, player, finalLevel);
-        Main.getAsync().runSync(() -> Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd, finalLevel)));
+        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd, finalLevel)));
     }
 
     /**
@@ -99,6 +99,7 @@ public class LevelAPI {
      * @param expToAdd value to add
      */
     public static void addExp(@NonNull final Player player, @NonNull final LevelType type, final int expToAdd) {
+        long time = System.currentTimeMillis();
         if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
             Logger.danger("Hrac " + player.getName() + " neni v cache addExp zastaven!");
             return;
@@ -107,7 +108,8 @@ public class LevelAPI {
         long finalExp = actualExp + expToAdd;
         manager.getCraftPlayer(player).setExperienceByType(type, finalExp);
         Main.getInstance().getMySQL().setEconomy(type, player, finalExp);
-        Main.getAsync().runSync(() -> Bukkit.getPluginManager().callEvent(new PlayerExpGainEvent(manager.getCraftPlayer(player), expToAdd)));
+        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new PlayerExpGainEvent(manager.getCraftPlayer(player), expToAdd)));
+        Logger.debug(System.currentTimeMillis() - time + "ms");
     }
 
     /**

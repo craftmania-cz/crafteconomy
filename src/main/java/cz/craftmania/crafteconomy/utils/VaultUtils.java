@@ -22,6 +22,10 @@ public class VaultUtils extends AbstractEconomy {
         Bukkit.getPluginManager().callEvent(event);
     }
 
+    private <T extends Event> void callAsyncEvent(T event) {
+        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(event));
+    }
+
     @Override
     public boolean isEnabled() {
         return Main.getInstance().isEnabled();
@@ -151,11 +155,11 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
+            callAsyncEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerVaultWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
+            callAsyncEvent(new PlayerVaultWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
         }
         return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
     }
@@ -190,11 +194,11 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
+            callAsyncEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§a§l[*] §aBylo ti pridano: " + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
-            callEvent(new PlayerVaultDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
+            callAsyncEvent(new PlayerVaultDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
         }
         return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, "");
 

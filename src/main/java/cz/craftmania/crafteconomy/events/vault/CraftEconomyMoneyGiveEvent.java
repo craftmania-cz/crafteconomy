@@ -13,6 +13,7 @@ public class CraftEconomyMoneyGiveEvent extends Event {
     private long value;
 
     public CraftEconomyMoneyGiveEvent(String sender, String reciever, long value) {
+        super(true);
         this.sender = sender;
         this.reciever = reciever;
         this.value = value;

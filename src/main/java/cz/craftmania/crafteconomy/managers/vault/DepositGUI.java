@@ -112,7 +112,7 @@ public class DepositGUI implements Listener {
                 int count = countEmeralds(event.getView().getTopInventory(), player);
                 Main.getVaultEconomy().depositPlayer(player.getName(), count);
                 event.getView().setItem(22, null);
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankDepositEvent(player, count));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankDepositEvent(player, count)));
             }
         }
     }

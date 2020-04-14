@@ -15,6 +15,7 @@ public class PlayerLevelUpEvent extends Event {
     private long newLevel;
 
     public PlayerLevelUpEvent(CraftPlayer player, long amount, long newLevel) {
+        super(true);
         this.player = player;
         this.amount = amount;
         this.newLevel = newLevel;
