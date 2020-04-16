@@ -158,9 +158,9 @@ public class DepositGUI implements Listener {
         } else if (emeralds.getType() == Material.EMERALD_BLOCK) {
             return emeralds.getAmount() * 9;
         } else if (emeralds.getType() == Material.DIAMOND) {
-            return emeralds.getAmount() * 9;
-        } else if (emeralds.getType() == Material.DIAMOND_BLOCK) {
             return (emeralds.getAmount() * 9) * 9;
+        } else if (emeralds.getType() == Material.DIAMOND_BLOCK) {
+            return ((emeralds.getAmount() * 9) * 9) * 9;
         }
         return 0; // HUH?
     }
