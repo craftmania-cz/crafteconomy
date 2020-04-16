@@ -93,7 +93,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly ('org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT') {
+    compileOnly ('org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
     compileOnly 'cz.craftmania.craftcore:craftcore:2.2.7'
