@@ -17,6 +17,7 @@ public class CraftEconomyPlayerPayEvent extends Event {
     private Date date;
 
     public CraftEconomyPlayerPayEvent(Player sender, Player reciever, long amount) {
+        super(true);
         this.sender = sender;
         this.reciever = reciever;
         this.amount = amount;

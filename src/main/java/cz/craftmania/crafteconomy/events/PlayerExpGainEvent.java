@@ -14,6 +14,7 @@ public class PlayerExpGainEvent extends Event {
     private long amount;
 
     public PlayerExpGainEvent(CraftPlayer p, long amount) {
+        super(true);
         this.player = p;
         this.amount = amount;
     }

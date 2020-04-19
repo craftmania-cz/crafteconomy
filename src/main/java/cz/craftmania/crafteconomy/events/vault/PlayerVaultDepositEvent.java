@@ -23,7 +23,7 @@ public class PlayerVaultDepositEvent extends Event {
     }
 
     public PlayerVaultDepositEvent(OfflinePlayer player, double amount, String world, EconomyResponse.ResponseType response) {
-        super(!Bukkit.isPrimaryThread());
+        super(true);
         this.player = player;
         this.amount = amount;
         this.world = world;

@@ -2,7 +2,6 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -15,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * BasicManager spravuje základní data hráčů v CraftEconomy
@@ -232,6 +232,25 @@ public class BasicManager {
             });
         }
 
+        if (level.getItems().size() >= 1) {
+            AtomicBoolean announceDrop = new AtomicBoolean(false);
+            level.getItems().forEach(itemStack -> {
+                if (level.isRequireSlotInInventory()) {
+                    if (hasFullInventory(player)) { // Když full tak drop na zem
+                        player.getWorld().dropItem(player.getLocation(), itemStack);
+                        announceDrop.set(true);
+                    } else {
+                        player.getInventory().addItem(itemStack);
+                    }
+                } else {
+                    player.getInventory().addItem(itemStack);
+                }
+            });
+            if (announceDrop.get()) {
+                player.sendMessage("§c§l[!] §cMáš plný inventář! Itemy leží na zemi.");
+            }
+        }
+
         // Notify
         if (announce) {
             player.sendMessage("§b" + Constants.CHAT_BOXES);
@@ -266,5 +285,9 @@ public class BasicManager {
             player.sendMessage("");
             player.sendMessage("§c" + Constants.CHAT_BOXES);
         }
+    }
+
+    private boolean hasFullInventory(Player player) {
+        return player.getInventory().firstEmpty() == -1;
     }
 }

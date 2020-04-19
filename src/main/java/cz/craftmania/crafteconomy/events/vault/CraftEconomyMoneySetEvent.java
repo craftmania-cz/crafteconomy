@@ -11,6 +11,7 @@ public class CraftEconomyMoneySetEvent extends Event {
     private long newValue;
 
     public CraftEconomyMoneySetEvent(String sender, String reciever, long oldValue, long newValue) {
+        super(true);
         this.sender = sender;
         this.reciever = reciever;
         this.oldvalue = oldValue;

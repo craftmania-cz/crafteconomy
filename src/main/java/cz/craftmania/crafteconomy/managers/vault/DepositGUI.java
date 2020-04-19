@@ -112,7 +112,7 @@ public class DepositGUI implements Listener {
                 int count = countEmeralds(event.getView().getTopInventory(), player);
                 Main.getVaultEconomy().depositPlayer(player.getName(), count);
                 event.getView().setItem(22, null);
-                Bukkit.getPluginManager().callEvent(new CraftEconomyBankDepositEvent(player, count));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankDepositEvent(player, count)));
             }
         }
     }
@@ -158,9 +158,9 @@ public class DepositGUI implements Listener {
         } else if (emeralds.getType() == Material.EMERALD_BLOCK) {
             return emeralds.getAmount() * 9;
         } else if (emeralds.getType() == Material.DIAMOND) {
-            return emeralds.getAmount() * 9;
-        } else if (emeralds.getType() == Material.DIAMOND_BLOCK) {
             return (emeralds.getAmount() * 9) * 9;
+        } else if (emeralds.getType() == Material.DIAMOND_BLOCK) {
+            return ((emeralds.getAmount() * 9) * 9) * 9;
         }
         return 0; // HUH?
     }

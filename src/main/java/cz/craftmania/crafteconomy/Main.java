@@ -81,6 +81,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
             ProprietaryManager.loadServerLevelRewards();
+        } else {
+            Logger.danger("AdvancedAchievements nejsou na serveru! Levels & Rewards nebudou fungovat!");
         }
 
         // Variables

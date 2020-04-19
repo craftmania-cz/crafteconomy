@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.rewards.CreativeLevelReward;
+import cz.craftmania.crafteconomy.rewards.SkycloudLevelRewards;
 import cz.craftmania.crafteconomy.rewards.SurvivalLevelRewards;
 import cz.craftmania.crafteconomy.rewards.VanillaLevelRewards;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -71,7 +72,7 @@ public class ProprietaryManager {
         } else if (Main.getServerType() == ServerType.PRISON) {
             Logger.danger("Prison nema nastavene zadne server odmeny!");
         } else if (Main.getServerType() == ServerType.SKYCLOUD) {
-            Logger.danger("Skycloud nema nastavene zadne server odmeny!");
+            new SkycloudLevelRewards(serverLevelRewardsList).load();
         } else if (Main.getServerType() == ServerType.VANILLA) {
             new VanillaLevelRewards(serverLevelRewardsList).load();
         } else {
