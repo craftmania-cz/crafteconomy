@@ -2,29 +2,32 @@ package cz.craftmania.crafteconomy.commands.vault;
 
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.sql.SQLManager;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.arguments.Argument;
 import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BaltopCommand {
 
-    static int maxTableSize = 10;
+    private static int maxTableSize = 10;
 
     public static void register() {
+
+        // Default: /baltop
         CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, null, (sender, args) -> {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                Map<Integer, List> listMap = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
-                printTableForPlayer(player, listMap, 1);
+                printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), 1);
             }
         });
 
+        // Default: /baltop <Strana>
         LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
         arguments.put("Strana", new IntegerArgument());
         CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, arguments, (sender, args) -> {
@@ -36,14 +39,18 @@ public class BaltopCommand {
                     return;
                 }
 
-                Map<Integer, List> listMap = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
-                printTableForPlayer(player, listMap, (int) args[0]);
+                printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), (int) args[0]);
             }
         });
     }
-    private static void printTableForPlayer(Player player, Map<Integer, List> listMap, int page) {
-        List<String> nicks = listMap.get(1);
-        List<Long> balances = listMap.get(2);
+
+    private static void printTableForPlayer(Player player, Map<String, Long> balanceMap, int page) {
+        balanceMap = balanceMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        List<String> nicks = new ArrayList<>(balanceMap.keySet());
+        List<Long> balances = new ArrayList<>(balanceMap.values());
 
         if (page > (int)(Math.round((double)nicks.size()/10))) {
             player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");

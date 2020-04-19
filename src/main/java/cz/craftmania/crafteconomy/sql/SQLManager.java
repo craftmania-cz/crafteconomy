@@ -596,10 +596,8 @@ public class SQLManager {
         return 0;
     }
 
-    public Map<Integer, List> getVaultAllEcosWithNicks() {
-        Map<Integer, List> listMap = new HashMap<Integer, List>();
-        List<String> nicks = new ArrayList<>();
-        List<Long> balances = new ArrayList<>();
+    public Map<String, Long> getVaultAllEcosWithNicks() {
+        Map<String, Long> balanceMap = new HashMap<String, Long>();
 
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
@@ -610,8 +608,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 ORDER BY `balance` DESC");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
-                nicks.add(ps.getResultSet().getString("nick"));
-                balances.add(ps.getResultSet().getLong("balance"));
+                balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getLong("balance"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -619,9 +616,7 @@ public class SQLManager {
             pool.close(conn, ps, null);
         }
 
-        listMap.put(1, nicks);
-        listMap.put(2, balances);
-        return listMap;
+        return balanceMap;
     }
     public Map<Integer, List> getVaultAllLogsByUUID(String UUIDstring) {
         Map<Integer, List> listMap = new HashMap<Integer, List>();

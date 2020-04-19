@@ -1,9 +1,20 @@
 package cz.craftmania.crafteconomy.managers.vault;
 
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
+import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.Map;
+
 public class VaultEconomyManager {
+
+    private static Map<String, Long> baltopCache;
+
+    public VaultEconomyManager() {
+        updateBaltopCache();
+    }
 
     public void startDeposit(final Player player) {
         DepositGUI.open(player);
@@ -11,5 +22,13 @@ public class VaultEconomyManager {
 
     public void startWithdraw(final Player player) {
         SmartInventory.builder().size(5, 9).title("[B] Vybrání prostředků").provider(new WithdrawGUI()).build().open(player);
+    }
+
+    public void updateBaltopCache() {
+        baltopCache = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
+    }
+
+    public Map<String, Long> getBaltopCache() {
+        return baltopCache;
     }
 }

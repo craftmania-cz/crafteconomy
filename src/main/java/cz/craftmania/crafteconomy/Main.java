@@ -6,6 +6,7 @@ import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
+import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
@@ -35,6 +36,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Vault
     private static Economy vaultEconomy = null;
     private String currency = "$";
+    private static VaultEconomyManager vaultEconomyManager;
 
     // Server
     private static ServerType serverType = ServerType.UNKNOWN;
@@ -128,6 +130,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             PayCommand.register();
             PaytoggleCommand.register();
             BaltopCommand.register();
+            vaultEconomyManager = new VaultEconomyManager();
+            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
                 BankCommand.register();
@@ -235,6 +239,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
      */
     public String getFormattedNumber(Long number) {
         return NumberFormat.getInstance(Locale.US).format(number);
+    }
+
+    public VaultEconomyManager getVaultEconomyManager() {
+        return vaultEconomyManager;
     }
 
     private ServerType resolveServerType() {
