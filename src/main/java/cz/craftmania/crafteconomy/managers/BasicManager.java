@@ -228,7 +228,9 @@ public class BasicManager {
         Logger.info("Davam manualni reward: Level (" + level.getLevel() + ") -> " + level.getName() + ", hrac: " + player.getName());
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+                Main.getAsync().runSync(() -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+                });
             });
         }
 
