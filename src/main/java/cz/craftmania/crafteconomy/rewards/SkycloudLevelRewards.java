@@ -65,10 +65,10 @@ public class SkycloudLevelRewards {
                 .setItems(new ItemStack(Material.SUGAR_CANE, 3)));
 
         // Level 10
-        this.list.add(new LevelReward(10).setName("Rozšíření ostrova: 100x100")
-                .setDescription("§7Region ostrova se zvětší na 100x100!")
-                .setRewardDescription("§7Nyní máš velikost ostrova 100x100")
-                .setPermissions("bskyblock.island.range.100"));
+        this.list.add(new LevelReward(10).setName("Rozšíření ostrova: 75x75")
+                .setDescription("§7Region ostrova se zvětší na 75x75!")
+                .setRewardDescription("§7Nyní máš velikost ostrova 75x75")
+                .setPermissions("bskyblock.island.range.75"));
 
         // Level 11
         this.list.add(new LevelReward(11).setName("3x Nether Warth")
@@ -89,12 +89,6 @@ public class SkycloudLevelRewards {
                 .setDescription("§7Budeš si moct přidat na ostrov", "§7až 8 hráčů!")
                 .setRewardDescription("§7Nyní můžeš pozvat na ostrov až 8 hráčů!")
                 .setPermissions("bskyblock.team.maxsize.8"));
-
-        // Level 14
-        this.list.add(new LevelReward(14).setName("Přístup k /is lock")
-                .setDescription("§7Přístup k uzamknutí svého ostrova!")
-                .setRewardDescription("§7Nyní si můžeš zamknout ostrov pomocí /is lock")
-                .setPermissions("bskyblock.island.lock"));
 
         // Level 15
         this.list.add(new LevelReward(15).setName("2x Bee Spawn Egg")
@@ -135,10 +129,10 @@ public class SkycloudLevelRewards {
                 .setPermissions("bskyblock.island.range.200"));
 
         // Level 30
-        this.list.add(new LevelReward(30).setName("Rozšíření ostrova: 300x300")
-                .setDescription("§7Region ostrova se zvětší na 300x300!")
-                .setRewardDescription("§7Nyní máš velikost ostrova 300x300")
-                .setPermissions("bskyblock.island.range.300"));
+        this.list.add(new LevelReward(30).setName("Rozšíření ostrova: 200x200")
+                .setDescription("§7Region ostrova se zvětší na 200x200!")
+                .setRewardDescription("§7Nyní máš velikost ostrova 200x200")
+                .setPermissions("bskyblock.island.range.200"));
 
     }
 }
