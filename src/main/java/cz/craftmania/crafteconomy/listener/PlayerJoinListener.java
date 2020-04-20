@@ -4,6 +4,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
@@ -52,6 +53,15 @@ public class PlayerJoinListener implements Listener {
         if (player.hasPermission("crafteconomy.levels.past-fix")) {
             Logger.info("Hrac " + player.getName() + " ma pravo na opravu Levels. Spustim...");
             this.fixLevelRewardsForPlayer(craftPlayer);
+        }
+
+        if (Main.getServerType() == ServerType.SKYCLOUD) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYCLOUD_LEVEL) >= 6 && !player.hasPermission("bskyblock.team.maxsize.6")) {
+                bm.givePlayerManualLevelReward(player, 6, true);
+            }
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYCLOUD_LEVEL) >= 10 && !player.hasPermission("bskyblock.island.range.75")) {
+                bm.givePlayerManualLevelReward(player, 10, true);
+            }
         }
 
     }
