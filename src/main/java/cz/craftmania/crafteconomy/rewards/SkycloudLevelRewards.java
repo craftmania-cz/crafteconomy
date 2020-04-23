@@ -82,7 +82,7 @@ public class SkycloudLevelRewards {
                 .setDescription("§7Získáš základní surovinu: Bambus")
                 .setRewardDescription("§7Nyní jsi dostal Bambus, zasaď hooo!")
                 .setRequiareSlotInInventory()
-                .setItems(new ItemStack(Material.BAMBOO_SAPLING, 2)));
+                .setItems(new ItemStack(Material.BAMBOO, 2)));
 
         // Level 13
         this.list.add(new LevelReward(13).setName("Možnost přidat na ostrov 8 hráčů")
