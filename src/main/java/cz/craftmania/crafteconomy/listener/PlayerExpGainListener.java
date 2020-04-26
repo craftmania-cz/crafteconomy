@@ -19,6 +19,10 @@ public class PlayerExpGainListener implements Listener {
         final CraftPlayer p = e.getPlayer();
         long amount = e.getAmount();
 
+        if (p.isAfk()) { // Pokud je AFK nedostane žádný expy!
+            return;
+        }
+
         //TODO: Volitelny pres Ccomunity
         Main.getAsync().runAsync(() -> {
             p.getPlayer().sendMessage("§6+ " + amount + "XP");
