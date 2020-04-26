@@ -10,12 +10,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class WithdrawGUI implements InventoryProvider {
 
-    private static ItemStack cable = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName("§c ").build();
+    private static final ItemStack cable = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName("§c ").build();
     private long playerBalance = 0;
     private boolean canWithdrawEmeralds = false, canWithdrawEmeraldBlocks = false, canWithdrawDiamond = false, canWithdrawDiamondBlock = false;
+
+    private final HashMap<Player, Double> _time = new HashMap<>();
+    private final HashMap<Player, BukkitRunnable> _cdRunnable = new HashMap<>();
 
     @Override
     public void init(Player player, InventoryContents contents) {
@@ -36,9 +44,26 @@ public class WithdrawGUI implements InventoryProvider {
                     player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
                     return;
                 }
+                if (this._time.containsKey(player)) {
+                    player.sendMessage("§c§l[!] §cVýběr nelze provádět tak rychle!");
+                    return;
+                }
+                this._time.put(player, 1D + 0.1D);
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 1);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 1)));
+                this._cdRunnable.put(player, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        WithdrawGUI.this._time.put(player, WithdrawGUI.this._time.get(player) - 0.1D);
+                        if (WithdrawGUI.this._time.get(player) < 0.01D) {
+                            WithdrawGUI.this._time.remove(player);
+                            WithdrawGUI.this._cdRunnable.remove(player);
+                            cancel();
+                        }
+                    }
+                });
+                this._cdRunnable.get(player).runTaskTimer(Main.getInstance(), 2L, 2L);
             }));
         } else {
             contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Emerald").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -50,9 +75,26 @@ public class WithdrawGUI implements InventoryProvider {
                     player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
                     return;
                 }
+                if (this._time.containsKey(player)) {
+                    player.sendMessage("§c§l[!] §cVýběr nelze provádět tak rychle!");
+                    return;
+                }
+                this._time.put(player, 1D + 0.1D);
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 9);
                 player.getInventory().addItem(new ItemBuilder(Material.EMERALD_BLOCK).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 9)));
+                this._cdRunnable.put(player, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        WithdrawGUI.this._time.put(player, WithdrawGUI.this._time.get(player) - 0.1D);
+                        if (WithdrawGUI.this._time.get(player) < 0.01D) {
+                            WithdrawGUI.this._time.remove(player);
+                            WithdrawGUI.this._cdRunnable.remove(player);
+                            cancel();
+                        }
+                    }
+                });
+                this._cdRunnable.get(player).runTaskTimer(Main.getInstance(), 2L, 2L);
             }));
         } else {
             contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Emerald Block").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -64,9 +106,26 @@ public class WithdrawGUI implements InventoryProvider {
                     player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
                     return;
                 }
+                if (this._time.containsKey(player)) {
+                    player.sendMessage("§c§l[!] §cVýběr nelze provádět tak rychle!");
+                    return;
+                }
+                this._time.put(player, 1D + 0.1D);
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 81);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 81)));
+                this._cdRunnable.put(player, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        WithdrawGUI.this._time.put(player, WithdrawGUI.this._time.get(player) - 0.1D);
+                        if (WithdrawGUI.this._time.get(player) < 0.01D) {
+                            WithdrawGUI.this._time.remove(player);
+                            WithdrawGUI.this._cdRunnable.remove(player);
+                            cancel();
+                        }
+                    }
+                });
+                this._cdRunnable.get(player).runTaskTimer(Main.getInstance(), 2L, 2L);
             }));
         } else {
             contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Diamond").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
@@ -78,9 +137,26 @@ public class WithdrawGUI implements InventoryProvider {
                     player.sendMessage("§c§l[!] §cMáš plný inventář, nelze provést výběr!");
                     return;
                 }
+                if (this._time.containsKey(player)) {
+                    player.sendMessage("§c§l[!] §cVýběr nelze provádět tak rychle!");
+                    return;
+                }
+                this._time.put(player, 1D + 0.1D);
                 Main.getVaultEconomy().withdrawPlayer(player.getName(), 576);
                 player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_BLOCK).setAmount(1).build());
                 Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyBankWithdrawEvent(player, 576)));
+                this._cdRunnable.put(player, new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        WithdrawGUI.this._time.put(player, WithdrawGUI.this._time.get(player) - 0.1D);
+                        if (WithdrawGUI.this._time.get(player) < 0.01D) {
+                            WithdrawGUI.this._time.remove(player);
+                            WithdrawGUI.this._cdRunnable.remove(player);
+                            cancel();
+                        }
+                    }
+                });
+                this._cdRunnable.get(player).runTaskTimer(Main.getInstance(), 2L, 2L);
             }));
         } else {
             contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Diamond Block").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));
