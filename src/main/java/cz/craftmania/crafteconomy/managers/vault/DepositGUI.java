@@ -148,19 +148,19 @@ public class DepositGUI implements Listener {
 
     private int countEmeralds(Inventory inventory, Player player) {
         int count = 0; // Slot 22
-        ItemStack emeralds = inventory.getItem(22);
-        if (emeralds.hasItemMeta()) {
+        ItemStack depositItem = inventory.getItem(22);
+        if (depositItem.hasItemMeta()) {
             player.sendMessage("§c§l[!] §cLze umisťovat pouze emeraldy bez názvů.");
             return 0;
         }
-        if (emeralds.getType() == Material.EMERALD) {
-            return emeralds.getAmount();
-        } else if (emeralds.getType() == Material.EMERALD_BLOCK) {
-            return emeralds.getAmount() * 9;
-        } else if (emeralds.getType() == Material.DIAMOND) {
-            return (emeralds.getAmount() * 9) * 9;
-        } else if (emeralds.getType() == Material.DIAMOND_BLOCK) {
-            return ((emeralds.getAmount() * 9) * 9) * 9;
+        if (depositItem.getType() == Material.EMERALD) {
+            return depositItem.getAmount();
+        } else if (depositItem.getType() == Material.EMERALD_BLOCK) {
+            return depositItem.getAmount() * 9;
+        } else if (depositItem.getType() == Material.DIAMOND) {
+            return depositItem.getAmount() * 81;
+        } else if (depositItem.getType() == Material.DIAMOND_BLOCK) {
+            return depositItem.getAmount() * 576;
         }
         return 0; // HUH?
     }
