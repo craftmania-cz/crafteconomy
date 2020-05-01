@@ -160,7 +160,7 @@ public class DepositGUI implements Listener {
         } else if (depositItem.getType() == Material.DIAMOND) {
             return depositItem.getAmount() * 81;
         } else if (depositItem.getType() == Material.DIAMOND_BLOCK) {
-            return depositItem.getAmount() * 576;
+            return depositItem.getAmount() * 729;
         }
         return 0; // HUH?
     }
