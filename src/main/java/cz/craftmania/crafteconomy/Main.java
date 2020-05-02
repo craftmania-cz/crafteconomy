@@ -13,6 +13,7 @@ import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -47,6 +48,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
 
+    // Sentry
+    private CraftSentry sentry = null;
+
     @Override
     public void onEnable() {
 
@@ -68,6 +72,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // ID serveru a typ
         serverType = resolveServerType();
         Logger.info("Server zaevidovany jako: " + serverType.name());
+
+        // Sentry integration
+        sentry = new CraftSentry(getConfig().getString("sentry-dsn"));
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -287,5 +294,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Vrací sentry integraci z CraftLibs
+     * @return {@link CraftSentry}
+     */
+    public CraftSentry getSentry() {
+        return sentry;
     }
 }

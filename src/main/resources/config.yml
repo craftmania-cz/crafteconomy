@@ -15,7 +15,11 @@ settings:
 # Registrace profilu do Ccomunity (pouze lobby)
 registerEnabled: false
 
+# Id serveru
 server: survival
+
+# Integrace a zasílání exceptions na Sentry
+sentry-dsn: ''
 
 # Deaktivace určitých věcí z důvodu testů a různých nastavení na serverech
 disables:
