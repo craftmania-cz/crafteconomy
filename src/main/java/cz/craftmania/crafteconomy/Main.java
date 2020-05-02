@@ -240,10 +240,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     }
 
     /**
-     * Will convert unformatted Long into formatted String.
-     * Usually used for formatting money numbers into readable ones.
+     * Převede long říslo na zformátovaný String
      *
-     * @param number Any (long) number
+     * @param number Jakékoliv číslo (long)
      * @return (Long)18748724 -> (String)18,748,724
      */
     public String getFormattedNumber(Long number) {
@@ -254,6 +253,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return vaultEconomyManager;
     }
 
+    /**
+     * Rozdělí server dle ID z configu na {@link ServerType}
+     * Vrací ServerType.UNKNOWN, když se id neshodují.
+     * @return {@link ServerType}
+     */
     private ServerType resolveServerType() {
         String type = getInstance().getConfig().getString("server");
         if (type == null) {
@@ -261,9 +265,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
         if (type.equalsIgnoreCase("survival") || type.equalsIgnoreCase("survival2")) { // survival2 = 1.15
             return ServerType.SURVIVAL;
-        } else if (type.equalsIgnoreCase("skyblock")) {
+        } else if (type.equalsIgnoreCase("skyblock") || type.equalsIgnoreCase("skyblock2")) { // skyblock2 = 1.15
             return ServerType.SKYBLOCK;
-        } else if (type.equalsIgnoreCase("creative") || type.equalsIgnoreCase("creative2")) { // creative2 = 1.12
+        } else if (type.equalsIgnoreCase("creative")) {
             return ServerType.CREATIVE;
         } else if (type.equalsIgnoreCase("prison")) {
             return ServerType.PRISON;
