@@ -13,6 +13,7 @@ import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -47,6 +49,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
 
+    // Sentry
+    private CraftSentry sentry = null;
+
     @Override
     public void onEnable() {
 
@@ -68,6 +73,15 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // ID serveru a typ
         serverType = resolveServerType();
         Logger.info("Server zaevidovany jako: " + serverType.name());
+
+        // Sentry integration
+        if (!(Objects.requireNonNull(getConfig().getString("sentry-dsn")).length() == 0) && Bukkit.getPluginManager().isPluginEnabled("CraftLibs")) {
+            String dsn = getConfig().getString("sentry-dsn");
+            Logger.info("Sentry integration je aktivní: §7" + dsn);
+            sentry = new CraftSentry(dsn);
+        } else {
+            Logger.danger("Sentry integration neni aktivovana!");
+        }
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -233,10 +247,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     }
 
     /**
-     * Will convert unformatted Long into formatted String.
-     * Usually used for formatting money numbers into readable ones.
+     * Převede long říslo na zformátovaný String
      *
-     * @param number Any (long) number
+     * @param number Jakékoliv číslo (long)
      * @return (Long)18748724 -> (String)18,748,724
      */
     public String getFormattedNumber(Long number) {
@@ -247,6 +260,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return vaultEconomyManager;
     }
 
+    /**
+     * Rozdělí server dle ID z configu na {@link ServerType}
+     * Vrací ServerType.UNKNOWN, když se id neshodují.
+     * @return {@link ServerType}
+     */
     private ServerType resolveServerType() {
         String type = getInstance().getConfig().getString("server");
         if (type == null) {
@@ -254,9 +272,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
         if (type.equalsIgnoreCase("survival") || type.equalsIgnoreCase("survival2")) { // survival2 = 1.15
             return ServerType.SURVIVAL;
-        } else if (type.equalsIgnoreCase("skyblock")) {
+        } else if (type.equalsIgnoreCase("skyblock") || type.equalsIgnoreCase("skyblock2")) { // skyblock2 = 1.15
             return ServerType.SKYBLOCK;
-        } else if (type.equalsIgnoreCase("creative") || type.equalsIgnoreCase("creative2")) { // creative2 = 1.12
+        } else if (type.equalsIgnoreCase("creative")) {
             return ServerType.CREATIVE;
         } else if (type.equalsIgnoreCase("prison")) {
             return ServerType.PRISON;
@@ -287,5 +305,16 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Odesilá exception na Sentry
+     */
+    public void sendSentryException(Exception exception) {
+        if (sentry == null) {
+            Logger.danger("Sentry neni aktivovany, error nebude zaslan!");
+            return;
+        }
+        sentry.sendException(exception);
     }
 }
