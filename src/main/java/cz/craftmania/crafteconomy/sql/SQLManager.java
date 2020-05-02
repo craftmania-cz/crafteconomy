@@ -1,7 +1,6 @@
 package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
-import cz.craftmania.craftcore.core.mojang.MojangAPI;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
@@ -15,8 +14,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.*;
 
 public class SQLManager {
@@ -48,7 +45,7 @@ public class SQLManager {
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
@@ -66,7 +63,7 @@ public class SQLManager {
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
@@ -105,7 +102,7 @@ public class SQLManager {
                 return craftPlayer;
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -124,7 +121,7 @@ public class SQLManager {
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -142,7 +139,7 @@ public class SQLManager {
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -160,7 +157,7 @@ public class SQLManager {
             ps.setString(2, p);
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -178,7 +175,7 @@ public class SQLManager {
             ps.setString(2, p);
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -196,7 +193,7 @@ public class SQLManager {
             ps.setString(2, p);
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -214,7 +211,7 @@ public class SQLManager {
             ps.setString(2, p);
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -233,7 +230,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(finalType);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -253,7 +250,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(finalType);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -273,7 +270,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(finalType);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -293,7 +290,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(finalType);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -312,7 +309,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(column);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -368,7 +365,7 @@ public class SQLManager {
                     ps.setLong(8, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    Main.getInstance().getSentry().sendException(e);
+                    Main.getInstance().sendSentryException(e);
                     e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
@@ -436,7 +433,7 @@ public class SQLManager {
                     ps.setLong(6, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    Main.getInstance().getSentry().sendException(e);
+                    Main.getInstance().sendSentryException(e);
                     e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
@@ -456,7 +453,7 @@ public class SQLManager {
                     ps = conn.prepareStatement("UPDATE player_profile SET total_votes = total_votes + 1, week_votes = week_votes + 1, month_votes = month_votes + 1, last_vote = '" + System.currentTimeMillis() + "' WHERE nick = '" + p + "';");
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    Main.getInstance().getSentry().sendException(e);
+                    Main.getInstance().sendSentryException(e);
                     e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
@@ -476,7 +473,7 @@ public class SQLManager {
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
@@ -495,7 +492,7 @@ public class SQLManager {
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
@@ -589,7 +586,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt("balance");
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -609,7 +606,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt("balance");
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -632,7 +629,7 @@ public class SQLManager {
                 balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getLong("balance"));
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -668,7 +665,7 @@ public class SQLManager {
                 time.add(ps.getResultSet().getLong("time"));
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -742,7 +739,7 @@ public class SQLManager {
                 balances.add(ps.getResultSet().getLong("balance"));
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -762,7 +759,7 @@ public class SQLManager {
                 return UUID.fromString(ps.getResultSet().getString("uuid"));
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -781,7 +778,7 @@ public class SQLManager {
             ps.setString(2, player);
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -826,7 +823,7 @@ public class SQLManager {
             ps.setString(2, player.getName());
             ps.executeUpdate();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -846,7 +843,7 @@ public class SQLManager {
             ps.executeQuery();
             return ps.getResultSet().next();
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             return false;
         } finally {
             pool.close(conn, ps, null);
@@ -864,7 +861,7 @@ public class SQLManager {
                 return ps.getResultSet().getString("nick");
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -890,7 +887,7 @@ public class SQLManager {
                 return ps.getResultSet().getInt(settings);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
             pool.close(conn, ps, null);
@@ -917,7 +914,7 @@ public class SQLManager {
                     ps.setString(1, p.getName());
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    Main.getInstance().getSentry().sendException(e);
+                    Main.getInstance().sendSentryException(e);
                     e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);

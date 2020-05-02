@@ -93,7 +93,7 @@ public class BasicManager {
                 cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
             }
         } catch (Exception e) {
-            Main.getInstance().getSentry().sendException(e);
+            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         }
         // Prevence proti NPE z SQL

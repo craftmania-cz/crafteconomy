@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -74,7 +75,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         Logger.info("Server zaevidovany jako: " + serverType.name());
 
         // Sentry integration
-        sentry = new CraftSentry(getConfig().getString("sentry-dsn"));
+        if (!(Objects.requireNonNull(getConfig().getString("sentry-dsn")).length() == 0) && Bukkit.getPluginManager().isPluginEnabled("CraftLibs")) {
+            String dsn = getConfig().getString("sentry-dsn");
+            Logger.info("Sentry integration je aktivní: §7" + dsn);
+            sentry = new CraftSentry(dsn);
+        } else {
+            Logger.danger("Sentry integration neni aktivovana!");
+        }
 
         // Asynchronus tasks
         async = new AsyncUtils(this);
@@ -301,10 +308,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     }
 
     /**
-     * Vrací sentry integraci z CraftLibs
-     * @return {@link CraftSentry}
+     * Odesilá exception na Sentry
      */
-    public CraftSentry getSentry() {
-        return sentry;
+    public void sendSentryException(Exception exception) {
+        if (sentry == null) {
+            Logger.danger("Sentry neni aktivovany, error nebude zaslan!");
+            return;
+        }
+        sentry.sendException(exception);
     }
 }
