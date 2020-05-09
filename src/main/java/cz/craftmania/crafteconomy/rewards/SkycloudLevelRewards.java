@@ -122,11 +122,12 @@ public class SkycloudLevelRewards {
                 .setRequiareSlotInInventory()
                 .setItems(new ItemStack(Material.TURTLE_SPAWN_EGG, 2)));
 
-        // Level 22
-        this.list.add(new LevelReward(22).setName("Rozšíření ostrova: 200x200")
-                .setDescription("§7Region ostrova se zvětší na 200x200!")
-                .setRewardDescription("§7Nyní máš velikost ostrova 200x200")
-                .setPermissions("bskyblock.island.range.200"));
+        // Level 25
+        this.list.add(new LevelReward(25).setName("Pumpin Pie Seed")
+                .setDescription("§7Získáš 1x Pumpkin Pie Seed")
+                .setRewardDescription("§7Nyní můžeš zasadit dýně!")
+                .setRequiareSlotInInventory()
+                .setItems(new ItemStack(Material.PUMPKIN_SEEDS, 1)));
 
         // Level 30
         this.list.add(new LevelReward(30).setName("Rozšíření ostrova: 200x200")
