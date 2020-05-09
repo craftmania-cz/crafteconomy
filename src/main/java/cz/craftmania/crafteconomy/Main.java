@@ -9,6 +9,7 @@ import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
+import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -152,6 +153,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
                 BankCommand.register();
             }
+        }
+
+        if (getConfig().getBoolean("disables.global-level-updates", true)) {
+            Logger.info("Aktivace updatu global levels pro hrace!");
+            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new PlayerUpdateGlobalLevelTask(), 100L, 18000L); // 15 minut
+        } else {
+            Logger.info("Server nebude updatovat hracum global level!");
         }
     }
 

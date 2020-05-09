@@ -26,6 +26,7 @@ disables:
   achievement-log: false
   achievement-points: false
   achievement-experience: false
+  global-level-updates: false
 
 # Nahodne davani expu za urceny cas
 random-exp:
