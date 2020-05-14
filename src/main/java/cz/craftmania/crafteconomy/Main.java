@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy;
 
+import co.aikar.commands.PaperCommandManager;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.listener.*;
@@ -115,6 +116,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
+        // Aikar command manager
+        PaperCommandManager manager = new PaperCommandManager(this);
+        manager.enableUnstableAPI("help");
+        
+        // Register příkazů
+        manager.registerCommand(new CraftCoinsCommand());
+
         // Listeners
         loadListeners();
 
@@ -223,7 +231,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     }
 
     private void loadCommands() {
-        CraftCoinsCommand.register();
+        //CraftCoinsOldCommand.register();
         CraftTokensCommand.register();
         VoteTokensCommand.register();
         LevelCommand.register();
