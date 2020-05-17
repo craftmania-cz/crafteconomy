@@ -54,6 +54,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Sentry
     private CraftSentry sentry = null;
 
+    // Commands manager
+    private PaperCommandManager manager;
+
     @Override
     public void onEnable() {
 
@@ -97,6 +100,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
             ProprietaryManager.loadServerLevelRewards();
+
+
+
         } else {
             Logger.danger("AdvancedAchievements nejsou na serveru! Levels & Rewards nebudou fungovat!");
         }
@@ -117,11 +123,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
         // Aikar command manager
-        PaperCommandManager manager = new PaperCommandManager(this);
+        manager = new PaperCommandManager(this);
         manager.enableUnstableAPI("help");
         
         // Register příkazů
-        manager.registerCommand(new CraftCoinsCommand());
+        loadCommands(manager);
 
         // Listeners
         loadListeners();
@@ -129,11 +135,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Commands
         if (Bukkit.getPluginManager().isPluginEnabled("CommandAPI")) {
             Logger.info("CommandsAPI detekovano, prikazy budou registrovany!");
-            loadCommands();
 
             // Prikazy zavisly na CraftCore
             if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-                RewardsCommand.register();
+                manager.registerCommand(new RewardsCommand());
             }
         } else {
             Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
@@ -151,14 +156,14 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             MoneyCommand.register();
-            MoneylogCommand.register();
+            manager.registerCommand(new MoneylogCommand());
             PayCommand.register();
             PaytoggleCommand.register();
-            BaltopCommand.register();
             vaultEconomyManager = new VaultEconomyManager();
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
+                //manager.registerCommand(new BankCommand());
                 BankCommand.register();
             }
         }
@@ -230,12 +235,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    private void loadCommands() {
-        //CraftCoinsOldCommand.register();
-        CraftTokensCommand.register();
-        VoteTokensCommand.register();
-        LevelCommand.register();
-        EventPointsCommand.register();
+    private void loadCommands(PaperCommandManager manager) {
+        manager.registerCommand(new CraftCoinsCommand());
+        manager.registerCommand(new BaltopCommand());
+        manager.registerCommand(new VoteTokensCommand());
+        manager.registerCommand(new CraftTokensCommand());
+        manager.registerCommand(new LevelCommand());
+        manager.registerCommand(new EventPointsCommand());
     }
 
     public boolean isRegisterEnabled() {

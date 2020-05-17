@@ -1,47 +1,55 @@
 package cz.craftmania.crafteconomy.commands.vault;
 
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.arguments.Argument;
 import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BaltopCommand {
+import static co.aikar.commands.ACFBukkitUtil.sendMsg;
+
+
+@CommandAlias("baltop|moneytop")
+@Description("Vypíše ti hráče s nejvíce penězmi na daném serveru")
+public class BaltopCommand extends BaseCommand {
 
     private static int maxTableSize = 10;
 
-    public static void register() {
+    @HelpCommand
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lBaltop commands:");
+        help.showHelp();
+    }
 
-        // Default: /baltop
-        CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, null, (sender, args) -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), 1);
+    @Default
+    public void showBaltopDefault(CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), 1);
+        }
+    }
+
+    @Default
+    @CommandCompletion("[cislo]")
+    @Syntax("[cislo]")
+    public void showBaltopByPage(CommandSender sender, int page) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (page < 1) {
+                player.sendMessage(ChatColor.RED + "Číslo nesmí být menší než 1!");
+                return;
             }
-        });
-
-        // Default: /baltop <Strana>
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("Strana", new IntegerArgument());
-        CommandAPI.getInstance().register("baltop", new String[]{"ecotop", "moneytop"}, arguments, (sender, args) -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-
-                if ((int) args[0] < 1) {
-                    player.sendMessage(ChatColor.RED + "Číslo nesmí být menší než 1!");
-                    return;
-                }
-
-                printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), (int) args[0]);
-            }
-        });
+            printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), page);
+        }
     }
 
     private static void printTableForPlayer(Player player, Map<String, Long> balanceMap, int page) {

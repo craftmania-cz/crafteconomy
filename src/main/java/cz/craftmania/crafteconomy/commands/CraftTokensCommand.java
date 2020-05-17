@@ -1,67 +1,64 @@
 package cz.craftmania.crafteconomy.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.api.CraftTokensAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.CommandPermission;
-import io.github.jorelali.commandapi.api.arguments.*;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedHashMap;
 
-public class CraftTokensCommand {
+@CommandAlias("crafttokens|ct")
+@Description("Zobrazuje tvůj aktuální počet CraftTokens")
+public class CraftTokensCommand extends BaseCommand {
 
     private static BasicManager manager = new BasicManager();
 
-    public static void register() {
+    @HelpCommand
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lCraftTokens commands:");
+        help.showHelp();
+    }
 
-        // Default: /crafttokens
-        CommandAPI.getInstance().register("crafttokens", new String[] {"ct"}, null, (sender, args) -> {
-            Player p = (Player) sender;
-            long tokens = CraftTokensAPI.getTokens(p);
-            p.sendMessage("§e§l[*] §eAktuálně máš " + tokens + " CraftTokens.");
-        });
+    @Default
+    public void showCraftTokens(CommandSender sender) {
+        if (sender instanceof Player)
+            sender.sendMessage("§e§l[*] §eAktuálně máš " + CraftTokensAPI.getTokens((Player) sender) + " CraftTokens.");
+    }
 
-        // Admin prikaz: /crafttokens give [player] [value]
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("prikaz", new StringArgument().overrideSuggestions("add", "remove", "take", "give").withPermission(CommandPermission.fromString("crafteconomy.admin")));
-        arguments.put("hrac", new StringArgument());
-        arguments.put("hodnota", new IntegerArgument());
+    @Subcommand("add|give")
+    @CommandPermission("crafteconomy.admin")
+    @CommandCompletion("@players [pocet]")
+    @Syntax("[nick] [pocet]")
+    public void adminGiveVoteTokens(CommandSender sender, String editedPlayer, long tokensToAdd) {
+        Player p = Bukkit.getPlayer(editedPlayer);
+        if (p != null) {
+            CraftTokensAPI.giveTokens(p, tokensToAdd);
+            sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §d" + tokensToAdd + " CT.");
+        } else {
+            CraftTokensAPI.giveOfflineTokens(editedPlayer, tokensToAdd);
+            sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §d" + tokensToAdd + " CT.");
+        }
+    }
 
-        CommandAPI.getInstance().register("crafttokens", new String[] {"ct"}, arguments, (sender, args) -> {
-            String subCommand = (String)args[0];
-            switch (subCommand.toLowerCase()) {
-                case "add": case "give":
-                    String playerName = (String)args[1];
-                    Player p = Bukkit.getPlayer(playerName);
-                    long tokensToAdd = Long.valueOf((Integer)args[2]);
-                    if (p != null) {
-                        CraftTokensAPI.giveTokens(p, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
-                    } else {
-                        CraftTokensAPI.giveOfflineTokens(playerName, tokensToAdd);
-                        sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + playerName + " §7- §d" + tokensToAdd + " CT.");
-                    }
-                    break;
-                case "take": case "remove":
-                    String playerName2 = (String)args[1];
-                    Player player2 = Bukkit.getPlayer(playerName2);
-                    long tokensToTake = Long.valueOf((Integer)args[2]);
-                    if (player2 == null) { //TODO: Chybi offline kontrola, lze jit do minusu
-                        CraftTokensAPI.takeOfflineTokens(playerName2, tokensToTake);
-                        sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
-                        break;
-                    }
-                    if ((manager.getCraftPlayer(player2).getTokens() - tokensToTake) < 0) {
-                        sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getTokens());
-                        break;
-                    }
-                    CraftTokensAPI.takeTokens(player2, tokensToTake);
-                    sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + playerName2 + " §7- §d" + tokensToTake + " CT.");
-                    break;
-            }
-        });
-
+    @Subcommand("remove|take")
+    @CommandPermission("crafteconomy.admin")
+    @CommandCompletion("@players [pocet]")
+    @Syntax("[nick] [pocet]")
+    public void adminTakeVoteTokens(CommandSender sender, String editedPlayer, long tokensToTake) {
+        Player player2 = Bukkit.getPlayer(editedPlayer);
+        if (player2 == null) { //TODO: Chybi offline kontrola, lze jit do minusu
+            CraftTokensAPI.takeOfflineTokens(editedPlayer, tokensToTake);
+            sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " CT.");
+            return;
+        }
+        if ((manager.getCraftPlayer(player2).getTokens() - tokensToTake) < 0) {
+            sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getTokens());
+            return;
+        }
+        CraftTokensAPI.takeTokens(player2, tokensToTake);
+        sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " CT.");
     }
 }
