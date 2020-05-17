@@ -89,7 +89,6 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
-    maven { url "https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/" }
     maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
 }
@@ -112,7 +111,6 @@ dependencies {
 
     // Commands
     compile 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
-    compile 'io.github.jorelali:commandapi:2.3'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.12'

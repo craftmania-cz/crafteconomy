@@ -3,6 +3,8 @@ package cz.craftmania.crafteconomy;
 import co.aikar.commands.PaperCommandManager;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -127,22 +129,16 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.enableUnstableAPI("help");
         
         // Register příkazů
+        Logger.info("Probíhá registrace příkazů pomocí Aikar commands!");
         loadCommands(manager);
+
+        // Prikazy zavisly na CraftCore
+        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
+            manager.registerCommand(new RewardsCommand());
+        }
 
         // Listeners
         loadListeners();
-
-        // Commands
-        if (Bukkit.getPluginManager().isPluginEnabled("CommandAPI")) {
-            Logger.info("CommandsAPI detekovano, prikazy budou registrovany!");
-
-            // Prikazy zavisly na CraftCore
-            if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-                manager.registerCommand(new RewardsCommand());
-            }
-        } else {
-            Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
-        }
 
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
@@ -155,16 +151,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             currency = getConfig().getString("vault-economy.name");
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
-            MoneyCommand.register();
+            manager.registerCommand(new MoneyCommand());
             manager.registerCommand(new MoneylogCommand());
-            PayCommand.register();
-            PaytoggleCommand.register();
+            manager.registerCommand(new PayCommand());
+            manager.registerCommand(new PaytoggleCommand());
             vaultEconomyManager = new VaultEconomyManager();
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
                 //manager.registerCommand(new BankCommand());
-                BankCommand.register();
+                manager.registerCommand(new DepositCommand());
+                manager.registerCommand(new WithdrawCommand());
             }
         }
 
