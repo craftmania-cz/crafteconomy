@@ -18,7 +18,7 @@ tasks.withType(JavaCompile) {
 clean { delete "./target" }
 clean { delete "./build" }
 
-def mainVersion = "1.3.4-aikar-commands"
+def mainVersion = "1.3.4"
 def branch = "?"
 def gitId = ""
 
