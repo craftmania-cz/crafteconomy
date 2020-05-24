@@ -7,14 +7,16 @@ import org.bukkit.Bukkit;
 
 public class AddRandomExpTask implements Runnable {
 
-    private BasicManager bm = new BasicManager();
+    private final BasicManager bm = new BasicManager();
 
     @Override
     public void run() {
         Bukkit.getOnlinePlayers().forEach(p -> {
             if (bm.getCraftPlayer(p) != null) {
                 if (!bm.getCraftPlayer(p).isAfk()) {
-                    LevelAPI.addExp(p, bm.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp()));
+                    if (!Main.getInstance().getDisabledExperienceInWorlds().contains(bm.getCraftPlayer(p).getPlayer().getWorld().getName())) {
+                        LevelAPI.addExp(p, bm.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp()));
+                    }
                 }
             }
         });

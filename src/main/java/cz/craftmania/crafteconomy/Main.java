@@ -29,6 +29,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -52,6 +54,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isAchievementPluginEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
+    private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
     private CraftSentry sentry = null;
@@ -102,9 +105,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
             ProprietaryManager.loadServerLevelRewards();
-
-
-
         } else {
             Logger.danger("AdvancedAchievements nejsou na serveru! Levels & Rewards nebudou fungovat!");
         }
@@ -119,6 +119,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
             Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
+            this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
         }
 
         // Final boolean values
@@ -261,8 +262,19 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return vaultEconomyEnabled;
     }
 
+    /**
+     * Vrací název aktuální měny
+     * @return {@link String}
+     */
     public String getCurrency() {
         return currency;
+    }
+
+    /**
+     * Vrací list, kde je deaktivované random expy podle configu
+     */
+    public List<String> getDisabledExperienceInWorlds() {
+        return disabledExperienceInWorlds;
     }
 
     /**

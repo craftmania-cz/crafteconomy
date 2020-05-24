@@ -35,6 +35,8 @@ random-exp:
     every: 6000
     min: 30
     max: 60
+  not-in-world:
+    - spawn
 
 # Pokud mají být zapnuty příkazy jako /money, /eco atd
 vault-economy:
