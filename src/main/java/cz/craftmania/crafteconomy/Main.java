@@ -1,7 +1,10 @@
 package cz.craftmania.crafteconomy;
 
+import co.aikar.commands.PaperCommandManager;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -53,6 +56,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Sentry
     private CraftSentry sentry = null;
 
+    // Commands manager
+    private PaperCommandManager manager;
+
     @Override
     public void onEnable() {
 
@@ -96,6 +102,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
             ProprietaryManager.loadServerLevelRewards();
+
+
+
         } else {
             Logger.danger("AdvancedAchievements nejsou na serveru! Levels & Rewards nebudou fungovat!");
         }
@@ -115,21 +124,21 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
+        // Aikar command manager
+        manager = new PaperCommandManager(this);
+        manager.enableUnstableAPI("help");
+        
+        // Register příkazů
+        Logger.info("Probíhá registrace příkazů pomocí Aikar commands!");
+        loadCommands(manager);
+
+        // Prikazy zavisly na CraftCore
+        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
+            manager.registerCommand(new RewardsCommand());
+        }
+
         // Listeners
         loadListeners();
-
-        // Commands
-        if (Bukkit.getPluginManager().isPluginEnabled("CommandAPI")) {
-            Logger.info("CommandsAPI detekovano, prikazy budou registrovany!");
-            loadCommands();
-
-            // Prikazy zavisly na CraftCore
-            if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-                RewardsCommand.register();
-            }
-        } else {
-            Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
-        }
 
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
@@ -142,16 +151,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             currency = getConfig().getString("vault-economy.name");
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
-            MoneyCommand.register();
-            MoneylogCommand.register();
-            PayCommand.register();
-            PaytoggleCommand.register();
-            BaltopCommand.register();
+            manager.registerCommand(new MoneyCommand());
+            manager.registerCommand(new MoneylogCommand());
+            manager.registerCommand(new PayCommand());
+            manager.registerCommand(new PaytoggleCommand());
             vaultEconomyManager = new VaultEconomyManager();
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
-                BankCommand.register();
+                //manager.registerCommand(new BankCommand());
+                manager.registerCommand(new DepositCommand());
+                manager.registerCommand(new WithdrawCommand());
             }
         }
 
@@ -222,12 +232,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    private void loadCommands() {
-        CraftCoinsCommand.register();
-        CraftTokensCommand.register();
-        VoteTokensCommand.register();
-        LevelCommand.register();
-        EventPointsCommand.register();
+    private void loadCommands(PaperCommandManager manager) {
+        manager.registerCommand(new CraftCoinsCommand());
+        manager.registerCommand(new BaltopCommand());
+        manager.registerCommand(new VoteTokensCommand());
+        manager.registerCommand(new CraftTokensCommand());
+        manager.registerCommand(new LevelCommand());
+        manager.registerCommand(new EventPointsCommand());
     }
 
     public boolean isRegisterEnabled() {
