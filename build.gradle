@@ -1,5 +1,6 @@
 plugins {
     id "org.ajoberstar.grgit" version "1.7.0"
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 apply plugin: 'java'
@@ -17,7 +18,7 @@ tasks.withType(JavaCompile) {
 clean { delete "./target" }
 clean { delete "./build" }
 
-def mainVersion = "1.3.3"
+def mainVersion = "1.3.4"
 def branch = "?"
 def gitId = ""
 
@@ -88,25 +89,39 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
-    maven { url "https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/" }
     maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
+    maven { url "https://repo.aikar.co/content/groups/aikar/" }
 }
 
 dependencies {
     compileOnly ('org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
+
+    // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.2.7'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.0'
+
+    // Other dependecies
     compile 'com.zaxxer:HikariCP:2.7.4'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
-    compile 'io.github.jorelali:commandapi:2.3'
     compileOnly 'com.hm.achievement:advanced-achievements-api:1.2.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly 'com.zrips:cmi:8.6.21.3'
 
+    // Commands
+    compile 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
+
+shadowJar {
+    relocate 'co.aikar.commands', 'cz.craftmania.crafteconomy.acf'
+    relocate 'co.aikar.locales', 'cz.craftmania.crafteconomy.locales'
+}
+
+build.dependsOn shadowJar

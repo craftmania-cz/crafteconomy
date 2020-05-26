@@ -1,18 +1,29 @@
 package cz.craftmania.crafteconomy.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.HelpCommand;
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.rewards.RewardsGUI;
-import io.github.jorelali.commandapi.api.CommandAPI;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class RewardsCommand {
+@CommandAlias("rewards|odmeny")
+@Description("Zobrazí tvoje odměny na tvém momentálním serveru")
+public class RewardsCommand extends BaseCommand {
 
-    public static void register() {
+    @HelpCommand
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lRewards commands:");
+        help.showHelp();
+    }
 
-        // Default: /rewards
-        CommandAPI.getInstance().register("rewards", new String[] {}, null, (sender, args) -> {
-            Player player = (Player) sender;
-            SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
-        });
+    @Default
+    public void showRewards(CommandSender sender) {
+        if (sender instanceof Player)
+            SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open((Player) sender);
     }
 }

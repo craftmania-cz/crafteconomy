@@ -1,7 +1,10 @@
 package cz.craftmania.crafteconomy;
 
+import co.aikar.commands.PaperCommandManager;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
+import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -9,6 +12,7 @@ import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
+import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -25,6 +29,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -48,9 +54,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isAchievementPluginEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
+    private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
     private CraftSentry sentry = null;
+
+    // Commands manager
+    private PaperCommandManager manager;
 
     @Override
     public void onEnable() {
@@ -109,26 +119,27 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
             Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
+            this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
         }
 
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
+        // Aikar command manager
+        manager = new PaperCommandManager(this);
+        manager.enableUnstableAPI("help");
+        
+        // Register příkazů
+        Logger.info("Probíhá registrace příkazů pomocí Aikar commands!");
+        loadCommands(manager);
+
+        // Prikazy zavisly na CraftCore
+        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
+            manager.registerCommand(new RewardsCommand());
+        }
+
         // Listeners
         loadListeners();
-
-        // Commands
-        if (Bukkit.getPluginManager().isPluginEnabled("CommandAPI")) {
-            Logger.info("CommandsAPI detekovano, prikazy budou registrovany!");
-            loadCommands();
-
-            // Prikazy zavisly na CraftCore
-            if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-                RewardsCommand.register();
-            }
-        } else {
-            Logger.danger("CommandsAPI nebylo nalezeno, plugin bude fungovat pouze jako knihovna!");
-        }
 
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
@@ -141,17 +152,25 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             currency = getConfig().getString("vault-economy.name");
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
-            MoneyCommand.register();
-            MoneylogCommand.register();
-            PayCommand.register();
-            PaytoggleCommand.register();
-            BaltopCommand.register();
+            manager.registerCommand(new MoneyCommand());
+            manager.registerCommand(new MoneylogCommand());
+            manager.registerCommand(new PayCommand());
+            manager.registerCommand(new PaytoggleCommand());
             vaultEconomyManager = new VaultEconomyManager();
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
             if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
-                BankCommand.register();
+                //manager.registerCommand(new BankCommand());
+                manager.registerCommand(new DepositCommand());
+                manager.registerCommand(new WithdrawCommand());
             }
+        }
+
+        if (getConfig().getBoolean("disables.global-level-updates", true)) {
+            Logger.info("Aktivace updatu global levels pro hrace!");
+            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new PlayerUpdateGlobalLevelTask(), 100L, 18000L); // 15 minut
+        } else {
+            Logger.info("Server nebude updatovat hracum global level!");
         }
     }
 
@@ -214,13 +233,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-    private void loadCommands() {
-        CraftCoinsCommand.register();
-        CraftTokensCommand.register();
-        VoteTokensCommand.register();
-        LevelCommand.register();
-        EventPointsCommand.register();
-        ProfileCommand.register();
+        manager.registerCommand(new VoteTokensCommand());
+    private void loadCommands(PaperCommandManager manager) {
+        manager.registerCommand(new CraftCoinsCommand());
+        manager.registerCommand(new BaltopCommand());
+        manager.registerCommand(new CraftTokensCommand());
+        manager.registerCommand(new LevelCommand());
+        manager.registerCommand(new EventPointsCommand());
     }
 
     public boolean isRegisterEnabled() {
@@ -243,8 +262,19 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return vaultEconomyEnabled;
     }
 
+    /**
+     * Vrací název aktuální měny
+     * @return {@link String}
+     */
     public String getCurrency() {
         return currency;
+    }
+
+    /**
+     * Vrací list, kde je deaktivované random expy podle configu
+     */
+    public List<String> getDisabledExperienceInWorlds() {
+        return disabledExperienceInWorlds;
     }
 
     /**

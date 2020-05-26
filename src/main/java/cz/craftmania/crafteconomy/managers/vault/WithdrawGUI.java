@@ -170,7 +170,7 @@ public class WithdrawGUI implements InventoryProvider {
         this.canWithdrawEmeralds = playerBalance >= 1;
         this.canWithdrawEmeraldBlocks = playerBalance >= 9;
         this.canWithdrawDiamond = playerBalance >= 81;
-        this.canWithdrawDiamondBlock = playerBalance >= 576;
+        this.canWithdrawDiamondBlock = playerBalance >= 729;
 
         if (!this.canWithdrawEmeralds) {
             contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cVybrat 1 Emerald").setLore("§7Nemáš dostatek emeraldů.").build(), item -> {}));

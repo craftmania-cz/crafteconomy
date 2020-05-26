@@ -1,24 +1,31 @@
 package cz.craftmania.crafteconomy.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.FormatUtils;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.arguments.*;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedHashMap;
-
-public class LevelCommand {
+@CommandAlias("level|lvl")
+@Description("Zobrazuje tvůj aktuální level")
+public class LevelCommand extends BaseCommand {
 
     private static BasicManager manager = new BasicManager();
 
-    public static void register() {
+    @HelpCommand
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lLevel commands:");
+        help.showHelp();
+    }
 
-        // Default: /level -> globální level
-        CommandAPI.getInstance().register("level", new String[] {"lvl"}, null, (sender, args) -> {
+    @Default
+    public void showLevel(CommandSender sender) {
+        if (sender instanceof Player) {
             Player p = (Player) sender;
             CraftPlayer craftPlayer = manager.getCraftPlayer(p);
 
@@ -33,16 +40,16 @@ public class LevelCommand {
             p.sendMessage("§dAchievementPoints: §f" + craftPlayer.getAchievementPoints());
             p.sendMessage("");
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-        });
+        }
+    }
 
-        // Server type: /level survival|skyblock...
-        LinkedHashMap<String, Argument> arguments = new LinkedHashMap<>();
-        arguments.put("server", new StringArgument().overrideSuggestions("survival", "skyblock", "creative", "vanilla", "skycloud"));
-
-        CommandAPI.getInstance().register("level", new String[] {"lvl"}, arguments, (sender, args) -> {
+    @Default
+    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud")
+    @Syntax("[server]")
+    public void showLevelByServer(CommandSender sender, String server) {
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            String subCommand = (String)args[0];
-            switch (subCommand.toLowerCase()) {
+            switch (server.toLowerCase()) {
                 case "survival":
                     generateServerLevelMessage(player, "Survival", LevelType.SURVIVAL_LEVEL, LevelType.SURVIVAL_EXPERIENCE);
                     break;
@@ -59,7 +66,7 @@ public class LevelCommand {
                     generateServerLevelMessage(player, "Skycloud", LevelType.SKYCLOUD_LEVEL, LevelType.SKYCLOUD_EXPERIENCE);
                     break;
             }
-        });
+        }
     }
 
     private static void generateServerLevelMessage(Player player, String server, LevelType levelType, LevelType experienceType) {

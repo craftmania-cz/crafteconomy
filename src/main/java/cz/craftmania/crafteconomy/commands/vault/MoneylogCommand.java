@@ -1,78 +1,60 @@
 package cz.craftmania.crafteconomy.commands.vault;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.core.mojang.MojangAPI;
 import cz.craftmania.craftcore.core.utils.Group;
 import cz.craftmania.crafteconomy.Main;
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.arguments.Argument;
-import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
-import io.github.jorelali.commandapi.api.arguments.IntegerArgument;
-import io.github.jorelali.commandapi.api.arguments.LiteralArgument;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class MoneylogCommand {
+@CommandAlias("moneylog")
+@Description("Zobrazí log transakcí pro určitého hráče")
+public class MoneylogCommand extends BaseCommand {
 
     static int maxTableSize = 10;
 
-    public static void register() {
-        LinkedHashMap<String, Argument> moneylogArguments = new LinkedHashMap<>();
-        moneylogArguments.put("prikaz", new LiteralArgument("log"));
-        //moneylogArguments.put("prikaz", new LiteralArgument("log").withPermission(CommandPermission.fromString("crafteconomy.command.money.log")));
-        CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, moneylogArguments, (sender, args) -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                player.sendMessage(ChatColor.RED + "Správný syntax příkazu je /money log <nick>!");
-            }
-        });
-
-
-        moneylogArguments.put("hrac", new DynamicSuggestedStringArgument(() -> Bukkit.getOnlinePlayers().stream().map(p1 -> p1.getName()).toArray(String[]::new)));
-        CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, moneylogArguments, (sender, args) -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                String requestedPlayer = (String) args[0];
-                Group<String, UUID> UUIDdata = null;
-                Map<Integer, List> listMap = new HashMap<>();
-
-                try {
-                    UUIDdata = MojangAPI.getUUID(requestedPlayer);
-                    listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
-                } catch (Exception e) {
-                    listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
-                }
-
-                printTableForPlayer(player, listMap, 1);
-            }
-        });
-
-        moneylogArguments.put("strana", new IntegerArgument());
-        CommandAPI.getInstance().register("money", new String[]{"eco", "bal", "balance"}, moneylogArguments, (sender, args) -> {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                String requestedPlayer = (String) args[0];
-                Group<String, UUID> UUIDdata = null;
-                Map<Integer, List> listMap = new HashMap<>();
-
-                try {
-                    UUIDdata = MojangAPI.getUUID(requestedPlayer);
-                    listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
-                } catch (Exception e) {
-                    listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
-                }
-
-                printTableForPlayer(player, listMap, (int) args[1]);
-            }
-        });
-
+    @HelpCommand
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lMoneylog commands:");
+        help.showHelp();
     }
 
+    @Default
+    @CommandCompletion("@players")
+    @CommandPermission("crafteconomy.admin")
+    public void showLogByName(CommandSender sender, String requestedPlayer) {
+        Group<String, UUID> UUIDdata = null;
+        Map<Integer, List> listMap = new HashMap<>();
+        try {
+            UUIDdata = MojangAPI.getUUID(requestedPlayer);
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
+        } catch (Exception e) {
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
+        }
+        printTableForPlayer(sender, listMap, 1);
+    }
 
-    private static void printTableForPlayer(Player player, Map<Integer, List> listMap, int page) {
+    @Default
+    @CommandCompletion("@players [cislo]")
+    @CommandPermission("crafteconomy.admin")
+    public void showLogByNameAndPage(CommandSender sender, String requestedPlayer, int page) {
+        Group<String, UUID> UUIDdata = null;
+        Map<Integer, List> listMap = new HashMap<>();
+        try {
+            UUIDdata = MojangAPI.getUUID(requestedPlayer);
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
+        } catch (Exception e) {
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
+        }
+        printTableForPlayer(sender, listMap, page);
+    }
+
+    private static void printTableForPlayer(CommandSender player, Map<Integer, List> listMap, int page) {
         List<String> recieverNick = listMap.get(1);
         List<String> action = listMap.get(5);
         List<Long> amount = listMap.get(6);
