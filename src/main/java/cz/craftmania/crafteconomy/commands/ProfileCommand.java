@@ -1,32 +1,34 @@
 package cz.craftmania.crafteconomy.commands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.CommandHelp;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
-import cz.craftmania.crafteconomy.menu.ProfileGUI;
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.arguments.Argument;
-import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
+import cz.craftmania.crafteconomy.menu.ProfileSettingsGUI;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+@CommandAlias("profil|profile|profilesettings")
+@Description("Otevře ti tvůj profil")
+public class ProfileCommand extends BaseCommand {
 
-public class ProfileCommand {
+    @HelpCommand // Automatický generovaný subpříkaz /cc help [subcommand]
+    public void helpCommand(CommandSender sender, CommandHelp help) {
+        sender.sendMessage("§e§lProfile commands:"); // Nastavení textu v headu helpu
+        help.showHelp(); // Zobrazí basic nápovědu
+    }
 
-    public static void register() {
+    @Default
+    public void showProfile(CommandSender sender) {
+        sender.sendMessage("§c§l[!] §c/profile příkaz bude dostupný v pozdějších updatech! Zatím použij /profile settings pro nastavení.");
+    }
 
-        // Default: /profil
-        CommandAPI.getInstance().register("profil", new String[]{"profile"}, null, (sender, args) -> {
-            sender.sendMessage("§c§l[!] §c/profile příkaz bude dostupný v pozdějších updatech! Zatím použij /profile settings pro nastavení.");
-        });
-
-        // Defualt: /profile settings
-        LinkedHashMap<String, Argument> profileArgs = new LinkedHashMap<>();
-        profileArgs.put("settings", new DynamicSuggestedStringArgument(() -> {
-            return new String[]{"settings", "nastaveni"};
-        }));
-        CommandAPI.getInstance().register("profil", new String[]{"profile"}, profileArgs, (sender, args) -> {
-            if (sender instanceof Player) {
-                SmartInventory.builder().size(5, 9).title("Profile settings").provider(new ProfileGUI()).build().open((Player) sender);
-            }
-        });
+    @Subcommand("settings|nastaveni")
+    @CommandCompletion("settings|nastaveni")
+    @Syntax("[settings]")
+    public void showProfileSettings(CommandSender sender) {
+        if (sender instanceof Player) {
+            SmartInventory.builder().size(5, 9).title("Profile settings").provider(new ProfileSettingsGUI()).build().open((Player) sender);
+        }
     }
 }

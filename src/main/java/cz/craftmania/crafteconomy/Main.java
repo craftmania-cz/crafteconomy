@@ -240,6 +240,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new LevelCommand());
         manager.registerCommand(new EventPointsCommand());
         manager.registerCommand(new VoteTokensCommand());
+        manager.registerCommand(new ProfileCommand());
     }
 
     public boolean isRegisterEnabled() {
