@@ -233,13 +233,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
-        manager.registerCommand(new VoteTokensCommand());
     private void loadCommands(PaperCommandManager manager) {
         manager.registerCommand(new CraftCoinsCommand());
         manager.registerCommand(new BaltopCommand());
         manager.registerCommand(new CraftTokensCommand());
         manager.registerCommand(new LevelCommand());
         manager.registerCommand(new EventPointsCommand());
+        manager.registerCommand(new VoteTokensCommand());
     }
 
     public boolean isRegisterEnabled() {
