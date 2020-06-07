@@ -50,17 +50,20 @@ public class PlayerJoinListener implements Listener {
 
         // Opravy práv pro achievementy
         // EXTRA: Toto právo se dává pouze, pokud hráč požádá o převod
-        if (player.hasPermission("crafteconomy.levels.past-fix")) {
+        /*if (player.hasPermission("crafteconomy.levels.past-fix")) {
             Logger.info("Hrac " + player.getName() + " ma pravo na opravu Levels. Spustim...");
             this.fixLevelRewardsForPlayer(craftPlayer);
-        }
+        }*/
 
-        if (Main.getServerType() == ServerType.SKYCLOUD) {
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYCLOUD_LEVEL) >= 6 && !player.hasPermission("bskyblock.team.maxsize.6")) {
-                bm.givePlayerManualLevelReward(player, 6, true);
+        if (Main.getServerType() == ServerType.VANILLA) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 33 && !player.hasPermission("lands.chunks.40")) {
+                bm.givePlayerManualLevelReward(player, 33, true);
             }
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYCLOUD_LEVEL) >= 10 && !player.hasPermission("bskyblock.island.range.75")) {
-                bm.givePlayerManualLevelReward(player, 10, true);
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 35 && !player.hasPermission("lands.members.12")) {
+                bm.givePlayerManualLevelReward(player, 35, true);
+            }
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 37 && !player.hasPermission("lands.ownlands.3")) {
+                bm.givePlayerManualLevelReward(player, 37, true);
             }
         }
 

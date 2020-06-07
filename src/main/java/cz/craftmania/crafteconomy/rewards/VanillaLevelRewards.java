@@ -127,5 +127,53 @@ public class VanillaLevelRewards {
                 .setDescription("§7Přístup k zabrání až 35 chunků!")
                 .setRewardDescription("§7Nyní můžeš zabrat 35 chunků!")
                 .setPermissions("lands.chunks.35"));
+
+        // Level 33
+        this.list.add(new LevelReward(33).setName("Rozšíření až 40 chunků")
+                .setDescription("§7Přístup k zabrání až 40 chunků!")
+                .setRewardDescription("§7Nyní můžeš zabrat 40 chunků!")
+                .setPermissions("lands.chunks.40"));
+
+        // Level 35
+        this.list.add(new LevelReward(35).setName("Maximální počet členů: 12")
+                .setDescription("§7Budeš moct mít v území až 12 členů!")
+                .setRewardDescription("§7Nyní můžeš mít v území 12 členů!")
+                .setPermissions("lands.members.12"));
+
+        // Level 37
+        this.list.add(new LevelReward(37).setName("Majitel tří území")
+                .setDescription("§7Budeš moct vytvořit tři území!")
+                .setRewardDescription("§7Nyní můžeš vytvořit tři území!")
+                .setPermissions("lands.ownlands.3"));
+
+        // Level 40
+        this.list.add(new LevelReward(40).setName("Rozšíření až 45 chunků")
+                .setDescription("§7Přístup k zabrání až 45 chunků!")
+                .setRewardDescription("§7Nyní můžeš zabrat 45 chunků!")
+                .setPermissions("lands.chunks.45"));
+
+        // Level 45
+        this.list.add(new LevelReward(45).setName("Rozšíření až 50 chunků")
+                .setDescription("§7Přístup k zabrání až 50 chunků!")
+                .setRewardDescription("§7Nyní můžeš zabrat 50 chunků!")
+                .setPermissions("lands.chunks.50"));
+
+        // Level 52
+        this.list.add(new LevelReward(52).setName("Rozšíření až 60 chunků")
+                .setDescription("§7Přístup k zabrání až 60 chunků!")
+                .setRewardDescription("§7Nyní můžeš zabrat 60 chunků!")
+                .setPermissions("lands.chunks.60"));
+
+        // Level 55
+        this.list.add(new LevelReward(55).setName("Majitel čtyř území")
+                .setDescription("§7Budeš moct vytvořit čtyři území!")
+                .setRewardDescription("§7Nyní můžeš vytvořit čtyři území!")
+                .setPermissions("lands.ownlands.4"));
+
+        // Level 60
+        this.list.add(new LevelReward(60).setName("Rozšíření až 75 chunků")
+                .setDescription("§7Přístup k zabrání až 75 chunků!")
+                .setRewardDescription("§7Nyní můžeš zabrat 75 chunků!")
+                .setPermissions("lands.chunks.75"));
     }
 }
