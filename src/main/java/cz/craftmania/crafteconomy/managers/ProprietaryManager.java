@@ -7,10 +7,7 @@ import cz.craftmania.crafteconomy.achievements.servers.SurvivalAchievements;
 import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
-import cz.craftmania.crafteconomy.rewards.CreativeLevelReward;
-import cz.craftmania.crafteconomy.rewards.SkycloudLevelRewards;
-import cz.craftmania.crafteconomy.rewards.SurvivalLevelRewards;
-import cz.craftmania.crafteconomy.rewards.VanillaLevelRewards;
+import cz.craftmania.crafteconomy.rewards.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 
@@ -34,7 +31,7 @@ public class ProprietaryManager {
         if (Main.getServerType() == ServerType.SURVIVAL) {
             new SurvivalAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
-            Logger.danger("Skyblock nema nastavene zadne achievementy!");
+            Logger.danger("Nenalezeny zadne achievementy k nacteni pro konkrétní server!");
         } else if (Main.getServerType() == ServerType.CREATIVE) {
             new CreativeAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.PRISON) {
@@ -66,7 +63,7 @@ public class ProprietaryManager {
         if (Main.getServerType() == ServerType.SURVIVAL) {
             new SurvivalLevelRewards(serverLevelRewardsList).load();
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
-            Logger.danger("Skyblock nema nastavene zadne server odmeny!");
+            new SkyblockLevelRewards(serverLevelRewardsList).load();
         } else if (Main.getServerType() == ServerType.CREATIVE) {
             new CreativeLevelReward(serverLevelRewardsList).load();
         } else if (Main.getServerType() == ServerType.PRISON) {
