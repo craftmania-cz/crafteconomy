@@ -1,10 +1,7 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.achievements.servers.CreativeAchievements;
-import cz.craftmania.crafteconomy.achievements.servers.SkycloudAchievements;
-import cz.craftmania.crafteconomy.achievements.servers.SurvivalAchievements;
-import cz.craftmania.crafteconomy.achievements.servers.VanillaAchievements;
+import cz.craftmania.crafteconomy.achievements.servers.*;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.rewards.*;
@@ -31,7 +28,7 @@ public class ProprietaryManager {
         if (Main.getServerType() == ServerType.SURVIVAL) {
             new SurvivalAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.SKYBLOCK) {
-            Logger.danger("Nenalezeny zadne achievementy k nacteni pro konkrétní server!");
+            new SkyblockAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.CREATIVE) {
             new CreativeAchievements(serverAchievementList).load();
         } else if (Main.getServerType() == ServerType.PRISON) {
