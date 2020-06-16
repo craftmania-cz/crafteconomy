@@ -98,7 +98,7 @@ public class ProfileGUI implements InventoryProvider  {
         JsonObject profileData = (JsonObject) new JsonParser().parse(Request.get("https://api.craftmania.cz/player/" + p.getName()));
 
         if (profileData.get("status").getAsInt() != 200) {
-            Logger.danger("CM API vrátilo status code " + profileData.get("status").getAsInt() + " při requestu profilu pro hráče " + p.getName() + "(" + p.getUniqueId().toString() + ")! Data pro hráče se nezobrazí správně.");
+            Logger.danger("CM API vrátilo status code " + profileData.get("status").getAsInt() + " při requestu profilu pro hráče " + p.getName() + "! Data pro hráče se nezobrazí správně.");
             itemLore.add("§cNastala chyba při získávání dat z API (Kód: " + profileData.get("status").getAsInt() + ").");
             itemLore.add("§c Zkus to prosím později.");
             return itemLore;
