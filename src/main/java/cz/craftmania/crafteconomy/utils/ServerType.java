@@ -11,6 +11,7 @@ public enum ServerType {
     LOBBY,
     EVENT_SERVER,
     SKYGRID,
+    HARDCORE_VANILLA,
     UNKNOWN;
 
     ServerType() {}

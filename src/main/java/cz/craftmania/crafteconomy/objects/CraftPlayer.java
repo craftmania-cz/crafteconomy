@@ -32,6 +32,8 @@ public class CraftPlayer {
     private long vanillaExperience = 0;
     private long skycloudLevel = 1;
     private long skycloudExperience = 0;
+    private long hardcoreVanillaLevel = 1;
+    private long hardcoreVanillaExperience = 0;
 
     // Votes
     private long week_votes = 0;
@@ -78,6 +80,8 @@ public class CraftPlayer {
         this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
         this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
         this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
+        this.hardcoreVanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_LEVEL, player.getUniqueId());
+        this.hardcoreVanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_EXPERIENCE, player.getUniqueId());
 
         this.payToggle = (Main.getInstance().getMySQL().getSettings(player, "paytoggle") != 0);
         recalculateGlobalLevel();
@@ -233,6 +237,8 @@ public class CraftPlayer {
                 return this.vanillaLevel;
             case SKYCLOUD_LEVEL:
                 return this.skycloudLevel;
+            case HARDCORE_VANILLA_LEVEL:
+                return this.hardcoreVanillaLevel;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -261,6 +267,9 @@ public class CraftPlayer {
             case SKYCLOUD_LEVEL:
                 this.skycloudLevel = level;
                 break;
+            case HARDCORE_VANILLA_LEVEL:
+                this.hardcoreVanillaLevel = level;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -280,6 +289,8 @@ public class CraftPlayer {
                 return this.vanillaExperience;
             case SKYCLOUD_EXPERIENCE:
                 return this.skycloudExperience;
+            case HARDCORE_VANILLA_EXPERIENCE:
+                return this.hardcoreVanillaExperience;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -308,6 +319,9 @@ public class CraftPlayer {
             case SKYCLOUD_EXPERIENCE:
                 this.skycloudExperience = experience;
                 break;
+            case HARDCORE_VANILLA_EXPERIENCE:
+                this.hardcoreVanillaExperience = experience;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -324,6 +338,7 @@ public class CraftPlayer {
         finalValue += canBeAdded(this.vanillaLevel);
         finalValue += canBeAdded(this.skycloudLevel);
         finalValue += canBeAdded(this.prisonLevel);
+        finalValue += canBeAdded(this.hardcoreVanillaLevel);
         // Pokud je level větší jak 1, nezapočítávat default 1 level jinak by došlo k +1 navýšení získaných levelů.
         this.globalLevel = finalValue > 1 ? --finalValue : finalValue;
     }

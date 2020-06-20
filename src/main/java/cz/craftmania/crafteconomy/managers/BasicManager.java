@@ -122,6 +122,8 @@ public class BasicManager {
                 return LevelType.SKYCLOUD_EXPERIENCE;
             case PRISON:
                 return LevelType.PRISON_EXPERIENCE;
+            case HARDCORE_VANILLA:
+                return LevelType.HARDCORE_VANILLA_EXPERIENCE;
         }
         return null;
     }
@@ -145,6 +147,8 @@ public class BasicManager {
                 return LevelType.SKYCLOUD_LEVEL;
             case PRISON:
                 return LevelType.PRISON_LEVEL;
+            case HARDCORE_VANILLA:
+                return LevelType.HARDCORE_VANILLA_LEVEL;
         }
         return null;
     }
@@ -168,6 +172,8 @@ public class BasicManager {
                 return LevelType.SKYCLOUD_LEVEL;
             case "prison":
                 return LevelType.PRISON_LEVEL;
+            case "hardcore-vanilla":
+                return LevelType.HARDCORE_VANILLA_LEVEL;
         }
         return null;
     }
@@ -191,6 +197,8 @@ public class BasicManager {
                 return LevelType.SKYCLOUD_EXPERIENCE;
             case "prison":
                 return LevelType.PRISON_EXPERIENCE;
+            case "hardcore-vanilla":
+                return LevelType.HARDCORE_VANILLA_EXPERIENCE;
         }
         return null;
     }
