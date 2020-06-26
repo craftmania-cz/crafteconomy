@@ -156,6 +156,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             manager.registerCommand(new MoneylogCommand());
             manager.registerCommand(new PayCommand());
             manager.registerCommand(new PaytoggleCommand());
+            manager.registerCommand(new BaltopCommand());
             vaultEconomyManager = new VaultEconomyManager();
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
 
@@ -235,12 +236,12 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     private void loadCommands(PaperCommandManager manager) {
         manager.registerCommand(new CraftCoinsCommand());
-        manager.registerCommand(new BaltopCommand());
         manager.registerCommand(new CraftTokensCommand());
         manager.registerCommand(new LevelCommand());
         manager.registerCommand(new EventPointsCommand());
         manager.registerCommand(new VoteTokensCommand());
         manager.registerCommand(new ProfileCommand());
+        manager.registerCommand(new KarmaCommand());
     }
 
     public boolean isRegisterEnabled() {
