@@ -6,6 +6,7 @@ public enum EconomyType {
     CRAFTCOINS,
     CRAFTTOKENS,
     VOTETOKENS_2, // "votetokens_2" je kvůli 1.14!
+    KARMA,
 
     WEEK_VOTES,
     MONTH_VOTES,
