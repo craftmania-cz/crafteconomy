@@ -19,7 +19,7 @@ import java.util.List;
 public class PayCommand extends BaseCommand {
 
     private static BasicManager manager = new BasicManager();
-    private pendingPayments pendingPayments = new pendingPayments();
+    private PendingPayments pendingPayments = new PendingPayments();
 
     int confirmThreshold = Main.getInstance().getConfig().getInt("vault-economy.min-confirm");
 
@@ -53,9 +53,9 @@ public class PayCommand extends BaseCommand {
                     if (moneyToSend >= confirmThreshold) {
                         if (!pendingPayments.hasPendingPayment(playerSender)){
                             sender.sendMessage("§e§l[*] §ePro potvrzení platby s částkou §a" + moneyToSend + Main.getInstance().getCurrency() + "§e pro hráče §f" + playerReceiver.getName() + "§e napiš §7/pay confirm§e! Pokud sis platbu rozmyslel, můžeš napsat §7/pay cancel§e.");
-                            pendingPayments.addPendingPayment(new pendingPayment(playerSender, playerReceiver, moneyToSend));
+                            pendingPayments.addPendingPayment(new PendingPayment(playerSender, playerReceiver, moneyToSend));
                         } else {
-                            pendingPayment pp = pendingPayments.getPendingPayment(playerSender);
+                            PendingPayment pp = pendingPayments.getPendingPayment(playerSender);
                             sender.sendMessage("§c§l[!] §cUž máš probíhající platbu! §ePro potvrzení platby s částkou §a" + pp.moneyToSend + Main.getInstance().getCurrency() + "§e pro hráče §f" + pp.receiver.getName() + "§e napiš §7/pay confirm§e! Pokud sis platbu rozmyslel, můžeš napsat §7/pay cancel§e.");
                         }
                         return;
@@ -80,7 +80,7 @@ public class PayCommand extends BaseCommand {
     private void payConfirm(CommandSender sender) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            pendingPayment pp = pendingPayments.getPendingPayment(p);
+            PendingPayment pp = pendingPayments.getPendingPayment(p);
             if (pp != null) {
                 if (pp.moneyToSend > Main.getVaultEconomy().getBalance(pp.sender)) {
                     sender.sendMessage("§c§l[!] §cNemáš dostatek peněz k odeslání zadané částky.");
@@ -111,16 +111,16 @@ public class PayCommand extends BaseCommand {
         }
     }
 
-    private class pendingPayments {
+    private class PendingPayments {
 
-        private @Getter List<pendingPayment> pendingPayments = new ArrayList<>();
+        private @Getter List<PendingPayment> PendingPayments = new ArrayList<>();
 
-        public void addPendingPayment(pendingPayment pendingPayment) {
-            pendingPayments.add(pendingPayment);
+        public void addPendingPayment(PendingPayment pendingPayment) {
+            PendingPayments.add(pendingPayment);
         }
 
-        public pendingPayment getPendingPayment(Player player) {
-            for (pendingPayment pp : pendingPayments) {
+        public PendingPayment getPendingPayment(Player player) {
+            for (PendingPayment pp : PendingPayments) {
                 if (pp.sender == player) {
                     return pp;
                 }
@@ -130,9 +130,9 @@ public class PayCommand extends BaseCommand {
 
         public boolean removePendingPayment(Player player) {
             int counter = 0;
-            for (pendingPayment pp : pendingPayments) {
+            for (PendingPayment pp : PendingPayments) {
                 if (pp.sender == player) {
-                    pendingPayments.remove(counter);
+                    PendingPayments.remove(counter);
                     return true;
                 }
                 counter++;
@@ -140,13 +140,13 @@ public class PayCommand extends BaseCommand {
             return false;
         }
 
-        public boolean removePendingPayment(pendingPayment pp) {
-            return pendingPayments.remove(pp);
+        public boolean removePendingPayment(PendingPayment pp) {
+            return PendingPayments.remove(pp);
         }
 
 
         public boolean hasPendingPayment(Player player) {
-            for (pendingPayment pp : pendingPayments) {
+            for (PendingPayment pp : PendingPayments) {
                 if (pp.sender == player) {
                     return true;
                 }
@@ -155,15 +155,16 @@ public class PayCommand extends BaseCommand {
         }
     }
 
-    private class pendingPayment {
-        pendingPayment(Player sender, Player receiver, long moneyToSend) {
-            this.sender = sender;
-            this.receiver = receiver;
-            this.moneyToSend = moneyToSend;
-        }
+    private class PendingPayment {
 
         private final Player sender;
         private final Player receiver;
         private final long moneyToSend;
+
+        PendingPayment(Player sender, Player receiver, long moneyToSend) {
+            this.sender = sender;
+            this.receiver = receiver;
+            this.moneyToSend = moneyToSend;
+        }
     }
 }
