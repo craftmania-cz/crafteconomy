@@ -53,6 +53,24 @@ public class SQLManager {
         }
     }
 
+    public final boolean hasDataByNick(final String p) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE nick = ?;");
+            ps.setString(1, p);
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+            return false;
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
     public final boolean hasDataByUUID(final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;

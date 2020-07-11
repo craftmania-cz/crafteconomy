@@ -32,12 +32,15 @@ public class MoneyCommand extends BaseCommand {
             sender.sendMessage("§e§l[*] §eAktuálně máš " + Main.getInstance().getFormattedNumber((long) Main.getVaultEconomy().getBalance((Player) sender)) + Main.getInstance().getCurrency());
     }
 
-    @Subcommand("balance")
-    @CommandPermission("crafteconomy.command.money.balance")
+    @Default
     @CommandCompletion("@players")
     @Syntax("[nick]")
     public void showOthersMoney(CommandSender sender, String targetPlayer) {
-        sender.sendMessage("§e§l[B] §eHráč " + targetPlayer + " má na účtě: §f" + Main.getInstance().getFormattedNumber((long) Main.getVaultEconomy().getBalance(targetPlayer)) + Main.getInstance().getCurrency());
+        if (Main.getInstance().getMySQL().hasDataByNick(targetPlayer)) {
+            sender.sendMessage("§e§l[*] §eHráč " + targetPlayer + " má na účtě: §f" + Main.getInstance().getFormattedNumber((long) Main.getVaultEconomy().getBalance(targetPlayer)) + Main.getInstance().getCurrency());
+        } else {
+            sender.sendMessage("§c§l[!] §cTento hráč zde ještě nehrál!");
+        }
     }
 
     @Default
