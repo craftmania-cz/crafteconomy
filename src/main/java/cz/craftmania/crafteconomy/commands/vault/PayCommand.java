@@ -21,7 +21,7 @@ public class PayCommand extends BaseCommand {
     private static BasicManager manager = new BasicManager();
     private PendingPayments pendingPayments = new PendingPayments();
 
-    int confirmThreshold = Main.getInstance().getConfig().getInt("vault-economy.min-confirm");
+    int confirmThreshold = Main.getInstance().getConfig().getInt("vault-economy.min-confirm", 1000);
 
     @HelpCommand
     public void helpCommand(CommandSender sender, CommandHelp help) {
