@@ -42,3 +42,4 @@ random-exp:
 vault-economy:
   enabled: false
   name: "$"
+  min-confirm: 1000

@@ -6,17 +6,22 @@ import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyPlayerPayEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @CommandAlias("pay")
 @Description("Umožňuje posílat jiným hráčům peníze")
 public class PayCommand extends BaseCommand {
 
     private static BasicManager manager = new BasicManager();
+    private PendingPayments pendingPayments = new PendingPayments();
+
+    int confirmThreshold = Main.getInstance().getConfig().getInt("vault-economy.min-confirm");
 
     @HelpCommand
     public void helpCommand(CommandSender sender, CommandHelp help) {
@@ -45,6 +50,16 @@ public class PayCommand extends BaseCommand {
             Player playerSender = (Player) sender;
             if (playerReceiver != null) {
                 if (manager.getCraftPlayer(playerReceiver).getPayToggle()) {
+                    if (moneyToSend >= confirmThreshold) {
+                        if (!pendingPayments.hasPendingPayment(playerSender)){
+                            sender.sendMessage("§e§l[*] §ePro potvrzení platby s částkou §a" + moneyToSend + Main.getInstance().getCurrency() + "§e pro hráče §f" + playerReceiver.getName() + "§e napiš §7/pay confirm§e! Pokud sis platbu rozmyslel, můžeš napsat §7/pay cancel§e.");
+                            pendingPayments.addPendingPayment(new PendingPayment(playerSender, playerReceiver, moneyToSend));
+                        } else {
+                            PendingPayment pp = pendingPayments.getPendingPayment(playerSender);
+                            sender.sendMessage("§c§l[!] §cUž máš probíhající platbu! §ePro potvrzení platby s částkou §a" + pp.moneyToSend + Main.getInstance().getCurrency() + "§e pro hráče §f" + pp.receiver.getName() + "§e napiš §7/pay confirm§e! Pokud sis platbu rozmyslel, můžeš napsat §7/pay cancel§e.");
+                        }
+                        return;
+                    }
                     Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
                     Main.getVaultEconomy().depositPlayer(playerReceiver, moneyToSend);
                     sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
@@ -57,6 +72,99 @@ public class PayCommand extends BaseCommand {
             } else {
                 sender.sendMessage("§c§l[!] §cHráč není online, nelze mu zaslat peníze!");
             }
+        }
+    }
+
+    @Subcommand("confirm")
+    @CommandCompletion("confirm")
+    private void payConfirm(CommandSender sender) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            PendingPayment pp = pendingPayments.getPendingPayment(p);
+            if (pp != null) {
+                if (pp.moneyToSend > Main.getVaultEconomy().getBalance(pp.sender)) {
+                    sender.sendMessage("§c§l[!] §cNemáš dostatek peněz k odeslání zadané částky.");
+                    return;
+                }
+                pendingPayments.removePendingPayment(pp);
+                Main.getVaultEconomy().withdrawPlayer(pp.sender, pp.moneyToSend);
+                Main.getVaultEconomy().depositPlayer(pp.receiver, pp.moneyToSend);
+                sender.sendMessage("§e§l[*] §eOdeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(pp.moneyToSend) + Main.getInstance().getCurrency());
+                pp.receiver.sendMessage("§e§l[*] §eObdržel jsi peníze od §f" + pp.sender.getName() + " §7- §a" + Main.getInstance().getFormattedNumber(pp.moneyToSend) + Main.getInstance().getCurrency());
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(pp.sender, pp.receiver, pp.moneyToSend)));
+            } else {
+                sender.sendMessage("§c§l[!] §cNemáš žádnou probíhající platbu!");
+            }
+        }
+    }
+
+    @Subcommand("cancel")
+    @CommandCompletion("cancel")
+    private void payCancel(CommandSender sender) {
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (pendingPayments.removePendingPayment(p)) {
+                sender.sendMessage("§e§l[*] §eTvoje probíhající platba byla úspěšně zrušena.");
+            } else {
+                sender.sendMessage("§c§l[!] §cNemáš žádnou probíhající platbu!");
+            }
+        }
+    }
+
+    private class PendingPayments {
+
+        private @Getter List<PendingPayment> PendingPayments = new ArrayList<>();
+
+        public void addPendingPayment(PendingPayment pendingPayment) {
+            PendingPayments.add(pendingPayment);
+        }
+
+        public PendingPayment getPendingPayment(Player player) {
+            for (PendingPayment pp : PendingPayments) {
+                if (pp.sender == player) {
+                    return pp;
+                }
+            }
+            return null;
+        }
+
+        public boolean removePendingPayment(Player player) {
+            int counter = 0;
+            for (PendingPayment pp : PendingPayments) {
+                if (pp.sender == player) {
+                    PendingPayments.remove(counter);
+                    return true;
+                }
+                counter++;
+            }
+            return false;
+        }
+
+        public boolean removePendingPayment(PendingPayment pp) {
+            return PendingPayments.remove(pp);
+        }
+
+
+        public boolean hasPendingPayment(Player player) {
+            for (PendingPayment pp : PendingPayments) {
+                if (pp.sender == player) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private class PendingPayment {
+
+        private final Player sender;
+        private final Player receiver;
+        private final long moneyToSend;
+
+        PendingPayment(Player sender, Player receiver, long moneyToSend) {
+            this.sender = sender;
+            this.receiver = receiver;
+            this.moneyToSend = moneyToSend;
         }
     }
 }
