@@ -56,7 +56,7 @@ public class EventPointsAPI {
             manager.getCraftPlayer(player).setEventPoints(finalpoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.EVENT_POINTS, player, finalpoints);
             if (player.isOnline()) {
-                player.sendMessage("§aBylo ti pridano §7" + finalpoints + " EventPoints.");
+                player.sendMessage("§aBylo ti pridano §7" + pointsToAdd + " EventPoints.");
             }
         });
     }
