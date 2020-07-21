@@ -26,7 +26,7 @@ public class MoneylogCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
-    @CommandPermission("crafteconomy.admin")
+    @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByName(CommandSender sender, String requestedPlayer) {
         Group<String, UUID> UUIDdata = null;
         Map<Integer, List> listMap = new HashMap<>();
@@ -41,7 +41,7 @@ public class MoneylogCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players [cislo]")
-    @CommandPermission("crafteconomy.admin")
+    @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByNameAndPage(CommandSender sender, String requestedPlayer, int page) {
         Group<String, UUID> UUIDdata = null;
         Map<Integer, List> listMap = new HashMap<>();
