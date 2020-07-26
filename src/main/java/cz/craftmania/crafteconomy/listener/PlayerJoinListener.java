@@ -55,15 +55,9 @@ public class PlayerJoinListener implements Listener {
             this.fixLevelRewardsForPlayer(craftPlayer);
         }*/
 
-        if (Main.getServerType() == ServerType.VANILLA) {
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 33 && !player.hasPermission("lands.chunks.40")) {
-                bm.givePlayerManualLevelReward(player, 33, true);
-            }
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 35 && !player.hasPermission("lands.members.12")) {
-                bm.givePlayerManualLevelReward(player, 35, true);
-            }
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.VANILLA_LEVEL) >= 37 && !player.hasPermission("lands.ownlands.3")) {
-                bm.givePlayerManualLevelReward(player, 37, true);
+        if (Main.getServerType() == ServerType.SKYBLOCK) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 20 && !player.hasPermission("shopguiplus.shops.special")) {
+                bm.givePlayerManualLevelReward(player, 20, true);
             }
         }
 

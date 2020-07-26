@@ -99,46 +99,46 @@ public class SkyblockLevelRewards {
                 .setPermissions("bskyblock.team.maxsize.10"));
 
         // Level 20
-        this.list.add(new LevelReward(20).setName("Možnost nákupu: Zombie Spawner")
+        this.list.add(new LevelReward(20).setName("Přístup do Special Shop")
+                .setDescription("§7Přístup do speciální sekce", "§7v /shop k zakoupení těch nejvíc OP věcí!")
+                .setRewardDescription("§7Nyní máš přístup do Special Shopu v §b/shop")
+                .setPermissions("shopguiplus.shops.special"));
+
+        // Level 21
+        this.list.add(new LevelReward(21).setName("Možnost nákupu: Zombie Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Zombie Spawner v §b/shop")
                 .setRewardDescription("§7Nyní si můžeš zakoupit v /shop - Zombie Spawner")
                 .setPermissions("shopguiplus.item.spawners.4")); // ID: 4
 
-        // Level 21
-        this.list.add(new LevelReward(21).setName("Možnost nákupu: Creeper Spawner")
+        // Level 22
+        this.list.add(new LevelReward(22).setName("Možnost nákupu: Creeper Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Creeper Spawner v §b/shop")
                 .setRewardDescription("§7Nyní si můžeš zakoupit v /shop - Creeper Spawner")
                 .setPermissions("shopguiplus.item.spawners.5"));
 
-        // Level 22
-        this.list.add(new LevelReward(22).setName("Možnost nákupu: Chicken Spawner")
+        // Level 23
+        this.list.add(new LevelReward(23).setName("Možnost nákupu: Chicken Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Chicken Spawner v §b/shop")
                 .setRewardDescription("§7Nyní si můžeš zakoupit v /shop - Chicken Spawner")
                 .setPermissions("shopguiplus.item.spawners.6"));
 
-        // Level 23
-        this.list.add(new LevelReward(23).setName("Rozšíření ostrova: 150x150")
+        // Level 24
+        this.list.add(new LevelReward(24).setName("Rozšíření ostrova: 150x150")
                 .setDescription("§7Region ostrova se zvětší na 150x150!")
                 .setRewardDescription("§7Nyní máš velikost ostrova 150x150")
                 .setPermissions("bskyblock.island.range.150"));
 
-        // Level 25
-        this.list.add(new LevelReward(25).setName("Možnost nákupu: Sheep Spawner")
+        // Level 26
+        this.list.add(new LevelReward(26).setName("Možnost nákupu: Sheep Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Sheep Spawner v §b/shop")
                 .setRewardDescription("§7Nyní si můžeš zakoupit v /shop - Sheep Spawner")
                 .setPermissions("shopguiplus.item.spawners.7"));
 
-        // Level 27
-        this.list.add(new LevelReward(27).setName("Možnost přidat na ostrov 12 hráčů")
+        // Level 28
+        this.list.add(new LevelReward(28).setName("Možnost přidat na ostrov 12 hráčů")
                 .setDescription("§7Budeš si moct přidat na ostrov", "§7až 12 hráčů!")
                 .setRewardDescription("§7Nyní můžeš pozvat na ostrov až 12 hráčů!")
                 .setPermissions("bskyblock.team.maxsize.12"));
-
-        // Level 30
-        this.list.add(new LevelReward(30).setName("Přístip do Special Shop")
-                .setDescription("§7Přístup do speciální sekce", "§7v /shop k zakoupení těch nejvíc OP věcí!")
-                .setRewardDescription("§7Nyní máš přístup do Special Shopu v §b/shop")
-                .setPermissions("shopguiplus.shops.special"));
 
         // Level 31
         this.list.add(new LevelReward(31).setName("Možnost nákupu: Spider Spawner")
