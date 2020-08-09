@@ -62,6 +62,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Commands manager
     private PaperCommandManager manager;
 
+    // CraftCore
+    public static boolean isCraftCoreEnabled = false;
+
     @Override
     public void onEnable() {
 
@@ -71,6 +74,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) isCraftCoreEnabled = true;
 
         // Plugin messages
         Bukkit.getMessenger().registerIncomingPluginChannel(this, "craftbungee:vote", this);
@@ -133,11 +138,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         Logger.info("Probíhá registrace příkazů pomocí Aikar commands!");
         loadCommands(manager);
 
-        // Prikazy zavisly na CraftCore
-        if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) {
-            manager.registerCommand(new RewardsCommand());
-        }
-
         // Listeners
         loadListeners();
 
@@ -153,14 +153,18 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             manager.registerCommand(new MoneyCommand());
-            manager.registerCommand(new MoneylogCommand());
+            if (isCraftCoreEnabled) {
+                manager.registerCommand(new MoneylogCommand());
+                manager.registerCommand(new BaltopCommand());
+            }
             manager.registerCommand(new PayCommand());
             manager.registerCommand(new PaytoggleCommand());
-            manager.registerCommand(new BaltopCommand());
-            vaultEconomyManager = new VaultEconomyManager();
-            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
+            if (isCraftCoreEnabled) {
+                vaultEconomyManager = new VaultEconomyManager();
+                Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, () -> getVaultEconomyManager().updateBaltopCache(), 0L, 2400);
+            }
 
-            if (getServerType() == ServerType.SKYCLOUD) { // Banky jsou zatím dostupné pouze na Skycloudu
+            if (getServerType() == ServerType.SKYCLOUD && isCraftCoreEnabled) { // Banky jsou zatím dostupné pouze na Skycloudu
                 //manager.registerCommand(new BankCommand());
                 manager.registerCommand(new DepositCommand());
                 manager.registerCommand(new WithdrawCommand());
@@ -172,6 +176,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new PlayerUpdateGlobalLevelTask(), 100L, 18000L); // 15 minut
         } else {
             Logger.info("Server nebude updatovat hracum global level!");
+        }
+
+        if (!isCraftCoreEnabled) {
+            Logger.danger("CraftCore není na serveru! Hodně funkcí je deaktivováných.");
         }
     }
 
@@ -221,7 +229,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
 
-        pm.registerEvents(new DepositGUI(), this);
+        if (isCraftCoreEnabled)
+            pm.registerEvents(new DepositGUI(), this);
 
         // AdvancedAchievements Events
         if (isAchievementPluginEnabled) {
@@ -240,8 +249,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new LevelCommand());
         manager.registerCommand(new EventPointsCommand());
         manager.registerCommand(new VoteTokensCommand());
-        manager.registerCommand(new ProfileCommand());
         manager.registerCommand(new KarmaCommand());
+        if (isCraftCoreEnabled) {
+            manager.registerCommand(new RewardsCommand());
+            manager.registerCommand(new ProfileCommand());
+        }
     }
 
     public boolean isRegisterEnabled() {
