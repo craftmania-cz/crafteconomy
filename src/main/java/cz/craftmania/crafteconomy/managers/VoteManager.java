@@ -31,8 +31,8 @@ public class VoteManager {
         craftPlayer.addWeekVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
 
-        //TODO: Check craftcore?
-        new Title("§a§lDěkujeme!", "§fDostal/a jsi 1x VoteToken.", 10, 60, 10).send(player);
+        if (Main.isCraftCoreEnabled)
+            new Title("§a§lDěkujeme!", "§fDostal/a jsi 1x VoteToken.", 10, 60, 10).send(player);
         Bukkit.getPluginManager().callEvent(new PlayerVoteEvent(player));
         player.sendMessage(" ");
         player.sendMessage("§bVyber si odměnu jakou chceš!");
