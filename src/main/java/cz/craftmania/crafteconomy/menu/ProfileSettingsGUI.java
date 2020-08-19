@@ -63,7 +63,7 @@ public class ProfileSettingsGUI implements InventoryProvider {
         ItemStack enabled = createItem(Material.GREEN_STAINED_GLASS_PANE, "§a§lZapnuto", null);
         ItemStack disabled = createItem(Material.RED_STAINED_GLASS_PANE, "§c§lVypnuto", null);
         ItemStack nedostupne = createItem(Material.BARRIER, "§c§lNedostupné", null);
-        ItemStack zpet = createItem(Material.ARROW, "§eZpět", null);
+        ItemStack zpet = createItem(Material.RED_BED, "§cZpět do menu", null);
         ItemStack nextPage = createItem(Material.ARROW, "§eDalší strana", null);
         ItemStack previousPage = createItem(Material.ARROW, "§ePředchozí strana", null);
 

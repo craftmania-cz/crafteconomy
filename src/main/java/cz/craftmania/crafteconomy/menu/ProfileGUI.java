@@ -51,10 +51,10 @@ public class ProfileGUI implements InventoryProvider  {
 
     void openPage(Player p, InventoryContents contents) {
         // Preparations
-        ItemStack settings = createItem(Material.COMPARATOR, "§aNastavení", Arrays.asList("§7Díky nastavení si můžeš", "§7přizpůsobit lobby/hry podle sebe.", "", "§eKlikni pro otevření nastavení"));
-        ItemStack statistics = createItem(Material.WRITABLE_BOOK, "§aStatistiky", Arrays.asList("§7Ukáže ti všechny tvoje statistiky od A po Z!", "", "§eKlikni pro otevření statistik"));
+        ItemStack settings = createItem(Material.COMPARATOR, "§aNastavení", Arrays.asList("§7Díky nastavení si můžeš", "§7přizpůsobit lobby/hry podle sebe.", "", "§eKlikni pro otevření"));
+        ItemStack statistics = createItem(Material.WRITABLE_BOOK, "§aStatistiky", Arrays.asList("§7Ukáže ti všechny tvoje statistiky od A po Z!", "", "§eKlikni pro zobrazení statistik"));
         ItemStack multipliers = createItem(Material.ENDER_PEARL, "§aMultipliery", Arrays.asList("§8Již brzy."));
-        ItemStack achievements = createItem(Material.LECTERN, "§aAchievementy", Arrays.asList("§8Již brzy."));
+        ItemStack achievements = createItem(Material.LECTERN, "§aAchievementy", Arrays.asList("§7Plň achievementy na serveru", "§7a získávej odměny za hraní!", "", "§eKlikni pro zobrazení"));
 
         makeLines(contents);
 
@@ -63,9 +63,11 @@ public class ProfileGUI implements InventoryProvider  {
         contents.set(2, 2, ClickableItem.of(statistics, e -> {
             SmartInventory.builder().size(5, 9).title("Statistiky").provider(new ProfileStatisticsGUI()).build().open(p);
         }));
-        contents.set(2, 6, ClickableItem.empty(achievements));
-        contents.set(3, 2, ClickableItem.empty(multipliers));
-        contents.set(3, 4, ClickableItem.of(settings, e -> {
+        contents.set(2, 3, ClickableItem.of(achievements, e -> {
+            p.performCommand("aach list");
+        }));
+        contents.set(2, 5, ClickableItem.empty(multipliers));
+        contents.set(2, 4, ClickableItem.of(settings, e -> {
             SmartInventory.builder().size(5, 9).title("Nastavení").provider(new ProfileSettingsGUI()).build().open(p);
         }));
     }
@@ -81,7 +83,7 @@ public class ProfileGUI implements InventoryProvider  {
     }
 
     public static ItemStack backArrow() {
-        return createItem(Material.ARROW, "§eZpět", null);
+        return createItem(Material.RED_BED, "§cZpět", null);
     }
 
     public static void makeLines(InventoryContents contents) {
@@ -104,18 +106,12 @@ public class ProfileGUI implements InventoryProvider  {
             return itemLore;
         }
 
-        itemLore.add("");
-        itemLore.add("§7ID: §f" + profileData.getAsJsonObject("data").get("id").getAsLong() + "§8#" + profileData.getAsJsonObject("data").get("discriminator").getAsInt());
+        itemLore.add("§7ID: §f" + profileData.getAsJsonObject("data").get("id").getAsLong() + "§8#" + profileData.getAsJsonObject("data").get("discriminator").getAsString());
+        itemLore.add("§7Tvůj nick: §f" + p.getName());
         itemLore.add("§7První připojení: §f" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(profileData.getAsJsonObject("data").get("registred").getAsLong()));
-        itemLore.add("§7CraftCoins: §f" + CraftCoinsAPI.getCoins(p));
-        itemLore.add("§7VoteTokens: §f" + VoteTokensAPI.getVoteTokens(p));
-        itemLore.add("§7CraftTokens: §f" + CraftTokensAPI.getTokens(p));
-        itemLore.add("§7Achievement points: §f" + AchievementPointsAPI.getAchievementPoints(p));
-        itemLore.add("§7Karma: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("karma").getAsInt());
-        itemLore.add("§7Event points: §f" + EventPointsAPI.getEventPoints(p));
-        itemLore.add("§7Bug points: §8Již brzy.");
         itemLore.add("§7Celkem odehraný čas: §f" + TimeUtils.formatTime("%dd, %hh %mm", profileData.getAsJsonObject("data").get("played_time").getAsLong(), false));
-
+        itemLore.add("");
+        itemLore.add("§ePro více statistik klikni na menu s statistiky");
         return itemLore;
     }
 

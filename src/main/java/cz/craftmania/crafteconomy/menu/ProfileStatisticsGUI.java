@@ -46,22 +46,22 @@ public class ProfileStatisticsGUI implements InventoryProvider {
             contents.inventory().close(p);
         }
 
-        ItemStack economy = ProfileGUI.createItem(Material.GOLD_INGOT, "§e§lEconomy", Arrays.asList(
+        ItemStack economy = ProfileGUI.createItem(Material.GOLD_INGOT, "§bEconomy", Arrays.asList(
             "§7CraftCoins: §f" + CraftCoinsAPI.getCoins(p),
             "§7VoteTokens: §f" + VoteTokensAPI.getVoteTokens(p),
             "§7CraftTokens: §f" + CraftTokensAPI.getTokens(p),
             "§7Achievement points: §f" + AchievementPointsAPI.getAchievementPoints(p),
             "§7Karma: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("karma").getAsInt(),
             "§7Event points: §f" + EventPointsAPI.getEventPoints(p),
-            "§7Bug points: §8Již brzy."
+            "§7Bug points: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("bug_points").getAsInt()
         ));
-        ItemStack votes = ProfileGUI.createItem(Material.PAPER, "§e§lVotes", Arrays.asList(
+        ItemStack votes = ProfileGUI.createItem(Material.PAPER, "§eVotes", Arrays.asList(
                 "§7Týdenní hlasy: §f" + profileData.getAsJsonObject("data").getAsJsonObject("votes").get("week").getAsInt(),
                 "§7Měsíční hlasy: §f" + profileData.getAsJsonObject("data").getAsJsonObject("votes").get("month").getAsInt(),
                 "§7Celkem hlasů: §f" + profileData.getAsJsonObject("data").getAsJsonObject("votes").get("total").getAsInt(),
                 "§7Poslední hlas: §f" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(profileData.getAsJsonObject("data").getAsJsonObject("votes").get("last_vote").getAsLong())
         ));
-        ItemStack levels = ProfileGUI.createItem(Material.WRITABLE_BOOK, "§e§lLevels", Arrays.asList(
+        ItemStack levels = ProfileGUI.createItem(Material.WRITABLE_BOOK, "§dLevels", Arrays.asList(
                 "§7Global: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("global_level").getAsInt() + " §8LVL",
                 "",
                 "§7Survival: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("survival_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("survival_experience").getAsInt() + " EXP)",
