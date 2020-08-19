@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
+import cz.craftmania.crafteconomy.menu.ProfileGUI;
 import cz.craftmania.crafteconomy.menu.ProfileSettingsGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,9 @@ public class ProfileCommand extends BaseCommand {
 
     @Default
     public void showProfile(CommandSender sender) {
-        sender.sendMessage("§c§l[!] §c/profile příkaz bude dostupný v pozdějších updatech! Zatím použij /profile settings pro nastavení.");
+        if (sender instanceof Player) {
+            SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open((Player) sender);
+        }
     }
 
     @Subcommand("settings|nastaveni")

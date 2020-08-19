@@ -10,7 +10,6 @@ import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -68,6 +67,8 @@ public class ProfileSettingsGUI implements InventoryProvider {
         ItemStack nextPage = createItem(Material.ARROW, "§eDalší strana", null);
         ItemStack previousPage = createItem(Material.ARROW, "§ePředchozí strana", null);
 
+        ProfileGUI.makeLines(contents);
+
         switch (page) {
             case 0: {
                 ItemStack fly = createItem(Material.ELYTRA, "§e§lFly", Arrays.asList("§7Nastavuje FLY na lobby serverech.", "§7Fly dostanes pri kazdem",
@@ -99,8 +100,7 @@ public class ProfileSettingsGUI implements InventoryProvider {
 
                 //Předchozí / Zpět / Další
                 contents.set(4, 4, ClickableItem.of(zpet, e -> {
-                    //TODO: Profile menu
-                    contents.inventory().close(p);
+                    SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open(p);
                 }));
                 contents.set(4, 5, ClickableItem.of(nextPage, e -> {
                     contents.inventory().open(p, pagination.next().getPage());
@@ -115,11 +115,9 @@ public class ProfileSettingsGUI implements InventoryProvider {
                 contents.set(1, 5, ClickableItem.empty(novinky));
                 contents.set(1, 6, ClickableItem.empty(deathMessages));
                 contents.set(1, 7, ClickableItem.of(joinMessage, e -> {
-                    contents.inventory().close(p);
                     SmartInventory.builder().size(3, 9).title("Profile settings - Join message").provider(new ProfileSettingsGUISelectionLobbyMessage()).build().open(p);
                 }));
                 contents.set(1, 8, ClickableItem.of(joinSound, e -> {
-                    contents.inventory().close(p);
                     SmartInventory.builder().size(3, 9).title("Profile settings - Join sound").provider(new ProfileSettingsGUISelectionLobbySound()).build().open(p);
                 }));
 
@@ -227,12 +225,10 @@ public class ProfileSettingsGUI implements InventoryProvider {
             case 1: {
                 //Předchozí / Zpět / Další
                 contents.set(4, 3, ClickableItem.of(previousPage, e -> {
-                    //TODO: Profile menu
                     contents.inventory().open(p, pagination.previous().getPage());
                 }));
                 contents.set(4, 4, ClickableItem.of(zpet, e -> {
-                    //TODO: Profile menu
-                    contents.inventory().close(p);
+                    SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open(p);
                 }));
 
                 ItemStack disableChat = createItem(Material.LEGACY_BOOK_AND_QUILL, "§e§lVypnuti zprav v chatu", Arrays.asList("§7Nebudes dostavat", "§7zpravy v chatu.", "", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
