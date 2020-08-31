@@ -5,6 +5,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -75,8 +76,47 @@ public class BaltopCommand extends BaseCommand {
         } catch (Exception ignored) {
             player.sendMessage(" §7Tvoje pozice: §a#§7. - §e0§6" + Main.getInstance().getCurrency());
         }
-        //player.sendMessage("§e--------");
-        //player.sendMessage("§b<- §7Předchozí strana §8| §7 Další Strana §b->");
+        player.sendMessage("§e--------");
+        sendClickablePages(player, page, (int)(Math.round((double)nicks.size()/10)));
         player.sendMessage("");
+    }
+
+    private static void sendClickablePages(Player player, int page, int maxPage) {
+        String prevPageColor, nextPageColor;
+        TextComponent message = new TextComponent();
+        TextComponent prevPageMessage = new TextComponent();
+        TextComponent nextPageMessage = new TextComponent();
+
+        if (page == 1)
+            prevPageColor = "§7";
+        else {
+            prevPageColor = "§e";
+            prevPageMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/baltop " + (page-1)));
+        }
+        if (page >= maxPage)
+            nextPageColor = "§7";
+        else {
+            nextPageColor = "§e";
+            nextPageMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/baltop " + (page+1)));
+        }
+
+        prevPageMessage.setText("§b<- " + prevPageColor + "Předchozí strana §8|");
+        nextPageMessage.setText(" §7 " + nextPageColor + "Další Strana §b->");
+
+        message.addExtra(prevPageMessage);
+        message.addExtra(nextPageMessage);
+
+        player.spigot().sendMessage(message);
+    }
+
+    private static BaseComponent[] createComponent(List<String> lines) {
+        StringBuilder str = new StringBuilder();
+        for (String line : lines) {
+            if (lines.get(lines.size() - 1).equals(line))
+                str.append(line);
+            else
+                str.append(line).append("\n");
+        }
+        return new ComponentBuilder(str.toString()).create();
     }
 }
