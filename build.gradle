@@ -98,6 +98,8 @@ dependencies {
         exclude group: 'net.md-5'
     }
 
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.2-SNAPSHOT'
+
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.2.7'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.0'
