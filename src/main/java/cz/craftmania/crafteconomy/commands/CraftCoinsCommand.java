@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import cz.craftmania.craftcore.spigot.messages.chat.ChatInfo;
 import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;
@@ -38,6 +39,10 @@ public class CraftCoinsCommand extends BaseCommand {
     @Syntax("[nick] [pocet]") // Nápověda pro /cc help
     public void adminGiveCraftCoins(CommandSender sender, String editedPlayer, long coinsToAdd) { // 1. je vždy sender, a pak zbytek podle CommandCompletion
         Player targetPlayer = Bukkit.getPlayer(editedPlayer);
+        if (coinsToAdd <= 0) {
+            sender.sendMessage("§c§l[!!] §cHodnota nesmí být menší než 0!");
+            return;
+        }
         if (targetPlayer != null) {
             CraftCoinsAPI.giveCoins(targetPlayer, coinsToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToAdd + " CC.");
@@ -52,6 +57,10 @@ public class CraftCoinsCommand extends BaseCommand {
     @CommandCompletion("@players [pocet]")
     public void adminTakeCraftCoins(CommandSender sender, String editedPlayer, long coinsToTake) {
         Player targetPlayer = Bukkit.getPlayer(editedPlayer);
+        if (coinsToTake <= 0) {
+            sender.sendMessage("§c§l[!!] §cHodnota nesmí být menší než 0!");
+            return;
+        }
         if (targetPlayer != null) {
             if ((manager.getCraftPlayer(targetPlayer).getCoins() - coinsToTake) < 0) {
                 sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftCoins! Má k dispozici: " + manager.getCraftPlayer(targetPlayer).getCoins());
@@ -74,6 +83,10 @@ public class CraftCoinsCommand extends BaseCommand {
         }
         if(sender.getName().equalsIgnoreCase(selectedPlayer)) {
             sender.sendMessage("§e§l[*] §eNemůžeš poslat CraftCoiny sobě.");
+            return;
+        }
+        if (coinsToPay <= 0) {
+            ChatInfo.error((Player) sender, "Hodnota nesmí být menší než 0!");
             return;
         }
         Player targetPlayer = Bukkit.getPlayer(selectedPlayer);
