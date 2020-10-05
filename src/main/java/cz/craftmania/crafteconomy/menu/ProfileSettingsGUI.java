@@ -231,12 +231,14 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open(p);
                 }));
 
-                ItemStack disableChat = createItem(Material.LEGACY_BOOK_AND_QUILL, "§e§lVypnuti zprav v chatu", Arrays.asList("§7Nebudes dostavat", "§7zpravy v chatu.", "", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
-                ItemStack chatSuggestions = createItem(Material.HEART_OF_THE_SEA, "§e§lNapovidani v chatu", Arrays.asList("§7Povolenim se ti budou", "§7zobrazovat v chatu napovedy", "§7pro prikazy §aod MC 1.13."));
+                ItemStack disableChat = createItem(Material.WRITABLE_BOOK , "§e§lVypnutí zpráv v chatu", Arrays.asList("§7Nebudeš dostávat", "§7zprávy v chatu.", "", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
+                ItemStack disableScoreboard = createItem(Material.GOLD_INGOT, "§e§lZobrazení scoreboardu", Arrays.asList("§7Budeš vidět", "§7tabulku vpravo.", "", "§e§l[*] §eZměnz se projeví až po odpojení a připojení!"));
+                // Deprecated
+                //ItemStack chatSuggestions = createItem(Material.HEART_OF_THE_SEA, "§e§lNapovidani v chatu", Arrays.asList("§7Povolenim se ti budou", "§7zobrazovat v chatu napovedy", "§7pro prikazy §aod MC 1.13."));
 
                 //Nastaveni
                 contents.set(1, 0, ClickableItem.empty(disableChat));
-                contents.set(1, 1, ClickableItem.empty(chatSuggestions));
+                //contents.set(1, 1, ClickableItem.empty(chatSuggestions));
 
                 //Akce po kliknuti na nastaveni
                 contents.set(2, 0, ClickableItem.of((getSetting(p, "disabled_chat") == 1 ? enabled : disabled), e -> { //Vypnutí chatu
@@ -254,7 +256,22 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     }
                     contents.inventory().close(p);
                 }));
-                contents.set(2, 1, ClickableItem.empty(nedostupne));
+
+                contents.set(1, 1, ClickableItem.empty(disableScoreboard));
+
+                contents.set(2, 1, ClickableItem.of((getSetting(p, "show_scoreboard") == 1 ? enabled : disabled), e -> {
+                    if (contents.get(2, 1).get().getItem() == enabled) {
+                        Main.getInstance().getMySQL().updateSettings(p, "show_scoreboard", 0);
+                        p.sendMessage("§c§l[!] §cZobrazovaní scoreboardu vypnuto!");
+                    } else {
+                        Main.getInstance().getMySQL().updateSettings(p, "show_scoreboard", 1);
+                        p.sendMessage("§e§l[*] §eZobrazovaní scoreboardu zapnuto!");
+                    }
+                    contents.inventory().close(p);
+                }));
+
+                // Deprecated
+                //contents.set(2, 1, ClickableItem.empty(nedostupne));
                 /* -> Není na mém SQL, nevím jak to je v produkčním, tak to zatím nechám jako "nedostupné"
                 TODO: Opravit / odebrat
                 contents.set(2, 1, ClickableItem.of((getSetting(p, "disabled_chat_suggestions") == 1 ? enabled : disabled), e -> { //Vypnutí chat suggestcí
