@@ -38,10 +38,10 @@ public class CreativeLevelReward {
                 .setPermissions("rc.bypass.confiscate.items.material.COW_SPAWN_EGG"));
 
         // LEVEL 6
-        this.list.add(new LevelReward(6).setName("Stažení pozemku")
+        /*this.list.add(new LevelReward(6).setName("Stažení pozemku")
                 .setDescription("§7Přístup k příkzu §a/p download")
                 .setRewardDescription("§7Pomocí příkazu §b/p download §7nyní můžeš stáhnout pozemek!")
-                .setPermissions("plots.download"));
+                .setPermissions("plots.download"));*/
 
         // LEVEL 7
         this.list.add(new LevelReward(7).setName("Přístup k Pig Eggs")
