@@ -109,9 +109,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             isAchievementPluginEnabled = true;
             Logger.info("Detekovan plugin: AdvancedAchievements");
             ProprietaryManager.loadServerAchievements();
-            ProprietaryManager.loadServerLevelRewards();
         } else {
-            Logger.danger("AdvancedAchievements nejsou na serveru! Levels & Rewards nebudou fungovat!");
+            Logger.danger("AdvancedAchievements nejsou na serveru!");
         }
 
         // Variables
@@ -123,6 +122,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
+            ProprietaryManager.loadServerLevelRewards();
             Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
             this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
         }
