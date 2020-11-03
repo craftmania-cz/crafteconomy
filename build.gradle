@@ -81,12 +81,11 @@ task generateJavadocs(type: Javadoc) {
 }
 
 repositories {
-    flatDir {dirs 'libs'}
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://packages.craftmania.cz/repository/craftmania/"}
     maven { url "https://packages.craftmania.cz/repository/third-party/"}
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
@@ -94,11 +93,10 @@ repositories {
 }
 
 dependencies {
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs') // Add everything in the lib folder.
     compileOnly ('org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
-
-    compileOnly 'net.md-5:bungeecord-api:1.16-R0.2-SNAPSHOT'
 
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.2.7'
