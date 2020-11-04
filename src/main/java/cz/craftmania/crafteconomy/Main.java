@@ -17,6 +17,8 @@ import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.crafteconomy.utils.configs.Config;
+import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
 import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -39,6 +41,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static Main instance;
     private static AsyncUtils async;
     private SQLManager sql;
+    private ConfigAPI configAPI;
     private int minExp, maxExp, time;
 
     // Vault
@@ -74,6 +77,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        // Nacteni config souboru
+        configAPI = new ConfigAPI(this);
+        loadConfiguration();
 
         if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) isCraftCoreEnabled = true;
 
@@ -256,6 +263,29 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
+    private void loadConfiguration() {
+        Config questFile = new Config(this.configAPI, "quests");
+        configAPI.registerConfig(questFile);
+
+        Config rewardsFile = new Config(this.configAPI, "rewards");
+        configAPI.registerConfig(rewardsFile);
+    }
+
+    /**
+     * Config pro server questy, vyžaduje LuxuryQuest/CraftQuests.
+     * @return {@link Config}
+     */
+    public Config getQuestConfig() {
+        return this.configAPI.getConfig("quests");
+    }
+
+    /**
+     * Config pro server rewards.
+     * @return {@link Config}
+     */
+    public Config getRewardsConfig() {
+        return this.configAPI.getConfig("rewards");
+    }
     public boolean isRegisterEnabled() {
         return registerEnabled;
     }
