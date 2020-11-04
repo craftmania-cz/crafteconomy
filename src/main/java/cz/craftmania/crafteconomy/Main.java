@@ -199,18 +199,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         instance = null;
     }
 
-    public static Main getInstance() {
-        return instance;
-    }
-
-    public static AsyncUtils getAsync() {
-        return async;
-    }
-
-    public SQLManager getMySQL() {
-        return sql;
-    }
-
+    /**
+     * Napojení na MySQL + vytvoření tabulky (může být outdated).
+     */
     private void initDatabase() {
         sql = new SQLManager(this);
 
@@ -218,10 +209,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (!Main.getInstance().getMySQL().tablePlayerProfileExists()) {
             Main.getInstance().getMySQL().createPlayerProfileTable();
         }
-    }
-
-    public static Economy getVaultEconomy() {
-        return vaultEconomy;
     }
 
     private void loadListeners() {
@@ -286,6 +273,44 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     public Config getRewardsConfig() {
         return this.configAPI.getConfig("rewards");
     }
+
+    /**
+     * Vrací instanci pluginu
+     * @return {@link Main}
+     */
+    public static Main getInstance() {
+        return instance;
+    }
+
+    /**
+     * Vrací metody pro snadnější spuštění tasků
+     * @return {@link AsyncUtils}
+     */
+    public static AsyncUtils getAsync() {
+        return async;
+    }
+
+    /**
+     * Vrací MySQL metody skrz HikariCP
+     * @return {@link SQLManager}
+     */
+    public SQLManager getMySQL() {
+        return sql;
+    }
+
+    /**
+     * Vrací object z Vaultu {@link Economy}
+     * @return {@link Economy}
+     */
+    public static Economy getVaultEconomy() {
+        return vaultEconomy;
+    }
+
+    /**
+     * Vraci boolean hodnotu, zda je na serveru aktivní registrace
+     * hráčů do MySQL. Tato hodna by měla být true pouze na lobby.
+     * @return {@link Boolean}
+     */
     public boolean isRegisterEnabled() {
         return registerEnabled;
     }
@@ -298,10 +323,18 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return maxExp;
     }
 
+    /**
+     * Vrací zadaný {@link ServerType} dle configu
+     * @return {@link ServerType}
+     */
     public static ServerType getServerType() {
         return serverType;
     }
 
+    /**
+     * Vrací true, pokud je na serveru aktivní Vault ekonomika
+     * @return
+     */
     public boolean isVaultEconomyEnabled() {
         return vaultEconomyEnabled;
     }
