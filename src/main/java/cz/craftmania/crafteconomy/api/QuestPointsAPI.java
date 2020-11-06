@@ -9,47 +9,47 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
- * API for changing player's Achievement Points
+ * API pro správu Quest Points
  */
-public class AchievementPointsAPI {
+public class QuestPointsAPI {
 
     private static final BasicManager manager = new BasicManager();
 
     /**
-     * Returns amount achievement points that player owns
+     * Vrací počet quest points podle objektu {@link Player}
      *
-     * @param player Selected player
-     * @return amount of achievement points
+     * @param player Vybraný hráč
+     * @return Počet quest points, vrací 0 pokud neexistuje
      */
-    public static long getAchievementPoints(@NonNull final Player player) {
+    public static long getQuestPoints(@NonNull final Player player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getPlayer().equals(player)) {
-                return manager.getCraftPlayer(player1).getAchievementPoints();
+                return manager.getCraftPlayer(player1).getQuestPoints();
             }
         }
         return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
     }
 
     /**
-     * Returns amount achievement points by player nick name
+     * Vrací počet quest points podle zadaného nicku
      *
-     * @param player Selected player
-     * @return amount of achievement points, returns 0 if player does not exists
+     * @param player Vybraný hráč
+     * @return Počet quest points, vrací 0 pokud neexistuje
      */
     public static long getAchievementPoints(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getAchievementPoints();
+                return manager.getCraftPlayer(player1).getQuestPoints();
             }
         }
         return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player);
     }
 
     /**
-     * Sets achievement points for requested player + send message about receiving.
+     * Přidá počet quest points zadanému hráči + pošle zprávu
      *
-     * @param player      Player
-     * @param pointsToAdd Value to give
+     * @param player Hráč
+     * @param pointsToAdd Hodnota > 0
      */
     public static void giveAchievementPoints(@NonNull final Player player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
@@ -57,9 +57,9 @@ public class AchievementPointsAPI {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveAchievementPoints zastaven!");
                 return;
             }
-            long actualPoints = manager.getCraftPlayer(player).getAchievementPoints();
+            long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
             long finalPoints = actualPoints + pointsToAdd;
-            manager.getCraftPlayer(player).setAchievementPoints(finalPoints);
+            manager.getCraftPlayer(player).setQuestPoints(finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + pointsToAdd + " AchievementPoints.");
@@ -68,10 +68,10 @@ public class AchievementPointsAPI {
     }
 
     /**
-     * Sets achievement points for requested player
+     * Nastaví počet quest points offline hráči
      *
-     * @param player      Player name
-     * @param pointsToAdd Value to give
+     * @param player Hráč
+     * @param pointsToAdd Hodnota > 0
      */
     public static void giveOfflineAchievementPoints(@NonNull final String player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
@@ -80,19 +80,19 @@ public class AchievementPointsAPI {
     }
 
     /**
-     * Take selected amount of achievement points from player + send message about taking.
+     * Vezme hráči požadovaný počet quest points
      *
-     * @param player         Player
-     * @param pointsToRemove Value to remove
+     * @param player Hráč
+     * @param pointsToRemove Hodnota k odebrání > 0
      */
     public static void takeAchievementPoints(@NonNull final Player player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
-            long actualPoints = manager.getCraftPlayer(player).getAchievementPoints();
+            long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
             long finalPoints = actualPoints - pointsToRemove;
             if (finalPoints < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setAchievementPoints(finalPoints);
+            manager.getCraftPlayer(player).setQuestPoints(finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + finalPoints + " AchievementPoints.");
@@ -101,10 +101,10 @@ public class AchievementPointsAPI {
     }
 
     /**
-     * Take selected amount of achievement points from player
+     * Vezme hráči požadovaný počet quest points
      *
-     * @param player        Player name
-     * @param pointsToRemove Value to remove
+     * @param player Hráč
+     * @param pointsToRemove Hodnota k odebrání > 0
      */
     public static void takeOfflineAchievementPoints(@NonNull final String player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
@@ -115,10 +115,5 @@ public class AchievementPointsAPI {
     public static void resetAchievementPoints(@NonNull final Player player) {
         //TODO: Reset to zero
     }
-
-    public static void giveAchievement(@NonNull final Player player, final String achievementId) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "aach give " + achievementId + " " + player.getName());
-    }
-
 
 }

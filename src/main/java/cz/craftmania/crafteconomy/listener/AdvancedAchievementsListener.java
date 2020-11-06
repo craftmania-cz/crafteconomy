@@ -2,13 +2,12 @@ package cz.craftmania.crafteconomy.listener;
 
 import com.hm.achievement.utils.PlayerAdvancedAchievementEvent;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.AchievementPointsAPI;
+import cz.craftmania.crafteconomy.api.QuestPointsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.AchievementReward;
 import cz.craftmania.crafteconomy.utils.Logger;
-import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -57,7 +56,7 @@ public class AdvancedAchievementsListener implements Listener {
         // Achievement Points
         if (achievement.getAchievementValue() > 0) { // Default = 0
             if (!Main.getInstance().getConfig().getBoolean("disables.achievement-points", false)) {
-                AchievementPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
+                QuestPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
                 finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
             }
         }

@@ -46,7 +46,7 @@ public class CraftPlayer {
 
     // Others
     private long karma = 0;
-    private long achievementPoints = 0;
+    private long questPoints = 0;
     private long eventPoints = 0;
     private HashSet<Multiplier> multipliers;
     private boolean isAfk = false;
@@ -75,7 +75,7 @@ public class CraftPlayer {
         this.skycloudExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_EXPERIENCE, player.getUniqueId());
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
-        this.achievementPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
+        this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
         this.total_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
         this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
         this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
@@ -148,12 +148,12 @@ public class CraftPlayer {
         this.multipliers = multipliers;
     }
 
-    public long getAchievementPoints() {
-        return achievementPoints;
+    public long getQuestPoints() {
+        return questPoints;
     }
 
-    public void setAchievementPoints(long achievementPoints) {
-        this.achievementPoints = achievementPoints;
+    public void setQuestPoints(long questPoints) {
+        this.questPoints = questPoints;
     }
 
     public long getTotalVotes() {
