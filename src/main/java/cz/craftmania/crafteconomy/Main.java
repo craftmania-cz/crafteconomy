@@ -28,7 +28,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import sun.rmi.runtime.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
