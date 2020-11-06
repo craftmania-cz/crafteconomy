@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class VanillaAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public VanillaAchievements(List<AchievementReward> rewards) {
+    public VanillaAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-
+/*
         // Anvil Used
         this.rewards.add(new AchievementReward("vanilla_common_anvilsused_10").setRarity(Rarity.COMMON).setName("Anviled I"));
         this.rewards.add(new AchievementReward("vanilla_rare_anvilsused_30").setRarity(Rarity.RARE).setName("Anviled II"));
@@ -259,6 +258,6 @@ public class VanillaAchievements {
 
         // Treasures
         this.rewards.add(new AchievementReward("vanilla_rare_treasures_10").setRarity(Rarity.RARE).setName("Treasures I"));
-        this.rewards.add(new AchievementReward("vanilla_epic_treasures_30").setRarity(Rarity.EPIC).setName("Treasures II"));
+        this.rewards.add(new AchievementReward("vanilla_epic_treasures_30").setRarity(Rarity.EPIC).setName("Treasures II"));*/
     }
 }

@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class CreativeAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public CreativeAchievements(List<AchievementReward> rewards) {
+    public CreativeAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-
+/*
         // Breaks
         this.rewards.add(new AchievementReward("creative_common_breaks_bedrock_1").setRarity(Rarity.COMMON).setName("Bedrocker"));
         this.rewards.add(new AchievementReward("creative_rare_breaks_grass_block_500").setRarity(Rarity.RARE).setName("Survival"));
@@ -131,6 +130,6 @@ public class CreativeAchievements {
 
         // Treasures
         this.rewards.add(new AchievementReward("creative_rare_treasures_10").setRarity(Rarity.RARE).setName("Treasures I"));
-        this.rewards.add(new AchievementReward("creative_epic_treasures_30").setRarity(Rarity.EPIC).setName("Treasures II"));
+        this.rewards.add(new AchievementReward("creative_epic_treasures_30").setRarity(Rarity.EPIC).setName("Treasures II"));*/
     }
 }

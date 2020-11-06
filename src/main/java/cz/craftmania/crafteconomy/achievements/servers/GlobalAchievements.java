@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class GlobalAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public GlobalAchievements(List<AchievementReward> rewards) {
+    public GlobalAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-        // Bug achievementy
+        /*// Bug achievementy
         this.rewards.add(new AchievementReward("common_custom_bugs_1").setRarity(Rarity.COMMON).setName("Debugger I"));
         this.rewards.add(new AchievementReward("rare_custom_bugs_2").setRarity(Rarity.RARE).setName("Debugger II"));
         this.rewards.add(new AchievementReward("epic_custom_bugs_5").setRarity(Rarity.EPIC).setName("Debugger III"));
@@ -28,6 +27,6 @@ public class GlobalAchievements {
         this.rewards.add(new AchievementReward("rare_custom_votes_250").setRarity(Rarity.RARE).setName("Větší fanda"));
         this.rewards.add(new AchievementReward("epic_custom_votes_1000").setRarity(Rarity.EPIC).setName("Epický fanoušek"));
         this.rewards.add(new AchievementReward("legendary_custom_votes_10000").setRarity(Rarity.LEGENDARY).setName("Legendární fanoušek"));
-        this.rewards.add(new AchievementReward("mythic_custom_votes_100000").setRarity(Rarity.MYTHIC).setName("Pravá legenda!"));
+        this.rewards.add(new AchievementReward("mythic_custom_votes_100000").setRarity(Rarity.MYTHIC).setName("Pravá legenda!"));*/
     }
 }
