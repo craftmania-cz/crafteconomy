@@ -7,7 +7,6 @@ quests:
   some_random_quest:
     goal: 'Použij kovadlinu' # Dodatečný popis
     name: 'Anviled I' # Název questu
-    description: 'Popisek questu..'
     rarity: "COMMON" # Rarita - UNCOMMON, COMMON, RARE, LEGENDARY, MYTHIC SECRET
     points: 10 # Pokud má být hodnota QUest points jiná, než dle rarity
     experience: 100 # Pokud má hráč za quest obdržet jiný počet expů, než dle rarity

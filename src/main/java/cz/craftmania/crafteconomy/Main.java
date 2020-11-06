@@ -7,6 +7,7 @@ import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
+import cz.craftmania.crafteconomy.managers.QuestManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
@@ -27,6 +28,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import sun.rmi.runtime.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -67,6 +69,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     // CraftCore
     public static boolean isCraftCoreEnabled = false;
+    public static boolean isLuxuryQuestEnabled = false;
 
     @Override
     public void onEnable() {
@@ -136,6 +139,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
+        isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
+
+        if (isLuxuryQuestEnabled) {
+            Logger.info("Questy jsou aktivní...");
+            this.getServer().getPluginManager().registerEvents(new QuestCompleteListener(), this);
+            QuestManager.loadQuests();
+        }
 
         // Aikar command manager
         manager = new PaperCommandManager(this);
@@ -366,6 +376,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public VaultEconomyManager getVaultEconomyManager() {
         return vaultEconomyManager;
+    }
+
+    public ConfigAPI getConfigAPI() {
+        return configAPI;
     }
 
     /**

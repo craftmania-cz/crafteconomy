@@ -2,72 +2,66 @@ package cz.craftmania.crafteconomy.objects;
 
 import cz.craftmania.crafteconomy.achievements.Rarity;
 import lombok.NonNull;
-import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AchievementReward {
+public class QuestReward {
 
     private String id;
     private String name = "[Unknown]";
     private Rarity rarity = Rarity.COMMON;
     private List<String> description = new ArrayList<>();
     private boolean requireSlotInInventory = false;
-    private int achievementValue = 0;
+    private int questPointsValue = 0;
     private int experienceValue = 0;
-    private List<ItemStack> items = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
 
     private boolean useOverrideExperienceValue = false;
     private boolean useOverrideAchievementValue = false;
 
-    public AchievementReward(){};
+    public QuestReward(){};
 
-    public AchievementReward(@NonNull final String id) {
+    public QuestReward(@NonNull final String id) {
         this.id = id;
     }
 
-    public AchievementReward setName(@NonNull final String name) {
+    public QuestReward setName(@NonNull final String name) {
         this.name = name;
         return this;
     }
 
-    public AchievementReward setDescription(@NonNull final String... description) {
+    public QuestReward setDescription(@NonNull final String... description) {
         Collections.addAll(this.description, description);
         return this;
     }
 
-    public AchievementReward setRequiareSlotInInventory() {
+    public QuestReward setRequiareSlotInInventory() {
         this.requireSlotInInventory = true;
         return this;
     }
 
-    public AchievementReward overrideAchievementValue(final int value) {
+    public QuestReward overrideQuestValue(final int value) {
         this.useOverrideAchievementValue = true;
-        this.achievementValue = value;
+        this.questPointsValue = value;
         return this;
     }
 
-    public AchievementReward setRarity(Rarity rarity) {
+    public QuestReward setRarity(Rarity rarity) {
         this.rarity = rarity;
         return this;
     }
 
-    public AchievementReward overrideExperienceValue(final int experienceValue) {
+    public QuestReward overrideExperienceValue(final int experienceValue) {
         this.useOverrideExperienceValue = true;
         this.experienceValue = experienceValue;
         return this;
     }
 
-    public AchievementReward setItems(@NonNull final ItemStack... items) {
-        Collections.addAll(this.items, items);
-        return this;
-    }
-
-    public AchievementReward setPermissions(@NonNull final String... permissions) {
-        Collections.addAll(this.permissions, permissions);
+    public QuestReward setPermissions(final @NotNull List<String> permissions) {
+        this.permissions = permissions;
         return this;
     }
 
@@ -95,11 +89,11 @@ public class AchievementReward {
      * Metoda, ktera vrací hodnoty AchievementPoints, které dostane hráč za splnění achievementu.
      * @return Hodnota AchievementPoints
      */
-    public int getAchievementValue() {
+    public int getQuestPointsValue() {
 
         // Override
         if (this.useOverrideAchievementValue) {
-            return achievementValue;
+            return questPointsValue;
         }
 
         // Pokud neni override, tak podle rarity
@@ -122,10 +116,6 @@ public class AchievementReward {
             return 30;
         }
         return 0;
-    }
-
-    public List<ItemStack> getItems() {
-        return items;
     }
 
     /**

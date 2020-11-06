@@ -6,7 +6,7 @@ import cz.craftmania.crafteconomy.api.QuestPointsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class AdvancedAchievementsListener implements Listener {
         });
     }
 
-    private void doAction(AchievementReward achievement, Player player) {
+    private void doAction(QuestReward achievement, Player player) {
 
         if (achievement == null || player == null) {
             return;
@@ -47,17 +47,17 @@ public class AdvancedAchievementsListener implements Listener {
         StringBuilder finalRewards = new StringBuilder();
 
         // Items
-        if (!achievement.getItems().isEmpty()) { //TODO: Kontrola inventáře zda je plný nebo ne
+        /*if (!achievement.getItems().isEmpty()) { //TODO: Kontrola inventáře zda je plný nebo ne
             achievement.getItems().forEach(itemStack -> {
                 player.getInventory().addItem(itemStack);
             });
-        }
+        }*/
 
         // Achievement Points
-        if (achievement.getAchievementValue() > 0) { // Default = 0
+        if (achievement.getQuestPointsValue() > 0) { // Default = 0
             if (!Main.getInstance().getConfig().getBoolean("disables.achievement-points", false)) {
-                QuestPointsAPI.giveAchievementPoints(player, achievement.getAchievementValue());
-                finalRewards.append("§d" + achievement.getAchievementValue() + " AchPoints").append("§7, ");
+                QuestPointsAPI.giveAchievementPoints(player, achievement.getQuestPointsValue());
+                finalRewards.append("§d" + achievement.getQuestPointsValue() + " AchPoints").append("§7, ");
             }
         }
 

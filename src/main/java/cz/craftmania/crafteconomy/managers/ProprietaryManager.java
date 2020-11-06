@@ -2,7 +2,7 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.achievements.servers.*;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.rewards.*;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ProprietaryManager {
 
-    public static List<AchievementReward> serverAchievementList = new ArrayList<>();
+    public static List<QuestReward> serverAchievementList = new ArrayList<>();
     public static List<LevelReward> serverLevelRewardsList = new ArrayList<>();
 
     /**
@@ -46,9 +46,9 @@ public class ProprietaryManager {
 
     /**
      * Vrací list všech achievementů načtených v cache
-     * @return List {@link AchievementReward}
+     * @return List {@link QuestReward}
      */
-    public static List<AchievementReward> getServerAchievementList() {
+    public static List<QuestReward> getServerAchievementList() {
         return serverAchievementList;
     }
 
