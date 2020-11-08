@@ -22,7 +22,7 @@ public class PlayerJoinListener implements Listener {
         this.main = main;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
