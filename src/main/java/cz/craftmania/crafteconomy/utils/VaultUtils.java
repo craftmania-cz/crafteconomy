@@ -154,7 +154,6 @@ public class VaultUtils extends AbstractEconomy {
         if (player != null) {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
-            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callAsyncEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
@@ -193,7 +192,6 @@ public class VaultUtils extends AbstractEconomy {
         if (player != null) {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
-            Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callAsyncEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
             player.sendMessage("§a§l[*] §aBylo ti pridano: " + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {

@@ -12,6 +12,7 @@ import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
+import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
 import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -152,11 +153,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             currency = getConfig().getString("vault-economy.name");
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
+            Main.getAsync().runAsync(new EconomySaveTask(), 1200L);
+
             manager.registerCommand(new MoneyCommand());
-            if (isCraftCoreEnabled) {
-                manager.registerCommand(new MoneylogCommand());
-                manager.registerCommand(new BaltopCommand());
-            }
+            manager.registerCommand(new MoneylogCommand());
+            manager.registerCommand(new BaltopCommand());
             manager.registerCommand(new PayCommand());
             manager.registerCommand(new PaytoggleCommand());
             if (isCraftCoreEnabled) {
