@@ -41,6 +41,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static AsyncUtils async;
     private SQLManager sql;
     private int minExp, maxExp, time;
+    private boolean debug;
 
     // Vault
     private static Economy vaultEconomy = null;
@@ -71,6 +72,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Instance
         instance = this;
+
+        debug = false; // Debug zprávy
 
         // Config
         getConfig().options().copyDefaults(true);
@@ -275,6 +278,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public boolean isVaultEconomyEnabled() {
         return vaultEconomyEnabled;
+    }
+
+    public boolean isDebugActive() {
+        return debug;
     }
 
     /**
