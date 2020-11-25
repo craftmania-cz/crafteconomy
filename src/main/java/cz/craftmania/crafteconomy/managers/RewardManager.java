@@ -37,7 +37,9 @@ public class RewardManager {
         }
 
         Logger.success("Celkově načteno (" + rewards.size() + ") server odměn.");
+    }
 
-
+    public static List<LevelReward> getRewards() {
+        return rewards;
     }
 }

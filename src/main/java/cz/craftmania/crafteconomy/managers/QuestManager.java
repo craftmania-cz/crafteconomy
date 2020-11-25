@@ -45,4 +45,8 @@ public class QuestManager {
         }
         Logger.success("Celkově načteno (" + questRewards.size() + ") questů.");
     }
+
+    public static List<QuestReward> getQuestRewards() {
+        return questRewards;
+    }
 }
