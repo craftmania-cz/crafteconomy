@@ -71,27 +71,27 @@ public class ProfileSettingsGUI implements InventoryProvider {
 
         switch (page) {
             case 0: {
-                ItemStack fly = createItem(Material.ELYTRA, "§e§lFly", Arrays.asList("§7Nastavuje FLY na lobby serverech.", "§7Fly dostanes pri kazdem",
-                        "§7vstupu na lobby", "", "§cVyzaduje MiniGames VIP nebo globalni Obsidian VIP!"));
-                ItemStack player = createItem(Material.LEGACY_WATCH, "§e§lViditelnost hracu", Arrays.asList("§7Nastavuje zobrazeni", "§7hracu na lobby."));
-                ItemStack part = createItem(Material.REDSTONE, "§e§lParticles", Arrays.asList("§7Viditelnost efektu", "", "§cDocasne nefunguje na vsechny!"));
+                ItemStack fly = createItem(Material.ELYTRA, "§e§lFly", Arrays.asList("§7Nastavuje FLY na lobby serverech.", "§7Fly dostaneš při každém",
+                        "§7vstupu na lobby", "", "§cVyžaduje Global VIP!"));
+                ItemStack player = createItem(Material.LEGACY_WATCH, "§e§lViditelnost hráčů", Arrays.asList("§7Nastavuje zobrazení", "§7hráčů na lobby."));
+                ItemStack part = createItem(Material.REDSTONE, "§e§lParticles", Arrays.asList("§7Viditelnost efektů", "", "§cDočasně nefunkční!"));
                 ItemStack gadgets = createItem(Material.PISTON, "§e§lGadgets", Arrays.asList("§7Nastavuje zda na tebe", "§7budou fungovat gadget lobby."));
-                ItemStack speed = createItem(Material.GOLDEN_BOOTS, "§e§lSpeed", Arrays.asList("§7Povoluje rychlost chozeni", "§7na lobby."));
-                ItemStack novinky = createItem(Material.MAP, "§e§lReklama", Arrays.asList("§7Nastavuje zobrazovani reklamy", "§7na VIP na MiniGames.", "", "§cVyzaduje Global VIP!"));
-                ItemStack deathMessages = createItem(Material.BLAZE_POWDER, "§e§lDeath zpravy", Arrays.asList("§7Nastavuje zobrazeni smrti", "§7hracu.", "", "§cFunguje pouze na Survival serverech", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
-                ItemStack joinMessage = createItem(Material.BOOK, "§e§lZprava pri pripojeni", Arrays.asList("§7Pokud se pripojis", "§7ostatni o tom budou vedet.",
+                ItemStack speed = createItem(Material.GOLDEN_BOOTS, "§e§lSpeed", Arrays.asList("§7Povoluje rychlost chození", "§7na lobby."));
+                ItemStack novinky = createItem(Material.MAP, "§e§lReklama", Arrays.asList("§7Nastavuje zobrazovaní reklamy", "§7na VIP na MiniGames.", "", "§cVyžaduje Global VIP!"));
+                ItemStack deathMessages = createItem(Material.BLAZE_POWDER, "§e§lDeath zprávy", Arrays.asList("§7Nastavuje zobrazení smrtí", "§7hráčů.", "", "§cFunguje pouze na Survival serverech", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
+                ItemStack joinMessage = createItem(Material.BOOK, "§e§lZpráva při připojení", Arrays.asList("§7Pokud se připojíš", "§7ostatní o tom budou vědět.",
                         "", "§bVybrana zprava:", "§f" + formatJoinMessageWithoutColors(Main.getInstance().getMySQL().getSettings(p, "lobby_joinbroadcast_message"), p),
                         "§7", "§eKliknutim si vyberes zpravu"));
                 ItemStack joinSound = null;
                 try {
-                    joinSound = createItem(Material.NOTE_BLOCK, "§e§lZvuk pri pripojeni", Arrays.asList("§7Pokud se pripojis", "§7zazni zvuk.",
-                            "§7Vybrany zvuk: " + Main.getInstance().getMySQL().getSettingsString(p, "lobby_joinbroadcast_sound")
+                    joinSound = createItem(Material.NOTE_BLOCK, "§e§lZvuk při připojení", Arrays.asList("§7Pokud se připojíš", "§7zazní zvuk.",
+                            "§7Vybraný zvuk: " + Main.getInstance().getMySQL().getSettingsString(p, "lobby_joinbroadcast_sound")
                                     .replace("ENTITY_EXPERIENCE_ORB_PICKUP", "EXP ORB PICKUP")
                                     .replace("BLOCK_ANVIL_FALL", "ANVIL FALL")
                                     .replace("BLOCK_GLASS_BREAK", "GLASS BREAK")
                                     .replace("ENTITY_ITEM_PICKUP", "ITEM PICKUP")
                                     .replace("ENTITY_ZOMBIE_HURT", "ZOMBIE HURT")
-                            , "", "§eKliknutim si vyberes zvuk"));
+                            , "", "§eKliknutím si vybereš zvuk"));
                 } catch (Exception e) {
                     e.printStackTrace();
                     Main.getInstance().sendSentryException(e);
@@ -128,15 +128,15 @@ public class ProfileSettingsGUI implements InventoryProvider {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_fly", 0);
                             p.setAllowFlight(false);
                             p.setFlying(false);
-                            p.sendMessage("§c§l[!] §cFly na lobby bylo deaktivovano!");
+                            p.sendMessage("§c§l[!] §cFly na lobby bylo deaktivováno!");
                         } else {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_fly", 1);
                             p.setAllowFlight(true);
                             p.setFlying(true);
-                            p.sendMessage("§e§l[*] §eFly na lobby bylo aktivovano!");
+                            p.sendMessage("§e§l[*] §eFly na lobby bylo aktivováno!");
                         }
                     } else {
-                        p.sendMessage("§c§l[!] §cK pouziti teto funkce potrebujes §fGlobal VIP");
+                        p.sendMessage("§c§l[!] §cK použití této funkce potřebuješ §fGlobal VIP");
                     }
                     contents.inventory().close(p);
                 }));
@@ -154,30 +154,30 @@ public class ProfileSettingsGUI implements InventoryProvider {
                 contents.set(2, 2, ClickableItem.of((getSetting(p, "lobby_particles") == 1 ? enabled : disabled), e -> { //Viditelnost particlů na lobby
                     if (contents.get(2, 2).get().getItem() == enabled) {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_particles", 0);
-                        p.sendMessage("§c§l[!] §cZobrazovani efektu vypnuto!");
+                        p.sendMessage("§c§l[!] §cZobrazovaní efektu vypnuto!");
                     } else {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_particles", 1);
-                        p.sendMessage("§e§l[*] §eZobrazovani efektu zapnuto!");
+                        p.sendMessage("§e§l[*] §eZobrazovaní efektu zapnuto!");
                     }
                     contents.inventory().close(p);
                 }));
                 contents.set(2, 3, ClickableItem.of((getSetting(p, "lobby_gadgets") == 1 ? enabled : disabled), e -> { //Působení gadgetů na hráče
                     if (contents.get(2, 3).get().getItem() == enabled) {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_gadgets", 0);
-                        p.sendMessage("§c§l[!] §cGadgety jiz na tebe nebudou reagovat!");
+                        p.sendMessage("§c§l[!] §cGadgety již na tebe nebudou reagovat!");
                     } else {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_gadgets", 1);
-                        p.sendMessage("§e§l[*] §eGadgety nyni na tebe budou reagovat!");
+                        p.sendMessage("§e§l[*] §eGadgety nyní na tebe budou reagovat!");
                     }
                     contents.inventory().close(p);
                 }));
                 contents.set(2, 4, ClickableItem.of((getSetting(p, "lobby_speed") == 1 ? enabled : disabled), e -> { //Rychlost na lobby
                     if (contents.get(2, 4).get().getItem() == enabled) {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_speed", 0);
-                        p.sendMessage("§c§l[!] §cRychlost byla nastavena na zakladni!");
+                        p.sendMessage("§c§l[!] §cRychlost byla nastavena na základní!");
                     } else {
                         Main.getInstance().getMySQL().updateSettings(p, "lobby_speed", 1);
-                        p.sendMessage("§e§l[*] §eRychlost byla nastavena na 2x rychlejsi!");
+                        p.sendMessage("§e§l[*] §eRychlost byla nastavena na 2x rychlejší!");
                     }
                     contents.inventory().close(p);
                 }));
@@ -185,10 +185,10 @@ public class ProfileSettingsGUI implements InventoryProvider {
                 contents.set(2, 6, ClickableItem.of((getSetting(p, "death_messages") == 1 ? enabled : disabled), e -> { //Deathzprávy
                     if (contents.get(2, 6).get().getItem() == enabled) {
                         Main.getInstance().getMySQL().updateSettings(p, "death_messages", 0);
-                        p.sendMessage("§c§l[!] §cZablokovano zobrazovani zprav o smrti!");
+                        p.sendMessage("§c§l[!] §cZablokováno zobrazování zpráv o smrti!");
                     } else {
                         Main.getInstance().getMySQL().updateSettings(p, "death_messages", 1);
-                        p.sendMessage("§e§l[*] §eNyni uvidis v chatu zpravy o smrti hracu!");
+                        p.sendMessage("§e§l[*] §eNyni uvidíš v chatu zprávy o smrti hráčů!");
                     }
                     contents.inventory().close(p);
                 }));
@@ -196,13 +196,13 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     if (p.hasPermission("craftlobby.vip.joinbroadcast-message")) {
                         if (contents.get(2, 7).get().getItem() == enabled) {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_joinbroadcast_enabled", 0);
-                            p.sendMessage("§c§l[!] §cZprava pri pripojeni byla deaktivovana!");
+                            p.sendMessage("§c§l[!] §cZpráva při připojení byla deaktivována!");
                         } else {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_joinbroadcast_enabled", 1);
-                            p.sendMessage("§e§l[*] §eZprava pri pripojeni byla aktivovana!");
+                            p.sendMessage("§e§l[*] §eZpráva při připojení byla aktivována!");
                         }
                     } else {
-                        p.sendMessage("§c§l[!] §cK pouziti teto funkce potrebujes §fGlobal Emerald VIP");
+                        p.sendMessage("§c§l[!] §cK použití této funkce potřebuješ §fGlobal Emerald VIP");
                     }
                     contents.inventory().close(p);
                 }));
@@ -210,13 +210,13 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     if (p.hasPermission("craftlobby.vip.joinbroadcast-change-sound")) {
                         if (contents.get(2, 8).get().getItem() == enabled) {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_joinbroadcast_sound_enabled", 0);
-                            p.sendMessage("§c§l[!] §cZvuk pri pripojeni byl deaktivovan!");
+                            p.sendMessage("§c§l[!] §cZvuk při připojení byl deaktivovan!");
                         } else {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_joinbroadcast_sound_enabled", 1);
-                            p.sendMessage("§e§l[*] §eZvuk pri pripojeni byl aktivovan!");
+                            p.sendMessage("§e§l[*] §eZvuk při připojení byl aktivovan!");
                         }
                     } else {
-                        p.sendMessage("§c§l[!] §cK pouziti teto funkce potrebujes §fGlobal Emerald VIP");
+                        p.sendMessage("§c§l[!] §cK použití této funkce potřebuješ §fGlobal Emerald VIP");
                     }
                     contents.inventory().close(p);
                 }));
@@ -232,7 +232,7 @@ public class ProfileSettingsGUI implements InventoryProvider {
                 }));
 
                 ItemStack disableChat = createItem(Material.WRITABLE_BOOK , "§e§lVypnutí zpráv v chatu", Arrays.asList("§7Nebudeš dostávat", "§7zprávy v chatu.", "", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
-                ItemStack disableScoreboard = createItem(Material.GOLD_INGOT, "§e§lZobrazení scoreboardu", Arrays.asList("§7Budeš vidět", "§7tabulku vpravo.", "", "§e§l[*] §eZměnz se projeví až po odpojení a připojení!"));
+                ItemStack disableScoreboard = createItem(Material.GOLD_INGOT, "§e§lZobrazení scoreboardu", Arrays.asList("§7Budeš vidět", "§7tabulku vpravo.", "", "§e§l[*] §eZměna se projeví až po odpojení a připojení!"));
                 // Deprecated
                 //ItemStack chatSuggestions = createItem(Material.HEART_OF_THE_SEA, "§e§lNapovidani v chatu", Arrays.asList("§7Povolenim se ti budou", "§7zobrazovat v chatu napovedy", "§7pro prikazy §aod MC 1.13."));
 
