@@ -4,7 +4,6 @@ import com.hm.achievement.utils.PlayerAdvancedAchievementEvent;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.QuestPointsAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.QuestReward;
 import cz.craftmania.crafteconomy.utils.Logger;

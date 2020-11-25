@@ -6,7 +6,8 @@ rewards:
   # Server level
   10:
     name: 'Super odměna pro tebe' # Název, který se zobrazí při oznámení v chatu
-    description: 'Popisek odměny'
+    description:
+      - 'Popisek odměny'
     reward_description: 'Získal jsi... xxx' # Popisek, který se ukáže, když hráč dosáhne rewardu
     permissions: # Permisse dány při splnění
       - 'some.super.perms'

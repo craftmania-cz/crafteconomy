@@ -2,7 +2,6 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Sound;

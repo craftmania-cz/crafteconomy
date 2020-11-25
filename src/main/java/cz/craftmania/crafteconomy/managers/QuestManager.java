@@ -1,7 +1,6 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.achievements.Rarity;
 import cz.craftmania.crafteconomy.objects.QuestReward;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.configs.Config;

@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.objects;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
+import cz.craftmania.crafteconomy.managers.Rarity;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 

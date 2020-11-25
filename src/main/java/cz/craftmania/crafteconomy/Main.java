@@ -6,8 +6,8 @@ import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
 import cz.craftmania.crafteconomy.managers.QuestManager;
+import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
@@ -55,7 +55,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     // Enabled properties
     private boolean registerEnabled = false;
-    private boolean isAchievementPluginEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
@@ -66,7 +65,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Commands manager
     private PaperCommandManager manager;
 
-    // CraftCore
+    // Plugins
     public static boolean isCraftCoreEnabled = false;
     public static boolean isLuxuryQuestEnabled = false;
 
@@ -113,15 +112,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // HikariCP
         initDatabase();
 
-        // AdvancedAchievements API
-        if (Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
-            isAchievementPluginEnabled = true;
-            Logger.info("Detekovan plugin: AdvancedAchievements");
-            ProprietaryManager.loadServerAchievements();
-        } else {
-            Logger.danger("AdvancedAchievements nejsou na serveru!");
-        }
-
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
         if (registerEnabled) {
@@ -131,7 +121,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
-            ProprietaryManager.loadServerLevelRewards();
+            RewardManager.loadRewards();
             Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
             this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
         }
@@ -232,17 +222,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
 
-        if (isCraftCoreEnabled)
+        if (isCraftCoreEnabled) {
             pm.registerEvents(new DepositGUI(), this);
-
-        // AdvancedAchievements Events
-        if (isAchievementPluginEnabled) {
-            pm.registerEvents(new AdvancedAchievementsListener(), this);
         }
 
         // CMI Events
         if (isCMIPluginEnabled) {
             pm.registerEvents(new PlayerAfkListener(), this);
+        }
+
+        if (isLuxuryQuestEnabled) {
+            pm.registerEvents(new QuestCompleteListener(), this);
         }
     }
 
