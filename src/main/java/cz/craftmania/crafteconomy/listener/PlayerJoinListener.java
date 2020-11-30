@@ -59,6 +59,10 @@ public class PlayerJoinListener implements Listener {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 20 && !player.hasPermission("shopguiplus.shops.special")) {
                 bm.givePlayerManualLevelReward(player, 20, true);
             }
+
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 30 && !player.hasPermission("bskyblock.biomes")) {
+                bm.givePlayerManualLevelReward(player, 30, true);
+            }
         }
 
     }

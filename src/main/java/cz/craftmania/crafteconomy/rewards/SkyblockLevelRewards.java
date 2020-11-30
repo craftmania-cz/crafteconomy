@@ -140,6 +140,12 @@ public class SkyblockLevelRewards {
                 .setRewardDescription("§7Nyní můžeš pozvat na ostrov až 12 hráčů!")
                 .setPermissions("bskyblock.team.maxsize.12"));
 
+        // Level 30
+        this.list.add(new LevelReward(30).setName("Změna biomu na ostrově")
+                .setDescription("§7Odemkne se ti možnost", "§7si změnit biom na ostrově", "§7pomocí příkazu §b/is biomes")
+                .setRewardDescription("§7Nyní si můžeš změnit biom na ostrově pomocí §b/is biomes")
+                .setPermissions("bskyblock.biomes"));
+
         // Level 31
         this.list.add(new LevelReward(31).setName("Možnost nákupu: Spider Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Spider Spawner v §b/shop")
