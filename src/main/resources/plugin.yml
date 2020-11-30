@@ -5,7 +5,7 @@ author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 depend: [CraftCore,CraftLibs]
 softdepend: [Vault]
-loadbefore: [TradeMe,ShopGUIPlus,SellStick,UltraMinions,QuickShop,BentoBox]
+loadbefore: [TradeMe,ShopGUIPlus,SellStick,UltraMinions,QuickShop,BentoBox,AuctionGUIPlus]
 api-version: '1.15'
 
 permissions:
