@@ -26,7 +26,7 @@ public class RewardsGUI implements InventoryProvider {
 
         CraftPlayer craftPlayer = manager.getCraftPlayer(player);
 
-        ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
+       /* ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
             final ArrayList<String> lore = new ArrayList<>();
             lore.add("§aOdměna:");
             lore.addAll(levelReward.getDescription());
@@ -41,7 +41,7 @@ public class RewardsGUI implements InventoryProvider {
                         .setLore(lore).build();
                 items.add(ClickableItem.of(item, e -> {}));
             }
-        });
+        });*/
 
         ClickableItem[] c = new ClickableItem[items.size()];
         c = items.toArray(c);

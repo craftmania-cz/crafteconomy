@@ -15,7 +15,7 @@ public class SkyblockLevelRewards {
     }
 
     public void load() {
-
+/*
         // Level 2
         this.list.add(new LevelReward(2).setName("2x Pig & Cow Spawn Egg")
                 .setDescription("§7Získáš 2x Pig & Cow Spawn Egg")
@@ -174,7 +174,7 @@ public class SkyblockLevelRewards {
         this.list.add(new LevelReward(45).setName("Možnost nákupu: Witch Spawner")
                 .setDescription("§7Odemkne se ti možnost si zakoupit", "§7Witch Spawner v §b/shop")
                 .setRewardDescription("§7Nyní si můžeš zakoupit v /shop - Witch Spawner")
-                .setPermissions("shopguiplus.item.spawners.11"));
+                .setPermissions("shopguiplus.item.spawners.11")); */
 
     }
 }

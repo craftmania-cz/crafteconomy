@@ -15,7 +15,7 @@ public class SkycloudLevelRewards {
     }
 
     public void load() {
-
+/*
         // Level 2
         this.list.add(new LevelReward(2).setName("2x Melon Seed")
                 .setDescription("§7Získáš základní Melon Seed!")
@@ -134,6 +134,6 @@ public class SkycloudLevelRewards {
                 .setDescription("§7Region ostrova se zvětší na 200x200!")
                 .setRewardDescription("§7Nyní máš velikost ostrova 200x200")
                 .setPermissions("bskyblock.island.range.200"));
-
+*/
     }
 }
