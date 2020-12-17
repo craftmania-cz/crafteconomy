@@ -236,7 +236,7 @@ public class SQLManager {
         }
     }
 
-    public final int getPlayerEconomy(final LevelType type, final String player) {
+    public final long getPlayerEconomy(final LevelType type, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
         String finalType = type.name().toLowerCase();
@@ -245,7 +245,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE nick = '" + player + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(finalType);
+                return ps.getResultSet().getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -256,7 +256,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getPlayerEconomy(final EconomyType type, final String player) {
+    public final long getPlayerEconomy(final EconomyType type, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
         String finalType = type.name().toLowerCase();
@@ -265,7 +265,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE nick = '" + player + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(finalType);
+                return ps.getResultSet().getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -276,7 +276,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getPlayerEconomy(final EconomyType type, final UUID uuid) {
+    public final long getPlayerEconomy(final EconomyType type, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         String finalType = type.name().toLowerCase();
@@ -285,7 +285,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(finalType);
+                return ps.getResultSet().getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -296,7 +296,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getPlayerEconomy(final LevelType type, final UUID uuid) {
+    public final long getPlayerEconomy(final LevelType type, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
         String finalType = type.name().toLowerCase();
@@ -305,7 +305,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(finalType);
+                return ps.getResultSet().getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -316,7 +316,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getPlayerEconomy(final String column, final Player player) {
+    public final long getPlayerEconomy(final String column, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -324,7 +324,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT " + column + " FROM player_profile WHERE uuid = '" + player.getUniqueId().toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(column);
+                return ps.getResultSet().getLong(column);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -592,7 +592,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final int getVaultEcoBalance(final UUID uuid) {
+    public final long getVaultEcoBalance(final UUID uuid) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -601,7 +601,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE uuid = '" + uuid + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("balance");
+                return ps.getResultSet().getLong("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -612,7 +612,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final int getVaultEcoBalance(final String nick) {
+    public final long getVaultEcoBalance(final String nick) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -621,7 +621,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE nick = '" + nick + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("balance");
+                return ps.getResultSet().getLong("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
