@@ -36,7 +36,8 @@ public class LevelCommand extends BaseCommand {
             p.sendMessage("§6§lGlobální rank"); //TODO: Předělat na menu
             p.sendMessage("§eCelkový level: §f" + totalGlobalLevel);
             p.sendMessage("§eServer levels: ");
-            p.sendMessage("§aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "]§7, §3Cloud §7[" + craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL) + "§7], §cHVani §7[" + craftPlayer.getLevelByType(LevelType.HARDCORE_VANILLA_LEVEL) + "§7]");
+            p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
+            p.sendMessage("§8- §3Cloud §7[" + craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL) + "§7], §cHVani §7[" + craftPlayer.getLevelByType(LevelType.HARDCORE_VANILLA_LEVEL) + "§7], §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "]");
             p.sendMessage("§bKarma: §f0");
             p.sendMessage("§dQuest Points: §f" + craftPlayer.getQuestPoints());
             p.sendMessage("");
@@ -45,7 +46,7 @@ public class LevelCommand extends BaseCommand {
     }
 
     @Default
-    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud|hardcore-vanilla")
+    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud|hardcore-vanilla|prison")
     @Syntax("[server]")
     public void showLevelByServer(CommandSender sender, String server) {
         if (sender instanceof Player) {
@@ -68,6 +69,9 @@ public class LevelCommand extends BaseCommand {
                     break;
                 case "hardcore-vanilla":
                     generateServerLevelMessage(player, "Hardcore Vanilla", LevelType.HARDCORE_VANILLA_LEVEL, LevelType.HARDCORE_VANILLA_EXPERIENCE);
+                    break;
+                case "prison":
+                    generateServerLevelMessage(player, "Prison", LevelType.PRISON_LEVEL, LevelType.PRISON_EXPERIENCE);
                     break;
             }
         }
