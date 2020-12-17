@@ -18,10 +18,11 @@ public class QuestCompleteListener implements Listener {
 
     private final BasicManager manager = new BasicManager();
 
-    @EventHandler(ignoreCancelled = true)
-    public void onQuestComplete(PlayerCompletedQuestEvent event) {
+    @EventHandler
+    public void onQuestComplete(final PlayerCompletedQuestEvent event) {
         Quest quest = event.getQuest();
         Player player = Bukkit.getPlayer(event.getUser().getUuid()); //TODO: Líp?
+
         System.out.println("--- KOMPLENÍ QUEST ---");
         System.out.println("ID: " + quest.getId());
         System.out.println("NAME: " + quest.getName());

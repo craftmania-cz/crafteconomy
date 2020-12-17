@@ -132,7 +132,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         if (isLuxuryQuestEnabled) {
             Logger.info("Questy jsou aktivní...");
-            this.getServer().getPluginManager().registerEvents(new QuestCompleteListener(), this);
             QuestManager.loadQuests();
         }
 
