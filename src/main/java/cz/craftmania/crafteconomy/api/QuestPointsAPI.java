@@ -36,7 +36,7 @@ public class QuestPointsAPI {
      * @param player Vybraný hráč
      * @return Počet quest points, vrací 0 pokud neexistuje
      */
-    public static long getAchievementPoints(@NonNull final String player) {
+    public static long getQuestPoints(@NonNull final String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
                 return manager.getCraftPlayer(player1).getQuestPoints();
@@ -51,10 +51,10 @@ public class QuestPointsAPI {
      * @param player Hráč
      * @param pointsToAdd Hodnota > 0
      */
-    public static void giveAchievementPoints(@NonNull final Player player, final long pointsToAdd) {
+    public static void giveQuestPoints(@NonNull final Player player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
-                Logger.danger("Hrac " + player.getName() + " neni v cache giveAchievementPoints zastaven!");
+                Logger.danger("Hrac " + player.getName() + " neni v cache giveQuestPoints zastaven!");
                 return;
             }
             long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
@@ -62,7 +62,7 @@ public class QuestPointsAPI {
             manager.getCraftPlayer(player).setQuestPoints(finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
             if (player.isOnline()) {
-                player.sendMessage("§aBylo ti pridano §7" + pointsToAdd + " AchievementPoints.");
+                player.sendMessage("§aBylo ti pridano §7" + pointsToAdd + " QuestPoints.");
             }
         });
     }
@@ -73,7 +73,7 @@ public class QuestPointsAPI {
      * @param player Hráč
      * @param pointsToAdd Hodnota > 0
      */
-    public static void giveOfflineAchievementPoints(@NonNull final String player, final long pointsToAdd) {
+    public static void giveOfflineQuestPoints(@NonNull final String player, final long pointsToAdd) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().addEconomy(EconomyType.ACHIEVEMENT_POINTS, player, pointsToAdd);
         });
@@ -85,7 +85,7 @@ public class QuestPointsAPI {
      * @param player Hráč
      * @param pointsToRemove Hodnota k odebrání > 0
      */
-    public static void takeAchievementPoints(@NonNull final Player player, final long pointsToRemove) {
+    public static void takeQuestPoints(@NonNull final Player player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
             long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
             long finalPoints = actualPoints - pointsToRemove;
@@ -106,13 +106,13 @@ public class QuestPointsAPI {
      * @param player Hráč
      * @param pointsToRemove Hodnota k odebrání > 0
      */
-    public static void takeOfflineAchievementPoints(@NonNull final String player, final long pointsToRemove) {
+    public static void takeOfflineQuestPoints(@NonNull final String player, final long pointsToRemove) {
         Main.getAsync().runAsync(() -> {
             Main.getInstance().getMySQL().takeEconomy(EconomyType.ACHIEVEMENT_POINTS, player, pointsToRemove);
         });
     }
 
-    public static void resetAchievementPoints(@NonNull final Player player) {
+    public static void resetQuestPoints(@NonNull final Player player) {
         //TODO: Reset to zero
     }
 
