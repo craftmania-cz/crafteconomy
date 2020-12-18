@@ -3,8 +3,6 @@ package cz.craftmania.crafteconomy.commands.vault;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import cz.craftmania.craftcore.core.mojang.MojangAPI;
-import cz.craftmania.craftcore.core.utils.Group;
 import cz.craftmania.crafteconomy.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -28,11 +26,10 @@ public class MoneylogCommand extends BaseCommand {
     @CommandCompletion("@players")
     @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByName(CommandSender sender, String requestedPlayer) {
-        Group<String, UUID> UUIDdata = null;
         Map<Integer, List> listMap = new HashMap<>();
         try {
-            UUIDdata = MojangAPI.getUUID(requestedPlayer);
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
+            UUID playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(requestedPlayer);
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID.toString());
         } catch (Exception e) {
             listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
         }
@@ -43,11 +40,10 @@ public class MoneylogCommand extends BaseCommand {
     @CommandCompletion("@players [cislo]")
     @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByNameAndPage(CommandSender sender, String requestedPlayer, int page) {
-        Group<String, UUID> UUIDdata = null;
         Map<Integer, List> listMap = new HashMap<>();
         try {
-            UUIDdata = MojangAPI.getUUID(requestedPlayer);
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(UUIDdata.getB().toString());
+            UUID playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(requestedPlayer);
+            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID.toString());
         } catch (Exception e) {
             listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
         }

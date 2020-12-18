@@ -13,6 +13,7 @@ import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
+import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
 import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
 import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -44,6 +45,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private SQLManager sql;
     private ConfigAPI configAPI;
     private int minExp, maxExp, time;
+    private boolean debug;
 
     // Vault
     private static Economy vaultEconomy = null;
@@ -74,6 +76,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Instance
         instance = this;
+
+        debug = false; // Debug zprávy
 
         // Config
         getConfig().options().copyDefaults(true);
@@ -157,11 +161,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             currency = getConfig().getString("vault-economy.name");
             Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
+            Main.getAsync().runAsync(new EconomySaveTask(), 1200L);
+
             manager.registerCommand(new MoneyCommand());
-            if (isCraftCoreEnabled) {
-                manager.registerCommand(new MoneylogCommand());
-                manager.registerCommand(new BaltopCommand());
-            }
+            manager.registerCommand(new MoneylogCommand());
+            manager.registerCommand(new BaltopCommand());
             manager.registerCommand(new PayCommand());
             manager.registerCommand(new PaytoggleCommand());
             if (isCraftCoreEnabled) {
@@ -335,6 +339,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
      */
     public boolean isVaultEconomyEnabled() {
         return vaultEconomyEnabled;
+    }
+
+    public boolean isDebugActive() {
+        return debug;
     }
 
     /**

@@ -786,21 +786,25 @@ public class SQLManager {
     }
 
     public void setVaultEcoBalance(final String player, final long amount) {
-        final String server = Main.getServerType().name().toLowerCase();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ? WHERE nick = ?");
-            ps.setLong(1, amount);
-            ps.setString(2, player);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            Main.getInstance().sendSentryException(e);
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
+        Main.getAsync().runAsync(() -> {
+            long milis = System.currentTimeMillis();
+            final String server = Main.getServerType().name().toLowerCase();
+            Connection conn = null;
+            PreparedStatement ps = null;
+            try {
+                conn = pool.getConnection();
+                ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ? WHERE nick = ?");
+                ps.setLong(1, amount);
+                ps.setString(2, player);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                Main.getInstance().sendSentryException(e);
+                e.printStackTrace();
+            } finally {
+                pool.close(conn, ps, null);
+            }
+            Logger.debug("Method: setVaultEcoBalance(): " + (System.currentTimeMillis() - milis) + "ms");
+        });
     }
 
     public final void createVaultEcoProfile(final Player player) {

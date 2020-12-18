@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.utils;
 
+import cz.craftmania.crafteconomy.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -18,6 +19,8 @@ public class Logger {
     }
 
     public static void debug(String s) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "[DEBUG - CraftEconomy] " + ChatColor.WHITE + s);
+        if(Main.getInstance().isDebugActive()) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "[DEBUG - CraftEconomy] " + ChatColor.WHITE + s);
+        }
     }
 }
