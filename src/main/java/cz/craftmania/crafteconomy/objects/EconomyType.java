@@ -13,6 +13,7 @@ public enum EconomyType {
     TOTAL_VOTES,
 
     ACHIEVEMENT_POINTS,
+    QUEST_POINTS, //TODO: Přepnout ve finále
     EVENT_POINTS;
 
     EconomyType() {

@@ -50,7 +50,7 @@ public class ProfileStatisticsGUI implements InventoryProvider {
             "§7CraftCoins: §f" + CraftCoinsAPI.getCoins(p),
             "§7VoteTokens: §f" + VoteTokensAPI.getVoteTokens(p),
             "§7CraftTokens: §f" + CraftTokensAPI.getTokens(p),
-            "§7Achievement points: §f" + AchievementPointsAPI.getAchievementPoints(p),
+            "§7Quest points: §f" + QuestPointsAPI.getQuestPoints(p),
             "§7Karma: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("karma").getAsInt(),
             "§7Event points: §f" + EventPointsAPI.getEventPoints(p),
             "§7Bug points: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("bug_points").getAsInt()

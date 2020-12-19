@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class SkycloudAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public SkycloudAchievements(List<AchievementReward> rewards) {
+    public SkycloudAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-
+/*
         // Anvil used
         this.rewards.add(new AchievementReward("skycloud_common_anvilsused_10").setRarity(Rarity.COMMON).setName("Anviled I"));
         this.rewards.add(new AchievementReward("skycloud_rare_anvilsused_30").setRarity(Rarity.RARE).setName("Anviled II"));
@@ -145,6 +144,6 @@ public class SkycloudAchievements {
         this.rewards.add(new AchievementReward("skycloud_epic_waterbuckets_100").setRarity(Rarity.EPIC).setName("Waterman III"));
         this.rewards.add(new AchievementReward("skycloud_legendary_waterbuckets_200").setRarity(Rarity.LEGENDARY).setName("Waterman IV"));
 
-        //this.rewards.add(new AchievementReward(""));
+        //this.rewards.add(new AchievementReward(""));*/
     }
 }

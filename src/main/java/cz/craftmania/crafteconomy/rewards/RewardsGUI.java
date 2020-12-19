@@ -6,9 +6,8 @@ import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryContent
 import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvider;
 import cz.craftmania.craftcore.spigot.inventory.builder.content.Pagination;
 import cz.craftmania.craftcore.spigot.inventory.builder.content.SlotIterator;
-import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
+import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,14 +27,15 @@ public class RewardsGUI implements InventoryProvider {
 
         CraftPlayer craftPlayer = manager.getCraftPlayer(player);
 
-        ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
+        RewardManager.getRewards().forEach(levelReward -> {
             final ArrayList<String> lore = new ArrayList<>();
             lore.add("§aOdměna:");
             lore.addAll(levelReward.getDescription());
             if (levelReward.getLevel() > craftPlayer.getLevelByType(manager.getLevelByServer())) {
                 ItemStack item = new ItemBuilder(Material.KNOWLEDGE_BOOK).setName("§e§lLevel: §6" + levelReward.getLevel())
                         .setLore(lore).build();
-                items.add(ClickableItem.of(item, e -> {}));
+                items.add(ClickableItem.of(item, e -> {
+                }));
             } else {
                 lore.add("§c");
                 lore.add("§cJiž splněno!");

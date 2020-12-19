@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class SkyblockAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public SkyblockAchievements(List<AchievementReward> rewards) {
+    public SkyblockAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-
+/*
         // Anvil used
         this.rewards.add(new AchievementReward("skyblock_common_anvilsused_10").setRarity(Rarity.COMMON).setName("Anviled I"));
         this.rewards.add(new AchievementReward("skyblock_rare_anvilsused_30").setRarity(Rarity.RARE).setName("Anviled II"));
@@ -200,6 +199,6 @@ public class SkyblockAchievements {
         this.rewards.add(new AchievementReward("skyblock_rare_itemdrops_64").setRarity(Rarity.RARE).setName("Dropper I"));
 
         // ItemPickup
-        this.rewards.add(new AchievementReward("skyblock_rare_itempickups_64").setRarity(Rarity.RARE).setName("Pickup I"));
+        this.rewards.add(new AchievementReward("skyblock_rare_itempickups_64").setRarity(Rarity.RARE).setName("Pickup I"));*/
     }
 }

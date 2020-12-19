@@ -13,7 +13,7 @@ public class VanillaLevelRewards {
     }
 
     public void load() {
-
+/*
         // Level 2
         this.list.add(new LevelReward(2).setName("Rozšíření až 2 chunků")
                 .setDescription("§7Přístup k zabrání až 2 chunků!")
@@ -174,6 +174,6 @@ public class VanillaLevelRewards {
         this.list.add(new LevelReward(60).setName("Rozšíření až 75 chunků")
                 .setDescription("§7Přístup k zabrání až 75 chunků!")
                 .setRewardDescription("§7Nyní můžeš zabrat 75 chunků!")
-                .setPermissions("lands.chunks.75"));
+                .setPermissions("lands.chunks.75")); */
     }
 }

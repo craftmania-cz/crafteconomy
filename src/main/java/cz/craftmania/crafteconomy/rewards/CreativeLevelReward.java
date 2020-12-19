@@ -13,7 +13,7 @@ public class CreativeLevelReward {
     }
 
     public void load() {
-
+/*
         // LEVEL 3
         this.list.add(new LevelReward(3).setName("Nastavení hudby na pozemku")
                 .setDescription("§7Přístup k příkazu §a/p music")
@@ -41,7 +41,7 @@ public class CreativeLevelReward {
         /*this.list.add(new LevelReward(6).setName("Stažení pozemku")
                 .setDescription("§7Přístup k příkzu §a/p download")
                 .setRewardDescription("§7Pomocí příkazu §b/p download §7nyní můžeš stáhnout pozemek!")
-                .setPermissions("plots.download"));*/
+                .setPermissions("plots.download"));
 
         // LEVEL 7
         this.list.add(new LevelReward(7).setName("Přístup k Pig Eggs")
@@ -83,19 +83,7 @@ public class CreativeLevelReward {
         this.list.add(new LevelReward(14).setName("Přístip k Parrot Eggs")
                 .setDescription("§7Přístup k použivání Parrot Eggs.")
                 .setRewardDescription("§7Nyní si můžeš spawnout papouška", "§7pomocí Parrot spawn Eggu.")
-                .setPermissions("rc.bypass.confiscate.items.material.PARROT_SPAWN_EGG"));
-
-        /*// LEVEL 10
-        this.list.add(new LevelReward(10).setName("Disguise přeměny (Zvířata)")
-                .setDescription("§7Přístup k přeměnám na zvířata!")
-                .setRewardDescription("§7Pomocí příkazu §b/disguise §7se nyní můžeš přeměnit na zvíře!")
-                .setPermissions("")); //TODO: Permissions
-
-        // LEVEL 20
-        this.list.add(new LevelReward(20).setName("Disguise přeměny (Zvířata)")
-                .setDescription("§7Přístup k přeměnám na monstra!")
-                .setRewardDescription("§7Pomocí příkazu §b/disguise §7se nyní můžeš přeměnit na monstra!")
-                .setPermissions("")); //TODO: Permissions*/
+                .setPermissions("rc.bypass.confiscate.items.material.PARROT_SPAWN_EGG")); */
     }
 
 }

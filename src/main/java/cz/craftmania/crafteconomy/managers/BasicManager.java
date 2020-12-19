@@ -210,7 +210,7 @@ public class BasicManager {
      * @param announce Oznámení
      */
     public void givePlayerManualLevelReward(final Player player, final int level, final boolean announce) {
-        ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
+        RewardManager.getRewards().forEach(levelReward -> {
             if (levelReward.getLevel() == level) {
                 this.givePlayerManualLevelReward(levelReward, player, announce);
             }
@@ -223,7 +223,7 @@ public class BasicManager {
      * @param level Požadovaná odměna dle levelu
      */
     public void removePlayerManualReward(final Player player, final int level) {
-        ProprietaryManager.getServerLevelRewardsList().forEach(levelReward -> {
+        RewardManager.getRewards().forEach(levelReward -> {
             if (levelReward.getLevel() == level) {
                 this.removePlayerLevelReward(levelReward, player, true);
             }

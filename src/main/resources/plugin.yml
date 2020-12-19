@@ -1,12 +1,12 @@
 name: CraftEconomy
-version: '1.3.8'
+version: '1.4.0-snapshot'
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
 depend: [CraftCore,CraftLibs]
 softdepend: [Vault]
 loadbefore: [TradeMe,ShopGUIPlus,SellStick,UltraMinions,QuickShop,BentoBox,AuctionGUIPlus]
-api-version: '1.15'
+api-version: '1.16'
 
 permissions:
   crafteconomy.*:

@@ -6,7 +6,8 @@ import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
+import cz.craftmania.crafteconomy.managers.QuestManager;
+import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
@@ -18,6 +19,8 @@ import cz.craftmania.crafteconomy.utils.AsyncUtils;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.crafteconomy.utils.configs.Config;
+import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
 import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -40,6 +43,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static Main instance;
     private static AsyncUtils async;
     private SQLManager sql;
+    private ConfigAPI configAPI;
     private int minExp, maxExp, time;
     private boolean debug;
 
@@ -53,7 +57,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     // Enabled properties
     private boolean registerEnabled = false;
-    private boolean isAchievementPluginEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
@@ -64,8 +67,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Commands manager
     private PaperCommandManager manager;
 
-    // CraftCore
+    // Plugins
     public static boolean isCraftCoreEnabled = false;
+    public static boolean isLuxuryQuestEnabled = false;
 
     @Override
     public void onEnable() {
@@ -78,6 +82,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Config
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        // Nacteni config souboru
+        configAPI = new ConfigAPI(this);
+        loadConfiguration();
 
         if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) isCraftCoreEnabled = true;
 
@@ -108,15 +116,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // HikariCP
         initDatabase();
 
-        // AdvancedAchievements API
-        if (Bukkit.getPluginManager().isPluginEnabled("AdvancedAchievements")) {
-            isAchievementPluginEnabled = true;
-            Logger.info("Detekovan plugin: AdvancedAchievements");
-            ProprietaryManager.loadServerAchievements();
-        } else {
-            Logger.danger("AdvancedAchievements nejsou na serveru!");
-        }
-
         // Variables
         registerEnabled = getConfig().getBoolean("registerEnabled");
         if (registerEnabled) {
@@ -126,13 +125,19 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
-            ProprietaryManager.loadServerLevelRewards();
+            RewardManager.loadRewards();
             Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
             this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
         }
 
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
+        isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
+
+        if (isLuxuryQuestEnabled) {
+            Logger.info("Questy jsou aktivní...");
+            QuestManager.loadQuests();
+        }
 
         // Aikar command manager
         manager = new PaperCommandManager(this);
@@ -196,18 +201,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         instance = null;
     }
 
-    public static Main getInstance() {
-        return instance;
-    }
-
-    public static AsyncUtils getAsync() {
-        return async;
-    }
-
-    public SQLManager getMySQL() {
-        return sql;
-    }
-
+    /**
+     * Napojení na MySQL + vytvoření tabulky (může být outdated).
+     */
     private void initDatabase() {
         sql = new SQLManager(this);
 
@@ -215,10 +211,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (!Main.getInstance().getMySQL().tablePlayerProfileExists()) {
             Main.getInstance().getMySQL().createPlayerProfileTable();
         }
-    }
-
-    public static Economy getVaultEconomy() {
-        return vaultEconomy;
     }
 
     private void loadListeners() {
@@ -233,17 +225,17 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         pm.registerEvents(new PlayerExpGainListener(), this);
         pm.registerEvents(new PlayerLevelUpListener(), this);
 
-        if (isCraftCoreEnabled)
+        if (isCraftCoreEnabled) {
             pm.registerEvents(new DepositGUI(), this);
-
-        // AdvancedAchievements Events
-        if (isAchievementPluginEnabled) {
-            pm.registerEvents(new AdvancedAchievementsListener(), this);
         }
 
         // CMI Events
         if (isCMIPluginEnabled) {
             pm.registerEvents(new PlayerAfkListener(), this);
+        }
+
+        if (isLuxuryQuestEnabled) {
+            pm.registerEvents(new QuestCompleteListener(), this);
         }
     }
 
@@ -260,6 +252,67 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
     }
 
+    private void loadConfiguration() {
+        Config questFile = new Config(this.configAPI, "quests");
+        configAPI.registerConfig(questFile);
+
+        Config rewardsFile = new Config(this.configAPI, "rewards");
+        configAPI.registerConfig(rewardsFile);
+    }
+
+    /**
+     * Config pro server questy, vyžaduje LuxuryQuest/CraftQuests.
+     * @return {@link Config}
+     */
+    public Config getQuestConfig() {
+        return this.configAPI.getConfig("quests");
+    }
+
+    /**
+     * Config pro server rewards.
+     * @return {@link Config}
+     */
+    public Config getRewardsConfig() {
+        return this.configAPI.getConfig("rewards");
+    }
+
+    /**
+     * Vrací instanci pluginu
+     * @return {@link Main}
+     */
+    public static Main getInstance() {
+        return instance;
+    }
+
+    /**
+     * Vrací metody pro snadnější spuštění tasků
+     * @return {@link AsyncUtils}
+     */
+    public static AsyncUtils getAsync() {
+        return async;
+    }
+
+    /**
+     * Vrací MySQL metody skrz HikariCP
+     * @return {@link SQLManager}
+     */
+    public SQLManager getMySQL() {
+        return sql;
+    }
+
+    /**
+     * Vrací object z Vaultu {@link Economy}
+     * @return {@link Economy}
+     */
+    public static Economy getVaultEconomy() {
+        return vaultEconomy;
+    }
+
+    /**
+     * Vraci boolean hodnotu, zda je na serveru aktivní registrace
+     * hráčů do MySQL. Tato hodna by měla být true pouze na lobby.
+     * @return {@link Boolean}
+     */
     public boolean isRegisterEnabled() {
         return registerEnabled;
     }
@@ -272,10 +325,18 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         return maxExp;
     }
 
+    /**
+     * Vrací zadaný {@link ServerType} dle configu
+     * @return {@link ServerType}
+     */
     public static ServerType getServerType() {
         return serverType;
     }
 
+    /**
+     * Vrací true, pokud je na serveru aktivní Vault ekonomika
+     * @return
+     */
     public boolean isVaultEconomyEnabled() {
         return vaultEconomyEnabled;
     }
@@ -311,6 +372,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public VaultEconomyManager getVaultEconomyManager() {
         return vaultEconomyManager;
+    }
+
+    public ConfigAPI getConfigAPI() {
+        return configAPI;
     }
 
     /**

@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.objects;
 
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,13 +28,13 @@ public class LevelReward {
         return this;
     }
 
-    public LevelReward setDescription(@NonNull final String... description) {
-        Collections.addAll(this.description, description);
+    public LevelReward setDescription(final @NotNull List<String> description) {
+        this.description = description;
         return this;
     }
 
-    public LevelReward setRewardDescription(@NonNull final String... description) {
-        Collections.addAll(this.rewardDescription, description);
+    public LevelReward setRewardDescription(final @NotNull List<String> description) {
+        this.rewardDescription = description;
         return this;
     }
 
@@ -47,8 +48,8 @@ public class LevelReward {
         return this;
     }
 
-    public LevelReward setPermissions(@NonNull final String... permissions) {
-        Collections.addAll(this.permissions, permissions);
+    public LevelReward setPermissions(final @NotNull List<String> permissions) {
+        this.permissions = permissions;
         return this;
     }
 

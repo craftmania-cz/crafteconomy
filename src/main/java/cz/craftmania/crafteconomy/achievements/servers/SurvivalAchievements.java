@@ -1,20 +1,19 @@
 package cz.craftmania.crafteconomy.achievements.servers;
 
-import cz.craftmania.crafteconomy.achievements.Rarity;
-import cz.craftmania.crafteconomy.objects.AchievementReward;
+import cz.craftmania.crafteconomy.objects.QuestReward;
 
 import java.util.List;
 
 public class SurvivalAchievements {
 
-    private List<AchievementReward> rewards;
+    private List<QuestReward> rewards;
 
-    public SurvivalAchievements(List<AchievementReward> rewards) {
+    public SurvivalAchievements(List<QuestReward> rewards) {
         this.rewards = rewards;
     }
 
     public void load() {
-
+/*
         // Anvil
         this.rewards.add(new AchievementReward("survival_common_anvilsused_1").setRarity(Rarity.COMMON).setName("Anviled I"));
         this.rewards.add(new AchievementReward("survival_rare_anvilsused_50").setRarity(Rarity.RARE).setName("Anviled II"));
@@ -378,6 +377,6 @@ public class SurvivalAchievements {
         this.rewards.add(new AchievementReward("survival_common_waterbuckets_10").setRarity(Rarity.COMMON).setName("Waterman I"));
         this.rewards.add(new AchievementReward("survival_rare_waterbuckets_50").setRarity(Rarity.RARE).setName("Waterman II"));
         this.rewards.add(new AchievementReward("survival_epic_waterbuckets_200").setRarity(Rarity.EPIC).setName("Waterman III"));
-        this.rewards.add(new AchievementReward("survival_legendary_waterbuckets_1000").setRarity(Rarity.LEGENDARY).setName("Waterman IV"));
+        this.rewards.add(new AchievementReward("survival_legendary_waterbuckets_1000").setRarity(Rarity.LEGENDARY).setName("Waterman IV"));*/
     }
 }

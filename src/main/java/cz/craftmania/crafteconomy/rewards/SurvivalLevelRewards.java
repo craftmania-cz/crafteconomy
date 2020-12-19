@@ -14,7 +14,7 @@ public class SurvivalLevelRewards {
 
     public void load() {
 
-        // LEVEL 3
+       /* // LEVEL 3
         this.list.add(new LevelReward(3).setName("McMMO Party")
                 .setDescription("§7Přístup k McMMO party a sdílení expů")
                 .setRewardDescription("§7Nyní můžeš vytvářet nebo se připojovat do McMMO party!")
@@ -91,6 +91,6 @@ public class SurvivalLevelRewards {
                 .setDescription("§7Přístup k zakoupení rozšíření", "§7Residencí v /cshop")
                 .setRewardDescription("§7Nyní si lze můžeš zakoupit v §b/cshop §7rozšíření Residence 1000x1000")
                 .setPermissions("craftmanager.cshop.residence_1000"));
-
+*/
     }
 }

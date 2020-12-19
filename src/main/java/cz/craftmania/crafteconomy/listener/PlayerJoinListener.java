@@ -2,10 +2,9 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.managers.ProprietaryManager;
+import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
-import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,7 +72,7 @@ public class PlayerJoinListener implements Listener {
      * @param craftPlayer {@link CraftPlayer}
      */
     private void fixLevelRewardsForPlayer(CraftPlayer craftPlayer) {
-        ProprietaryManager.getServerLevelRewardsList().forEach((levelReward -> {
+        RewardManager.getRewards().forEach((levelReward -> {
             bm.givePlayerManualLevelReward(levelReward, craftPlayer.getPlayer(), false);
         }));
     }
