@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyPlayerPayEvent;
+import cz.craftmania.crafteconomy.events.vault.CraftEconomyPlayerPrePayEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -49,6 +50,14 @@ public class PayCommand extends BaseCommand {
             Player playerReceiver = Bukkit.getPlayer(receiverPlayer);
             Player playerSender = (Player) sender;
             if (playerReceiver != null) {
+
+                CraftEconomyPlayerPrePayEvent craftEconomyPlayerPrePayEvent = new CraftEconomyPlayerPrePayEvent(playerSender, playerReceiver);
+                Bukkit.getPluginManager().callEvent(craftEconomyPlayerPrePayEvent);
+                if (craftEconomyPlayerPrePayEvent.isCancelled()) {
+                    playerSender.sendMessage("§c§l[!] §cProces odesílání peněz byl interně zastaven.");
+                    return;
+                }
+
                 if (manager.getCraftPlayer(playerReceiver).getPayToggle()) {
                     if (moneyToSend >= confirmThreshold) {
                         if (!pendingPayments.hasPendingPayment(playerSender)){
