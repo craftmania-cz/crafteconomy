@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.managers;
 
-import cz.craftmania.craftcore.spigot.messages.Title;
+import cz.craftmania.craftcore.spigot.xseries.messages.Titles;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.api.VoteTokensAPI;
@@ -31,8 +31,10 @@ public class VoteManager {
         craftPlayer.addWeekVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
 
-        if (Main.isCraftCoreEnabled)
-            new Title("§a§lDěkujeme!", "§fDostal/a jsi 1x VoteToken.", 10, 60, 10).send(player);
+        if (Main.isCraftCoreEnabled) {
+            Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal/a jsi 1x VoteToken.");
+        }
+
         Bukkit.getPluginManager().callEvent(new PlayerVoteEvent(player));
         player.sendMessage(" ");
         player.sendMessage("§bVyber si odměnu jakou chceš!");
