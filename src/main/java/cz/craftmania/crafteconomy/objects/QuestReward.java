@@ -18,6 +18,7 @@ public class QuestReward {
     private int questPointsValue = 0;
     private int experienceValue = 0;
     private List<String> permissions = new ArrayList<>();
+    private List<String> commands = new ArrayList<>();
 
     private boolean useOverrideExperienceValue = false;
     private boolean useOverrideAchievementValue = false;
@@ -65,6 +66,11 @@ public class QuestReward {
         return this;
     }
 
+    public QuestReward setCommands(final @NotNull List<String> commands) {
+        this.commands = commands;
+        return this;
+    }
+
     public String getId() {
         return id;
     }
@@ -83,6 +89,10 @@ public class QuestReward {
 
     public Rarity getRarity() {
         return rarity;
+    }
+
+    public List<String> getCommands() {
+        return commands;
     }
 
     /**

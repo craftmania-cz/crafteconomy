@@ -12,3 +12,5 @@ quests:
     experience: 100 # Pokud má hráč za quest obdržet jiný počet expů, než dle rarity
     permissions: # Permisse dány při splnění
       - 'some.super.perms'
+    commands: # Příkaz, který se spustí v konzoli, př. na dávání odměn z jiných pluginů atd.
+      - 'say %player% splnil quest na serveru %server%'

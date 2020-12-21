@@ -37,11 +37,14 @@ public class QuestManager {
             if (quest.contains("permissions")) {
                 questReward.setPermissions(quest.getStringList("permissions"));
             }
+            if (quest.contains("commands")) {
+                questReward.setCommands(quest.getStringList("commands"));
+            }
 
             questRewards.add(questReward);
             Logger.debug("Quest zaregistrovan: " + questReward.getName() + ", id: " + questReward.getId() + ", desc: " + questReward.getDescription() + ", rarity: "
                     + questReward.getRarity().name() + ", qp: " + questReward.getQuestPointsValue() + ", exp: " + questReward.getExperienceValue() + ", perms: "
-                    + questReward.getPermissions());
+                    + questReward.getPermissions() + ", cmds: " + questReward.getCommands());
         }
         Logger.success("Celkově načteno (" + questRewards.size() + ") questů.");
     }
