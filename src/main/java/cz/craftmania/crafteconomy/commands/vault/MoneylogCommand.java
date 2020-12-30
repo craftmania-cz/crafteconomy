@@ -4,17 +4,26 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.objects.EconomyLog;
+import cz.craftmania.crafteconomy.objects.Pagination;
+import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.craftlibs.utils.TextComponentBuilder;
+import jline.internal.Log;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @CommandAlias("moneylog")
 @Description("Zobrazí log transakcí pro určitého hráče")
 public class MoneylogCommand extends BaseCommand {
 
-    static int maxTableSize = 10;
+    private HashMap<CommandSender, String> requests = new HashMap<>();
 
     @HelpCommand
     public void helpCommand(CommandSender sender, CommandHelp help) {
@@ -26,74 +35,114 @@ public class MoneylogCommand extends BaseCommand {
     @CommandCompletion("@players")
     @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByName(CommandSender sender, String requestedPlayer) {
-        Map<Integer, List> listMap = new HashMap<>();
+        Long started = System.currentTimeMillis();
+
+        if (requests.getOrDefault(sender, null) != null) return;
+        requests.put(sender, requestedPlayer);
+
+        sender.sendMessage("§7Načítaní záznamů (může to chvíli trvat)...");
+
+        CompletableFuture<List<EconomyLog>> completableFuture;
         try {
             UUID playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(requestedPlayer);
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID.toString());
+            completableFuture = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID);
         } catch (Exception e) {
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
+            completableFuture = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
         }
-        printTableForPlayer(sender, listMap, 1);
+
+        completableFuture.thenAcceptAsync(list -> {
+            printTableForPlayer(sender, list, 1, started);
+        });
     }
 
     @Default
     @CommandCompletion("@players [cislo]")
     @CommandPermission("crafteconomy.command.moneylog")
     public void showLogByNameAndPage(CommandSender sender, String requestedPlayer, int page) {
-        Map<Integer, List> listMap = new HashMap<>();
+        Long started = System.currentTimeMillis();
+
+        if (requests.getOrDefault(sender, null) != null) return;
+        requests.put(sender, requestedPlayer);
+
+        CompletableFuture<List<EconomyLog>> completableFuture;
         try {
             UUID playerUUID = Main.getInstance().getMySQL().fetchUUIDbyName(requestedPlayer);
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID.toString());
+            completableFuture = Main.getInstance().getMySQL().getVaultAllLogsByUUID(playerUUID);
         } catch (Exception e) {
-            listMap = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
+            completableFuture = Main.getInstance().getMySQL().getVaultAllLogsByNickname(requestedPlayer);
         }
-        printTableForPlayer(sender, listMap, page);
+
+        completableFuture.thenAcceptAsync(list -> {
+            printTableForPlayer(sender, list, page, started);
+        });
     }
 
-    private static void printTableForPlayer(CommandSender player, Map<Integer, List> listMap, int page) {
-        List<String> recieverNick = listMap.get(1);
-        List<String> action = listMap.get(5);
-        List<Long> amount = listMap.get(6);
-        List<Long> time = listMap.get(7);
-
-        if (recieverNick.size() == 0) {
+    private void printTableForPlayer(CommandSender player, List<EconomyLog> list, int page, Long started) {
+        if (list.isEmpty()) {
             player.sendMessage(ChatColor.RED + "Takový hráč/ka neexistuje nebo neprovedl/a žádnou platbu nebo zde ještě nehrál/a!");
             return;
         }
 
-        if ((int) (Math.round((double) recieverNick.size() / 10)) < 1) {
-            if (page > 1) {
-                player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");
-                return;
-            }
-        } else if (page > (int) (Math.round((double) recieverNick.size() / 10))) {
+        final Pagination<EconomyLog> pagination = new Pagination<>(list, 10);
+
+        final String playerName = pagination.getItems().get(0).getReceiver();
+
+        if (page <= 0 || page > pagination.getPageCount()) {
             player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");
             return;
         }
 
         player.sendMessage("");
-        player.sendMessage("§e---- §aMoneyLog §e-- §7Strana §c" + page + "§8/§c" + (int) (Math.round((double) recieverNick.size() / 10)) + " §e-- §7Nick: §c" + recieverNick.get(0));
+        player.sendMessage("§e---- §aMoney Log §e-- §7Strana §c" + page + "§8/§c" + pagination.getPageCount() + " §e-- §7Nick: §c" + playerName);
         try {
-            for (int x = page * 10 - maxTableSize; x < page * 10; x++) {
-                String akceTranslated;
-                switch (action.get(x)) {
-                    case "MONEY_WITHDRAW": {
-                        akceTranslated = "§aVýběr";
-                        break;
+            int x = 1;
+            pagination.setPage(page - 1);
+            for (EconomyLog log : pagination.getItems()) {
+                if (log.getAction() == EconomyLog.EconomyAction.PAY_COMMAND) {
+                    if (log.getReceiver().equals(playerName)) {
+                        // Got money
+                        player.sendMessage("§a" + (x + (page - 1) * 10) + ". §7Akce: §a" + log.getAction().getTranslated() + "§7, Částka: §e" + Main.getInstance().getFormattedNumber(log.getAmount()) + "§6" + Main.getInstance().getCurrency() + "§7, Od: §e" + log.getSender() + "§7, Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(log.getTime()));
+                    } else {
+                        // Sent money
+                        player.sendMessage("§a" + (x + (page - 1) * 10) + ". §7Akce: §c" + log.getAction().getTranslated() + "§7, Částka: §e" + Main.getInstance().getFormattedNumber(log.getAmount()) + "§6" + Main.getInstance().getCurrency() + "§7, Pro: §e" + log.getReceiver() + "§7, Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(log.getTime()));
                     }
-                    case "MONEY_DEPOSIT": {
-                        akceTranslated = "§cVklad";
-                        break;
-                    }
-                    default:
-                        akceTranslated = action.get(x) + "(unknown)";
                 }
-                player.sendMessage("§a" + (x + 1) + "§7. §7Akce: " + akceTranslated + "§8; §7Částka: §e" + Main.getInstance().getFormattedNumber(amount.get(x)) + "§6" + Main.getInstance().getCurrency() + "§8; §7Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(time.get(x)));
+                else
+                    player.sendMessage("§a" + (x + (page - 1) * 10) + ". §7Akce: " + log.getAction().getTranslated() + "§7, Částka: §e" + Main.getInstance().getFormattedNumber(log.getAmount()) + "§6" + Main.getInstance().getCurrency() + "§7, Datum: §e" + new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(log.getTime()));
+                x++;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            Log.error("Error occured while displaying money log (page: " + page + ", target: " + playerName + ").");
+            e.printStackTrace();
         }
-        player.sendMessage("§e--------");
-        //player.sendMessage("§b<- §7Předchozí strana §8| §7 Další Strana §b->");
+
+        TextComponent message = new TextComponent();
+        TextComponent prevPageMessage = new TextComponent();
+        TextComponent nextPageMessage = new TextComponent();
+
+        if (!pagination.isFirst()) {
+            prevPageMessage.setText("§b<- §ePředchozí strana §8| ");
+            prevPageMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/moneylog " + playerName + " " + (page - 1)));
+        } else {
+            prevPageMessage.setText("§7<- Předchozí strana §8| ");
+        }
+        if (!pagination.isLast()) {
+            nextPageMessage.setText("§eDalší strana §b->");
+            nextPageMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/moneylog " + playerName + " " + (page + 1)));
+        } else {
+            nextPageMessage.setText("§7Další strana ->");
+        }
+
+        if (pagination.isNecessary()) {
+            message.addExtra(prevPageMessage);
+            message.addExtra(nextPageMessage);
+            player.spigot().sendMessage(message);
+        }
+
         player.sendMessage("");
+
+        requests.remove(player, playerName);
+
+        Logger.info("Money log (" + playerName + ", page: " + page + ") took " + (System.currentTimeMillis() - started) + "ms.");
     }
 }

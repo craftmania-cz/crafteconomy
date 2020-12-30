@@ -3,10 +3,7 @@ package cz.craftmania.crafteconomy.sql;
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.ChangeActions;
-import cz.craftmania.crafteconomy.objects.QuestReward;
-import cz.craftmania.crafteconomy.objects.CraftPlayer;
-import cz.craftmania.crafteconomy.objects.EconomyType;
-import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import org.bukkit.entity.Player;
@@ -14,7 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class SQLManager {
 
@@ -528,60 +527,60 @@ public class SQLManager {
                     conn = pool.getConnection();
                     ps = conn.prepareStatement(
                             "CREATE TABLE `player_profile` (" +
-                            " `id` int(255) NOT NULL AUTO_INCREMENT," +
-                            " `discriminator` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
-                            " `nick` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
-                            " `uuid` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
-                            " `web_group` int(32) NOT NULL DEFAULT '0'," +
-                            " `registred` bigint(64) NOT NULL," +
-                            " `last_online` bigint(64) NOT NULL," +
-                            " `last_server` varchar(32) COLLATE latin2_czech_cs NOT NULL," +
-                            " `is_online` int(12) NOT NULL DEFAULT '0'," +
-                            " `played_time` int(64) NOT NULL DEFAULT '0'," +
-                            " `craftcoins` bigint(32) NOT NULL DEFAULT '0'," +
-                            " `crafttokens` bigint(32) NOT NULL DEFAULT '0'," +
-                            " `votetokens` bigint(32) NOT NULL DEFAULT '0'," +
-                            " `votetokens_2` bigint(32) NOT NULL DEFAULT '0'," +
-                            " `level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `global_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `global_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `survival_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `survival_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `skyblock_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `skyblock_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `creative_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `creative_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `prison_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `prison_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `vanilla_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `vanilla_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `skycloud_level` bigint(64) NOT NULL DEFAULT '1'," +
-                            " `skycloud_experience` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `karma` bigint(32) NOT NULL DEFAULT '0'," +
-                            " `achievement_points` int(64) NOT NULL DEFAULT '0'," +
-                            " `event_points` bigint(64) NOT NULL DEFAULT '0'," +
-                            " `total_votes` int(64) NOT NULL DEFAULT '0'," +
-                            " `month_votes` int(64) NOT NULL DEFAULT '0'," +
-                            " `week_votes` int(64) NOT NULL DEFAULT '0'," +
-                            " `last_vote` bigint(255) NOT NULL DEFAULT '0'," +
-                            " `status` varchar(100) COLLATE latin2_czech_cs NOT NULL DEFAULT 'Tento hráč nemá nastavený status...'," +
-                            " `soc_facebook` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `soc_twitter` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `soc_ytb` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `soc_steam` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `soc_twitch` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `soc_web` varchar(256) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `mc_version` varchar(32) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
-                            " `discord_user_id` varchar(64) COLLATE latin2_czech_cs DEFAULT NULL," +
-                            " `discord_reward` int(12) NOT NULL DEFAULT '0'," +
-                            " `lobby_daily_bonus` int(12) NOT NULL DEFAULT '0'," +
-                            " `lobby_vip_bonus` int(12) NOT NULL DEFAULT '0'," +
-                            " `seen_latest_news` int(2) NOT NULL DEFAULT '0'," +
-                            " PRIMARY KEY (`id`)," +
-                            " UNIQUE KEY `uuid` (`uuid`)," +
-                            " UNIQUE KEY `nick` (`nick`)" +
-                            ") ENGINE=InnoDB AUTO_INCREMENT=131544 DEFAULT CHARSET=latin2 COLLATE=latin2_czech_cs");
+                                    " `id` int(255) NOT NULL AUTO_INCREMENT," +
+                                    " `discriminator` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                                    " `nick` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                                    " `uuid` varchar(64) COLLATE latin2_czech_cs NOT NULL," +
+                                    " `web_group` int(32) NOT NULL DEFAULT '0'," +
+                                    " `registred` bigint(64) NOT NULL," +
+                                    " `last_online` bigint(64) NOT NULL," +
+                                    " `last_server` varchar(32) COLLATE latin2_czech_cs NOT NULL," +
+                                    " `is_online` int(12) NOT NULL DEFAULT '0'," +
+                                    " `played_time` int(64) NOT NULL DEFAULT '0'," +
+                                    " `craftcoins` bigint(32) NOT NULL DEFAULT '0'," +
+                                    " `crafttokens` bigint(32) NOT NULL DEFAULT '0'," +
+                                    " `votetokens` bigint(32) NOT NULL DEFAULT '0'," +
+                                    " `votetokens_2` bigint(32) NOT NULL DEFAULT '0'," +
+                                    " `level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `global_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `global_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `survival_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `survival_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `skyblock_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `skyblock_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `creative_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `creative_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `prison_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `prison_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `vanilla_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `vanilla_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `skycloud_level` bigint(64) NOT NULL DEFAULT '1'," +
+                                    " `skycloud_experience` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `karma` bigint(32) NOT NULL DEFAULT '0'," +
+                                    " `achievement_points` int(64) NOT NULL DEFAULT '0'," +
+                                    " `event_points` bigint(64) NOT NULL DEFAULT '0'," +
+                                    " `total_votes` int(64) NOT NULL DEFAULT '0'," +
+                                    " `month_votes` int(64) NOT NULL DEFAULT '0'," +
+                                    " `week_votes` int(64) NOT NULL DEFAULT '0'," +
+                                    " `last_vote` bigint(255) NOT NULL DEFAULT '0'," +
+                                    " `status` varchar(100) COLLATE latin2_czech_cs NOT NULL DEFAULT 'Tento hráč nemá nastavený status...'," +
+                                    " `soc_facebook` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `soc_twitter` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `soc_ytb` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `soc_steam` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `soc_twitch` varchar(128) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `soc_web` varchar(256) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `mc_version` varchar(32) COLLATE latin2_czech_cs NOT NULL DEFAULT '0'," +
+                                    " `discord_user_id` varchar(64) COLLATE latin2_czech_cs DEFAULT NULL," +
+                                    " `discord_reward` int(12) NOT NULL DEFAULT '0'," +
+                                    " `lobby_daily_bonus` int(12) NOT NULL DEFAULT '0'," +
+                                    " `lobby_vip_bonus` int(12) NOT NULL DEFAULT '0'," +
+                                    " `seen_latest_news` int(2) NOT NULL DEFAULT '0'," +
+                                    " PRIMARY KEY (`id`)," +
+                                    " UNIQUE KEY `uuid` (`uuid`)," +
+                                    " UNIQUE KEY `nick` (`nick`)" +
+                                    ") ENGINE=InnoDB AUTO_INCREMENT=131544 DEFAULT CHARSET=latin2 COLLATE=latin2_czech_cs");
                     ps.executeUpdate();
                 } catch (Exception e) {
                     //e.printStackTrace();
@@ -655,7 +654,98 @@ public class SQLManager {
 
         return balanceMap;
     }
-    public Map<Integer, List> getVaultAllLogsByUUID(String UUIDstring) {
+
+    public CompletableFuture<List<EconomyLog>> getVaultAllLogsByUUID(UUID uuid) {
+        CompletableFuture<List<EconomyLog>> completableFuture = new CompletableFuture<>();
+        Main.getAsync().runAsync(() -> {
+            List<EconomyLog> list = new ArrayList<>();
+
+            final String server = Main.getServerType().name().toLowerCase();
+            Connection conn = null;
+            PreparedStatement ps = null;
+
+            try {
+                conn = pool.getConnection();
+                ps = conn.prepareStatement("SELECT * FROM `economy_" + server + "_log` WHERE `r_uuid` = ? OR `s_uuid` = ? ORDER BY `time` DESC;");
+                ps.setString(1, uuid.toString());
+                ps.setString(2, uuid.toString());
+
+                final ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    final String reciever = resultSet.getString("reciever");
+                    final UUID recieverUUID = UUID.fromString(resultSet.getString("r_uuid"));
+                    final String sender = resultSet.getString("sender");
+                    UUID senderUUID;
+                    if (resultSet.getString("s_uuid") == null) senderUUID = null;
+                    else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
+                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
+                    final Long amount = resultSet.getLong("amount");
+                    final Long time = resultSet.getLong("time");
+
+                    EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
+                    list.add(economyLog);
+                }
+
+                completableFuture.complete(list);
+            } catch (Exception e) {
+                Main.getInstance().sendSentryException(e);
+                e.printStackTrace();
+
+                completableFuture.completeExceptionally(e);
+            } finally {
+                pool.close(conn, ps, null);
+            }
+        });
+
+        return completableFuture;
+    }
+
+    public CompletableFuture<List<EconomyLog>> getVaultAllLogsByNickname(String nickname) {
+        CompletableFuture<List<EconomyLog>> completableFuture = new CompletableFuture<>();
+        Main.getAsync().runAsync(() -> {
+            List<EconomyLog> list = new ArrayList<>();
+
+            final String server = Main.getServerType().name().toLowerCase();
+            Connection conn = null;
+            PreparedStatement ps = null;
+
+            try {
+                conn = pool.getConnection();
+                ps = conn.prepareStatement("SELECT * FROM `economy_" + server + "_log` WHERE `reciever` = ? OR `sender` = ? ORDER BY `time` DESC;");
+                ps.setString(1, nickname);
+                ps.setString(2, nickname);
+
+                final ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    final String reciever = resultSet.getString("reciever");
+                    final UUID recieverUUID = UUID.fromString(resultSet.getString("r_uuid"));
+                    final String sender = resultSet.getString("sender");
+                    UUID senderUUID;
+                    if (resultSet.getString("s_uuid") == null) senderUUID = null;
+                    else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
+                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
+                    final Long amount = resultSet.getLong("amount");
+                    final Long time = resultSet.getLong("time");
+
+                    EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
+                    list.add(economyLog);
+                }
+
+                completableFuture.complete(list);
+            } catch (Exception e) {
+                Main.getInstance().sendSentryException(e);
+                e.printStackTrace();
+
+                completableFuture.completeExceptionally(e);
+            } finally {
+                pool.close(conn, ps, null);
+            }
+        });
+
+        return completableFuture;
+    }
+
+    /*public Map<Integer, List> getVaultAllLogsByUUID(String UUIDstring) {
         Map<Integer, List> listMap = new HashMap<Integer, List>();
         List<String> recieverNick = new ArrayList<>();
         List<String> recieverUUID = new ArrayList<>();
@@ -740,7 +830,7 @@ public class SQLManager {
         listMap.put(6, amount);
         listMap.put(7, time);
         return listMap;
-    }
+    }*/
 
     public List<Long> getVaultAllEcos() {
         List<Long> balances = new ArrayList<>();
@@ -782,7 +872,7 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
-        throw new NullPointerException("UUID pro hrace (" + name + ") nebylo nalezeno!") ;
+        throw new NullPointerException("UUID pro hrace (" + name + ") nebylo nalezeno!");
     }
 
     public void setVaultEcoBalance(final String player, final long amount) {
@@ -894,7 +984,7 @@ public class SQLManager {
     /**
      * Will return selected player settings.
      *
-     * @param p Player object
+     * @param p        Player object
      * @param settings Settings name
      * @return Selected settings value
      */
@@ -938,9 +1028,9 @@ public class SQLManager {
     /**
      * Will update selected player settings.
      *
-     * @param p Player object
+     * @param p        Player object
      * @param settings Settings name
-     * @param value New value for selected settings
+     * @param value    New value for selected settings
      */
     public final void updateSettings(final Player p, final String settings, final int value) {
         new BukkitRunnable() {
