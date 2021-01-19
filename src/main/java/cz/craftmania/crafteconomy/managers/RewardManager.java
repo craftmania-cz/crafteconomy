@@ -23,17 +23,22 @@ public class RewardManager {
         }
 
         ConfigurationSection rewardsSection = questConfig.getConfig().getConfigurationSection("rewards");
-        for (String key : rewardsSection.getKeys(false)) {
-            ConfigurationSection rewardKey = rewardsSection.getConfigurationSection(key);
-            LevelReward levelReward = new LevelReward(Integer.parseInt(key));
-            levelReward.setName(rewardKey.getString("name"));
-            levelReward.setDescription(rewardKey.getStringList("description"));
-            levelReward.setRewardDescription(rewardKey.getStringList("reward_description"));
-            levelReward.setPermissions(rewardKey.getStringList("permissions"));
+        try {
+            for (String key : rewardsSection.getKeys(false)) {
+                ConfigurationSection rewardKey = rewardsSection.getConfigurationSection(key);
+                LevelReward levelReward = new LevelReward(Integer.parseInt(key));
+                levelReward.setName(rewardKey.getString("name"));
+                levelReward.setDescription(rewardKey.getStringList("description"));
+                levelReward.setRewardDescription(rewardKey.getStringList("reward_description"));
+                levelReward.setPermissions(rewardKey.getStringList("permissions"));
 
-            rewards.add(levelReward);
-            Logger.debug("Server reward zaregistrovan: " + levelReward.getName() + ", level: " + levelReward.getLevel() +
-                    ", desc: " + levelReward.getDescription() + ", perms: " + levelReward.getPermissions());
+                rewards.add(levelReward);
+                Logger.debug("Server reward zaregistrovan: " + levelReward.getName() + ", level: " + levelReward.getLevel() +
+                        ", desc: " + levelReward.getDescription() + ", perms: " + levelReward.getPermissions());
+            }
+        } catch (NullPointerException exception) {
+            Logger.danger("Na serveru nejsou aktivní žádné odměny.");
+            return;
         }
 
         Logger.success("Celkově načteno (" + rewards.size() + ") server odměn.");

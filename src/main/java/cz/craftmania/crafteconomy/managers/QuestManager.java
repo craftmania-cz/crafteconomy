@@ -22,29 +22,34 @@ public class QuestManager {
         }
 
         ConfigurationSection questSection = questConfig.getConfig().getConfigurationSection("quests");
-        for (String key : questSection.getKeys(false)) {
-            ConfigurationSection quest = questSection.getConfigurationSection(key);
-            QuestReward questReward = new QuestReward(key);
-            questReward.setName(quest.getString("name"));
-            questReward.setDescription(quest.getString("goal"));
-            questReward.setRarity(Rarity.valueOf(quest.getString("rarity")));
-            if (quest.contains("points")) {
-                questReward.overrideQuestValue(quest.getInt("points"));
-            }
-            if (quest.contains("experience")) {
-                questReward.overrideExperienceValue(quest.getInt("experience"));
-            }
-            if (quest.contains("permissions")) {
-                questReward.setPermissions(quest.getStringList("permissions"));
-            }
-            if (quest.contains("commands")) {
-                questReward.setCommands(quest.getStringList("commands"));
-            }
+        try {
+            for (String key : questSection.getKeys(false)) {
+                ConfigurationSection quest = questSection.getConfigurationSection(key);
+                QuestReward questReward = new QuestReward(key);
+                questReward.setName(quest.getString("name"));
+                questReward.setDescription(quest.getString("goal"));
+                questReward.setRarity(Rarity.valueOf(quest.getString("rarity")));
+                if (quest.contains("points")) {
+                    questReward.overrideQuestValue(quest.getInt("points"));
+                }
+                if (quest.contains("experience")) {
+                    questReward.overrideExperienceValue(quest.getInt("experience"));
+                }
+                if (quest.contains("permissions")) {
+                    questReward.setPermissions(quest.getStringList("permissions"));
+                }
+                if (quest.contains("commands")) {
+                    questReward.setCommands(quest.getStringList("commands"));
+                }
 
-            questRewards.add(questReward);
-            Logger.debug("Quest zaregistrovan: " + questReward.getName() + ", id: " + questReward.getId() + ", desc: " + questReward.getDescription() + ", rarity: "
-                    + questReward.getRarity().name() + ", qp: " + questReward.getQuestPointsValue() + ", exp: " + questReward.getExperienceValue() + ", perms: "
-                    + questReward.getPermissions() + ", cmds: " + questReward.getCommands());
+                questRewards.add(questReward);
+                Logger.debug("Quest zaregistrovan: " + questReward.getName() + ", id: " + questReward.getId() + ", desc: " + questReward.getDescription() + ", rarity: "
+                        + questReward.getRarity().name() + ", qp: " + questReward.getQuestPointsValue() + ", exp: " + questReward.getExperienceValue() + ", perms: "
+                        + questReward.getPermissions() + ", cmds: " + questReward.getCommands());
+            }
+        } catch (NullPointerException exception) {
+            Logger.danger("Na serveru nejsou aktivní žádné questy.");
+            return;
         }
         Logger.success("Celkově načteno (" + questRewards.size() + ") questů.");
     }
