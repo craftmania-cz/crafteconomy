@@ -6,6 +6,7 @@ import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
+import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.QuestManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
@@ -51,6 +52,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static Economy vaultEconomy = null;
     private String currency = "$";
     private static VaultEconomyManager vaultEconomyManager;
+    private final BasicManager basicManager = new BasicManager();
 
     // Server
     private static ServerType serverType = ServerType.UNKNOWN;
@@ -194,6 +196,16 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     @Override
     public void onDisable() {
+
+        // Finální save dat, pokud by byl server vypnutý před cyklem uložení
+        Logger.info("Příprava a uložení dat před vypnutím pluginu.");
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (this.basicManager.getCraftPlayer(player) != null) {
+                long balance = this.basicManager.getCraftPlayer(player).getMoney();
+                Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
+            }
+        });
+        Logger.success("Data hráčů uložena do SQL.");
 
         // Deaktivace MySQL
         sql.onDisable();
