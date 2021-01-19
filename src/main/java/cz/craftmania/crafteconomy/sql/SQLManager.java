@@ -962,6 +962,12 @@ public class SQLManager {
         }
     }
 
+    /**
+     * Kontroluje nick v DB podle UUID
+     * @param table Tabulka k kontrole
+     * @param player Hráč k kontrole
+     * @return null když hráč neexistuje? jinak nick
+     */
     public final String getNickFromTable(final String table, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;

@@ -31,20 +31,29 @@ public class PlayerJoinListener implements Listener {
         // Vytvoření a načtení vault money do craftplayer
         if (Main.getInstance().isVaultEconomyEnabled()) {
 
-            if (!main.getMySQL().hasVaultEcoProfile(player.getUniqueId())) {
-                main.getMySQL().createVaultEcoProfile(player);
-            }
+            if (main.getMySQL().hasVaultEcoProfile(player.getUniqueId())) {
 
-            // Update nicku v DB kvůli změně nicku
-            String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
-            if (sqlNick != null) { //TODO: Why null?
+                // Originálka si změnila nick -> kontrola -> update -> load podle UUID
+                String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                assert sqlNick != null;
                 if (!sqlNick.equals(player.getName())) {
                     Main.getInstance().getMySQL().updateNickInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
                 }
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
+
+            } else if (main.getMySQL().hasVaultEcoProfile(player.getName())) {
+
+                // Chyba UUID (Autologin) -> fix UUID -> load podle nicku
+                Main.getInstance().getMySQL().updateUUIDInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getName()));
+
+            } else {
+
+                // Hráč nemá vytvořený profil -> create -> load
+                main.getMySQL().createVaultEcoProfile(player);
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
+
             }
-            
-            // Finální nastavení hodnoty peněz na učet
-            craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
         }
 
         // Opravy práv pro achievementy

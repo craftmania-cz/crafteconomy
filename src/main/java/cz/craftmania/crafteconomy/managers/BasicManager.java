@@ -72,7 +72,25 @@ public class BasicManager {
     private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) {
         CraftPlayer cp = null;
         try {
-            if (!Main.getInstance().getMySQL().hasData(player)) {
+            if (Main.getInstance().getMySQL().hasData(player)) { // Kontrola dle UUID
+
+                // Player profile: Kontrola změny nicku -> update nicku -> load podle UUID
+                String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_profile", player);
+                assert sqlNick != null;
+                if (!sqlNick.equals(player.getName())) {
+                    Main.getInstance().getMySQL().updateNickInTable("player_profile", player);
+                }
+
+                cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+
+            } else if (Main.getInstance().getMySQL().hasDataByNick(player.getName())) {
+
+                // Chyba AutoLoginu -> update UUID -> load podle nicku
+                Main.getInstance().getMySQL().updateUUIDInTable("player_profile", player);
+                System.out.println("BM: Update UUID dokončen");
+
+                cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+            } else { // Jinak klasicky register, jako nový hráč
                 // Pokud hrac neni vubec v SQL, tak se provede register
                 if (Main.getInstance().isRegisterEnabled()) {
 
@@ -82,15 +100,9 @@ public class BasicManager {
                     // Event
                     final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
                     Bukkit.getPluginManager().callEvent(event);
+
+                    cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
                 }
-            } else {
-                // Kontrola zda si originalka nezměnila nick
-                String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_profile", player);
-                assert sqlNick != null;
-                if (!sqlNick.equals(player.getName())) {
-                    Main.getInstance().getMySQL().updateNickInTable("player_profile", player);
-                }
-                cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
