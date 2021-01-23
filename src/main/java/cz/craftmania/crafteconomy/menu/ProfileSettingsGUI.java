@@ -7,6 +7,7 @@ import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvide
 import cz.craftmania.craftcore.spigot.inventory.builder.content.Pagination;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.SkullCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -95,7 +96,7 @@ public class ProfileSettingsGUI implements InventoryProvider {
                 } catch (Exception e) {
                     e.printStackTrace();
                     Main.getInstance().sendSentryException(e);
-                    Logger.danger("getSettingsString() z MySQL navrátilo null při požadavku na \"lobbyl_joinbroadcast_sound\"?!");
+                    Logger.danger("getSettingsString() z MySQL navrátilo null při požadavku na \"lobby_joinbroadcast_sound\"?!");
                 }
 
                 //Předchozí / Zpět / Další
@@ -233,6 +234,29 @@ public class ProfileSettingsGUI implements InventoryProvider {
 
                 ItemStack disableChat = createItem(Material.WRITABLE_BOOK , "§e§lVypnutí zpráv v chatu", Arrays.asList("§7Nebudeš dostávat", "§7zprávy v chatu.", "", "§e§l[*] §eZměny se projeví až po odpojení a připojení!"));
                 ItemStack disableScoreboard = createItem(Material.GOLD_INGOT, "§e§lZobrazení scoreboardu", Arrays.asList("§7Budeš vidět", "§7tabulku vpravo.", "", "§e§l[*] §eZměna se projeví až po odpojení a připojení!"));
+                ItemStack sellBackpack = SkullCreator.createHeadFromData("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGRjYzZlYjQwZjNiYWRhNDFlNDMzOTg4OGQ2ZDIwNzQzNzU5OGJkYmQxNzVjMmU3MzExOTFkNWE5YTQyZDNjOCJ9fX0=",
+                        "§e§lProdávání věcí v backpacku",
+                        Arrays.asList(
+                                "§7Dovoluje ti vypnout / zapnout prodávání v backpacku.",
+                                "",
+                                "§cFunguje pouze na Prisonu",
+                                "§e§l[*] §eZměny se projeví až po odpojení a připojení!"
+                        ));
+                ItemStack sellOnPickaxe = createItem(Material.DIAMOND_PICKAXE, "§e§lProdávání pomocí krumpáče",
+                        Arrays.asList(
+                                "§7Dovoluje ti vypnout / zapnout prodávání pravým",
+                                "§7kliknutím s krumpáčem",
+                                "",
+                                "§cFunguje pouze na Prisonu",
+                                "§e§l[*] §eZměny se projeví až po odpojení a připojení!"
+                        ));
+                ItemStack gender = createItem(Material.PLAYER_HEAD, "§e§lPohlaví",
+                        Arrays.asList(
+                                "§7Dovoluje ti nastavit svoje pohlaví",
+                                "",
+                                "§e§l[*] §eZměny se projeví až po odpojení a připojení!"
+                        ));
+                ItemStack currentGender = getCurrentGenderItemStack(p);
                 // Deprecated
                 //ItemStack chatSuggestions = createItem(Material.HEART_OF_THE_SEA, "§e§lNapovidani v chatu", Arrays.asList("§7Povolenim se ti budou", "§7zobrazovat v chatu napovedy", "§7pro prikazy §aod MC 1.13."));
 
@@ -256,9 +280,7 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     }
                     contents.inventory().close(p);
                 }));
-
                 contents.set(1, 1, ClickableItem.empty(disableScoreboard));
-
                 contents.set(2, 1, ClickableItem.of((getSetting(p, "show_scoreboard") == 1 ? enabled : disabled), e -> {
                     if (contents.get(2, 1).get().getItem() == enabled) {
                         Main.getInstance().getMySQL().updateSettings(p, "show_scoreboard", 0);
@@ -270,22 +292,34 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     contents.inventory().close(p);
                 }));
 
-                // Deprecated
-                //contents.set(2, 1, ClickableItem.empty(nedostupne));
-                /* -> Není na mém SQL, nevím jak to je v produkčním, tak to zatím nechám jako "nedostupné"
-                TODO: Opravit / odebrat
-                contents.set(2, 1, ClickableItem.of((getSetting(p, "disabled_chat_suggestions") == 1 ? enabled : disabled), e -> { //Vypnutí chat suggestcí
-                    if (contents.get(2, 1).get().getItem() == enabled) {
-                        Main.getInstance().getMySQL().updateSettings(p, "disabled_chat_suggestions", 0);
-                        p.sendMessage("§e§l[*] §eNyni se ti budou zobrazovat napovedy v chatu!");
-                    } else {
-                        Main.getInstance().getMySQL().updateSettings(p, "disabled_chat_suggestions", 1);
-                        p.sendMessage("§c§l[!] §cNapovedy v chatu se ti jiz nebudou zobrazovat.");
-                    }
-                    p.sendMessage("§c§l[!] §cK plne deaktivaci jdi do lobby a zpet!");
-                    contents.inventory().close(p);
-                }));*/
+                contents.set(1, 2, ClickableItem.empty(gender));
+                contents.set(2, 2, ClickableItem.of(currentGender, e -> {
+                    SmartInventory.builder().size(3, 9).title("Profile settings - Pohlaví").provider(new ProfileSettingsGUIGender()).build().open(p);
+                }));
 
+                contents.set(1, 3, ClickableItem.empty(sellBackpack));
+                contents.set(2, 3, ClickableItem.of((getSetting(p, "prison_sell_backpack") == 1 ? enabled : disabled), e -> {
+                   if (contents.get(2, 3).get().getItem() == enabled) {
+                       Main.getInstance().getMySQL().updateSettings(p, "prison_sell_backpack", 0);
+                       p.sendMessage("§c§l[!] §cPorádávní backpacku vypnuto!");
+                   } else {
+                       Main.getInstance().getMySQL().updateSettings(p, "prison_sell_backpack", 1);
+                       p.sendMessage("§e§l[*] §ePorádávní backpacku zapnuto!");
+                   }
+                   contents.inventory().close(p);
+                }));
+
+                contents.set(1, 4, ClickableItem.empty(sellOnPickaxe));
+                contents.set(2, 4, ClickableItem.of((getSetting(p, "prison_sell_on_pickaxe") == 1 ? enabled : disabled), e -> {
+                    if (contents.get(2, 4).get().getItem() == enabled) {
+                        Main.getInstance().getMySQL().updateSettings(p, "prison_sell_on_pickaxe", 0);
+                        p.sendMessage("§c§l[!] §cPorádávní pravým kliknutím s krumpáčem vypnuto!");
+                    } else {
+                        Main.getInstance().getMySQL().updateSettings(p, "prison_sell_on_pickaxe", 1);
+                        p.sendMessage("§e§l[*] §ePorádávní pravým kliknutím s krumpáčem zapnuto!");
+                    }
+                    contents.inventory().close(p);
+                }));
                 break;
             }
         }
@@ -303,6 +337,32 @@ public class ProfileSettingsGUI implements InventoryProvider {
 
     private int getSetting(Player p, String setting) {
         return Main.getInstance().getMySQL().getSettings(p, setting);
+    }
+
+    private ItemStack getCurrentGenderItemStack(Player p) {
+        int genderNumber = Main.getInstance().getMySQL().getGender(p);
+        String message = "§7Tvé momentální pohlaví je: ";
+        Material material = null;
+        switch (genderNumber) {
+            case 0:
+                message += "nechci uvádět";
+                material = Material.LIGHT_GRAY_WOOL;
+                break;
+            case 1:
+                message += "muž";
+                material = Material.BLUE_WOOL;
+                break;
+            case 2:
+                message += "žena";
+                material = Material.PINK_WOOL;
+                break;
+        }
+        return createItem(material, "§e§lNastavit pohlaví",
+                Arrays.asList(
+                        message,
+                        "",
+                        "§7Kliknutím si nastavíš pohlaví"
+                ));
     }
 
     public static String formatJoinMessageWithoutColors(Integer i, Player p) {

@@ -1013,6 +1013,47 @@ public class SQLManager {
         return -1;
     }
 
+
+    public final void updateGender(final Player p, final int value) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_profile SET gender = " + value + " WHERE nick = ?;");
+                    ps.setString(1, p.getName());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    Main.getInstance().sendSentryException(e);
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final int getGender(final Player p) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT gender FROM player_profile WHERE nick = '" + p.getName() + "'");
+            ps.executeQuery();
+            if (ps.getResultSet().next()) {
+                return ps.getResultSet().getInt("gender");
+            }
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return -1;
+    }
+
     public final String getSettingsString(final Player p, final String settings) {
         Connection conn = null;
         PreparedStatement ps = null;
