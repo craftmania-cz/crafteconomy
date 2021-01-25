@@ -4,7 +4,9 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.configs.Config;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,12 @@ public class RewardManager {
                 levelReward.setDescription(rewardKey.getStringList("description"));
                 levelReward.setRewardDescription(rewardKey.getStringList("reward_description"));
                 levelReward.setPermissions(rewardKey.getStringList("permissions"));
+                rewardKey.getStringList("items").forEach(item -> {
+                    String[] configItem = item.split(";");
+                    Logger.debug("Přidáno: " +configItem[0] + " (" + configItem[1] + ")");
+                    ItemStack itemStack = new ItemStack(Material.valueOf(configItem[0]), Integer.parseInt(configItem[1]));
+                    levelReward.addItem(itemStack);
+                });
 
                 rewards.add(levelReward);
                 Logger.debug("Server reward zaregistrovan: " + levelReward.getName() + ", level: " + levelReward.getLevel() +

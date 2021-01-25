@@ -44,7 +44,14 @@ public class LevelReward {
     }
 
     public LevelReward setItems(@NonNull final ItemStack... items) {
+        this.requireSlotInInventory = true;
         Collections.addAll(this.items, items);
+        return this;
+    }
+
+    public LevelReward addItem(@NotNull final ItemStack itemStack) {
+        this.requireSlotInInventory = true;
+        this.items.add(itemStack);
         return this;
     }
 
