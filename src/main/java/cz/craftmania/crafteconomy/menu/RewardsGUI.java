@@ -1,4 +1,4 @@
-package cz.craftmania.crafteconomy.rewards;
+package cz.craftmania.crafteconomy.menu;
 
 import cz.craftmania.craftcore.spigot.builders.items.ItemBuilder;
 import cz.craftmania.craftcore.spigot.inventory.builder.ClickableItem;
