@@ -263,7 +263,7 @@ public class BasicManager {
             level.getItems().forEach(itemStack -> {
                 if (level.isRequireSlotInInventory()) {
                     if (hasFullInventory(player)) { // Když full tak drop na zem
-                        player.getWorld().dropItem(player.getLocation(), itemStack);
+                        Bukkit.getScheduler().runTask(Main.getInstance(),() ->  player.getWorld().dropItem(player.getLocation(), itemStack));
                         announceDrop.set(true);
                     } else {
                         player.getInventory().addItem(itemStack);
