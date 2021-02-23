@@ -7,6 +7,7 @@ import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvide
 import cz.craftmania.craftcore.spigot.inventory.builder.content.Pagination;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.SkullCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -127,13 +128,17 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     if (p.hasPermission("craftlobby.vip.fly")) {
                         if (contents.get(2, 0).get().getItem() == enabled) {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_fly", 0);
-                            p.setAllowFlight(false);
-                            p.setFlying(false);
+                            if (Main.getServerType() == ServerType.LOBBY) {
+                                p.setAllowFlight(false);
+                                p.setFlying(false);
+                            }
                             p.sendMessage("§c§l[!] §cFly na lobby bylo deaktivováno!");
                         } else {
                             Main.getInstance().getMySQL().updateSettings(p, "lobby_fly", 1);
-                            p.setAllowFlight(true);
-                            p.setFlying(true);
+                            if (Main.getServerType() == ServerType.LOBBY) {
+                                p.setAllowFlight(true);
+                                p.setFlying(true);
+                            }
                             p.sendMessage("§e§l[*] §eFly na lobby bylo aktivováno!");
                         }
                     } else {
