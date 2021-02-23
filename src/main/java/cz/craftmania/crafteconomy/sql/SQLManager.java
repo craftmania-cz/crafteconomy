@@ -666,7 +666,7 @@ public class SQLManager {
 
             try {
                 conn = pool.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM `economy_" + server + "_log` WHERE `r_uuid` = ? OR `s_uuid` = ? ORDER BY `time` DESC;");
+                ps = conn.prepareStatement("SELECT * FROM logs.economy_" + server + "_log WHERE `r_uuid` = ? OR `s_uuid` = ? ORDER BY `time` DESC;");
                 ps.setString(1, uuid.toString());
                 ps.setString(2, uuid.toString());
 
@@ -711,7 +711,7 @@ public class SQLManager {
 
             try {
                 conn = pool.getConnection();
-                ps = conn.prepareStatement("SELECT * FROM `economy_" + server + "_log` WHERE `reciever` = ? OR `sender` = ? ORDER BY `time` DESC;");
+                ps = conn.prepareStatement("SELECT * FROM logs.economy_" + server + "_log WHERE `reciever` = ? OR `sender` = ? ORDER BY `time` DESC;");
                 ps.setString(1, nickname);
                 ps.setString(2, nickname);
 
