@@ -26,9 +26,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly ('cz.craftmania.crafteconomy:crafteconomy:1.3.3') {
-        exclude group: 'io.github.jorelali'
-    }
+    compileOnly group: 'cz.craftmania.crafteconomy', name:'crafteconomy', version: '1.4.1'
 }
 ```
 
@@ -43,6 +41,6 @@ dependencies {
 <dependency>
     <groupId>cz.craftmania.crafteconomy</groupId>
     <artifactId>crafteconomy</artifactId>
-    <version>1.3.3</version>
+    <version>1.4.1</version>
 </dependency>
 ```
