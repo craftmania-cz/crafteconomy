@@ -192,6 +192,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (!isCraftCoreEnabled) {
             Logger.danger("CraftCore není na serveru! Hodně funkcí je deaktivováných.");
         }
+
+        VoteManager.loadVotePassRewards();
     }
 
     @Override
@@ -261,6 +263,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (isCraftCoreEnabled) {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());
+            manager.registerCommand(new VotePassCommand());
         }
     }
 

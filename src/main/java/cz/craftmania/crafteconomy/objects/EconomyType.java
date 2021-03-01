@@ -11,6 +11,7 @@ public enum EconomyType {
     WEEK_VOTES,
     MONTH_VOTES,
     TOTAL_VOTES,
+    VOTE_PASS,
 
     ACHIEVEMENT_POINTS,
     QUEST_POINTS, //TODO: Přepnout ve finále
