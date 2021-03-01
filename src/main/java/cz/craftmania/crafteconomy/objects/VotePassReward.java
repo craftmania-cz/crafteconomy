@@ -16,7 +16,7 @@ public class VotePassReward implements Comparable<VotePassReward> {
     private boolean requireVotepassPlus = false; // Placený VotePass
     private boolean requireSlotInInventory = false;
     private List<String> permissions = new ArrayList<>();
-    private HashMap<ServerType, String> commands = new HashMap<>();
+    private List<ServerCommand> commands = new ArrayList<>();
     private Material itemMaterial = Material.PAPER;
     private long craftcoins = 0;
     private long crafttokens = 0;
@@ -74,7 +74,7 @@ public class VotePassReward implements Comparable<VotePassReward> {
     }
 
     public VotePassReward setServerCommand(final ServerType server, final String command) {
-        this.commands.put(server, command);
+        this.commands.add(new ServerCommand(server, command));
         return this;
     }
 
@@ -137,7 +137,7 @@ public class VotePassReward implements Comparable<VotePassReward> {
         return permissions;
     }
 
-    public HashMap<ServerType, String> getCommands() {
+    public List<ServerCommand> getCommands() {
         return commands;
     }
 

@@ -10,6 +10,7 @@ import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.VotePassReward;
 import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -89,8 +90,8 @@ public class VotePassGUI implements InventoryProvider {
                         .setName("§6" + votePassReward.getName() + " (" + votePassReward.getRequiredVotes() + " hlasů)").setLore(lore).build()));
                 return;
             }
-            if (votePassReward.getCommands().size() > 0 && !votePassReward.getCommands().containsKey(Main.getServerType())
-                    && !votePassReward.getCommands().containsKey(ServerType.UNKNOWN)) { // Je na serveru, kde se odměna nadí vybrat
+            if (votePassReward.getCommands().size() > 0 && votePassReward.getCommands().stream().noneMatch(serverCommand -> serverCommand.getServerType() == Main.getServerType())
+                    && votePassReward.getCommands().stream().noneMatch(serverCommand -> serverCommand.getServerType() == ServerType.UNKNOWN)) { // Je na serveru, kde se odměna nadí vybrat
                 final ArrayList<String> lore = new ArrayList<>();
                 lore.add("§7Získáš:");
                 lore.addAll(votePassReward.getDescription());
@@ -125,12 +126,13 @@ public class VotePassGUI implements InventoryProvider {
                     LevelAPI.addExp(player, manager.getExperienceByServer(), (int) votePassReward.getServerExperience());
                 }
 
-                votePassReward.getCommands().forEach((serverType, command) -> {
-                    if (serverType == Main.getServerType() || serverType == ServerType.UNKNOWN) {
-                        Logger.info("VotePass příkaz: " + command);
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()).replace("%server%", Main.getServerType().name().toLowerCase()));
+                votePassReward.getCommands().forEach((serverCommand -> {
+                    if (serverCommand.getServerType() == Main.getServerType() || serverCommand.getServerType() == ServerType.UNKNOWN) {
+                        Logger.info("VotePass příkaz: " + serverCommand.getCommand());
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), serverCommand.getCommand().replace("%player%", player.getName()).replace("%server%", Main.getServerType().name().toLowerCase()));
                     }
-                });
+                }));
+
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set crafteconomy.votepass.reward." + votePassReward.getId());
                 player.sendMessage("§e§l[!] §eVybral jsi si odměnu z VotePassu §f" + votePassReward.getName());
                 player.closeInventory();
