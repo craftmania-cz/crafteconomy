@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProfileGUI implements InventoryProvider  {
+public class ProfileGUI implements InventoryProvider {
 
     private Pagination pagination;
 

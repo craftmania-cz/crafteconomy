@@ -36,10 +36,11 @@ public class CraftPlayer {
     private long hardcoreVanillaExperience = 0;
 
     // Votes
-    private long week_votes = 0;
-    private long month_votes = 0;
-    private long total_votes = 0;
-    private long last_vote = 0;
+    private long weekVotes = 0;
+    private long monthVotes = 0;
+    private long totalVotes = 0;
+    private long lastVote = 0;
+    private long votePass = 0;
 
     // Vault economy
     private long serverMoney = -1;
@@ -54,10 +55,18 @@ public class CraftPlayer {
     // Player settings
     private boolean payToggle = false;
 
-    public CraftPlayer() {
-    }
+    /**
+     * Prázdný objekt
+     */
+    public CraftPlayer() {}
 
-    public CraftPlayer(@NonNull final Player player) {
+    /**
+     * Vytvoří objekt {@link CraftPlayer} podle zadaného hráče a načte data z DB.
+     * <b>Nepoužívat pro klasické použití.</b>
+     *
+     * @param player {@link Player}
+     */
+    public CraftPlayer(@NonNull final Player player) { //TODO: DDoS MySQL? xD
         this.player = player;
         this.multipliers = new HashSet<>();
         this.coins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player.getUniqueId());
@@ -76,9 +85,10 @@ public class CraftPlayer {
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
         this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
-        this.total_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
-        this.month_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
-        this.week_votes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
+        this.totalVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
+        this.monthVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
+        this.weekVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
+        this.votePass = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_PASS, player.getUniqueId());
         this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
         this.hardcoreVanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_LEVEL, player.getUniqueId());
         this.hardcoreVanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_EXPERIENCE, player.getUniqueId());
@@ -87,6 +97,14 @@ public class CraftPlayer {
         recalculateGlobalLevel();
     }
 
+    /**
+     * Metoda pro vytvoření objektu {@link CraftPlayer}
+     *
+     * @param player Zvolený hráč {@link Player}
+     * @param coins Počáteční počet CraftCoins
+     * @param tokens Počáteční počet CraftTokens
+     * @param voteTokens Počáteční počet VoteTokens
+     */
     public CraftPlayer(@NonNull final Player player, final long coins, final long tokens, final long voteTokens) {
         this.player = player;
         this.coins = coins;
@@ -96,18 +114,34 @@ public class CraftPlayer {
         recalculateGlobalLevel();
     }
 
+    /**
+     * Vrací bukkit hráče
+     * @return {@link Player}
+     */
+    @NonNull
     public Player getPlayer() {
         return this.player;
     }
 
+    /**
+     * Vrací UUID handlované serverem
+     * @return {@link UUID}
+     */
+    @NonNull
     public UUID getUUID() {
         return this.player.getUniqueId();
     }
 
+    @Deprecated
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    /**
+     * Vrací počet CraftCoins
+     *
+     * @return {@link Long}
+     */
     public long getCoins() {
         return coins;
     }
@@ -157,19 +191,19 @@ public class CraftPlayer {
     }
 
     public long getTotalVotes() {
-        return total_votes;
+        return totalVotes;
     }
 
     public long getMonthVotes() {
-        return month_votes;
+        return monthVotes;
     }
 
     public long getWeekVotes() {
-        return week_votes;
+        return weekVotes;
     }
 
     public long getLastVoteTime() {
-        return last_vote;
+        return lastVote;
     }
 
     public long getEventPoints() {
@@ -180,34 +214,82 @@ public class CraftPlayer {
         this.eventPoints = eventPoints;
     }
 
+    /**
+     * Přidá 1 hlas k <b>week</b> votes v cache.
+     */
     public void addWeekVote() {
-        this.week_votes++;
+        this.weekVotes++;
     }
 
+    /**
+     * Přidá 1 hlas k <b>month</b> votes v cache.
+     */
     public void addMonthVote() {
-        this.month_votes++;
+        this.monthVotes++;
     }
 
+    /**
+     * Přidá 1 hlas k <b>total</b> votes v cache.
+     */
     public void addTotalVote() {
-        this.total_votes++;
+        this.totalVotes++;
     }
 
+    /**
+     * Tato metoda přidá do cache všechny typy hasů - week, month, total a votepass
+     * Alternative k {@link #addWeekVote()}, {@link #addMonthVote()} a {@link #addTotalVote()}.
+     *
+     */
+    public void addVote() {
+        this.weekVotes++;
+        this.monthVotes++;
+        this.totalVotes++;
+        this.votePass++;
+    }
+
+    /**
+     * Nastaví čas v ms posledního hlasování.
+     * Používá se ke kontrole duplikací hlasů.
+     *
+     * @param last_vote Čas v ms
+     */
     public void setLastVote(long last_vote) {
-        this.last_vote = last_vote;
+        this.lastVote = last_vote;
     }
 
+    /**
+     * Vrací hodnotu peněz na serveru z cache. (Vault)
+     *
+     * @return {@link Long}
+     */
     public long getMoney() {
         return serverMoney;
     }
 
+    /**
+     * Nastavuje novou hodnotu peněz v cache. (Vault)
+     *
+     * @param serverMoney Počet peněz - musí být finální počet
+     */
     public void setMoney(long serverMoney) {
         this.serverMoney = serverMoney;
     }
 
+    /**
+     * Vrací hodnotu, zda je hráč AFK nebo ne.
+     *
+     * @return {@link Boolean}
+     */
     public boolean isAfk() {
         return isAfk;
     }
 
+    /**
+     * Nastaví zda je hráč AFK, když ano tak nebude dostávat expy
+     * ve světě podle configu.
+     *
+     * @param afk {@link Boolean}
+     */
     public void setAfk(boolean afk) {
         isAfk = afk;
     }
@@ -220,6 +302,32 @@ public class CraftPlayer {
         return payToggle;
     }
 
+    /**
+     * Vrací aktuální hodnotu VotePassu.
+     * VotePass = 2x měsíční hlasy může tedy odpovídat hodnotě měsíčních hlasů.
+     *
+     * @return {@link Long}
+     */
+    public long getVotePass() {
+        return votePass;
+    }
+
+    /**
+     * Nastavuje počet hlasů pro aktuální VotePass
+     *
+     * @param votePass {@link Long}
+     */
+    public void setVotePass(long votePass) {
+        this.votePass = votePass;
+    }
+
+    /**
+     * Metoda rozlišující různé typy server levels.
+     *
+     * @param type Typ serveru {@link LevelType}
+     * @return Level zvoleného serveru v {@link Long}
+     * @throws IllegalStateException když {@link LevelType} neexistuje.
+     */
     public long getLevelByType(@NonNull final LevelType type) {
         switch(type) {
             case GLOBAL_LEVEL:

@@ -88,16 +88,16 @@ public class SQLManager {
         }
     }
 
-    public final CraftPlayer getCraftPlayerFromSQL(final Player p) {
+    public final CraftPlayer getCraftPlayerFromSQL(final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT player_profile.*, player_settings.paytoggle FROM player_profile, player_settings WHERE player_profile.uuid = ? AND player_profile.nick = player_settings.Nick;");
-            ps.setString(1, p.getUniqueId().toString());
+            ps.setString(1, player.getUniqueId().toString());
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                CraftPlayer craftPlayer = new CraftPlayer(p,
+                CraftPlayer craftPlayer = new CraftPlayer(player, //TODO: Změnit?!
                         ps.getResultSet().getLong("craftcoins"),
                         ps.getResultSet().getLong("crafttokens"),
                         ps.getResultSet().getLong("votetokens_2"));
@@ -116,6 +116,7 @@ public class SQLManager {
                 craftPlayer.setQuestPoints(ps.getResultSet().getLong("achievement_points"));
                 craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
                 craftPlayer.setEventPoints(ps.getResultSet().getLong("event_points"));
+                craftPlayer.setVotePass(ps.getResultSet().getLong("vote_pass"));
                 return craftPlayer;
             }
         } catch (Exception e) {
@@ -467,7 +468,7 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("UPDATE player_profile SET total_votes = total_votes + 1, week_votes = week_votes + 1, month_votes = month_votes + 1, last_vote = '" + System.currentTimeMillis() + "' WHERE nick = '" + p + "';");
+                    ps = conn.prepareStatement("UPDATE player_profile SET total_votes = total_votes + 1, week_votes = week_votes + 1, month_votes = month_votes + 1, vote_pass = vote_pass + 1, last_vote = '" + System.currentTimeMillis() + "' WHERE nick = '" + p + "';");
                     ps.executeUpdate();
                 } catch (Exception e) {
                     Main.getInstance().sendSentryException(e);
@@ -517,6 +518,7 @@ public class SQLManager {
         }
     }
 
+    @Deprecated
     public final void createPlayerProfileTable() {
         new BukkitRunnable() {
             @Override
@@ -743,116 +745,6 @@ public class SQLManager {
         });
 
         return completableFuture;
-    }
-
-    /*public Map<Integer, List> getVaultAllLogsByUUID(String UUIDstring) {
-        Map<Integer, List> listMap = new HashMap<Integer, List>();
-        List<String> recieverNick = new ArrayList<>();
-        List<String> recieverUUID = new ArrayList<>();
-        List<String> senderNick = new ArrayList<>();
-        List<String> senderUUID = new ArrayList<>();
-        List<String> action = new ArrayList<>();
-        List<Long> amount = new ArrayList<>();
-        List<Long> time = new ArrayList<>();
-
-        final String server = Main.getServerType().name().toLowerCase();
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `r_uuid` = \"" + UUIDstring + "\" ORDER BY `economy_" + server + "_log`.`time` DESC");
-            ps.executeQuery();
-            while (ps.getResultSet().next()) {
-                recieverNick.add(ps.getResultSet().getString("reciever"));
-                recieverUUID.add(ps.getResultSet().getString("r_uuid"));
-                senderNick.add(ps.getResultSet().getString("sender"));
-                senderUUID.add(ps.getResultSet().getString("s_uuid"));
-                action.add(ps.getResultSet().getString("action"));
-                amount.add(ps.getResultSet().getLong("amount"));
-                time.add(ps.getResultSet().getLong("time"));
-            }
-        } catch (Exception e) {
-            Main.getInstance().sendSentryException(e);
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-
-        listMap.put(1, recieverNick);
-        listMap.put(2, recieverUUID);
-        listMap.put(3, senderNick);
-        listMap.put(4, senderUUID);
-        listMap.put(5, action);
-        listMap.put(6, amount);
-        listMap.put(7, time);
-        return listMap;
-    }
-
-    public Map<Integer, List> getVaultAllLogsByNickname(String playerNickname) {
-        Map<Integer, List> listMap = new HashMap<Integer, List>();
-        List<String> recieverNick = new ArrayList<>();
-        List<String> recieverUUID = new ArrayList<>();
-        List<String> senderNick = new ArrayList<>();
-        List<String> senderUUID = new ArrayList<>();
-        List<String> action = new ArrayList<>();
-        List<Long> amount = new ArrayList<>();
-        List<Long> time = new ArrayList<>();
-
-        final String server = Main.getServerType().name().toLowerCase();
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `reciever`, `r_uuid`, `sender`, `s_uuid`, `action`, `amount`, `time` FROM `economy_" + server + "_log` WHERE `action` <> \"PAY_COMMAND\" AND `reciever` = \"" + playerNickname+ "\" ORDER BY `economy_" + server + "_log`.`time` DESC");
-            ps.executeQuery();
-            while (ps.getResultSet().next()) {
-                recieverNick.add(ps.getResultSet().getString("reciever"));
-                recieverUUID.add(ps.getResultSet().getString("r_uuid"));
-                senderNick.add(ps.getResultSet().getString("sender"));
-                senderUUID.add(ps.getResultSet().getString("s_uuid"));
-                action.add(ps.getResultSet().getString("action"));
-                amount.add(ps.getResultSet().getLong("amount"));
-                time.add(ps.getResultSet().getLong("time"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-
-        listMap.put(1, recieverNick);
-        listMap.put(2, recieverUUID);
-        listMap.put(3, senderNick);
-        listMap.put(4, senderUUID);
-        listMap.put(5, action);
-        listMap.put(6, amount);
-        listMap.put(7, time);
-        return listMap;
-    }*/
-
-    public List<Long> getVaultAllEcos() {
-        List<Long> balances = new ArrayList<>();
-
-        final String server = Main.getServerType().name().toLowerCase();
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0");
-            ps.executeQuery();
-            while (ps.getResultSet().next()) {
-                balances.add(ps.getResultSet().getLong("balance"));
-            }
-        } catch (Exception e) {
-            Main.getInstance().sendSentryException(e);
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return balances;
     }
 
     public final UUID fetchUUIDbyName(final String name) {
