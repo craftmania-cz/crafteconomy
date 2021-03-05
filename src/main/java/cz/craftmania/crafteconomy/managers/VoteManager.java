@@ -164,6 +164,7 @@ public class VoteManager {
         reward_8.setServerCommand(ServerType.SURVIVAL, "lp user %player% permission settemp asedit.* 7d survival");
         reward_8.setServerCommand(ServerType.SKYBLOCK, "lp user %player% permission settemp asedit.* 7d skyblock");
         reward_8.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp asedit.* 7d creative");
+        reward_8.setServerCommand(ServerType.VANILLA, "lp user %player% permission settemp asedit.* 7d vanilla");
         reward_8.setMaterial(Material.ARMOR_STAND);
         votePassRewards.add(reward_8);
 
@@ -372,15 +373,15 @@ public class VoteManager {
 
         // PAGE 2
 
-        // Reward+: 8 - 500 Server XP, SB Minion Boost - 75% - 12h
+        // Reward+: 8 - 500 Server XP, 2x SB Minion Boost - 50% - 12h
         VotePassReward reward_plus_8 = new VotePassReward(22);
         reward_plus_8.setName("Tier+: 8");
-        reward_plus_8.setDescription("§8- §f500 Server XP", "§8- §fSkyblock: Minion Boost 75% - 12h");
+        reward_plus_8.setDescription("§8- §f750 Server XP", "§8- §f2x Skyblock: Minion Boost 75% - 12h");
         reward_plus_8.setRequiredVotePassPlus();
         reward_plus_8.setRequiredVotes(80);
-        reward_plus_8.setServerExperience(500);
+        reward_plus_8.setServerExperience(750);
         reward_plus_8.setRequiredSlotInInventory();
-        reward_plus_8.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
+        reward_plus_8.setServerCommand(ServerType.SKYBLOCK, "msetup give fuel red_dye_50 %player% 2");
         reward_plus_8.setMaterial(Material.PRISMARINE_SHARD);
         votePassRewards.add(reward_plus_8);
 
