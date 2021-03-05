@@ -775,9 +775,10 @@ public class SQLManager {
             PreparedStatement ps = null;
             try {
                 conn = pool.getConnection();
-                ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ? WHERE nick = ?");
+                ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ?, last_update = ? WHERE nick = ?");
                 ps.setLong(1, amount);
-                ps.setString(2, player);
+                ps.setLong(2, System.currentTimeMillis());
+                ps.setString(3, player);
                 ps.executeUpdate();
             } catch (Exception e) {
                 Main.getInstance().sendSentryException(e);
