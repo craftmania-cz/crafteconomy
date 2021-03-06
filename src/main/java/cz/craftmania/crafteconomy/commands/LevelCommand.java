@@ -37,7 +37,7 @@ public class LevelCommand extends BaseCommand {
             p.sendMessage("§eCelkový level: §f" + totalGlobalLevel);
             p.sendMessage("§eServer levels: ");
             p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
-            p.sendMessage("§8- §3Cloud §7[" + craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL) + "§7], §cHVani §7[" + craftPlayer.getLevelByType(LevelType.HARDCORE_VANILLA_LEVEL) + "§7], §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "]");
+            p.sendMessage("§8- §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "], §cVan-Anar §7[ " + craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL) + "]");
             p.sendMessage("§bKarma: §f0");
             p.sendMessage("§dQuest Points: §f" + craftPlayer.getQuestPoints());
             p.sendMessage("");
@@ -46,7 +46,7 @@ public class LevelCommand extends BaseCommand {
     }
 
     @Default
-    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud|hardcore-vanilla|prison")
+    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud|hardcore-vanilla|prison|anarchy")
     @Syntax("[server]")
     public void showLevelByServer(CommandSender sender, String server) {
         if (sender instanceof Player) {
@@ -72,6 +72,9 @@ public class LevelCommand extends BaseCommand {
                     break;
                 case "prison":
                     generateServerLevelMessage(player, "Prison", LevelType.PRISON_LEVEL, LevelType.PRISON_EXPERIENCE);
+                    break;
+                case "anarchy":
+                    generateServerLevelMessage(player, "Vanilla: Anarchy", LevelType.ANARCHY_LEVEL, LevelType.ANARCHY_EXPERIENCE);
                     break;
             }
         }

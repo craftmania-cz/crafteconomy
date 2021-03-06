@@ -12,6 +12,7 @@ public enum ServerType {
     EVENT_SERVER,
     SKYGRID,
     HARDCORE_VANILLA,
+    ANARCHY,
     UNKNOWN;
 
     ServerType() {}

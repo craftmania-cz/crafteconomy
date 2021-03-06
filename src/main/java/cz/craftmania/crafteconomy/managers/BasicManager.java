@@ -136,6 +136,8 @@ public class BasicManager {
                 return LevelType.PRISON_EXPERIENCE;
             case HARDCORE_VANILLA:
                 return LevelType.HARDCORE_VANILLA_EXPERIENCE;
+            case ANARCHY:
+                return LevelType.ANARCHY_EXPERIENCE;
         }
         return null;
     }
@@ -161,6 +163,8 @@ public class BasicManager {
                 return LevelType.PRISON_LEVEL;
             case HARDCORE_VANILLA:
                 return LevelType.HARDCORE_VANILLA_LEVEL;
+            case ANARCHY:
+                return LevelType.ANARCHY_LEVEL;
         }
         return null;
     }
@@ -186,6 +190,8 @@ public class BasicManager {
                 return LevelType.PRISON_LEVEL;
             case "hardcore-vanilla":
                 return LevelType.HARDCORE_VANILLA_LEVEL;
+            case "anarchy":
+                return LevelType.ANARCHY_LEVEL;
         }
         return null;
     }
@@ -211,6 +217,8 @@ public class BasicManager {
                 return LevelType.PRISON_EXPERIENCE;
             case "hardcore-vanilla":
                 return LevelType.HARDCORE_VANILLA_EXPERIENCE;
+            case "anarchy":
+                return LevelType.ANARCHY_EXPERIENCE;
         }
         return null;
     }

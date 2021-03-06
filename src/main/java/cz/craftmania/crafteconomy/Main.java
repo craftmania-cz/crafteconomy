@@ -421,6 +421,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             return ServerType.EVENT_SERVER;
         } else if (type.equalsIgnoreCase("hardcore-vanilla")) {
             return ServerType.HARDCORE_VANILLA;
+        } else if (type.equalsIgnoreCase("anarchy")) {
+            return ServerType.ANARCHY;
         } else {
             return ServerType.UNKNOWN;
         }

@@ -26,6 +26,9 @@ public enum LevelType {
     
     HARDCORE_VANILLA_LEVEL,
     HARDCORE_VANILLA_EXPERIENCE,
+
+    ANARCHY_LEVEL,
+    ANARCHY_EXPERIENCE
     ;
 
     LevelType() {

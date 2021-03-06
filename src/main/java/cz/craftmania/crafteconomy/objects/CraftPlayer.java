@@ -34,6 +34,8 @@ public class CraftPlayer {
     private long skycloudExperience = 0;
     private long hardcoreVanillaLevel = 1;
     private long hardcoreVanillaExperience = 0;
+    private long anarchyLevel = 1;
+    private long anarchyExperience = 0;
 
     // Votes
     private long weekVotes = 0;
@@ -92,6 +94,8 @@ public class CraftPlayer {
         this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
         this.hardcoreVanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_LEVEL, player.getUniqueId());
         this.hardcoreVanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_EXPERIENCE, player.getUniqueId());
+        this.anarchyLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_LEVEL, player.getUniqueId());
+        this.anarchyExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_EXPERIENCE, player.getUniqueId());
 
         this.payToggle = (Main.getInstance().getMySQL().getSettings(player, "paytoggle") != 0);
         recalculateGlobalLevel();
@@ -347,6 +351,8 @@ public class CraftPlayer {
                 return this.skycloudLevel;
             case HARDCORE_VANILLA_LEVEL:
                 return this.hardcoreVanillaLevel;
+            case ANARCHY_LEVEL:
+                return this.anarchyLevel;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -378,6 +384,9 @@ public class CraftPlayer {
             case HARDCORE_VANILLA_LEVEL:
                 this.hardcoreVanillaLevel = level;
                 break;
+            case ANARCHY_LEVEL:
+                this.anarchyLevel = level;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -399,6 +408,8 @@ public class CraftPlayer {
                 return this.skycloudExperience;
             case HARDCORE_VANILLA_EXPERIENCE:
                 return this.hardcoreVanillaExperience;
+            case ANARCHY_EXPERIENCE:
+                return this.anarchyExperience;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -430,6 +441,9 @@ public class CraftPlayer {
             case HARDCORE_VANILLA_EXPERIENCE:
                 this.hardcoreVanillaExperience = experience;
                 break;
+            case ANARCHY_EXPERIENCE:
+                this.anarchyExperience = experience;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -447,6 +461,7 @@ public class CraftPlayer {
         finalValue += canBeAdded(this.skycloudLevel);
         finalValue += canBeAdded(this.prisonLevel);
         finalValue += canBeAdded(this.hardcoreVanillaLevel);
+        finalValue += canBeAdded(this.anarchyLevel);
         // Pokud je level větší jak 1, nezapočítávat default 1 level jinak by došlo k +1 navýšení získaných levelů.
         this.globalLevel = finalValue > 1 ? --finalValue : finalValue;
     }
