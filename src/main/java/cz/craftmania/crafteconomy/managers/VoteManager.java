@@ -40,13 +40,14 @@ public class VoteManager {
         craftPlayer.setLastVote(System.currentTimeMillis());
 
         if (Main.isCraftCoreEnabled) {
-            Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal/a jsi 1x VoteToken.");
+            Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal(a) jsi 1x VoteToken.");
         }
 
         Bukkit.getPluginManager().callEvent(new PlayerVoteEvent(player));
         player.sendMessage(" ");
         player.sendMessage("§bVyber si odměnu jakou chceš!");
         player.sendMessage("§eStačí zajít do §f/cshop §ea zvolit si odměnu za VoteTokeny.");
+        player.sendMessage("§6Nezapomeň si vybírat odměny v §f/votepass");
         player.sendMessage("");
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage("§b" + player.getName() + " §ehlasoval a získal §aodměnu! §c/vote");
