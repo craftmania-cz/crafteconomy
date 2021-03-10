@@ -3,6 +3,7 @@ package cz.craftmania.crafteconomy.objects;
 import lombok.NonNull;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +14,7 @@ public class LevelReward {
     private int level;
     private String name = "[Unknown]";
     private List<String> description = new ArrayList<>();
-    private List<String> rewardDescription = new ArrayList<>();
+    private String rewardDescription = null;
     private boolean requireSlotInInventory = false;
     private List<ItemStack> items = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
@@ -33,8 +34,8 @@ public class LevelReward {
         return this;
     }
 
-    public LevelReward setRewardDescription(final @NotNull List<String> description) {
-        this.rewardDescription = description;
+    public LevelReward setRewardDescription(final @NotNull String rewardDescription) {
+        this.rewardDescription = rewardDescription;
         return this;
     }
 
@@ -72,7 +73,8 @@ public class LevelReward {
         return description;
     }
 
-    public List<String> getRewardDescription() {
+    @Nullable
+    public String getRewardDescription() {
         return rewardDescription;
     }
 

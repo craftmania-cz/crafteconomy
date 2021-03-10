@@ -290,9 +290,9 @@ public class BasicManager {
             player.sendMessage("§b" + Constants.CHAT_BOXES);
             player.sendMessage("");
             player.sendMessage("§9§lOdmena za level: §f" + level.getLevel());
-            level.getRewardDescription().forEach(description -> {
-                player.sendMessage("§7" + description);
-            });
+            if (level.getRewardDescription() != null) {
+                player.sendMessage(level.getRewardDescription());
+            }
             player.sendMessage("");
             player.sendMessage("§b" + Constants.CHAT_BOXES);
         }

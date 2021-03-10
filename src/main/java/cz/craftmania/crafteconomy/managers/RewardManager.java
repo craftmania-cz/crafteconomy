@@ -31,7 +31,7 @@ public class RewardManager {
                 LevelReward levelReward = new LevelReward(Integer.parseInt(key));
                 levelReward.setName(rewardKey.getString("name"));
                 levelReward.setDescription(rewardKey.getStringList("description"));
-                levelReward.setRewardDescription(rewardKey.getStringList("reward_description"));
+                levelReward.setRewardDescription(rewardKey.getString("reward_description"));
                 levelReward.setPermissions(rewardKey.getStringList("permissions"));
                 rewardKey.getStringList("items").forEach(item -> {
                     String[] configItem = item.split(";");
