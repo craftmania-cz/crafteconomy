@@ -466,15 +466,15 @@ public class VoteManager {
         reward_plus_15.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_15);
 
-        // Reward+: 16 - Skyblock: Minion AutoSell (1x)
+        // Reward+: 16 - Morph: Husk
         VotePassReward reward_plus_16 = new VotePassReward(37);
         reward_plus_16.setName("Tier+: 16");
-        reward_plus_16.setDescription("§8- §fSkyblock: Minion AutoSell");
+        reward_plus_16.setDescription("§8- §fMorph: Husk");
         reward_plus_16.setRequiredVotePassPlus();
         reward_plus_16.setRequiredSlotInInventory();
-        reward_plus_16.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
+        reward_plus_16.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.husk");
         reward_plus_16.setRequiredVotes(190);
-        reward_plus_16.setMaterial(Material.WRITTEN_BOOK);
+        reward_plus_16.setMaterial(Material.SAND);
         votePassRewards.add(reward_plus_16);
 
         // Reward+: 17 - Hats: Legendary Lion
