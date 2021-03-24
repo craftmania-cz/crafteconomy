@@ -247,7 +247,7 @@ public class VoteManager {
         reward_15.setName("Tier: 15");
         reward_15.setDescription("§8- §f1200 CraftCoins");
         reward_15.setRequiredVotes(175);
-        reward_15.setCraftTokens(1200);
+        reward_15.setCraftCoins(1200);
         reward_15.setMaterial(Material.GOLD_INGOT);
         votePassRewards.add(reward_15);
 
