@@ -137,7 +137,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
 
         if (isLuxuryQuestEnabled) {
-            Logger.info("Questy jsou aktivní...");
+            Logger.info("LuxuryQuests detekováno, rewardy za questy jsou aktivní.");
             QuestManager.loadQuests();
         }
 
