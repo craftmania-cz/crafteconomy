@@ -23,6 +23,7 @@ public class VotePassReward implements Comparable<VotePassReward> {
     private long serverExperience = 0;
     private ServerType requiredServer = ServerType.UNKNOWN;
     private boolean isEmpty = false;
+    private boolean temporaryDisabled = false;
 
     public VotePassReward() {};
 
@@ -113,6 +114,15 @@ public class VotePassReward implements Comparable<VotePassReward> {
         return this;
     }
 
+    /**
+     * Nastavení, když odměna není dokončená, uveřejněná nebo byla bugnutá.
+     * @return
+     */
+    public VotePassReward setTemporaryDisabled() {
+        this.temporaryDisabled = true;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -163,6 +173,10 @@ public class VotePassReward implements Comparable<VotePassReward> {
 
     public boolean isEmpty() {
         return isEmpty;
+    }
+
+    public boolean isTemporaryDisabled() {
+        return temporaryDisabled;
     }
 
     @Override

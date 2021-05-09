@@ -101,6 +101,15 @@ public class VotePassGUI implements InventoryProvider {
                         .setName("§a" + votePassReward.getName() + " (" + votePassReward.getRequiredVotes() + " hlasů)").setLore(lore).build()));
                 return;
             }
+            if (votePassReward.isTemporaryDisabled()) {
+                final ArrayList<String> lore = new ArrayList<>();
+                lore.add("§7Item, je dočasně deaktivovaný.");
+                lore.add("§7Pravděpodobně z důvodu bugu nebo uveřejnění.");
+                lore.add("§cNelze jej vybrat.");
+                items.add(ClickableItem.empty(new ItemBuilder(Material.BARRIER)
+                        .setName("§c" + votePassReward.getName() + " (" + votePassReward.getRequiredVotes() + " hlasů)").setLore(lore).build()));
+                return;
+            }
             final ArrayList<String> lore = new ArrayList<>();
             lore.add("§7Získáš:");
             lore.addAll(votePassReward.getDescription());

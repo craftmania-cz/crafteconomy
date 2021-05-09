@@ -224,6 +224,7 @@ public class VoteManager {
         reward_13.setName("Tier: 13");
         reward_13.setRequiredVotes(145);
         reward_13.setDescription("§8- §fSkyblock: Gold Ore Minion");
+        reward_13.setTemporaryDisabled();
         reward_13.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
         reward_13.setMaterial(Material.GOLD_ORE);
         votePassRewards.add(reward_13);
@@ -426,6 +427,7 @@ public class VoteManager {
         reward_plus_10.setRequiredVotePassPlus();
         reward_plus_10.setRequiredVotes(100);
         reward_plus_10.setRequiredSlotInInventory();
+        reward_plus_10.setTemporaryDisabled();
         reward_plus_10.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
         reward_plus_10.setServerCommand(ServerType.SURVIVAL, ""); //TODO: Dodělat
         reward_plus_10.setMaterial(Material.CHEST);
@@ -465,6 +467,7 @@ public class VoteManager {
         reward_plus_13.setName("Tier+: 13");
         reward_plus_13.setDescription("§8- §fSkyblock: Iron Ore Minion");
         reward_plus_13.setRequiredVotePassPlus();
+        reward_plus_13.setTemporaryDisabled();
         reward_plus_13.setServerCommand(ServerType.SKYBLOCK, ""); // TODO: Dodělat
         reward_plus_13.setRequiredVotes(145);
         reward_plus_13.setMaterial(Material.IRON_ORE);
@@ -525,6 +528,7 @@ public class VoteManager {
         reward_plus_18.setName("Tier+: 18");
         reward_plus_18.setDescription("§8- §f1x VoidChest");
         reward_plus_18.setRequiredVotePassPlus();
+        reward_plus_18.setTemporaryDisabled();
         reward_plus_18.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
         reward_plus_18.setRequiredVotes(220);
         reward_plus_18.setMaterial(Material.CHEST);
@@ -545,6 +549,7 @@ public class VoteManager {
         reward_plus_20.setName("Tier+: 20");
         reward_plus_20.setDescription("§8- §fItem: Baby Yoda");
         reward_plus_20.setRequiredVotePassPlus();
+        reward_plus_20.setTemporaryDisabled();
         reward_plus_20.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
         reward_plus_20.setRequiredVotes(250);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
@@ -555,6 +560,7 @@ public class VoteManager {
         reward_plus_21.setName("Tier+: 21 (Bonus)");
         reward_plus_21.setDescription("§8- §fHats: Yoda");
         reward_plus_21.setRequiredVotePassPlus();
+        reward_plus_21.setTemporaryDisabled();
         reward_plus_21.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
         reward_plus_21.setRequiredVotes(300);
         reward_plus_21.setMaterial(Material.NETHER_STAR);
