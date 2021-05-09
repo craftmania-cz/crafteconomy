@@ -65,7 +65,7 @@ public class RewardsGUI implements InventoryProvider {
         contents.fillRow(5, ClickableItem.empty(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName("§c ").build()));
 
         contents.set(5, 4, ClickableItem.of(new ItemBuilder(Material.ANVIL).setGlowing().setName("§c§lDůležité upozornění")
-                .setLore("§7Aktuálně pracujeme na opravě,", "§7přidávání dalších odměn a achievementů!", "§7Toto tedy není finální seznam.").build(), e -> {}));
+                .setLore("§7Aktuálně pracujeme na opravě,", "§7přidávání dalších odměn a questů!", "§7Toto tedy není finální seznam.").build(), e -> {}));
 
         SlotIterator slotIterator = contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 0);
         slotIterator = slotIterator.allowOverride(false);

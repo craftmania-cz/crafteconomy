@@ -5,6 +5,7 @@ import cz.craftmania.crafteconomy.events.vault.PlayerVaultDepositEvent;
 import cz.craftmania.crafteconomy.events.vault.PlayerVaultWithdrawEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -155,7 +156,7 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             callAsyncEvent(new PlayerVaultWithdrawEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
-            player.sendMessage("§e§l[*] §eBylo ti odebrano: §c" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
+            ChatInfo.ECONOMY.send(player, "Bylo ti odebráno: §c" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callAsyncEvent(new PlayerVaultWithdrawEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
@@ -193,7 +194,7 @@ public class VaultUtils extends AbstractEconomy {
             CraftPlayer craftPlayer = manager.getCraftPlayer(player);
             craftPlayer.setMoney((long) finalBalance);
             callAsyncEvent(new PlayerVaultDepositEvent(player, amount, EconomyResponse.ResponseType.SUCCESS));
-            player.sendMessage("§a§l[*] §aBylo ti pridano: " + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
+            ChatInfo.ECONOMY.send(player, "Bylo ti přidáno: §f" + Main.getInstance().getFormattedNumber((long) amount) + Main.getInstance().getCurrency());
         } else {
             Main.getInstance().getMySQL().setVaultEcoBalance(playerName, (long) finalBalance);
             callAsyncEvent(new PlayerVaultDepositEvent(Bukkit.getOfflinePlayer(playerName), amount, EconomyResponse.ResponseType.SUCCESS));
