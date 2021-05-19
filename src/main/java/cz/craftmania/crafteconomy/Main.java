@@ -201,13 +201,15 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Finální save dat, pokud by byl server vypnutý před cyklem uložení
         Logger.info("Příprava a uložení dat před vypnutím pluginu.");
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            if (this.basicManager.getCraftPlayer(player) != null) {
-                long balance = this.basicManager.getCraftPlayer(player).getMoney();
-                Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
-            }
-        });
-        Logger.success("Data hráčů uložena do SQL.");
+        if (Bukkit.getOnlinePlayers().size() > 0) {
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (this.basicManager.getCraftPlayer(player) != null) {
+                    long balance = this.basicManager.getCraftPlayer(player).getMoney();
+                    Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
+                }
+            });
+            Logger.success("Data hráčů uložena do SQL.");
+        }
 
         // Deaktivace MySQL
         sql.onDisable();
