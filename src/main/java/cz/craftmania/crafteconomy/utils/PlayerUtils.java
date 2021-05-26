@@ -1,6 +1,10 @@
 package cz.craftmania.crafteconomy.utils;
 
+import cz.craftmania.craftlibs.utils.ServerColors;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +13,16 @@ import java.util.UUID;
 
 public class PlayerUtils {
 
-    public Boolean isOnline(UUID uuid) {
+    public boolean isOnline(UUID uuid) {
         return Bukkit.getPlayer(uuid) != null && Bukkit.getPlayer(uuid).isOnline();
     }
 
-    public Boolean isOnline(String name) {
+    public boolean isOnline(String name) {
         return Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline();
+    }
+
+    public boolean isOnline(Player player) {
+        return Bukkit.getPlayer(player.getUniqueId()) != null && Bukkit.getPlayer(player.getUniqueId()).isOnline();
     }
 
     public UUID getUUID(String name) {
@@ -40,5 +48,15 @@ public class PlayerUtils {
             id = String.format("%04d", random.nextInt(10000));
         }
         return id;
+    }
+
+    public void infoNewPlayer(final Player player) {
+        player.sendMessage("");
+        player.sendMessage(ServerColors.ROLE_BUILDER.get() + "§lVypadá to, že jsi na serveru nový?");
+        player.sendMessage(ServerColors.DARK_GRAY.get() + "Koukni na náš návod jak se zorientovat na našem serveru,");
+        player.sendMessage(ServerColors.DARK_GRAY.get() + "aby jsi se u nás neztratil.");
+        player.sendMessage("§ehttps://wiki.craftmania.cz/faq/tutorial-pro-nove-hrace/"); //TODO: Chybí mandarinková barva xD
+        player.sendMessage("");
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_FLUTE, 1.0f, 1.0f);
     }
 }

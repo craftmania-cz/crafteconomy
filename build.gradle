@@ -100,7 +100,7 @@ dependencies {
 
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.4.0'
-    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.6'
+    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.8'
 
     // Other dependecies
     compile 'com.zaxxer:HikariCP:3.4.5'

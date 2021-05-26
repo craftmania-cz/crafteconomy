@@ -5,7 +5,9 @@ import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,6 +18,7 @@ public class PlayerJoinListener implements Listener {
 
     private Main main;
     private BasicManager bm = new BasicManager();
+    private PlayerUtils playerUtils = new PlayerUtils();
 
     public PlayerJoinListener(Main main) {
         this.main = main;
@@ -71,6 +74,15 @@ public class PlayerJoinListener implements Listener {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 30 && !player.hasPermission("bskyblock.biomes")) {
                 bm.givePlayerManualLevelReward(player, 30, true);
             }
+        }
+
+        // Informování nových hráčů o návodu na server a wiki
+        if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) <= 3) {
+            Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                if (playerUtils.isOnline(player)) {
+                    playerUtils.infoNewPlayer(player);
+                }
+            }, 20L * 60 * 5); // 5 minut
         }
 
     }
