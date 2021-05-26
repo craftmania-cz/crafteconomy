@@ -224,8 +224,7 @@ public class VoteManager {
         reward_13.setName("Tier: 13");
         reward_13.setRequiredVotes(145);
         reward_13.setDescription("§8- §fSkyblock: Gold Ore Minion");
-        reward_13.setTemporaryDisabled();
-        reward_13.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
+        reward_13.setServerCommand(ServerType.SKYBLOCK, "msetup give minion gold %player% 1");
         reward_13.setMaterial(Material.GOLD_ORE);
         votePassRewards.add(reward_13);
 
@@ -467,8 +466,7 @@ public class VoteManager {
         reward_plus_13.setName("Tier+: 13");
         reward_plus_13.setDescription("§8- §fSkyblock: Iron Ore Minion");
         reward_plus_13.setRequiredVotePassPlus();
-        reward_plus_13.setTemporaryDisabled();
-        reward_plus_13.setServerCommand(ServerType.SKYBLOCK, ""); // TODO: Dodělat
+        reward_plus_13.setServerCommand(ServerType.SKYBLOCK, "msetup give minion iron %player% 1");
         reward_plus_13.setRequiredVotes(145);
         reward_plus_13.setMaterial(Material.IRON_ORE);
         votePassRewards.add(reward_plus_13);
