@@ -67,12 +67,16 @@ public class PlayerJoinListener implements Listener {
         }*/
 
         if (Main.getServerType() == ServerType.SKYBLOCK) {
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 20 && !player.hasPermission("shopguiplus.shops.special")) {
-                bm.givePlayerManualLevelReward(player, 20, true);
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 25 && !player.hasPermission("cmi.command.flightcharge")) {
+                bm.givePlayerManualLevelReward(player, 25, true);
             }
 
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 30 && !player.hasPermission("bskyblock.biomes")) {
-                bm.givePlayerManualLevelReward(player, 30, true);
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 47 && !player.hasPermission("shopguiplus.item.spawners.12")) {
+                bm.givePlayerManualLevelReward(player, 47, true);
+            }
+
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 50 && !player.hasPermission("shopguiplus.item.spawners.13")) {
+                bm.givePlayerManualLevelReward(player, 50, true);
             }
         }
 
