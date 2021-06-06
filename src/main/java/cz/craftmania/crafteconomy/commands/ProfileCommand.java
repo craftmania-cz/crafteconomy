@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.menu.ProfileGUI;
 import cz.craftmania.crafteconomy.menu.ProfileSettingsGUI;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,7 +23,8 @@ public class ProfileCommand extends BaseCommand {
     @Default
     public void showProfile(CommandSender sender) {
         if (sender instanceof Player) {
-            SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open((Player) sender);
+            //SmartInventory.builder().size(5, 9).title("Profile").provider(new ProfileGUI()).build().open((Player) sender);
+            ChatInfo.DANGER.send((Player)sender, "Profil je dočasně deaktivovaný, pokud chceš změnit nastavení použij §f/profile settings");
         }
     }
 
