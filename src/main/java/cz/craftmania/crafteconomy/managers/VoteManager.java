@@ -547,8 +547,8 @@ public class VoteManager {
         reward_plus_20.setName("Tier+: 20");
         reward_plus_20.setDescription("§8- §fItem: Baby Yoda");
         reward_plus_20.setRequiredVotePassPlus();
-        reward_plus_20.setTemporaryDisabled();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
+        reward_plus_20.setRequiredSlotInInventory();
+        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% baby-yoda");
         reward_plus_20.setRequiredVotes(250);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
@@ -558,8 +558,7 @@ public class VoteManager {
         reward_plus_21.setName("Tier+: 21 (Bonus)");
         reward_plus_21.setDescription("§8- §fHats: Yoda");
         reward_plus_21.setRequiredVotePassPlus();
-        reward_plus_21.setTemporaryDisabled();
-        reward_plus_21.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
+        reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.old_yoda");
         reward_plus_21.setRequiredVotes(300);
         reward_plus_21.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_21);
