@@ -26,7 +26,9 @@ public class PlayerQuitListener implements Listener {
 
         if (Main.getInstance().isVaultEconomyEnabled()) { // Save peněz po odpojení
             CraftPlayer craftPlayer = bm.getCraftPlayer(player);
-            Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), craftPlayer.getMoney());
+            if (craftPlayer != null) {
+                Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), craftPlayer.getMoney());
+            }
         }
 
         BasicManager.getCraftPlayersCache().remove(player);
@@ -38,7 +40,9 @@ public class PlayerQuitListener implements Listener {
 
         if (Main.getInstance().isVaultEconomyEnabled()) { // Save peněz po odpojení
             CraftPlayer craftPlayer = bm.getCraftPlayer(player);
-            Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), craftPlayer.getMoney());
+            if (craftPlayer != null) {
+                Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), craftPlayer.getMoney());
+            }
         }
 
         BasicManager.getCraftPlayersCache().remove(player);

@@ -11,6 +11,8 @@ import cz.craftmania.crafteconomy.utils.ServerType;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -21,26 +23,38 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class BasicManager {
 
+    //TODO: Private?
     public static HashMap<Player, CraftPlayer> players = new HashMap<>();
 
+    @NotNull
+    /**
+     * Načtení dat do interní cache.
+     * @param player Bukkit objekt hráče
+     */
     public static CraftPlayer loadPlayerData(final Player player) {
         CraftPlayer cp = getOrRegisterPlayer(player);
         players.put(player, cp);
         return cp;
     }
 
+    /**
+     * Vrací všechny nahrané hráče v cache.
+     * Vždy to jsou ti, co jsou online na serveru.
+     * @return list hráčů v {@link HashMap}
+     */
     public static HashMap<Player, CraftPlayer> getCraftPlayersCache() {
         return players;
     }
 
     /**
      * Vrací {@link CraftPlayer} dle zadaného objektu hráče
-     * @param p {@link Player} objekct hráče
+     * @param player {@link Player} objekct hráče
      * @return {@link CraftPlayer}
      * @see CraftPlayer
      */
-    public CraftPlayer getCraftPlayer(@NonNull Player p) {
-        return players.values().stream().filter(cp -> cp.getPlayer() == p).findFirst().orElse(null);
+    @Nullable
+    public CraftPlayer getCraftPlayer(@NonNull Player player) {
+        return players.values().stream().filter(cp -> cp.getPlayer() == player).findFirst().orElse(null);
     }
 
     /**
@@ -49,6 +63,7 @@ public class BasicManager {
      * @return {@link CraftPlayer}
      * @see CraftPlayer
      */
+    @Nullable
     public CraftPlayer getCraftPlayer(@NonNull String name) {
         return players.values().stream().filter(cp -> cp.getPlayer().getName().equals(name)).findFirst().orElse(null);
     }
@@ -59,6 +74,7 @@ public class BasicManager {
      * @return {@link CraftPlayer}
      * @see CraftPlayer
      */
+    @Nullable
     public CraftPlayer getCraftPlayer(@NonNull UUID uuid) {
         return players.values().stream().filter(cp -> cp.getPlayer().getUniqueId().equals(uuid)).findFirst().orElse(null);
     }
@@ -69,6 +85,7 @@ public class BasicManager {
      * @return {@link CraftPlayer}
      * @see CraftPlayer
      */
+    @NotNull
     private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) {
         CraftPlayer cp = null;
         try {
@@ -119,6 +136,7 @@ public class BasicManager {
      * Vrací aktuální {@link LevelType} dle nastaveného ID serveru v configu
      * @return {@link LevelType}
      */
+    @Nullable
     public LevelType getExperienceByServer(){
         ServerType server = Main.getServerType();
         switch (server) {
@@ -146,6 +164,7 @@ public class BasicManager {
      * Vrací aktuální {@link LevelType} dle nastaveného ID serveru v configu
      * @return {@link LevelType}
      */
+    @Nullable
     public LevelType getLevelByServer(){
         ServerType server = Main.getServerType();
         switch (server) {
@@ -174,6 +193,7 @@ public class BasicManager {
      * @param server ID serveru
      * @return {@link LevelType} když existuje, jinak null
      */
+    @Nullable
     public LevelType resolveLevelTypeByString(String server) {
         switch (server.toLowerCase()) {
             case "survival":
@@ -201,6 +221,7 @@ public class BasicManager {
      * @param server ID serveru
      * @return {@link LevelType} když existuje, jinak null
      */
+    @Nullable
     public LevelType resolveExperienceTypeByString(String server) {
         switch (server.toLowerCase()) {
             case "survival":
