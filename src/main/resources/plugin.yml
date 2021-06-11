@@ -3,9 +3,21 @@ version: '1.4.1'
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
-depend: [CraftCore,CraftLibs]
-softdepend: [Vault,LuxuryQuests]
-loadbefore: [TradeMe,ShopGUIPlus,SellStick,UltraMinions,QuickShop,BentoBox,AuctionGUIPlus]
+depend:
+  - CraftCore
+  - CraftLibs
+softdepend:
+  - Vault
+  - LuxuryQuests
+loadbefore:
+  - TradeMe
+  - ShopGUIPlus
+  - SellStick
+  - UltraMinions
+  - QuickShop
+  - BentoBox
+  - AuctionGUIPlus
+  - DeluxeCombat
 api-version: '1.16'
 
 permissions:
