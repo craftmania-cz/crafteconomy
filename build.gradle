@@ -5,8 +5,10 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 group 'cz.craftmania.crafteconomy'
+def mainVersion = "1.5.0"
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -15,51 +17,10 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-clean { delete "./target" }
 clean { delete "./build" }
-
-def mainVersion = "1.5.0"
-def branch = "?"
-def gitId = ""
-
-ext {
-    try {
-        git = org.ajoberstar.grgit.Grgit.open(file(".git"))
-        date = git.head().date.format("yy.MM.dd")
-        //gitId = "-${git.head().abbreviatedId}"
-        gitId = "-SNAPSHOT"
-    } catch (Throwable ignore) {
-        gitId = "-unknown"
-    }
-    try {
-        git = org.ajoberstar.grgit.Grgit.open(file(".git"))
-        date = git.head().date.format("yy.MM.dd")
-        branch = "-${git.branch.current.fullName}".replace("refs/heads/", "")
-        print(branch)
-        if (branch.toString().equalsIgnoreCase("-master") || branch.toString().equalsIgnoreCase("-head")) {
-            branch = ""
-            gitId = ""
-        }
-    } catch (Throwable ignore) {
-        branch = "-unknown"
-    }
-}
 
 // Name-master-76735d.jar
 version = mainVersion
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: "${nexusUrl}/repository/release") {
-                authentication(userName: nexusUsername, password: nexusPassword)
-            }
-            snapshotRepository(url: "${nexusUrl}/repository/snapshots") {
-                authentication(userName: nexusUsername, password: nexusPassword)
-            }
-        }
-    }
-}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -124,3 +85,21 @@ shadowJar {
 }
 
 build.dependsOn shadowJar
+
+publishing {
+    repositories {
+        maven {
+            name = "craftpack"
+            url = uri("https://maven.pkg.github.com/craftmania-cz/crafteconomy")
+            credentials {
+                username = GPR_USER
+                password = GPR_TOKEN
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
