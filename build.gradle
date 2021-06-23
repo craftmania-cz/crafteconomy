@@ -89,7 +89,7 @@ build.dependsOn shadowJar
 publishing {
     repositories {
         maven {
-            name = "craftpack"
+            name = "crafteconomy"
             url = uri("https://maven.pkg.github.com/craftmania-cz/crafteconomy")
             credentials {
                 username = GPR_USER
