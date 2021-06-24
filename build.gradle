@@ -44,13 +44,25 @@ task generateJavadocs(type: Javadoc) {
 repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-    maven { url "https://packages.craftmania.cz/repository/craftmania/"}
-    maven { url "https://packages.craftmania.cz/repository/third-party/"}
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
+    maven {
+        url "https://maven.pkg.github.com/craftmania-cz/craftcore"
+        credentials {
+            username = GPR_USER
+            password = GPR_TOKEN
+        }
+    }
+    maven {
+        url "https://maven.pkg.github.com/craftmania-cz/craftlibs"
+        credentials {
+            username = GPR_USER
+            password = GPR_TOKEN
+        }
+    }
 }
 
 dependencies {
@@ -60,14 +72,13 @@ dependencies {
     }
 
     // Craftmania plugins
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.4.0'
+    compileOnly 'cz.craftmania.craftcore:craftcore:2.6.0-beta'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.8'
 
     // Other dependecies
     compile 'com.zaxxer:HikariCP:3.4.5'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'com.zrips:cmi:8.6.21.3'
 
     // Commands
     compile 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
