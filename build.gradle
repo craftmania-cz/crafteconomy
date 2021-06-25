@@ -4,7 +4,6 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'cz.craftmania.crafteconomy'
@@ -72,16 +71,16 @@ dependencies {
     }
 
     // Craftmania plugins
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.6.0-beta'
+    //compileOnly 'cz.craftmania.craftcore:craftcore:2.6.0-beta'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.8'
 
     // Other dependecies
-    compile 'com.zaxxer:HikariCP:3.4.5'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
 
     // Commands
-    compile 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
+    implementation 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.12'
