@@ -183,7 +183,7 @@ public class VoteManager {
         VotePassReward reward_10 = new VotePassReward(17);
         reward_10.setName("Tier: 10");
         reward_10.setRequiredVotes(100);
-        reward_10.setDescription("§8- §f1 CraftToken", "§8- §f2000 Server XP");
+        reward_10.setDescription("§8- §f1x CraftToken", "§8- §f2000 Server XP");
         reward_10.setServerExperience(2000);
         reward_10.setCraftTokens(1);
         reward_10.setMaterial(Material.EMERALD);
@@ -288,10 +288,12 @@ public class VoteManager {
         reward_19.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 5000");
         votePassRewards.add(reward_19);
 
-        // Reward: 20 - Store: Sleva -2 eura na Starwars itemy
+        // Reward: 20 - Sheep: Red Morph
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fStore: 2 euro sleva na StarWars - ?????");
+        reward_20.setDescription("§8- §fSheep (Red) Morph", "§8Sheep (Red) Baby Morph");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.sheep.red");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.sheep.red.baby");
         reward_20.setRequiredVotes(250);
         votePassRewards.add(reward_20);
 
@@ -422,13 +424,12 @@ public class VoteManager {
         // Reward+: 10 - 1x VoidChest
         VotePassReward reward_plus_10 = new VotePassReward(24);
         reward_plus_10.setName("Tier+: 10");
-        reward_plus_10.setDescription("§8- §f1x VoidChest");
+        reward_plus_10.setDescription("§8- §fSkyblock: 1x Coal Minion", "§8- §fSkyblock: 1x Birch Minion");
         reward_plus_10.setRequiredVotePassPlus();
         reward_plus_10.setRequiredVotes(100);
         reward_plus_10.setRequiredSlotInInventory();
-        reward_plus_10.setTemporaryDisabled();
-        reward_plus_10.setServerCommand(ServerType.SKYBLOCK, ""); //TODO: Dodělat
-        reward_plus_10.setServerCommand(ServerType.SURVIVAL, ""); //TODO: Dodělat
+        reward_plus_10.setServerCommand(ServerType.SKYBLOCK, "msetup give minion coal %player% 1");
+        reward_plus_10.setServerCommand(ServerType.SKYBLOCK, "msetup give minion birch %player% 1");
         reward_plus_10.setMaterial(Material.CHEST);
         votePassRewards.add(reward_plus_10);
 
@@ -521,15 +522,14 @@ public class VoteManager {
         reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
 
-        // Reward+: 18 - 1x VoidChest
+        // Reward+: 18 - 1x CraftToken
         VotePassReward reward_plus_18 = new VotePassReward(39);
         reward_plus_18.setName("Tier+: 18");
-        reward_plus_18.setDescription("§8- §f1x VoidChest");
+        reward_plus_18.setDescription("§8- §f1x CraftToken");
         reward_plus_18.setRequiredVotePassPlus();
-        reward_plus_18.setTemporaryDisabled();
-        reward_plus_18.setServerCommand(ServerType.UNKNOWN, ""); // TODO: Unknown
+        reward_plus_18.setCraftTokens(1);
         reward_plus_18.setRequiredVotes(220);
-        reward_plus_18.setMaterial(Material.CHEST);
+        reward_plus_18.setMaterial(Material.EMERALD);
         votePassRewards.add(reward_plus_18);
 
         // Reward+: 19 - Skyblock: Fly (10,000B)
