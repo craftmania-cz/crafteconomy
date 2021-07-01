@@ -49,7 +49,7 @@ public class VotePassGUI implements InventoryProvider {
                     player.sendMessage(ChatColor.AQUA + Constants.CHAT_BOXES);
                     player.sendMessage("§f");
                     player.sendMessage("§aOdkaz na nákup VotePassu+:");
-                    player.sendMessage("§fhttps://store.craftmania.cz/category/votepass");
+                    player.sendMessage("§fhttps://store.craftmania.cz/category/252215");
                     player.sendMessage("§f");
                     player.sendMessage(ChatColor.AQUA + Constants.CHAT_BOXES);
                 }));

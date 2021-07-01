@@ -264,10 +264,10 @@ public class VoteManager {
         // Reward: 17 - Morph: Enderman, 2,000 Server XP
         VotePassReward reward_17 = new VotePassReward(31);
         reward_17.setName("Tier: 17");
-        reward_17.setDescription("§8- §fMorph: Enderman", "§8- §f2,000 Server XP");
+        reward_17.setDescription("§8- §fMorph: Cat (Black) [+Baby]", "§8- §f2,000 Server XP");
         reward_17.setRequiredVotes(200);
         reward_17.setServerExperience(2000);
-        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.enderman");
+        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.cat.black");
         votePassRewards.add(reward_17);
 
         // Reward: 18 - Sellstick: 200 použití
@@ -291,9 +291,8 @@ public class VoteManager {
         // Reward: 20 - Sheep: Red Morph
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fSheep (Red) Morph", "§8Sheep (Red) Baby Morph");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.sheep.red");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.sheep.red.baby");
+        reward_20.setDescription("§8- §fMorph: Stray");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.stray");
         reward_20.setRequiredVotes(250);
         votePassRewards.add(reward_20);
 
@@ -378,9 +377,9 @@ public class VoteManager {
         reward_plus_6.setRequiredVotePassPlus();
         reward_plus_6.setRequiredVotes(60);
         reward_plus_6.setCraftCoins(500);
-        reward_plus_3.setRequiredSlotInInventory();
-        reward_plus_3.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 1 %player%");
-        reward_plus_3.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 1 %player%");
+        reward_plus_6.setRequiredSlotInInventory();
+        reward_plus_6.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 1 %player%");
+        reward_plus_6.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 1 %player%");
         reward_plus_6.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_6);
 
@@ -455,10 +454,10 @@ public class VoteManager {
         // Reward+: 12 - 1,000 Server XP
         VotePassReward reward_plus_12 = new VotePassReward(26);
         reward_plus_12.setName("Tier+: 12");
-        reward_plus_12.setDescription("§8- §f1,000 Server XP");
+        reward_plus_12.setDescription("§8- §f3,000 Server XP", "§8- §f500 CC");
         reward_plus_12.setRequiredVotePassPlus();
         reward_plus_12.setRequiredVotes(130);
-        reward_plus_12.setServerExperience(1000);
+        reward_plus_12.setServerExperience(3000);
         reward_plus_12.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_plus_12);
 
@@ -501,12 +500,11 @@ public class VoteManager {
         // Reward+: 16 - 2,500 Server XP, 2x Legendary Key, 300 CraftCoins
         VotePassReward reward_plus_16 = new VotePassReward(37);
         reward_plus_16.setName("Tier+: 16");
-        reward_plus_16.setDescription("§8- §f2,500 Server XP", "§8- §f2x Legendary Key", "§8- §f300 CraftCoins");
+        reward_plus_16.setDescription("§8- §f2,500 Server XP", "§8- §f2x Legendary Key");
         reward_plus_16.setRequiredVotePassPlus();
         reward_plus_16.setRequiredSlotInInventory();
         reward_plus_16.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 2 %player%");
         reward_plus_16.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 2 %player%");
-        reward_plus_16.setCraftCoins(300);
         reward_plus_16.setServerExperience(2500);
         reward_plus_16.setRequiredVotes(190);
         reward_plus_16.setMaterial(Material.EXPERIENCE_BOTTLE);
@@ -515,9 +513,9 @@ public class VoteManager {
         // Reward+: 17 - Hats: Mandalorian
         VotePassReward reward_plus_17 = new VotePassReward(38);
         reward_plus_17.setName("Tier+: 17");
-        reward_plus_17.setDescription("§8- §fHats: Mandalorian");
+        reward_plus_17.setDescription("§8- §fHats: Iron Man");
         reward_plus_17.setRequiredVotePassPlus();
-        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.mandalorian");
+        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.iron_man");
         reward_plus_17.setRequiredVotes(200);
         reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
@@ -528,7 +526,7 @@ public class VoteManager {
         reward_plus_18.setDescription("§8- §f1x CraftToken");
         reward_plus_18.setRequiredVotePassPlus();
         reward_plus_18.setCraftTokens(1);
-        reward_plus_18.setRequiredVotes(220);
+        reward_plus_18.setRequiredVotes(225);
         reward_plus_18.setMaterial(Material.EMERALD);
         votePassRewards.add(reward_plus_18);
 
@@ -538,11 +536,11 @@ public class VoteManager {
         reward_plus_19.setDescription("§8- §fSkyblock: Fly (10,000B)");
         reward_plus_19.setRequiredVotePassPlus();
         reward_plus_19.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 10000");
-        reward_plus_19.setRequiredVotes(240);
+        reward_plus_19.setRequiredVotes(250);
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
 
-        // Reward+: 20 - Item: Baby Yoda
+        /*// Reward+: 20 - Item: Baby Yoda
         VotePassReward reward_plus_20 = new VotePassReward(41);
         reward_plus_20.setName("Tier+: 20");
         reward_plus_20.setDescription("§8- §fItem: Baby Yoda");
@@ -561,7 +559,7 @@ public class VoteManager {
         reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.old_yoda");
         reward_plus_21.setRequiredVotes(300);
         reward_plus_21.setMaterial(Material.NETHER_STAR);
-        votePassRewards.add(reward_plus_21);
+        votePassRewards.add(reward_plus_21);*/
 
 
 
