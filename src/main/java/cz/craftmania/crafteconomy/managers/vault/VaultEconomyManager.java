@@ -1,11 +1,9 @@
 package cz.craftmania.crafteconomy.managers.vault;
 
-import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
+import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 
-import java.util.List;
 import java.util.Map;
 
 public class VaultEconomyManager {

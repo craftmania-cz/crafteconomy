@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.HelpCommand;
-import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
+import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.menu.RewardsGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

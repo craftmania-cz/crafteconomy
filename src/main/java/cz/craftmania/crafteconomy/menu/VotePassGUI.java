@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.menu;
 
-import cz.craftmania.craftcore.spigot.builders.items.ItemBuilder;
-import cz.craftmania.craftcore.spigot.inventory.builder.ClickableItem;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.*;
+import cz.craftmania.craftcore.builders.items.ItemBuilder;
+import cz.craftmania.craftcore.inventory.builder.ClickableItem;
+import cz.craftmania.craftcore.inventory.builder.content.*;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.api.CraftTokensAPI;
@@ -10,7 +10,6 @@ import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
-import cz.craftmania.crafteconomy.objects.VotePassReward;
 import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
@@ -21,7 +20,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class VotePassGUI implements InventoryProvider {
 

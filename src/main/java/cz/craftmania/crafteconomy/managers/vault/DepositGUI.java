@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.managers.vault;
 
-import cz.craftmania.craftcore.spigot.builders.items.ItemBuilder;
+import cz.craftmania.craftcore.builders.items.ItemBuilder;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyBankDepositEvent;
 import org.bukkit.Bukkit;
