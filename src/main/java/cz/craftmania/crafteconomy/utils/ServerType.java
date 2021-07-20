@@ -13,7 +13,10 @@ public enum ServerType {
     SKYGRID,
     HARDCORE_VANILLA,
     ANARCHY,
-    UNKNOWN;
+    UNKNOWN,
+
+    // Staré servery
+    VANILLA_116;
 
     ServerType() {}
 }

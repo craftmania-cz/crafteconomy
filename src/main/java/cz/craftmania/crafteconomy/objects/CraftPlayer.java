@@ -30,12 +30,16 @@ public class CraftPlayer {
     private long prisonExperience = 0;
     private long vanillaLevel = 1;
     private long vanillaExperience = 0;
+    private long anarchyLevel = 1;
+    private long anarchyExperience = 0;
+
+    // Old servers
     private long skycloudLevel = 1;
     private long skycloudExperience = 0;
     private long hardcoreVanillaLevel = 1;
     private long hardcoreVanillaExperience = 0;
-    private long anarchyLevel = 1;
-    private long anarchyExperience = 0;
+    private long vanilla116Level = 1;
+    private long vanilla116Experience = 0;
 
     // Votes
     private long weekVotes = 0;
@@ -96,6 +100,7 @@ public class CraftPlayer {
         this.hardcoreVanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_EXPERIENCE, player.getUniqueId());
         this.anarchyLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_LEVEL, player.getUniqueId());
         this.anarchyExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_EXPERIENCE, player.getUniqueId());
+        this.vanilla116Level = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_116_LEVEL, player.getUniqueId());
 
         this.payToggle = (Main.getInstance().getMySQL().getSettings(player, "paytoggle") != 0);
         recalculateGlobalLevel();
@@ -462,6 +467,7 @@ public class CraftPlayer {
         finalValue += canBeAdded(this.prisonLevel);
         finalValue += canBeAdded(this.hardcoreVanillaLevel);
         finalValue += canBeAdded(this.anarchyLevel);
+        finalValue += canBeAdded(this.vanilla116Level);
         // Pokud je level větší jak 1, nezapočítávat default 1 level jinak by došlo k +1 navýšení získaných levelů.
         this.globalLevel = finalValue > 1 ? --finalValue : finalValue;
     }
