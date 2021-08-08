@@ -72,6 +72,7 @@ public class CraftPlayer {
      *
      * @param player {@link Player}
      */
+    @Deprecated
     public CraftPlayer(@NonNull final Player player) { //TODO: DDoS MySQL? xD
         this.player = player;
         this.multipliers = new HashSet<>();
@@ -358,6 +359,8 @@ public class CraftPlayer {
                 return this.hardcoreVanillaLevel;
             case ANARCHY_LEVEL:
                 return this.anarchyLevel;
+            case VANILLA_116_LEVEL:
+                return this.vanilla116Level;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -392,6 +395,9 @@ public class CraftPlayer {
             case ANARCHY_LEVEL:
                 this.anarchyLevel = level;
                 break;
+            case VANILLA_116_LEVEL:
+                this.vanilla116Level = level;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -415,6 +421,8 @@ public class CraftPlayer {
                 return this.hardcoreVanillaExperience;
             case ANARCHY_EXPERIENCE:
                 return this.anarchyExperience;
+            case VANILLA_116_EXPERIENCE:
+                return this.vanilla116Experience;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -448,6 +456,9 @@ public class CraftPlayer {
                 break;
             case ANARCHY_EXPERIENCE:
                 this.anarchyExperience = experience;
+                break;
+            case VANILLA_116_EXPERIENCE:
+                this.vanilla116Experience = experience;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
