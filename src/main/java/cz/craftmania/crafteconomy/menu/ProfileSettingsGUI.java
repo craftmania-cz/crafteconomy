@@ -1,10 +1,10 @@
 package cz.craftmania.crafteconomy.menu;
 
-import cz.craftmania.craftcore.spigot.inventory.builder.ClickableItem;
-import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryContents;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvider;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.Pagination;
+import cz.craftmania.craftcore.inventory.builder.ClickableItem;
+import cz.craftmania.craftcore.inventory.builder.SmartInventory;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryContents;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryProvider;
+import cz.craftmania.craftcore.inventory.builder.content.Pagination;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;

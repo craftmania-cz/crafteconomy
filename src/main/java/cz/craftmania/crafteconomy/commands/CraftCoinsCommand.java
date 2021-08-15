@@ -3,7 +3,7 @@ package cz.craftmania.crafteconomy.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import cz.craftmania.craftcore.spigot.messages.chat.ChatInfo;
+import cz.craftmania.craftcore.messages.chat.ChatInfo;
 import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;

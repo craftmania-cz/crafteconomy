@@ -1,9 +1,9 @@
 package cz.craftmania.crafteconomy.managers.vault;
 
-import cz.craftmania.craftcore.spigot.builders.items.ItemBuilder;
-import cz.craftmania.craftcore.spigot.inventory.builder.ClickableItem;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryContents;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvider;
+import cz.craftmania.craftcore.builders.items.ItemBuilder;
+import cz.craftmania.craftcore.inventory.builder.ClickableItem;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryContents;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryProvider;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.vault.CraftEconomyBankWithdrawEvent;
 import org.bukkit.Bukkit;
@@ -12,9 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class WithdrawGUI implements InventoryProvider {
 

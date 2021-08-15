@@ -1,17 +1,14 @@
 package cz.craftmania.crafteconomy.menu;
 
-import cz.craftmania.craftcore.spigot.inventory.builder.ClickableItem;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryContents;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.InventoryProvider;
-import cz.craftmania.craftcore.spigot.inventory.builder.content.Pagination;
+import cz.craftmania.craftcore.inventory.builder.ClickableItem;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryContents;
+import cz.craftmania.craftcore.inventory.builder.content.InventoryProvider;
+import cz.craftmania.craftcore.inventory.builder.content.Pagination;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.SkullCreator;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
 import java.util.List;
