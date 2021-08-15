@@ -22,6 +22,7 @@ import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
 import cz.craftmania.crafteconomy.utils.configs.Config;
 import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
+import cz.craftmania.crafteconomy.utils.hooks.PlaceholderRegistry;
 import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -193,7 +194,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.danger("CraftCore není na serveru! Hodně funkcí je deaktivováných.");
         }
 
+        // VotePass
+        Logger.info("Načítání odměn pro VotePass.");
         VoteManager.loadVotePassRewards();
+
+        // Placeholders
+        Logger.info("Registrace economy placeholderů do PlaceholderAPI");
+        new PlaceholderRegistry().register();
     }
 
     @Override

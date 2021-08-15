@@ -43,6 +43,7 @@ repositories {
     maven { url "https://plugins.gradle.org/m2/" }
     maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
+    maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
     maven {
         url "https://maven.pkg.github.com/craftmania-cz/craftcore"
         credentials {
@@ -73,6 +74,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:3.4.5'
     compileOnly 'org.ajoberstar:grgit:1.7.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly group: 'me.clip', name: 'placeholderapi', version: '2.10.9'
 
     // Commands
     implementation 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
