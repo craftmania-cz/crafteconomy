@@ -7,7 +7,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group 'cz.craftmania.crafteconomy'
-def mainVersion = "1.5.0-beta"
+def mainVersion = "1.5.1"
 
 sourceCompatibility = 16
 targetCompatibility = 16
