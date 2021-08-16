@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.events.vault;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -11,6 +12,7 @@ import java.util.Optional;
 /**
  * Spustí se, když proběhne uložení přes Vault - Economy#depositPlayer(OfflinePlayer, double)
  */
+@AsynchronousEvent
 public class PlayerVaultDepositEvent extends Event {
 
     private final OfflinePlayer player;

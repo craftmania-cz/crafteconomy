@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.events;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -7,6 +8,7 @@ import org.bukkit.event.HandlerList;
 /**
  * Runs when player recieve some amount of experience
  */
+@AsynchronousEvent
 public class PlayerExpGainEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();

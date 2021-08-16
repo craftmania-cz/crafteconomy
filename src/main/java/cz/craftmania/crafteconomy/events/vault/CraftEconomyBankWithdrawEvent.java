@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.events.vault;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -7,6 +8,7 @@ import org.bukkit.event.HandlerList;
 /**
     Spustí se, když hráč uloží do své banky určitý počet emeraldů.
  */
+@AsynchronousEvent
 public class CraftEconomyBankWithdrawEvent extends Event {
 
     private final Player player;

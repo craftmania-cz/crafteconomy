@@ -21,12 +21,9 @@ public class QuestCompleteListener implements Listener {
     @EventHandler
     public void onQuestComplete(final PlayerCompletedQuestEvent event) {
         Quest quest = event.getQuest();
-        Player player = Bukkit.getPlayer(event.getUser().getUuid()); //TODO: Líp?
+        Player player = Bukkit.getPlayer(event.getUser().getUuid());
 
-        System.out.println("--- KOMPLENÍ QUEST ---");
-        System.out.println("ID: " + quest.getId());
-        System.out.println("NAME: " + quest.getName());
-        System.out.println("TYPE: " + quest.getType());
+        Logger.debug("Splněný quest: " + quest.getName() + "(" + quest.getId() + "), type: " + quest.getType());
 
         Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
             QuestManager.getQuestRewards().forEach(economyQuest -> {

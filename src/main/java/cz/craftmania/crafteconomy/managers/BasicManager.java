@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -26,11 +27,11 @@ public class BasicManager {
     //TODO: Private?
     public static HashMap<Player, CraftPlayer> players = new HashMap<>();
 
-    @NotNull
     /**
      * Načtení dat do interní cache.
      * @param player Bukkit objekt hráče
      */
+    @NotNull
     public static CraftPlayer loadPlayerData(final Player player) {
         CraftPlayer cp = getOrRegisterPlayer(player);
         players.put(player, cp);
@@ -139,25 +140,17 @@ public class BasicManager {
     @Nullable
     public LevelType getExperienceByServer(){
         ServerType server = Main.getServerType();
-        switch (server) {
-            case SURVIVAL:
-                return LevelType.SURVIVAL_EXPERIENCE;
-            case SKYBLOCK:
-                return LevelType.SKYBLOCK_EXPERIENCE;
-            case CREATIVE:
-                return LevelType.CREATIVE_EXPERIENCE;
-            case VANILLA:
-                return LevelType.VANILLA_EXPERIENCE;
-            case SKYCLOUD:
-                return LevelType.SKYCLOUD_EXPERIENCE;
-            case PRISON:
-                return LevelType.PRISON_EXPERIENCE;
-            case HARDCORE_VANILLA:
-                return LevelType.HARDCORE_VANILLA_EXPERIENCE;
-            case ANARCHY:
-                return LevelType.ANARCHY_EXPERIENCE;
-        }
-        return null;
+        return switch (server) {
+            case SURVIVAL -> LevelType.SURVIVAL_EXPERIENCE;
+            case SKYBLOCK -> LevelType.SKYBLOCK_EXPERIENCE;
+            case CREATIVE -> LevelType.CREATIVE_EXPERIENCE;
+            case VANILLA -> LevelType.VANILLA_EXPERIENCE;
+            case SKYCLOUD -> LevelType.SKYCLOUD_EXPERIENCE;
+            case PRISON -> LevelType.PRISON_EXPERIENCE;
+            case HARDCORE_VANILLA -> LevelType.HARDCORE_VANILLA_EXPERIENCE;
+            case ANARCHY -> LevelType.ANARCHY_EXPERIENCE;
+            default -> null;
+        };
     }
 
     /**
@@ -167,25 +160,17 @@ public class BasicManager {
     @Nullable
     public LevelType getLevelByServer(){
         ServerType server = Main.getServerType();
-        switch (server) {
-            case SURVIVAL:
-                return LevelType.SURVIVAL_LEVEL;
-            case SKYBLOCK:
-                return LevelType.SKYBLOCK_LEVEL;
-            case CREATIVE:
-                return LevelType.CREATIVE_LEVEL;
-            case VANILLA:
-                return LevelType.VANILLA_LEVEL;
-            case SKYCLOUD:
-                return LevelType.SKYCLOUD_LEVEL;
-            case PRISON:
-                return LevelType.PRISON_LEVEL;
-            case HARDCORE_VANILLA:
-                return LevelType.HARDCORE_VANILLA_LEVEL;
-            case ANARCHY:
-                return LevelType.ANARCHY_LEVEL;
-        }
-        return null;
+        return switch (server) {
+            case SURVIVAL -> LevelType.SURVIVAL_LEVEL;
+            case SKYBLOCK -> LevelType.SKYBLOCK_LEVEL;
+            case CREATIVE -> LevelType.CREATIVE_LEVEL;
+            case VANILLA -> LevelType.VANILLA_LEVEL;
+            case SKYCLOUD -> LevelType.SKYCLOUD_LEVEL;
+            case PRISON -> LevelType.PRISON_LEVEL;
+            case HARDCORE_VANILLA -> LevelType.HARDCORE_VANILLA_LEVEL;
+            case ANARCHY -> LevelType.ANARCHY_LEVEL;
+            default -> null;
+        };
     }
 
     /**
@@ -195,25 +180,17 @@ public class BasicManager {
      */
     @Nullable
     public LevelType resolveLevelTypeByString(String server) {
-        switch (server.toLowerCase()) {
-            case "survival":
-                return LevelType.SURVIVAL_LEVEL;
-            case "skyblock":
-                return LevelType.SKYBLOCK_LEVEL;
-            case "creative":
-                return LevelType.CREATIVE_LEVEL;
-            case "vanilla":
-                return LevelType.VANILLA_LEVEL;
-            case "skycloud":
-                return LevelType.SKYCLOUD_LEVEL;
-            case "prison":
-                return LevelType.PRISON_LEVEL;
-            case "hardcore-vanilla":
-                return LevelType.HARDCORE_VANILLA_LEVEL;
-            case "anarchy":
-                return LevelType.ANARCHY_LEVEL;
-        }
-        return null;
+        return switch (server.toLowerCase()) {
+            case "survival" -> LevelType.SURVIVAL_LEVEL;
+            case "skyblock" -> LevelType.SKYBLOCK_LEVEL;
+            case "creative" -> LevelType.CREATIVE_LEVEL;
+            case "vanilla" -> LevelType.VANILLA_LEVEL;
+            case "skycloud" -> LevelType.SKYCLOUD_LEVEL;
+            case "prison" -> LevelType.PRISON_LEVEL;
+            case "hardcore-vanilla" -> LevelType.HARDCORE_VANILLA_LEVEL;
+            case "anarchy" -> LevelType.ANARCHY_LEVEL;
+            default -> null;
+        };
     }
 
     /**
@@ -223,25 +200,17 @@ public class BasicManager {
      */
     @Nullable
     public LevelType resolveExperienceTypeByString(String server) {
-        switch (server.toLowerCase()) {
-            case "survival":
-                return LevelType.SURVIVAL_EXPERIENCE;
-            case "skyblock":
-                return LevelType.SKYBLOCK_EXPERIENCE;
-            case "creative":
-                return LevelType.CREATIVE_EXPERIENCE;
-            case "vanilla":
-                return LevelType.VANILLA_EXPERIENCE;
-            case "skycloud":
-                return LevelType.SKYCLOUD_EXPERIENCE;
-            case "prison":
-                return LevelType.PRISON_EXPERIENCE;
-            case "hardcore-vanilla":
-                return LevelType.HARDCORE_VANILLA_EXPERIENCE;
-            case "anarchy":
-                return LevelType.ANARCHY_EXPERIENCE;
-        }
-        return null;
+        return switch (server.toLowerCase()) {
+            case "survival" -> LevelType.SURVIVAL_EXPERIENCE;
+            case "skyblock" -> LevelType.SKYBLOCK_EXPERIENCE;
+            case "creative" -> LevelType.CREATIVE_EXPERIENCE;
+            case "vanilla" -> LevelType.VANILLA_EXPERIENCE;
+            case "skycloud" -> LevelType.SKYCLOUD_EXPERIENCE;
+            case "prison" -> LevelType.PRISON_EXPERIENCE;
+            case "hardcore-vanilla" -> LevelType.HARDCORE_VANILLA_EXPERIENCE;
+            case "anarchy" -> LevelType.ANARCHY_EXPERIENCE;
+            default -> null;
+        };
     }
 
     /**
@@ -302,7 +271,7 @@ public class BasicManager {
                 }
             });
             if (announceDrop.get()) {
-                player.sendMessage("§c§l[!] §cMáš plný inventář! Itemy leží na zemi.");
+                ChatInfo.DANGER.send(player, "Máš plný inventář! Itemy leží na zemi.");
             }
         }
 

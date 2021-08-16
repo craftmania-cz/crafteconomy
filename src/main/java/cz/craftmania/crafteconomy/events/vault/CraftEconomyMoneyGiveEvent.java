@@ -1,11 +1,13 @@
 package cz.craftmania.crafteconomy.events.vault;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
  * Spustí se, když konzole nebo admin provede /money give [nick] [částka]
  */
+@AsynchronousEvent
 public class CraftEconomyMoneyGiveEvent extends Event {
 
     private String sender;

@@ -1,10 +1,12 @@
 package cz.craftmania.crafteconomy.events.vault;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+@AsynchronousEvent
 public class CraftEconomyPlayerPrePayEvent extends Event implements Cancellable {
 
     private Player sender;

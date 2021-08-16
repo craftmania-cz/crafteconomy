@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.events.vault;
 
-import org.bukkit.Material;
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 /**
  * Spustí se, pokud hráč uloží určité prostředky do banky.
  */
+@AsynchronousEvent
 public class CraftEconomyBankDepositEvent extends Event {
 
     private final Player player;

@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.events.vault;
 
+import cz.craftmania.crafteconomy.annotations.AsynchronousEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -9,6 +10,7 @@ import java.util.Date;
 /**
  * Spustí se, když hráč provede úspěšně /pay příkaz - převede částku hráči.
  */
+@AsynchronousEvent
 public class CraftEconomyPlayerPayEvent extends Event {
 
     private Player sender;
