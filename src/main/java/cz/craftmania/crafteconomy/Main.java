@@ -75,7 +75,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     public static boolean isLuxuryQuestEnabled = false;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
 
         // Instance
         instance = this;
@@ -89,6 +89,22 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Nacteni config souboru
         configAPI = new ConfigAPI(this);
         loadConfiguration();
+
+        // Vault init
+        vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
+        if (vaultEconomyEnabled) {
+            Logger.info("Injectovani Vault Economy.");
+
+            this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
+            vaultEconomy = new VaultUtils();
+
+            currency = getConfig().getString("vault-economy.name");
+            Logger.info("Měna ekonomiky zaevidovana jako: " + currency);
+        }
+    }
+
+    @Override
+    public void onEnable() {
 
         if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) isCraftCoreEnabled = true;
 
@@ -156,13 +172,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
         if (vaultEconomyEnabled && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            Logger.info("Vault economy bude aktivní!");
-
-            this.getServer().getServicesManager().register((Class)Economy.class, (Object)new VaultUtils(), this, ServicePriority.Normal);
-            vaultEconomy = new VaultUtils();
-
-            currency = getConfig().getString("vault-economy.name");
-            Logger.info("Mena ekonomiky zaevidovana jako: " + currency);
 
             Main.getAsync().runAsync(new EconomySaveTask(), 1200L);
 
