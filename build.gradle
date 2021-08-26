@@ -41,7 +41,6 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url 'https://jitpack.io' }
     maven { url "https://plugins.gradle.org/m2/" }
-    maven { url "https://raw.github.com/PyvesB/AdvancedAchievements/mvn-repo/" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
     maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
     maven {
@@ -67,7 +66,7 @@ dependencies {
     }
 
     // Craftmania plugins
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.6.1-beta'
+    compileOnly 'cz.craftmania.craftcore:craftcore:2.6.2.1'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.8'
 
     // Other dependecies

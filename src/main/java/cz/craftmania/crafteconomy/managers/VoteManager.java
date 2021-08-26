@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.managers;
 
+import cz.craftmania.craftcore.xseries.messages.Titles;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
 import cz.craftmania.crafteconomy.api.VoteTokensAPI;
@@ -38,10 +39,7 @@ public class VoteManager {
         craftPlayer.addVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
 
-        if (Main.isCraftCoreEnabled) {
-            //TODO: Fix
-            //Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal(a) jsi 1x VoteToken.");
-        }
+        Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal(a) jsi 1x VoteToken.");
 
         Bukkit.getPluginManager().callEvent(new PlayerVoteEvent(player));
         player.sendMessage(" ");
