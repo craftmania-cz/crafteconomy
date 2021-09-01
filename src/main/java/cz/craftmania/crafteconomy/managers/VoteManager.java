@@ -75,7 +75,7 @@ public class VoteManager {
         // Reward: 1 - 100 CraftCoins
         VotePassReward reward_1 = new VotePassReward(1);
         reward_1.setName("Tier: 1");
-        reward_1.setRequiredVotes(10);
+        reward_1.setRequiredVotes(15);
         reward_1.setDescription("§8- §f100 CraftCoins");
         reward_1.setCraftCoins(100);
         reward_1.setMaterial(Material.GOLD_NUGGET);
@@ -84,7 +84,7 @@ public class VoteManager {
         // Reward: 2 - 1,000 Server XP
         VotePassReward reward_2 = new VotePassReward(2);
         reward_2.setName("Tier: 2");
-        reward_2.setRequiredVotes(20);
+        reward_2.setRequiredVotes(30);
         reward_2.setDescription("§8- §f1,000 Server XP");
         reward_2.setServerExperience(1000);
         reward_2.setMaterial(Material.EXPERIENCE_BOTTLE);
@@ -93,7 +93,7 @@ public class VoteManager {
         // Reward: 3 - 2x Basic Key
         VotePassReward reward_3 = new VotePassReward(3);
         reward_3.setName("Tier: 3");
-        reward_3.setRequiredVotes(30);
+        reward_3.setRequiredVotes(45);
         reward_3.setDescription("§8- §f2x Basic Key");
         reward_3.setRequiredSlotInInventory();
         reward_3.setServerCommand(ServerType.SKYBLOCK, "crate give physical Basic 2 %player%");
@@ -104,7 +104,7 @@ public class VoteManager {
         // Reward: 4 - Skyblock: Fly (2,000B) / Creative WE 12h
         VotePassReward reward_4 = new VotePassReward(4);
         reward_4.setName("Tier: 4");
-        reward_4.setRequiredVotes(40);
+        reward_4.setRequiredVotes(60);
         reward_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (2,000B)", "§8- §fCreative WorldEdit: 12h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_4.setRequiredSlotInInventory();
         reward_4.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 2000");
@@ -123,7 +123,7 @@ public class VoteManager {
         // Reward: 5 - SellStick: 50 použití
         VotePassReward reward_5 = new VotePassReward(5);
         reward_5.setName("Tier: 5");
-        reward_5.setRequiredVotes(50);
+        reward_5.setRequiredVotes(75);
         reward_5.setDescription("§8- §fSellStick: 50 použití");
         reward_5.setRequiredSlotInInventory();
         reward_5.setServerCommand(ServerType.SKYBLOCK, "sellstick give %player% 1 50");
@@ -134,7 +134,7 @@ public class VoteManager {
         // Reward: 6 - 500 CraftCoins, 3x Basic Key
         VotePassReward reward_6 = new VotePassReward(6);
         reward_6.setName("Tier: 6");
-        reward_6.setRequiredVotes(60);
+        reward_6.setRequiredVotes(90);
         reward_6.setDescription("§8- §f500 CraftCoins", "§8- §f3x Basic Key");
         reward_6.setCraftCoins(500);
         reward_6.setServerCommand(ServerType.SKYBLOCK, "crate give physical Basic 3 %player%");
@@ -145,7 +145,7 @@ public class VoteManager {
         // Reward: 7 - Prison Boost → 200% → 48h, 1,000 Server XP
         VotePassReward reward_7 = new VotePassReward(7);
         reward_7.setName("Tier: 7");
-        reward_7.setRequiredVotes(70);
+        reward_7.setRequiredVotes(105);
         reward_7.setDescription("§8- §fPrison Boost: 200% na 48h", "§8- §f1,000 Server XP");
         reward_7.setServerExperience(1000);
         reward_7.setServerCommand(ServerType.PRISON, "multiplier create %player% personal 172800000 200");
@@ -157,18 +157,18 @@ public class VoteManager {
         // Reward: 8 - 1,500 Server XP, 1x Legendary Key
         VotePassReward reward_8 = new VotePassReward(15);
         reward_8.setName("Tier: 8");
-        reward_8.setRequiredVotes(80);
+        reward_8.setRequiredVotes(120);
         reward_8.setDescription("§8- §f1,500 Server XP", "§8- §f1x Legendary Key");
         reward_8.setServerExperience(1500);
-        reward_8.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 3 %player%");
-        reward_8.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 3 %player%");
+        reward_8.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 1 %player%");
+        reward_8.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 1 %player%");
         reward_8.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_8);
 
         // Reward: 9 - ArmorStandEditor 7 dní
         VotePassReward reward_9 = new VotePassReward(16);
         reward_9.setName("Tier: 9");
-        reward_9.setRequiredVotes(90);
+        reward_9.setRequiredVotes(135);
         reward_9.setDescription("§8- §fArmorStandEditor na 7 dní");
         reward_9.setServerCommand(ServerType.SURVIVAL, "lp user %player% permission settemp asedit.* 7d survival");
         reward_9.setServerCommand(ServerType.SKYBLOCK, "lp user %player% permission settemp asedit.* 7d skyblock");
@@ -180,7 +180,7 @@ public class VoteManager {
         // Reward: 10 - 1 CraftToken, 2000 Server XP
         VotePassReward reward_10 = new VotePassReward(17);
         reward_10.setName("Tier: 10");
-        reward_10.setRequiredVotes(100);
+        reward_10.setRequiredVotes(150);
         reward_10.setDescription("§8- §f1x CraftToken", "§8- §f2000 Server XP");
         reward_10.setServerExperience(2000);
         reward_10.setCraftTokens(1);
@@ -190,7 +190,7 @@ public class VoteManager {
         // Reward: 11 - Skyblock: Fly (6,000B) / Creative WE 24h
         VotePassReward reward_11 = new VotePassReward(18);
         reward_11.setName("Tier: 11");
-        reward_11.setRequiredVotes(115);
+        reward_11.setRequiredVotes(175);
         reward_11.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (6,000B)", "§8- §fCreative WE 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_11.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 6000");
         reward_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.brush.* 24h creative");
@@ -208,7 +208,7 @@ public class VoteManager {
         // Reward: 12 - SellStick: 150 použití, 500 Server XP
         VotePassReward reward_12 = new VotePassReward(19);
         reward_12.setName("Tier: 12");
-        reward_12.setRequiredVotes(130);
+        reward_12.setRequiredVotes(200);
         reward_12.setDescription("§8- §fSellStick: 150 použití", "§8- §f500 Server XP");
         reward_12.setServerExperience(500);
         reward_12.setRequiredSlotInInventory();
@@ -220,7 +220,7 @@ public class VoteManager {
         // Reward: 13 - Skyblock: Gold Ore Minion
         VotePassReward reward_13 = new VotePassReward(20);
         reward_13.setName("Tier: 13");
-        reward_13.setRequiredVotes(145);
+        reward_13.setRequiredVotes(225);
         reward_13.setDescription("§8- §fSkyblock: Gold Ore Minion");
         reward_13.setServerCommand(ServerType.SKYBLOCK, "msetup give minion gold %player% 1");
         reward_13.setMaterial(Material.GOLD_ORE);
@@ -230,7 +230,7 @@ public class VoteManager {
         VotePassReward reward_14 = new VotePassReward(21);
         reward_14.setName("Tier: 14");
         reward_14.setDescription("§8- §f500 CraftCoins", "§8- §f5x Basic Key");
-        reward_14.setRequiredVotes(160);
+        reward_14.setRequiredVotes(250);
         reward_14.setCraftCoins(500);
         reward_14.setRequiredSlotInInventory();
         reward_14.setServerCommand(ServerType.SKYBLOCK, "crate give physical Basic 5 %player%");
@@ -244,7 +244,7 @@ public class VoteManager {
         VotePassReward reward_15 = new VotePassReward(29);
         reward_15.setName("Tier: 15");
         reward_15.setDescription("§8- §fMcMMO: 200% Boost - 3 dny");
-        reward_15.setRequiredVotes(175);
+        reward_15.setRequiredVotes(275);
         reward_15.setServerCommand(ServerType.SURVIVAL, "lp user %player% permission settemp mcmmo.perks.xp.double.* 72h survival");
         reward_15.setServerCommand(ServerType.SKYBLOCK, "lp user %player% permission settemp mcmmo.perks.xp.double.* 72h skyblock");
         reward_15.setMaterial(Material.GOLD_INGOT);
@@ -254,7 +254,7 @@ public class VoteManager {
         VotePassReward reward_16 = new VotePassReward(30);
         reward_16.setName("Tier: 16");
         reward_16.setDescription("§8- §fSkyblock: Collector Minion");
-        reward_16.setRequiredVotes(190);
+        reward_16.setRequiredVotes(300);
         reward_16.setServerCommand(ServerType.SKYBLOCK, "msetup give minion collector %player% 1");
         reward_16.setMaterial(Material.HOPPER);
         votePassRewards.add(reward_16);
@@ -262,17 +262,17 @@ public class VoteManager {
         // Reward: 17 - Morph: Enderman, 2,000 Server XP
         VotePassReward reward_17 = new VotePassReward(31);
         reward_17.setName("Tier: 17");
-        reward_17.setDescription("§8- §fMorph: Cat (Black) [+Baby]", "§8- §f2,000 Server XP");
-        reward_17.setRequiredVotes(200);
+        reward_17.setDescription("§8- §fMorph: Creeper", "§8- §f2,000 Server XP");
+        reward_17.setRequiredVotes(320);
         reward_17.setServerExperience(2000);
-        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.cat.black");
+        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.creeper");
         votePassRewards.add(reward_17);
 
         // Reward: 18 - Sellstick: 200 použití
         VotePassReward reward_18 = new VotePassReward(32);
         reward_18.setName("Tier: 18");
         reward_18.setDescription("§8- §fSellStick: 200 použití");
-        reward_18.setRequiredVotes(220);
+        reward_18.setRequiredVotes(340);
         reward_18.setRequiredSlotInInventory();
         reward_18.setServerCommand(ServerType.SURVIVAL, "sellstick give %player% 1 200");
         reward_18.setServerCommand(ServerType.SKYBLOCK, "sellstick give %player% 1 200");
@@ -282,16 +282,16 @@ public class VoteManager {
         VotePassReward reward_19 = new VotePassReward(33);
         reward_19.setName("Tier: 19");
         reward_19.setDescription("§8- §fSkyblock: Fly (5,000B)");
-        reward_19.setRequiredVotes(240);
+        reward_19.setRequiredVotes(360);
         reward_19.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 5000");
         votePassRewards.add(reward_19);
 
         // Reward: 20 - Sheep: Red Morph
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fMorph: Stray");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.stray");
-        reward_20.setRequiredVotes(250);
+        reward_20.setDescription("§8- §fMorph: Creeper [Charged]");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.creeper.powered");
+        reward_20.setRequiredVotes(380);
         votePassRewards.add(reward_20);
 
         VotePassReward reward_21 = new VotePassReward(35);
@@ -308,7 +308,7 @@ public class VoteManager {
         reward_plus_1.setName("Tier+: 1");
         reward_plus_1.setDescription("§8- §f200 CraftCoins");
         reward_plus_1.setRequiredVotePassPlus();
-        reward_plus_1.setRequiredVotes(10);
+        reward_plus_1.setRequiredVotes(15);
         reward_plus_1.setCraftCoins(200);
         reward_plus_1.setMaterial(Material.GOLD_NUGGET);
         votePassRewards.add(reward_plus_1);
@@ -318,7 +318,7 @@ public class VoteManager {
         reward_plus_2.setName("Tier+: 2");
         reward_plus_2.setDescription("§8- §f100 CraftCoins", "§8- §f500 Server XP");
         reward_plus_2.setRequiredVotePassPlus();
-        reward_plus_2.setRequiredVotes(20);
+        reward_plus_2.setRequiredVotes(30);
         reward_plus_2.setCraftCoins(100);
         reward_plus_2.setServerExperience(500);
         reward_plus_2.setMaterial(Material.EXPERIENCE_BOTTLE);
@@ -329,7 +329,7 @@ public class VoteManager {
         reward_plus_3.setName("Tier+: 3");
         reward_plus_3.setDescription("§8- §f1x Basic Key");
         reward_plus_3.setRequiredVotePassPlus();
-        reward_plus_3.setRequiredVotes(30);
+        reward_plus_3.setRequiredVotes(45);
         reward_plus_3.setRequiredSlotInInventory();
         reward_plus_3.setServerCommand(ServerType.SURVIVAL, "crate give physical Basic 1 %player%");
         reward_plus_3.setServerCommand(ServerType.SKYBLOCK, "crate give physical Basic 1 %player%");
@@ -341,7 +341,7 @@ public class VoteManager {
         reward_plus_4.setName("Tier+: 4");
         reward_plus_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (2,500B)", "§8- §fCreative WorldEdit 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_plus_4.setRequiredVotePassPlus();
-        reward_plus_4.setRequiredVotes(40);
+        reward_plus_4.setRequiredVotes(60);
         reward_plus_4.setRequiredSlotInInventory();
         reward_plus_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.brush.* 24h creative");
         reward_plus_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.clipboard.(copy|cut|flip|paste|rotate) 24h creative");
@@ -361,7 +361,7 @@ public class VoteManager {
         reward_plus_5.setName("Tier+: 5");
         reward_plus_5.setDescription("§8- §fSellStick: 100 použití");
         reward_plus_5.setRequiredVotePassPlus();
-        reward_plus_5.setRequiredVotes(50);
+        reward_plus_5.setRequiredVotes(75);
         reward_plus_5.setRequiredSlotInInventory();
         reward_plus_5.setServerCommand(ServerType.SURVIVAL, "sellstick give %player% 1 100");
         reward_plus_5.setServerCommand(ServerType.SKYBLOCK, "sellstick give %player% 1 100");
@@ -373,7 +373,7 @@ public class VoteManager {
         reward_plus_6.setName("Tier+: 6");
         reward_plus_6.setDescription("§8- §f500 CraftCoins", "§8- §f1x Legendary Key");
         reward_plus_6.setRequiredVotePassPlus();
-        reward_plus_6.setRequiredVotes(60);
+        reward_plus_6.setRequiredVotes(90);
         reward_plus_6.setCraftCoins(500);
         reward_plus_6.setRequiredSlotInInventory();
         reward_plus_6.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 1 %player%");
@@ -386,7 +386,7 @@ public class VoteManager {
         reward_plus_7.setName("Tier+: 7");
         reward_plus_7.setDescription("§8- §fPrison Boost: 300% → 24h");
         reward_plus_7.setRequiredVotePassPlus();
-        reward_plus_7.setRequiredVotes(70);
+        reward_plus_7.setRequiredVotes(105);
         reward_plus_7.setServerCommand(ServerType.PRISON, "multiplier create %player% personal 86400000 300");
         reward_plus_7.setMaterial(Material.HORN_CORAL_FAN);
         votePassRewards.add(reward_plus_7);
@@ -398,7 +398,7 @@ public class VoteManager {
         reward_plus_8.setName("Tier+: 8");
         reward_plus_8.setDescription("§8- §f750 Server XP", "§8- §f2x Basic Key");
         reward_plus_8.setRequiredVotePassPlus();
-        reward_plus_8.setRequiredVotes(80);
+        reward_plus_8.setRequiredVotes(120);
         reward_plus_8.setServerExperience(750);
         reward_plus_8.setRequiredSlotInInventory();
         reward_plus_8.setServerCommand(ServerType.SURVIVAL, "crate give physical Basic 2 %player%");
@@ -411,7 +411,7 @@ public class VoteManager {
         reward_plus_9.setName("Tier+: 9");
         reward_plus_9.setDescription("§8- §f2x Legendary Key");
         reward_plus_9.setRequiredVotePassPlus();
-        reward_plus_9.setRequiredVotes(90);
+        reward_plus_9.setRequiredVotes(135);
         reward_plus_9.setRequiredSlotInInventory();
         reward_plus_9.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 2 %player%");
         reward_plus_9.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 2 %player%");
@@ -423,7 +423,7 @@ public class VoteManager {
         reward_plus_10.setName("Tier+: 10");
         reward_plus_10.setDescription("§8- §fSkyblock: 1x Coal Minion", "§8- §fSkyblock: 1x Birch Minion");
         reward_plus_10.setRequiredVotePassPlus();
-        reward_plus_10.setRequiredVotes(100);
+        reward_plus_10.setRequiredVotes(150);
         reward_plus_10.setRequiredSlotInInventory();
         reward_plus_10.setServerCommand(ServerType.SKYBLOCK, "msetup give minion coal %player% 1");
         reward_plus_10.setServerCommand(ServerType.SKYBLOCK, "msetup give minion birch %player% 1");
@@ -435,7 +435,7 @@ public class VoteManager {
         reward_plus_11.setName("Tier+: 11");
         reward_plus_11.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (8,000B)", "§8- §fCreative WE 48h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_plus_11.setRequiredVotePassPlus();
-        reward_plus_11.setRequiredVotes(115);
+        reward_plus_11.setRequiredVotes(175);
         reward_plus_11.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 8000");
         reward_plus_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.brush.* 48h creative");
         reward_plus_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.clipboard.(copy|cut|flip|paste|rotate) 48h creative");
@@ -454,7 +454,7 @@ public class VoteManager {
         reward_plus_12.setName("Tier+: 12");
         reward_plus_12.setDescription("§8- §f3,000 Server XP", "§8- §f500 CC");
         reward_plus_12.setRequiredVotePassPlus();
-        reward_plus_12.setRequiredVotes(130);
+        reward_plus_12.setRequiredVotes(200);
         reward_plus_12.setServerExperience(3000);
         reward_plus_12.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_plus_12);
@@ -465,7 +465,7 @@ public class VoteManager {
         reward_plus_13.setDescription("§8- §fSkyblock: Iron Ore Minion");
         reward_plus_13.setRequiredVotePassPlus();
         reward_plus_13.setServerCommand(ServerType.SKYBLOCK, "msetup give minion iron %player% 1");
-        reward_plus_13.setRequiredVotes(145);
+        reward_plus_13.setRequiredVotes(225);
         reward_plus_13.setMaterial(Material.IRON_ORE);
         votePassRewards.add(reward_plus_13);
 
@@ -478,7 +478,7 @@ public class VoteManager {
         reward_plus_14.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 1 %player%");
         reward_plus_14.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 1 %player%");
         reward_plus_14.setCraftCoins(750);
-        reward_plus_14.setRequiredVotes(160);
+        reward_plus_14.setRequiredVotes(250);
         reward_plus_14.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_14);
 
@@ -491,7 +491,7 @@ public class VoteManager {
         reward_plus_15.setRequiredVotePassPlus();
         reward_plus_15.setServerCommand(ServerType.SURVIVAL, "lp user %player% permission settemp mcmmo.perks.xp.triple.* 72h survival");
         reward_plus_15.setServerCommand(ServerType.SKYBLOCK, "lp user %player% permission settemp mcmmo.perks.xp.triple.* 72h skyblock");
-        reward_plus_15.setRequiredVotes(175);
+        reward_plus_15.setRequiredVotes(275);
         reward_plus_15.setMaterial(Material.IRON_INGOT);
         votePassRewards.add(reward_plus_15);
 
@@ -504,17 +504,17 @@ public class VoteManager {
         reward_plus_16.setServerCommand(ServerType.SURVIVAL, "crate give physical Legendary 2 %player%");
         reward_plus_16.setServerCommand(ServerType.SKYBLOCK, "crate give physical Legendary 2 %player%");
         reward_plus_16.setServerExperience(2500);
-        reward_plus_16.setRequiredVotes(190);
+        reward_plus_16.setRequiredVotes(300);
         reward_plus_16.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_plus_16);
 
-        // Reward+: 17 - Hats: Mandalorian
+        // Reward+: 17 - Hats: Darth Vader
         VotePassReward reward_plus_17 = new VotePassReward(38);
         reward_plus_17.setName("Tier+: 17");
-        reward_plus_17.setDescription("§8- §fHats: Iron Man");
+        reward_plus_17.setDescription("§8- §fHats: Darth Vader");
         reward_plus_17.setRequiredVotePassPlus();
-        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.iron_man");
-        reward_plus_17.setRequiredVotes(200);
+        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.darth_vader");
+        reward_plus_17.setRequiredVotes(320);
         reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
 
@@ -524,7 +524,7 @@ public class VoteManager {
         reward_plus_18.setDescription("§8- §f1x CraftToken");
         reward_plus_18.setRequiredVotePassPlus();
         reward_plus_18.setCraftTokens(1);
-        reward_plus_18.setRequiredVotes(225);
+        reward_plus_18.setRequiredVotes(340);
         reward_plus_18.setMaterial(Material.EMERALD);
         votePassRewards.add(reward_plus_18);
 
@@ -534,21 +534,22 @@ public class VoteManager {
         reward_plus_19.setDescription("§8- §fSkyblock: Fly (10,000B)");
         reward_plus_19.setRequiredVotePassPlus();
         reward_plus_19.setServerCommand(ServerType.SKYBLOCK, "cmi flightcharge add %player% 10000");
-        reward_plus_19.setRequiredVotes(250);
+        reward_plus_19.setRequiredVotes(360);
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
 
-        /*// Reward+: 20 - Item: Baby Yoda
+        // Reward+: 20 - Item: Lightsaber
         VotePassReward reward_plus_20 = new VotePassReward(41);
         reward_plus_20.setName("Tier+: 20");
-        reward_plus_20.setDescription("§8- §fItem: Baby Yoda");
+        reward_plus_20.setDescription("§8- §fItem: Lightsaber [Red]");
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% baby-yoda");
-        reward_plus_20.setRequiredVotes(250);
+        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% lightsaber-red");
+        reward_plus_20.setRequiredVotes(400);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
 
+        /*
         // Reward+: 21 - Hats: Yoda
         VotePassReward reward_plus_21 = new VotePassReward(42);
         reward_plus_21.setName("Tier+: 21 (Bonus)");
