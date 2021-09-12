@@ -55,6 +55,7 @@ public class CraftPlayer {
     private long karma = 0;
     private long questPoints = 0;
     private long eventPoints = 0;
+    private long seasonPoints = 0;
     private HashSet<Multiplier> multipliers;
     private boolean isAfk = false;
 
@@ -92,6 +93,7 @@ public class CraftPlayer {
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
         this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
+        this.seasonPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.SEASON_POINTS, player.getUniqueId());
         this.totalVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
         this.monthVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
         this.weekVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
@@ -222,6 +224,14 @@ public class CraftPlayer {
 
     public void setEventPoints(long eventPoints) {
         this.eventPoints = eventPoints;
+    }
+
+    public long getSeasonPoints() {
+        return seasonPoints;
+    }
+
+    public void setSeasonPoints(long seasonPoints) {
+        this.seasonPoints = seasonPoints;
     }
 
     /**

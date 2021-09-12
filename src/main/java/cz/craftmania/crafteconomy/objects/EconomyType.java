@@ -15,6 +15,7 @@ public enum EconomyType {
 
     ACHIEVEMENT_POINTS,
     QUEST_POINTS, //TODO: Přepnout ve finále
+    SEASON_POINTS,
     EVENT_POINTS;
 
     EconomyType() {
