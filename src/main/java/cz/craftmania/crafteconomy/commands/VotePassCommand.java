@@ -7,8 +7,10 @@ import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.HelpCommand;
 import cz.craftmania.craftcore.spigot.inventory.builder.SmartInventory;
+import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.menu.VotePassGUI;
+import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,6 +30,10 @@ public class VotePassCommand extends BaseCommand {
     public void showVotePass(CommandSender sender) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            if (Main.getServerType() == ServerType.LOBBY) {
+                sender.sendMessage("§c§l[!] §cVotePass nelze používat na lobby. Navštiv nějaký server k získání výhod.");
+                return;
+            }
             SmartInventory.builder().size(3, 9).title("VotePass").provider(new VotePassGUI()).build().open(player);
         } else {
             sender.sendMessage("§c§lNelze použít tento příkaz jako konzole.");
