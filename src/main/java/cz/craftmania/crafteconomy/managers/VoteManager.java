@@ -544,7 +544,7 @@ public class VoteManager {
         reward_plus_20.setDescription("§8- §fItem: Lightsaber [Red]");
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% lightsaber-red");
+        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% lightsaber-red %player%");
         reward_plus_20.setRequiredVotes(400);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
