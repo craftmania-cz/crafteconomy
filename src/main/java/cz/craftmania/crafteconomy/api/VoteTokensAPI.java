@@ -61,7 +61,7 @@ public class VoteTokensAPI {
             manager.getCraftPlayer(player).setVoteTokens(finalVoteTokens);
             Main.getInstance().getMySQL().setEconomy(EconomyType.VOTETOKENS_2, player, finalVoteTokens);
             if (player.isOnline()) {
-                player.sendMessage("§cBylo ti pridano §7" + voteTokensToAdd + " VoteTokens.");
+                player.sendMessage("§aBylo ti pridano §7" + voteTokensToAdd + " VoteTokens.");
             }
         });
     }

@@ -262,6 +262,15 @@ public class ProfileSettingsGUI implements InventoryProvider {
                                 "§e§l[*] §eZměny se projeví až po odpojení a připojení!"
                         ));
                 ItemStack currentGender = getCurrentGenderItemStack(p);
+                ItemStack levelupFireworkType = createItem(Material.FIREWORK_ROCKET, "§e§lTyp ohňostroje při level-upu",
+                        Arrays.asList(
+                                "§7Pokud dostaneš level-up bude",
+                                "§7vystřelen ohňostroj.",
+                                "",
+                                "§7Vybraný typ: " + formatLevelupFireworkType(Main.getInstance().getMySQL().getSettingsString(p, "levelup_firework_type")),
+                                "§eKliknutím si vybereš typ"
+                        ));
+
                 // Deprecated
                 //ItemStack chatSuggestions = createItem(Material.HEART_OF_THE_SEA, "§e§lNapovidani v chatu", Arrays.asList("§7Povolenim se ti budou", "§7zobrazovat v chatu napovedy", "§7pro prikazy §aod MC 1.13."));
 
@@ -325,6 +334,21 @@ public class ProfileSettingsGUI implements InventoryProvider {
                     }
                     contents.inventory().close(p);
                 }));
+
+                contents.set(1, 5, ClickableItem.of(levelupFireworkType, e -> {
+                    SmartInventory.builder().size(3, 9).title("Level-up ohňostroj typ").provider(new ProfileSettingsGUISelectionLevelupFireworkType()).build().open(p);
+                }));
+                contents.set(2, 5, ClickableItem.of((getSetting(p, "levelup_firework_enabled") == 1 ? enabled : disabled), e -> { //Ohňostroj při levelupu
+                    if (contents.get(2, 5).get().getItem() == enabled) {
+                        Main.getInstance().getMySQL().updateSettings(p, "levelup_firework_enabled", 0);
+                        p.sendMessage("§c§l[!] §cOhňostroj při level-upu byl deaktivován!");
+                    } else {
+                        Main.getInstance().getMySQL().updateSettings(p, "levelup_firework_enabled", 1);
+                        p.sendMessage("§e§l[*] §eOhňostroj při level-upu byl aktivován!");
+                    }
+                    contents.inventory().close(p);
+                }));
+
                 break;
             }
         }
@@ -375,5 +399,33 @@ public class ProfileSettingsGUI implements InventoryProvider {
         String message;
         message = entry.replace("{player}", ChatColor.YELLOW + "" + ChatColor.BOLD + p.getName() + ChatColor.GRAY);
         return ChatColor.GRAY + message;
+    }
+
+    public static String formatLevelupFireworkType(String s) {
+        String formattedType;
+        switch(s) {
+            case "RANDOM":
+                formattedType = "Náhodný";
+                break;
+            case "BALL":
+                formattedType = "Koule";
+                break;
+            case "BALL_LARGE":
+                formattedType = "Velká koule";
+                break;
+            case "BURST":
+                formattedType = "Výbuch";
+                break;
+            case "CREEPER":
+                formattedType = "Creeper";
+                break;
+            case "STAR":
+                formattedType = "Hvězda";
+                break;
+            default:
+                formattedType = s;
+                break;
+        }
+        return ChatColor.GRAY + formattedType;
     }
 }

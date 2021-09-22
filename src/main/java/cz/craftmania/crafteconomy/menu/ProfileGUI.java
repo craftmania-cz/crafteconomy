@@ -74,7 +74,7 @@ public class ProfileGUI implements InventoryProvider {
     }
 
     public static ItemStack backArrow() {
-        return createItem(Material.RED_BED, "§cZpět", null);
+        return createItem(Material.RED_BED, "§cZpět do menu", null);
     }
 
     public static void makeLines(InventoryContents contents) {

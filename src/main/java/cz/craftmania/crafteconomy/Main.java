@@ -27,6 +27,7 @@ import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -253,6 +254,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Bukkit
         pm.registerEvents(new PlayerJoinListener(this), this);
         pm.registerEvents(new PlayerQuitListener(this), this);
+        pm.registerEvents(new EntityDamageByEntityListener(), this);
 
         // CraftEconomy
         pm.registerEvents(new PlayerCreateProfileListener(), this);

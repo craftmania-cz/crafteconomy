@@ -67,7 +67,9 @@ public class ProfileStatisticsGUI implements InventoryProvider {
                 "§7Survival: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("survival_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("survival_experience").getAsInt() + " EXP)",
                 "§7Skyblock: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("skyblock_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("skyblock_experience").getAsInt() + " EXP)",
                 "§7Creative: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("creative_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("creative_experience").getAsInt() + " EXP)",
-                "§7Vanilla: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("vanilla_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("vanilla_experience").getAsInt() + " EXP)"
+                "§7Vanilla: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("vanilla_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("vanilla_experience").getAsInt() + " EXP)",
+                "§7Prison: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("prison_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("prison_experience").getAsInt() + " EXP)",
+                "§7Anarchy: §f" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("anarchy_level").getAsInt() + " §8LVL §6(" + profileData.getAsJsonObject("data").getAsJsonObject("ranked").get("anarchy_experience").getAsInt() + " EXP)"
         ));
 
         ProfileGUI.makeLines(contents);
