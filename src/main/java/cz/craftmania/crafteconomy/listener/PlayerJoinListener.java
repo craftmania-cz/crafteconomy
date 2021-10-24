@@ -66,6 +66,31 @@ public class PlayerJoinListener implements Listener {
             this.fixLevelRewardsForPlayer(craftPlayer);
         }*/
 
+        // Global Rewards: Redstone Limits
+        // TODO: Config??
+        if (Main.getServerType() != ServerType.LOBBY) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) >= 25
+                    && bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) < 50
+                    && !player.hasPermission("insights.group.redstone.25")) { // Redstone limit pro LEVEL > 25
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.redstone.25");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.observer.25");
+            }
+
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) >= 50
+                    && bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) < 75
+                    && !player.hasPermission("insights.group.redstone.50")) { // Redstone limit pro LEVEL > 50
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.redstone.50");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.observer.50");
+            }
+
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) >= 75
+                    //&& bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) < 100
+                    && !player.hasPermission("insights.group.redstone.75")) { // Redstone limit pro LEVEL > 75
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.redstone.75");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set insights.group.observer.75");
+            }
+        }
+
         if (Main.getServerType() == ServerType.SKYBLOCK) {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_LEVEL) >= 25 && !player.hasPermission("cmi.command.flightcharge")) {
                 bm.givePlayerManualLevelReward(player, 25, true);
