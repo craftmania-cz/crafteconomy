@@ -63,6 +63,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean registerEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
+    private boolean vaultEconomyCleanUp = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
@@ -93,6 +94,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
+        vaultEconomyCleanUp = getConfig().getBoolean("vault-economy.cleanup.enabled", false);
         if (vaultEconomyEnabled) {
             Logger.info("Injectovani Vault Economy.");
 
@@ -272,6 +274,12 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         if (isLuxuryQuestEnabled) {
             pm.registerEvents(new QuestCompleteListener(), this);
+        }
+
+        if (isCraftCoreEnabled && vaultEconomyEnabled && vaultEconomyCleanUp) {
+            pm.registerEvents(new WeekChangeListener(), this);
+            Logger.info("Server bude mazat automaticky každý týden hráče z databáze.");
+            Logger.info("Aktuální čas je nastaven na: " + getConfig().getInt("vault-economy.cleanup.days", 150) + " dní.");
         }
     }
 

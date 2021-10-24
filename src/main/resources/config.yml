@@ -43,3 +43,6 @@ vault-economy:
   enabled: false
   name: "$"
   min-confirm: 1000
+  cleanup:
+    enabled: false
+    days: 150
