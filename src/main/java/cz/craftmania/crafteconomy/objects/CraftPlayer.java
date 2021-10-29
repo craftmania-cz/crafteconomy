@@ -478,7 +478,7 @@ public class CraftPlayer {
     /**
      * Prepocitava globalni level v souctu (kde hrac musi mit min 2 level abys se hodnota změnila).
      */
-    private void recalculateGlobalLevel() {
+    public void recalculateGlobalLevel() {
         long finalValue = 1;
         finalValue += canBeAdded(this.survivalLevel);
         finalValue += canBeAdded(this.skyblockLevel);
