@@ -282,6 +282,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new EventPointsCommand());
         manager.registerCommand(new VoteTokensCommand());
         manager.registerCommand(new KarmaCommand());
+        manager.registerCommand(new SeasonPointsCommand());
         if (isCraftCoreEnabled) {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());
