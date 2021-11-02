@@ -94,7 +94,7 @@ public class SeasonPointsAPI {
             manager.getCraftPlayer(player).setSeasonPoints(finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.SEASON_POINTS, player, finalPoints);
             if (player.isOnline()) {
-                player.sendMessage("§aBylo ti pridano §7" + finalPoints + " SeasonPoints.");
+                player.sendMessage("§aBylo ti odebráno §7" + finalPoints + " SeasonPoints.");
             }
         });
     }
