@@ -95,7 +95,7 @@ public class QuestPointsAPI {
             manager.getCraftPlayer(player).setQuestPoints(finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
             if (player.isOnline()) {
-                player.sendMessage("§aBylo ti odebráno §7" + finalPoints + " AchievementPoints.");
+                player.sendMessage("§cBylo ti odebráno §7" + pointsToRemove + " QuestPoints.");
             }
         });
     }
