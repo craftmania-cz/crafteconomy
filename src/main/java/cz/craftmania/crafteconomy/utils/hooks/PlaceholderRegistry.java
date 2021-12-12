@@ -24,7 +24,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
     }
 
     public @NotNull String getIdentifier(){
-        return "craftceconomy"; // %<identifier>_<value>%
+        return "crafteconomy"; // %<identifier>_<value>%
     }
 
     public @NotNull String getVersion(){
