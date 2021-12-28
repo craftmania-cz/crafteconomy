@@ -324,11 +324,12 @@ public class CraftPlayer {
 
     /**
      * Vrací aktuální hodnotu VotePassu.
-     * VotePass = 2x měsíční hlasy může tedy odpovídat hodnotě měsíčních hlasů.
+     * Neodpovídá počtu hlasů za měsíc, jelikož VotePass trvá
+     * déle jak měsíc.
      *
      * @return {@link Long}
      */
-    public long getVotePass() {
+    public long getVotePassVotes() {
         return votePass;
     }
 
@@ -337,7 +338,7 @@ public class CraftPlayer {
      *
      * @param votePass {@link Long}
      */
-    public void setVotePass(long votePass) {
+    public void setVotePassVotes(long votePass) {
         this.votePass = votePass;
     }
 

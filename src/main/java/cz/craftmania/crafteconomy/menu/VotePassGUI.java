@@ -36,7 +36,7 @@ public class VotePassGUI implements InventoryProvider {
         // Statistiky o hlasování
         contents.set(2, 4, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§dTvoje statistiky")
                 .setLore("§7Zde jsou zobrazené tvoje statistiky", "§7v aktuálním VotePassu a měsíci.", "",
-                        "§eVotePass hlasy: §f" + craftPlayer.getVotePass(), "§eTýdenní hlasy: §f" + craftPlayer.getWeekVotes(), "§eMěsíční hlasy: §f" + craftPlayer.getMonthVotes()).build()));
+                        "§eVotePass hlasy: §f" + craftPlayer.getVotePassVotes(), "§eTýdenní hlasy: §f" + craftPlayer.getWeekVotes(), "§eMěsíční hlasy: §f" + craftPlayer.getMonthVotes()).build()));
 
         // VotePass+ zakoupení
         contents.set(1, 0, ClickableItem.of(
@@ -78,7 +78,7 @@ public class VotePassGUI implements InventoryProvider {
                         .setName("§c" + votePassReward.getName() + " (" + votePassReward.getRequiredVotes() + " hlasů)").setLore(lore).build()));
                 return;
             }
-            if (craftPlayer.getVotePass() < votePassReward.getRequiredVotes()) { // Malá počet hlasů
+            if (craftPlayer.getVotePassVotes() < votePassReward.getRequiredVotes()) { // Malá počet hlasů
                 final ArrayList<String> lore = new ArrayList<>();
                 lore.add("§7Získáš:");
                 lore.addAll(votePassReward.getDescription());

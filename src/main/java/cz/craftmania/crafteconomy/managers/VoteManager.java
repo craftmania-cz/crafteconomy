@@ -59,7 +59,7 @@ public class VoteManager {
      * @return {@link Long}
      */
     public long getVotePassVotes(@NotNull Player player) {
-        return this.manager.getCraftPlayer(player).getVotePass();
+        return this.manager.getCraftPlayer(player).getVotePassVotes();
     }
 
     public static List<VotePassReward> getVotePassRewards() {

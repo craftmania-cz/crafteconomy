@@ -119,7 +119,7 @@ public class SQLManager {
                 craftPlayer.setSeasonPoints(ps.getResultSet().getLong("season_points"));
                 craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
                 craftPlayer.setEventPoints(ps.getResultSet().getLong("event_points"));
-                craftPlayer.setVotePass(ps.getResultSet().getLong("vote_pass"));
+                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
                 return craftPlayer;
             }
         } catch (Exception e) {
