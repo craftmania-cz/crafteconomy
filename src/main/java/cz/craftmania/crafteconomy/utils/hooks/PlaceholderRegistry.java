@@ -3,6 +3,8 @@ package cz.craftmania.crafteconomy.utils.hooks;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.utils.FormatUtils;
+import cz.craftmania.crafteconomy.utils.LevelUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -77,9 +79,26 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
             return String.valueOf(craftPlayer.getEventPoints());
         }
 
+        // %crafteconomy_player_season_points%
+        if (identifier.equals("player_season_points")) {
+            return String.valueOf(craftPlayer.getSeasonPoints());
+        }
+
+        // %crafteconomy_player_votepass_votes%
+        if (identifier.equals("player_votepass_votes")) {
+            return String.valueOf(craftPlayer.getVotePassVotes());
+        }
+
         // %crafteconomy_player_survival_level%
         if (identifier.equals("player_survival_level")) {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL));
+        }
+
+        // %crafteconomy_player_survival_level_percentage_next%
+        if (identifier.equals("player_survival_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SURVIVAL_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
         }
 
         // %crafteconomy_player_skyblock_level%
@@ -87,9 +106,23 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL));
         }
 
+        // %crafteconomy_player_skyblock_level_percentage_next%
+        if (identifier.equals("player_skyblock_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+        }
+
         // %crafteconomy_player_creative_level%
         if (identifier.equals("player_creative_level")) {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL));
+        }
+
+        // %crafteconomy_player_creative_level_percentage_next%
+        if (identifier.equals("player_creative_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.CREATIVE_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
         }
 
         // %crafteconomy_player_vanilla_level%
@@ -97,14 +130,35 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
         }
 
+        // %crafteconomy_player_vanilla_level_percentage_next%
+        if (identifier.equals("player_vanilla_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.VANILLA_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+        }
+
         // %crafteconomy_player_skycloud_level%
         if (identifier.equals("player_skycloud_level")) {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL));
         }
 
+        // %crafteconomy_player_skycloud_level_percentage_next%
+        if (identifier.equals("player_skycloud_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYCLOUD_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+        }
+
         // %crafteconomy_player_prison_level%
         if (identifier.equals("player_prison_level")) {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.PRISON_LEVEL));
+        }
+
+        // %crafteconomy_player_prison_level_percentage_next%
+        if (identifier.equals("player_prison_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.PRISON_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.PRISON_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
         }
 
         // %crafteconomy_player_hardcore_vanilla_level%
@@ -115,6 +169,13 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         // %crafteconomy_player_anarchy_level%
         if (identifier.equals("player_anarchy_level")) {
             return String.valueOf(craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL));
+        }
+
+        // %crafteconomy_player_anarchy_level_percentage_next%
+        if (identifier.equals("player_anarchy_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.ANARCHY_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
         }
 
         // %crafteconomy_player_global_experience%
