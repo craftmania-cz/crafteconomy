@@ -21,16 +21,22 @@ public enum LevelType {
     VANILLA_LEVEL,
     VANILLA_EXPERIENCE,
 
+    @Deprecated
     SKYCLOUD_LEVEL,
+    @Deprecated
     SKYCLOUD_EXPERIENCE,
-    
+
+    @Deprecated
     HARDCORE_VANILLA_LEVEL,
+    @Deprecated
     HARDCORE_VANILLA_EXPERIENCE,
 
     ANARCHY_LEVEL,
     ANARCHY_EXPERIENCE,
 
+    @Deprecated
     VANILLA_116_LEVEL,
+    @Deprecated
     VANILLA_116_EXPERIENCE
     ;
 
