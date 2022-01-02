@@ -98,7 +98,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_survival_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.SURVIVAL_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_skyblock_level%
@@ -110,7 +110,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_skyblock_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_creative_level%
@@ -122,7 +122,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_creative_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.CREATIVE_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_vanilla_level%
@@ -134,7 +134,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_vanilla_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.VANILLA_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_skycloud_level%
@@ -146,7 +146,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_skycloud_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYCLOUD_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYCLOUD_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_prison_level%
@@ -158,7 +158,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_prison_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.PRISON_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.PRISON_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_hardcore_vanilla_level%
@@ -175,7 +175,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_anarchy_level_percentage_next")) {
             long totalExperience = craftPlayer.getExperienceByType(LevelType.ANARCHY_EXPERIENCE);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL));
-            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 3) + "%";
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_global_experience%
