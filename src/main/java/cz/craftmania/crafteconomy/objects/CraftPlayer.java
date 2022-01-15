@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.objects;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.utils.Logger;
 import lombok.NonNull;
 import org.bukkit.entity.Player;

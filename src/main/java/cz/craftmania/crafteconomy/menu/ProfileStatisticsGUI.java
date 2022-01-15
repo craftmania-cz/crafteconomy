@@ -47,7 +47,7 @@ public class ProfileStatisticsGUI implements InventoryProvider {
         }
 
         ItemStack economy = ProfileGUI.createItem(Material.GOLD_INGOT, "§bEconomy", Arrays.asList(
-            "§7CraftCoins: §f" + CraftCoinsAPI.getCoins(p),
+            "§7CraftCoins: §f" + EconomyAPI.CRAFTCOINS.get(p),
             "§7VoteTokens: §f" + VoteTokensAPI.getVoteTokens(p),
             "§7CraftTokens: §f" + CraftTokensAPI.getTokens(p),
             "§7Quest points: §f" + QuestPointsAPI.getQuestPoints(p),

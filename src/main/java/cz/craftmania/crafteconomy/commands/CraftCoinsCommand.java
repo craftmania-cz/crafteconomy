@@ -4,7 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.messages.chat.ChatInfo;
-import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -28,7 +28,7 @@ public class CraftCoinsCommand extends BaseCommand {
     public void showCraftCoins(CommandSender sender) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            long coins = CraftCoinsAPI.getCoins(player);
+            long coins = EconomyAPI.CRAFTCOINS.get(player);
             player.sendMessage("§e§l[*] §eAktuálně máš " + coins + " CraftCoins.");
         }
     }
@@ -44,10 +44,10 @@ public class CraftCoinsCommand extends BaseCommand {
             return;
         }
         if (targetPlayer != null) {
-            CraftCoinsAPI.giveCoins(targetPlayer, coinsToAdd);
+            EconomyAPI.CRAFTCOINS.give(targetPlayer, coinsToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToAdd + " CC.");
         } else {
-            CraftCoinsAPI.giveOfflineCoins(editedPlayer, coinsToAdd);
+            EconomyAPI.CRAFTCOINS.giveOffline(editedPlayer, coinsToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §6" + coinsToAdd + " CC.");
         }
     }
@@ -66,10 +66,10 @@ public class CraftCoinsCommand extends BaseCommand {
                 sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftCoins! Má k dispozici: " + manager.getCraftPlayer(targetPlayer).getCoins());
                 return;
             }
-            CraftCoinsAPI.takeCoins(targetPlayer, coinsToTake);
+            EconomyAPI.CRAFTCOINS.take(targetPlayer, coinsToTake);
             sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToTake + " CC.");
         } else {
-            CraftCoinsAPI.takeOfflineCoins(editedPlayer, coinsToTake);
+            EconomyAPI.CRAFTCOINS.takeOffline(editedPlayer, coinsToTake);
             sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §6" + coinsToTake + " CC.");
         }
     }
@@ -91,13 +91,13 @@ public class CraftCoinsCommand extends BaseCommand {
         }
         Player targetPlayer = Bukkit.getPlayer(selectedPlayer);
         Player senderAsPlayer = (Player)sender;
-        long senderCoins = CraftCoinsAPI.getCoins(senderAsPlayer);
+        long senderCoins = EconomyAPI.CRAFTCOINS.get(senderAsPlayer);
         if(senderCoins < coinsToPay) {
             sender.sendMessage("§e§l[*] §eNemáš nedostatek CraftCoinů pro tuto platbu!");;
             return;
         }
         if (targetPlayer != null) {
-            CraftCoinsAPI.payCoins(senderAsPlayer, targetPlayer, coinsToPay);
+            EconomyAPI.CRAFTCOINS.payBetween(senderAsPlayer, targetPlayer, coinsToPay);
             sender.sendMessage("§e§l[*] §ePoslal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToPay + " CC.");
         } else {
             sender.sendMessage("§c§l[!] §cNemůžeš posílat CraftCoiny hráči, který není online!");

@@ -2,7 +2,7 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.craftcore.xseries.messages.Titles;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.api.VoteTokensAPI;
 import cz.craftmania.crafteconomy.events.PlayerVoteEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
@@ -35,7 +35,7 @@ public class VoteManager {
         CraftPlayer craftPlayer = this.manager.getCraftPlayer(player);
 
         VoteTokensAPI.giveVoteTokens(player, Integer.parseInt(votetokens));
-        CraftCoinsAPI.giveCoins(player, Integer.parseInt(coins));
+        EconomyAPI.CRAFTCOINS.give(player, Integer.parseInt(coins));
         Main.getInstance().getMySQL().addPlayerVote(nick);
         craftPlayer.addVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
