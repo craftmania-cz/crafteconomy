@@ -27,19 +27,20 @@ public class VoteManager {
      * @param nick Hráč, který hlasoval
      * @param uuid UUID hráče
      * @param coins Počet CraftCoins, který hráč dostane v základu
+     * @param votetokens Počet VoteTokens, které hráč dostane
      */
-    public void playerVote(final String nick, final String uuid, final String coins) {
+    public void playerVote(final String nick, final String uuid, final String coins, final String votetokens) {
         Player player = Bukkit.getServer().getPlayer(nick);
         assert player != null; // Hráč nemůže být null jelikož Bungeecord kontroluje zda je na serveru
         CraftPlayer craftPlayer = this.manager.getCraftPlayer(player);
 
-        VoteTokensAPI.giveVoteTokens(player, 1);
+        VoteTokensAPI.giveVoteTokens(player, Integer.parseInt(votetokens));
         CraftCoinsAPI.giveCoins(player, Integer.parseInt(coins));
         Main.getInstance().getMySQL().addPlayerVote(nick);
         craftPlayer.addVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
 
-        Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal(a) jsi 1x VoteToken.");
+        Titles.sendTitle(player, "§a§lDěkujeme!", "§fDostal(a) jsi " + votetokens + "x VoteToken.");
 
         Bukkit.getPluginManager().callEvent(new PlayerVoteEvent(player));
         player.sendMessage(" ");

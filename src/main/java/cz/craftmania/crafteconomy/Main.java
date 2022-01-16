@@ -460,7 +460,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             if (sub.equals("vote")) {
                 String nick = in.readUTF();
                 String coins = in.readUTF();
-                voteManager.playerVote(nick, null, coins); //TODO: UUID
+                String votetokens = in.readUTF();
+                voteManager.playerVote(nick, null, coins, votetokens); //TODO: UUID
             }
         } catch (Exception e) {
             e.printStackTrace();
