@@ -30,8 +30,8 @@ public class EconomyLog {
     private Long time;
 
     public enum EconomyAction {
-        MONEY_DEPOSIT("§cVklad"),
-        MONEY_WITHDRAW("§aVýběr"),
+        MONEY_DEPOSIT("§aVklad"),
+        MONEY_WITHDRAW("§cVýběr"),
         PAY_COMMAND("Platba"); // Do not add colour here, because player can receive and send money too (manually add colours when used)
 
         private String translated;
