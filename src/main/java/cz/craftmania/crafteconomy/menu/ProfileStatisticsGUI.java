@@ -48,11 +48,11 @@ public class ProfileStatisticsGUI implements InventoryProvider {
 
         ItemStack economy = ProfileGUI.createItem(Material.GOLD_INGOT, "§bEconomy", Arrays.asList(
             "§7CraftCoins: §f" + EconomyAPI.CRAFTCOINS.get(p),
-            "§7VoteTokens: §f" + VoteTokensAPI.getVoteTokens(p),
-            "§7CraftTokens: §f" + CraftTokensAPI.getTokens(p),
-            "§7Quest points: §f" + QuestPointsAPI.getQuestPoints(p),
+            "§7VoteTokens: §f" + EconomyAPI.VOTETOKENS.get(p),
+            "§7CraftTokens: §f" + EconomyAPI.CRAFTTOKENS.get(p),
+            "§7Quest points: §f" + EconomyAPI.QUESTPOINTS.get(p),
             "§7Karma: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("karma").getAsInt(),
-            "§7Event points: §f" + EventPointsAPI.getEventPoints(p),
+            "§7Event points: §f" + EconomyAPI.EVENTPOINTS.get(p),
             "§7Bug points: §f" + profileData.getAsJsonObject("data").getAsJsonObject("economy").get("bug_points").getAsInt()
         ));
         ItemStack votes = ProfileGUI.createItem(Material.PAPER, "§eVotes", Arrays.asList(

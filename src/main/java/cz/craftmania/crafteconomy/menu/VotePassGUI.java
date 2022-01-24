@@ -4,7 +4,6 @@ import cz.craftmania.craftcore.builders.items.ItemBuilder;
 import cz.craftmania.craftcore.inventory.builder.ClickableItem;
 import cz.craftmania.craftcore.inventory.builder.content.*;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.CraftTokensAPI;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
@@ -126,7 +125,7 @@ public class VotePassGUI implements InventoryProvider {
                 }
 
                 if (votePassReward.getCraftTokens() > 0) {
-                    CraftTokensAPI.giveTokens(player, votePassReward.getCraftTokens());
+                    EconomyAPI.CRAFTTOKENS.give(player, votePassReward.getCraftTokens());
                 }
 
                 if (votePassReward.getServerExperience() > 0) {

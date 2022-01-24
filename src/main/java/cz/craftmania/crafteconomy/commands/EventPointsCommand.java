@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.HelpCommand;
-import cz.craftmania.crafteconomy.api.EventPointsAPI;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,6 +26,6 @@ public class EventPointsCommand extends BaseCommand {
     @Default
     public void showEventPoints(CommandSender sender) {
         if (sender instanceof Player)
-            sender.sendMessage("§e§l[*] §eAktuálně máš " + EventPointsAPI.getEventPoints((Player) sender) + " EventPoints.");
+            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.EVENTPOINTS.get((Player) sender) + " EventPoints.");
     }
 }

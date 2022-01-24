@@ -1,6 +1,8 @@
-package cz.craftmania.crafteconomy.api;
+package cz.craftmania.crafteconomy.objects.economics;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
+import cz.craftmania.crafteconomy.api.IEconomy;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -8,7 +10,7 @@ import lombok.NonNull;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class CraftCoinsEconomy implements IEconomy {
+public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
 
     private static final BasicManager manager = new BasicManager();
 

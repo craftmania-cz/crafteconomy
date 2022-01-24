@@ -1,7 +1,6 @@
 package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
@@ -19,7 +18,7 @@ public class PlayerCreateProfileListener implements Listener {
 
         // Player's changelog
         Main.getInstance().getMySQL().insertChangeIntoChangelog(e.getPlayer(), "server",
-                ChangeActions.ECONOMY_REGISTER, "0", "0");
+               "ECONOMY_REGISTER" , "0", "0");
 
     }
 }

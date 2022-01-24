@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
-import cz.craftmania.crafteconomy.api.QuestPointsAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.QuestManager;
 import cz.craftmania.crafteconomy.objects.QuestReward;
@@ -58,7 +58,7 @@ public class QuestCompleteListener implements Listener {
         // Achievement Points
         if (quest.getQuestPointsValue() > 0) { // Default = 0
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-points", false)) {
-                QuestPointsAPI.giveQuestPoints(player, quest.getQuestPointsValue());
+                EconomyAPI.QUESTPOINTS.give(player, quest.getQuestPointsValue());
                 finalRewards.append("§d" + quest.getQuestPointsValue() + " QuestPoints").append("§7, ");
             }
         }

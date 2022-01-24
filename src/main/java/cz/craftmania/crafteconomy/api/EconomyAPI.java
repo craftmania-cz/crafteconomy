@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.api;
 
+import cz.craftmania.crafteconomy.objects.economics.*;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +9,11 @@ import java.util.Objects;
 
 public enum EconomyAPI implements IEconomy {
 
-    CRAFTCOINS("CraftCoins", new CraftCoinsEconomy());
+    CRAFTCOINS("CraftCoins", new CraftCoinsEconomy()),
+    CRAFTTOKENS("CraftTokens", new CraftTokensEconomy()),
+    VOTETOKENS("VoteTokens", new VoteTokensEconomy()),
+    EVENTPOINTS("EventPoints", new EventPointsEconomy()),
+    QUESTPOINTS("QuestPoints", new QuestPointsEconomy());
 
     private final @Getter String name;
     private final @Getter IEconomy<?> economyType;

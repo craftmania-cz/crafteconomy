@@ -2,7 +2,6 @@ package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
@@ -364,7 +363,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final void insertChangeIntoChangelog(final Player player, final String sender, final ChangeActions action,
+    public final void insertChangeIntoChangelog(final Player player, final String sender, final String action,
                                                 final String oldValue, final String newValue) {
         long currentTime = System.currentTimeMillis();
         String serverName = Main.getServerType().name().toLowerCase();
@@ -380,7 +379,7 @@ public class SQLManager {
                     ps.setString(2, player.getName());
                     ps.setString(3, sender);
                     ps.setString(4, serverName);
-                    ps.setString(5, action.toString());
+                    ps.setString(5, action);
                     ps.setString(6, oldValue);
                     ps.setString(7, newValue);
                     ps.setLong(8, currentTime);
