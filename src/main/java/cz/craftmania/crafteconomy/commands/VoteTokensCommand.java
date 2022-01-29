@@ -24,7 +24,7 @@ public class VoteTokensCommand extends BaseCommand {
     @Default
     public void showVoteTokens(CommandSender sender) {
         if (sender instanceof Player)
-            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.VOTETOKENS.get((Player) sender) + " VoteTokens.");
+            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.VOTE_TOKENS.get((Player) sender) + " VoteTokens.");
     }
 
     @Subcommand("add|give")
@@ -34,10 +34,10 @@ public class VoteTokensCommand extends BaseCommand {
     public void adminGiveVoteTokens(CommandSender sender, String editedPlayer, long tokensToAdd) {
         Player p = Bukkit.getPlayer(editedPlayer);
         if (p != null) {
-            EconomyAPI.VOTETOKENS.give(p, tokensToAdd);
+            EconomyAPI.VOTE_TOKENS.give(p, tokensToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §b" + tokensToAdd + " VT.");
         } else {
-            EconomyAPI.VOTETOKENS.give(editedPlayer, tokensToAdd);
+            EconomyAPI.VOTE_TOKENS.give(editedPlayer, tokensToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §b" + tokensToAdd + " VT.");
         }
     }
@@ -49,7 +49,7 @@ public class VoteTokensCommand extends BaseCommand {
     public void adminTakeVoteTokens(CommandSender sender, String editedPlayer, long tokensToTake) {
         Player player2 = Bukkit.getPlayer(editedPlayer);
         if (player2 == Bukkit.getPlayer(editedPlayer)) {
-            EconomyAPI.VOTETOKENS.takeOffline(editedPlayer, tokensToTake);
+            EconomyAPI.VOTE_TOKENS.takeOffline(editedPlayer, tokensToTake);
             sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " VT.");
             return;
         }
@@ -57,7 +57,7 @@ public class VoteTokensCommand extends BaseCommand {
             sender.sendMessage("§c§l[!] §cHráč nemá dostatek VoteTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getVoteTokens());
             return;
         }
-        EconomyAPI.VOTETOKENS.take(player2, tokensToTake);
+        EconomyAPI.VOTE_TOKENS.take(player2, tokensToTake);
         sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " VT.");
     }
 }

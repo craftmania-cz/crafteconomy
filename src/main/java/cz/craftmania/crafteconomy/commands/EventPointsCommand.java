@@ -26,6 +26,6 @@ public class EventPointsCommand extends BaseCommand {
     @Default
     public void showEventPoints(CommandSender sender) {
         if (sender instanceof Player)
-            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.EVENTPOINTS.get((Player) sender) + " EventPoints.");
+            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.EVENT_POINTS.get((Player) sender) + " EventPoints.");
     }
 }

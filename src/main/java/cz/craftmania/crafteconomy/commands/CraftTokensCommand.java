@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 @CommandAlias("crafttokens|ct")
 @Description("Zobrazuje tvůj aktuální počet CraftTokens")
 public class CraftTokensCommand extends BaseCommand {
@@ -25,7 +24,7 @@ public class CraftTokensCommand extends BaseCommand {
     @Default
     public void showCraftTokens(CommandSender sender) {
         if (sender instanceof Player)
-            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.CRAFTTOKENS.get((Player) sender) + " CraftTokens.");
+            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.CRAFT_TOKENS.get((Player) sender) + " CraftTokens.");
     }
 
     @Subcommand("add|give")
@@ -35,10 +34,10 @@ public class CraftTokensCommand extends BaseCommand {
     public void adminGiveVoteTokens(CommandSender sender, String editedPlayer, long tokensToAdd) {
         Player p = Bukkit.getPlayer(editedPlayer);
         if (p != null) {
-            EconomyAPI.CRAFTTOKENS.give(p, tokensToAdd);
+            EconomyAPI.CRAFT_TOKENS.give(p, tokensToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §d" + tokensToAdd + " CT.");
         } else {
-            EconomyAPI.CRAFTTOKENS.giveOffline(editedPlayer, tokensToAdd);
+            EconomyAPI.CRAFT_TOKENS.giveOffline(editedPlayer, tokensToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §d" + tokensToAdd + " CT.");
         }
     }
@@ -50,7 +49,7 @@ public class CraftTokensCommand extends BaseCommand {
     public void adminTakeVoteTokens(CommandSender sender, String editedPlayer, long tokensToTake) {
         Player player2 = Bukkit.getPlayer(editedPlayer);
         if (player2 == null) { //TODO: Chybi offline kontrola, lze jit do minusu
-            EconomyAPI.CRAFTTOKENS.takeOffline(editedPlayer, tokensToTake);
+            EconomyAPI.CRAFT_TOKENS.takeOffline(editedPlayer, tokensToTake);
             sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " CT.");
             return;
         }
@@ -58,7 +57,7 @@ public class CraftTokensCommand extends BaseCommand {
             sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getTokens());
             return;
         }
-        EconomyAPI.CRAFTTOKENS.take(player2, tokensToTake);
+        EconomyAPI.CRAFT_TOKENS.take(player2, tokensToTake);
         sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " CT.");
     }
 }

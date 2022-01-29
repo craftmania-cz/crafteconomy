@@ -121,11 +121,11 @@ public class VotePassGUI implements InventoryProvider {
                 }
 
                 if (votePassReward.getCraftCoins() > 0) {
-                    EconomyAPI.CRAFTCOINS.give(player, votePassReward.getCraftCoins());
+                    EconomyAPI.CRAFT_COINS.give(player, votePassReward.getCraftCoins());
                 }
 
                 if (votePassReward.getCraftTokens() > 0) {
-                    EconomyAPI.CRAFTTOKENS.give(player, votePassReward.getCraftTokens());
+                    EconomyAPI.CRAFT_TOKENS.give(player, votePassReward.getCraftTokens());
                 }
 
                 if (votePassReward.getServerExperience() > 0) {

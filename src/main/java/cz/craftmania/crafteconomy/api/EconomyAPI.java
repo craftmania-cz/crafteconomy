@@ -7,13 +7,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public enum EconomyAPI implements IEconomy {
+public enum EconomyAPI implements IEconomy<EconomyAPI> {
 
-    CRAFTCOINS("CraftCoins", new CraftCoinsEconomy()),
-    CRAFTTOKENS("CraftTokens", new CraftTokensEconomy()),
-    VOTETOKENS("VoteTokens", new VoteTokensEconomy()),
-    EVENTPOINTS("EventPoints", new EventPointsEconomy()),
-    QUESTPOINTS("QuestPoints", new QuestPointsEconomy());
+    CRAFT_COINS("CraftCoins", new CraftCoinsEconomy()),
+    CRAFT_TOKENS("CraftTokens", new CraftTokensEconomy()),
+    VOTE_TOKENS("VoteTokens", new VoteTokensEconomy()),
+    EVENT_POINTS("EventPoints", new EventPointsEconomy()),
+    QUEST_POINTS("QuestPoints", new QuestPointsEconomy()),
+    SEASON_POINTS("SeasonPoints", new SeasonPointsEconomy());
 
     private final @Getter String name;
     private final @Getter IEconomy<?> economyType;

@@ -33,8 +33,8 @@ public class VoteManager {
         assert player != null; // Hráč nemůže být null jelikož Bungeecord kontroluje zda je na serveru
         CraftPlayer craftPlayer = this.manager.getCraftPlayer(player);
 
-        EconomyAPI.VOTETOKENS.give(player, Integer.parseInt(votetokens));
-        EconomyAPI.CRAFTCOINS.give(player, Integer.parseInt(coins));
+        EconomyAPI.VOTE_TOKENS.give(player, Integer.parseInt(votetokens));
+        EconomyAPI.CRAFT_COINS.give(player, Integer.parseInt(coins));
         Main.getInstance().getMySQL().addPlayerVote(nick);
         craftPlayer.addVote();
         craftPlayer.setLastVote(System.currentTimeMillis());

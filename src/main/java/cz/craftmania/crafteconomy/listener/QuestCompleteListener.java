@@ -58,7 +58,7 @@ public class QuestCompleteListener implements Listener {
         // Achievement Points
         if (quest.getQuestPointsValue() > 0) { // Default = 0
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-points", false)) {
-                EconomyAPI.QUESTPOINTS.give(player, quest.getQuestPointsValue());
+                EconomyAPI.QUEST_POINTS.give(player, quest.getQuestPointsValue());
                 finalRewards.append("§d" + quest.getQuestPointsValue() + " QuestPoints").append("§7, ");
             }
         }
