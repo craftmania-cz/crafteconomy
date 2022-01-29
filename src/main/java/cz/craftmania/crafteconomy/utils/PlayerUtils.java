@@ -55,7 +55,7 @@ public class PlayerUtils {
         player.sendMessage(ServerColors.ROLE_BUILDER.get() + "§lVypadá to, že jsi na serveru nový?");
         player.sendMessage(ServerColors.DARK_GRAY.get() + "Koukni na náš návod jak se zorientovat na našem serveru,");
         player.sendMessage(ServerColors.DARK_GRAY.get() + "aby jsi se u nás neztratil.");
-        player.sendMessage("§ehttps://wiki.craftmania.cz/faq/tutorial-pro-nove-hrace/"); //TODO: Chybí mandarinková barva xD
+        player.sendMessage("§ehttps://wiki.craftmania.cz/tutorial-pro-nove-hrace/"); //TODO: Chybí mandarinková barva xD
         player.sendMessage("");
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_FLUTE, 1.0f, 1.0f);
     }
