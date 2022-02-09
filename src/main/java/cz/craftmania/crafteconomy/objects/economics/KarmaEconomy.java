@@ -10,38 +10,33 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class VoteTokensEconomy implements IEconomy<EconomyAPI> {
+public class KarmaEconomy implements IEconomy<EconomyAPI> {
 
     private static final BasicManager manager = new BasicManager();
 
     @Override
     public @Nullable String name() {
-        return "VoteTokens";
+        return "Karma";
     }
 
     @Override
     public @Nullable String databaseColumn() {
-        return "votetokens";
+        return "karma";
     }
 
     @Override
     public long get(@NotNull String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.VOTE_TOKENS_2);
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.KARMA_POINTS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.KARMA_POINTS, player);
     }
 
     @Override
     public long get(@NotNull Player player) {
-        for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
-            if (player1.getPlayer().equals(player)) {
-                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.VOTE_TOKENS_2);
-            }
-        }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player.getUniqueId());
+        return manager.getCraftPlayer(player).getEconomyByType(EconomyType.KARMA_POINTS);
     }
 
     @Override
@@ -53,15 +48,15 @@ public class VoteTokensEconomy implements IEconomy<EconomyAPI> {
     public void give(@NotNull Player player, long amountToAdd) {
         Main.getAsync().runAsync(() -> {
             if (!BasicManager.getCraftPlayersCache().containsKey(player)) {
-                Logger.danger("Hrac " + player.getName() + " neni v cache giveVoteTokens zastaven!");
+                Logger.danger("Hrac " + player.getName() + " neni v cache give zastaven!");
                 return;
             }
-            long actualVoteTokens = manager.getCraftPlayer(player).getEconomyByType(EconomyType.VOTE_TOKENS_2);
-            long finalVoteTokens = actualVoteTokens + amountToAdd;
-            manager.getCraftPlayer(player).setEconomyByType(EconomyType.VOTE_TOKENS_2, finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTE_TOKENS_2, player, finalVoteTokens);
+            long actualKarmaPoints = manager.getCraftPlayer(player).getEconomyByType(EconomyType.KARMA_POINTS);
+            long finalpoints = actualKarmaPoints + amountToAdd;
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.KARMA_POINTS, finalpoints);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.KARMA_POINTS, player, finalpoints);
             if (player.isOnline()) {
-                player.sendMessage("§aBylo ti pridano §7" + amountToAdd + " VoteTokens.");
+                player.sendMessage("§aBylo ti přidáno §7" + amountToAdd + " Karmy.");
             }
         });
     }
@@ -69,7 +64,7 @@ public class VoteTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void giveOffline(@NotNull String player, long amountToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy(EconomyType.VOTE_TOKENS_2, player, amountToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.KARMA_POINTS, player, amountToAdd);
         });
     }
 
@@ -81,15 +76,15 @@ public class VoteTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void take(@NotNull Player player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualVoteTokens = manager.getCraftPlayer(player).getEconomyByType(EconomyType.VOTE_TOKENS_2);
-            long finalVoteTokens = actualVoteTokens - amountToTake;
-            if (finalVoteTokens < 0) {
+            long actualKarma = manager.getCraftPlayer(player).getEconomyByType(EconomyType.KARMA_POINTS);
+            long finalKarma = actualKarma - amountToTake;
+            if (finalKarma < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setEconomyByType(EconomyType.VOTE_TOKENS_2, finalVoteTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.VOTE_TOKENS_2, player, finalVoteTokens);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.KARMA_POINTS, finalKarma);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.KARMA_POINTS, player, finalKarma);
             if (player.isOnline()) {
-                player.sendMessage("§cBylo ti odebrano §7" + amountToTake + " VoteTokens.");
+                player.sendMessage("§aBylo ti odebráno §7" + amountToTake + " Karmy.");
             }
         });
     }
@@ -97,12 +92,12 @@ public class VoteTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void takeOffline(@NotNull String player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualVoteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player);
-            long finalVoteTokens = actualVoteTokens - amountToTake;
-            if (finalVoteTokens < 0) {
+            long actualKarma = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.KARMA_POINTS, player);
+            long finalKarma = actualKarma - amountToTake;
+            if (finalKarma < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy(EconomyType.VOTE_TOKENS_2, player, amountToTake);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.KARMA_POINTS, player, amountToTake);
         });
     }
 

@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -53,8 +54,8 @@ public class CraftTokensCommand extends BaseCommand {
             sender.sendMessage("§e§l[*] §eOdebral jsi hráči §f" + editedPlayer + " §7- §d" + tokensToTake + " CT.");
             return;
         }
-        if ((manager.getCraftPlayer(player2).getTokens() - tokensToTake) < 0) {
-            sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getTokens());
+        if ((manager.getCraftPlayer(player2).getEconomyByType(EconomyType.CRAFT_TOKENS) - tokensToTake) < 0) {
+            sender.sendMessage("§c§l[!] §cHráč nemá dostatek CraftTokens! Má k dispozici: " + manager.getCraftPlayer(player2).getEconomyByType(EconomyType.CRAFT_TOKENS));
             return;
         }
         EconomyAPI.CRAFT_TOKENS.take(player2, tokensToTake);

@@ -28,20 +28,20 @@ public class QuestPointsEconomy implements IEconomy<EconomyAPI> {
     public long get(@NotNull String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getQuestPoints();
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.QUEST_POINTS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.QUEST_POINTS, player);
     }
 
     @Override
     public long get(@NotNull Player player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getPlayer().equals(player)) {
-                return manager.getCraftPlayer(player1).getQuestPoints();
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.QUEST_POINTS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId());
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.QUEST_POINTS, player.getUniqueId());
     }
 
     @Override
@@ -56,10 +56,10 @@ public class QuestPointsEconomy implements IEconomy<EconomyAPI> {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveQuestPoints zastaven!");
                 return;
             }
-            long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
+            long actualPoints = manager.getCraftPlayer(player).getEconomyByType(EconomyType.QUEST_POINTS);
             long finalPoints = actualPoints + amountToAdd;
-            manager.getCraftPlayer(player).setQuestPoints(finalPoints);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.QUEST_POINTS, finalPoints);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.QUEST_POINTS, player, finalPoints);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + amountToAdd + " QuestPoints.");
             }
@@ -69,7 +69,7 @@ public class QuestPointsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void giveOffline(@NotNull String player, long amountToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy(EconomyType.ACHIEVEMENT_POINTS, player, amountToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.QUEST_POINTS, player, amountToAdd);
         });
     }
 
@@ -81,13 +81,13 @@ public class QuestPointsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void take(@NotNull Player player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualPoints = manager.getCraftPlayer(player).getQuestPoints();
+            long actualPoints = manager.getCraftPlayer(player).getEconomyByType(EconomyType.QUEST_POINTS);
             long finalPoints = actualPoints - amountToTake;
             if (finalPoints < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setQuestPoints(finalPoints);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.ACHIEVEMENT_POINTS, player, finalPoints);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.QUEST_POINTS, finalPoints);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.QUEST_POINTS, player, finalPoints);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebráno §7" + amountToTake + " QuestPoints.");
             }
@@ -97,7 +97,7 @@ public class QuestPointsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void takeOffline(@NotNull String player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().takeEconomy(EconomyType.ACHIEVEMENT_POINTS, player, amountToTake);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.QUEST_POINTS, player, amountToTake);
         });
     }
 

@@ -3,20 +3,21 @@ package cz.craftmania.crafteconomy.objects;
 public enum EconomyType {
 
     // Basic economy
-    CRAFTCOINS,
-    CRAFTTOKENS,
-    VOTETOKENS_2, // "votetokens_2" je kvůli 1.14!
-    KARMA,
+    CRAFT_COINS,
+    CRAFT_TOKENS,
+    VOTE_TOKENS_1, // 1.9+
+    VOTE_TOKENS_2, // 1.14+
+    VOTE_TOKENS_3, // 1.18+
+    KARMA_POINTS,
+    QUEST_POINTS,
+    SEASON_POINTS,
+    EVENT_POINTS,
+    PARKOUR_POINTS,
 
     WEEK_VOTES,
     MONTH_VOTES,
     TOTAL_VOTES,
-    VOTE_PASS,
-
-    ACHIEVEMENT_POINTS,
-    QUEST_POINTS, //TODO: Přepnout ve finále
-    SEASON_POINTS,
-    EVENT_POINTS;
+    VOTE_PASS;
 
     EconomyType() {
     }

@@ -28,15 +28,15 @@ public class CraftTokensEconomy implements IEconomy<EconomyAPI> {
     public long get(@NotNull String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getTokens();
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.CRAFT_TOKENS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_TOKENS, player);
     }
 
     @Override
     public long get(@NotNull Player player) {
-        return manager.getCraftPlayer(player).getTokens();
+        return manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_TOKENS);
     }
 
     @Override
@@ -51,10 +51,10 @@ public class CraftTokensEconomy implements IEconomy<EconomyAPI> {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveTokens zastaven!");
                 return;
             }
-            long actualTokens = manager.getCraftPlayer(player).getTokens();
+            long actualTokens = manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_TOKENS);
             long finalTokens = actualTokens + amountToAdd;
-            manager.getCraftPlayer(player).setTokens(finalTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTTOKENS, player, finalTokens);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.CRAFT_TOKENS, finalTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_TOKENS, player, finalTokens);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + amountToAdd + " CraftTokens.");
             }
@@ -64,7 +64,7 @@ public class CraftTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void giveOffline(@NotNull String player, long amountToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFTTOKENS, player, amountToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFT_TOKENS, player, amountToAdd);
         });
     }
 
@@ -76,13 +76,13 @@ public class CraftTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void take(@NotNull Player player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualTokens = manager.getCraftPlayer(player).getTokens();
+            long actualTokens = manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_TOKENS);
             long finalTokens = actualTokens - amountToTake;
             if (finalTokens < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setTokens(finalTokens);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTTOKENS, player, finalTokens);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.CRAFT_TOKENS, finalTokens);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_TOKENS, player, finalTokens);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti odebrano §7" + amountToTake + " CraftTokens.");
             }
@@ -92,12 +92,12 @@ public class CraftTokensEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void takeOffline(@NotNull String player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player);
+            long actualTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_TOKENS, player);
             long finalTokens = actualTokens - amountToTake;
             if (finalTokens < 0) {
                 return; //TODO: Fail zpráva pro sendera?
             }
-            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFTTOKENS, player, amountToTake);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFT_TOKENS, player, amountToTake);
         });
     }
 

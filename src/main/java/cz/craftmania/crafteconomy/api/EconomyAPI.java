@@ -14,7 +14,9 @@ public enum EconomyAPI implements IEconomy<EconomyAPI> {
     VOTE_TOKENS("VoteTokens", new VoteTokensEconomy()),
     EVENT_POINTS("EventPoints", new EventPointsEconomy()),
     QUEST_POINTS("QuestPoints", new QuestPointsEconomy()),
-    SEASON_POINTS("SeasonPoints", new SeasonPointsEconomy());
+    SEASON_POINTS("SeasonPoints", new SeasonPointsEconomy()),
+    KARMA_POINTS("Karma", new KarmaEconomy()),
+    PARKOUR_POINTS("PakourPoints", new ParkourPointsEconomy());
 
     private final @Getter String name;
     private final @Getter IEconomy<?> economyType;

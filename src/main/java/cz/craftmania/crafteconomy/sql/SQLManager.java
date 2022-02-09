@@ -99,7 +99,7 @@ public class SQLManager {
                 CraftPlayer craftPlayer = new CraftPlayer(player, //TODO: Změnit?!
                         ps.getResultSet().getLong("craftcoins"),
                         ps.getResultSet().getLong("crafttokens"),
-                        ps.getResultSet().getLong("votetokens_2"));
+                        ps.getResultSet().getLong("votetokens_2")); //TODO: Změnit na votetokens_1
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_LEVEL, ps.getResultSet().getLong("survival_level"));
                 craftPlayer.setLevelByType(LevelType.SKYBLOCK_LEVEL, ps.getResultSet().getLong("skyblock_level"));
                 craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong("creative_level"));
@@ -114,10 +114,10 @@ public class SQLManager {
                 craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong("prison_experience"));
                 craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong("vanilla_experience"));
                 craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong("skycloud_experience"));
-                craftPlayer.setQuestPoints(ps.getResultSet().getLong("achievement_points"));
-                craftPlayer.setSeasonPoints(ps.getResultSet().getLong("season_points"));
+                craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("achievement_points"));
+                craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
                 craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
-                craftPlayer.setEventPoints(ps.getResultSet().getLong("event_points"));
+                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
                 craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
                 return craftPlayer;
             }

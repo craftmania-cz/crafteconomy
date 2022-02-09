@@ -28,7 +28,7 @@ public class EventPointsEconomy implements IEconomy<EconomyAPI> {
     public long get(@NotNull String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getEventPoints();
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.EVENT_POINTS);
             }
         }
         return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player);
@@ -36,7 +36,7 @@ public class EventPointsEconomy implements IEconomy<EconomyAPI> {
 
     @Override
     public long get(@NotNull Player player) {
-        return manager.getCraftPlayer(player).getEventPoints();
+        return manager.getCraftPlayer(player).getEconomyByType(EconomyType.EVENT_POINTS);
     }
 
     @Override
@@ -51,9 +51,9 @@ public class EventPointsEconomy implements IEconomy<EconomyAPI> {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveEventPoints zastaven!");
                 return;
             }
-            long actualPoints = manager.getCraftPlayer(player).getEventPoints();
+            long actualPoints = manager.getCraftPlayer(player).getEconomyByType(EconomyType.EVENT_POINTS);
             long finalpoints = actualPoints + amountToAdd;
-            manager.getCraftPlayer(player).setEventPoints(finalpoints);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.EVENT_POINTS, finalpoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.EVENT_POINTS, player, finalpoints);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + amountToAdd + " EventPoints.");
@@ -74,12 +74,12 @@ public class EventPointsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void take(@NotNull Player player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualPoints = manager.getCraftPlayer(player).getEventPoints();
+            long actualPoints = manager.getCraftPlayer(player).getEconomyByType(EconomyType.EVENT_POINTS);
             long finalPoints = actualPoints - amountToTake;
             if (finalPoints < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setEventPoints(finalPoints);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.EVENT_POINTS, finalPoints);
             Main.getInstance().getMySQL().setEconomy(EconomyType.EVENT_POINTS, player, finalPoints);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti odebrano §7" + amountToTake + " EventPoints.");

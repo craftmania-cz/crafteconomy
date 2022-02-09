@@ -14,9 +14,14 @@ public class CraftPlayer {
     private Player player;
 
     // Economy
-    private long coins = 0;
-    private long tokens = 0;
+    private long craftCoins = 0;
+    private long craftTokens = 0;
     private long voteTokens = 0;
+    private long karmaPoints = 0;
+    private long questPoints = 0;
+    private long eventPoints = 0;
+    private long seasonPoints = 0;
+    private long parkourPoints = 0;
 
     // Experience and levels
     private long globalLevel = 1;
@@ -52,10 +57,6 @@ public class CraftPlayer {
     private long serverMoney = -1;
 
     // Others
-    private long karma = 0;
-    private long questPoints = 0;
-    private long eventPoints = 0;
-    private long seasonPoints = 0;
     private HashSet<Multiplier> multipliers;
     private boolean isAfk = false;
 
@@ -77,9 +78,9 @@ public class CraftPlayer {
     public CraftPlayer(@NonNull final Player player) { //TODO: DDoS MySQL? xD
         this.player = player;
         this.multipliers = new HashSet<>();
-        this.coins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player.getUniqueId());
-        this.tokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTTOKENS, player.getUniqueId());
-        this.voteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTETOKENS_2, player.getUniqueId());
+        this.craftCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player.getUniqueId());
+        this.craftTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_TOKENS, player.getUniqueId());
+        this.voteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player.getUniqueId());
         this.survivalLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_LEVEL, player.getUniqueId());
         this.survivalExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_EXPERIENCE, player.getUniqueId());
         this.skyblockLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_LEVEL, player.getUniqueId());
@@ -92,7 +93,7 @@ public class CraftPlayer {
         this.skycloudExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_EXPERIENCE, player.getUniqueId());
         this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
         this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
-        this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.ACHIEVEMENT_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
+        this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.QUEST_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
         this.seasonPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.SEASON_POINTS, player.getUniqueId());
         this.totalVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
         this.monthVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
@@ -119,8 +120,8 @@ public class CraftPlayer {
      */
     public CraftPlayer(@NonNull final Player player, final long coins, final long tokens, final long voteTokens) {
         this.player = player;
-        this.coins = coins;
-        this.tokens = tokens;
+        this.craftCoins = coins;
+        this.craftTokens = tokens;
         this.voteTokens = voteTokens;
         this.multipliers = new HashSet<>();
         recalculateGlobalLevel();
@@ -154,36 +155,44 @@ public class CraftPlayer {
      *
      * @return {@link Long}
      */
-    public long getCoins() {
-        return coins;
+    @Deprecated(since = "2.0.0")
+    public long getCraftCoins() {
+        return craftCoins;
     }
 
-    public void setCoins(long coins) {
-        this.coins = coins;
+    @Deprecated(since = "2.0.0")
+    public void setCraftCoins(long craftCoins) {
+        this.craftCoins = craftCoins;
     }
 
-    public long getTokens() {
-        return tokens;
+    @Deprecated(since = "2.0.0")
+    public long getCraftTokens() {
+        return craftTokens;
     }
 
-    public void setTokens(long tokens) {
-        this.tokens = tokens;
+    @Deprecated(since = "2.0.0")
+    public void setCraftTokens(long craftTokens) {
+        this.craftTokens = craftTokens;
     }
 
+    @Deprecated(since = "2.0.0")
     public long getVoteTokens() {
         return voteTokens;
     }
 
+    @Deprecated(since = "2.0.0")
     public void setVoteTokens(long voteTokens) {
         this.voteTokens = voteTokens;
     }
 
-    public void setKarma(long karma) {
-        this.karma = karma;
+    @Deprecated(since = "2.0.0")
+    public void setKarmaPoints(long karmaPoints) {
+        this.karmaPoints = karmaPoints;
     }
 
-    public long getKarma() {
-        return karma;
+    @Deprecated(since = "2.0.0")
+    public long getKarmaPoints() {
+        return karmaPoints;
     }
 
     public HashSet<Multiplier> getMultipliers() {
@@ -194,10 +203,12 @@ public class CraftPlayer {
         this.multipliers = multipliers;
     }
 
+    @Deprecated(since = "2.0.0")
     public long getQuestPoints() {
         return questPoints;
     }
 
+    @Deprecated(since = "2.0.0")
     public void setQuestPoints(long questPoints) {
         this.questPoints = questPoints;
     }
@@ -218,20 +229,89 @@ public class CraftPlayer {
         return lastVote;
     }
 
+    @Deprecated(since = "2.0.0")
     public long getEventPoints() {
         return eventPoints;
     }
 
+    @Deprecated(since = "2.0.0")
     public void setEventPoints(long eventPoints) {
         this.eventPoints = eventPoints;
     }
 
+    @Deprecated(since = "2.0.0")
     public long getSeasonPoints() {
         return seasonPoints;
     }
 
+    @Deprecated(since = "2.0.0")
     public void setSeasonPoints(long seasonPoints) {
         this.seasonPoints = seasonPoints;
+    }
+
+    /** Vrací hodnoty z cache určené ekonomiky
+     *
+     * @param type {@link EconomyType}
+     * @return {@link Long} hodnotu ekonomiky
+     */
+    public long getEconomyByType(final EconomyType type) {
+        switch (type) {
+            case CRAFT_COINS -> {
+                return this.craftCoins;
+            }
+            case CRAFT_TOKENS -> {
+                return this.craftTokens;
+            }
+            case VOTE_TOKENS_2 -> {
+                return this.voteTokens;
+            }
+            case KARMA_POINTS -> {
+                return this.karmaPoints;
+            }
+            case QUEST_POINTS -> {
+                return this.questPoints;
+            }
+            case SEASON_POINTS -> {
+                return this.seasonPoints;
+            }
+            case EVENT_POINTS -> {
+                return this.eventPoints;
+            }
+            case PARKOUR_POINTS -> {
+                return this.parkourPoints;
+            }
+            default -> throw new Error("Unsupported get type economy!");
+        }
+    }
+
+    public void setEconomyByType(final EconomyType type, final long amount) {
+        switch (type) {
+            case CRAFT_COINS -> {
+                this.craftCoins = amount;
+            }
+            case CRAFT_TOKENS -> {
+                this.craftTokens = amount;
+            }
+            case VOTE_TOKENS_2 -> {
+                this.voteTokens = amount;
+            }
+            case KARMA_POINTS -> {
+                this.karmaPoints = amount;
+            }
+            case QUEST_POINTS -> {
+                this.questPoints = amount;
+            }
+            case SEASON_POINTS -> {
+                this.seasonPoints = amount;
+            }
+            case EVENT_POINTS -> {
+                this.eventPoints = amount;
+            }
+            case PARKOUR_POINTS -> {
+                this.parkourPoints = amount;
+            }
+            default -> throw new Error("Unsupported get type economy!");
+        }
     }
 
     /**

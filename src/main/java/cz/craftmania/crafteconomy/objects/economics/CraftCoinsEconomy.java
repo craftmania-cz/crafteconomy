@@ -28,20 +28,20 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
     public long get(@NonNull String player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getName().equals(player)) {
-                return manager.getCraftPlayer(player1).getCoins();
+                return manager.getCraftPlayer(player1).getEconomyByType(EconomyType.CRAFT_COINS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player);
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player);
     }
 
     @Override
     public long get(@NonNull Player player) {
         for (Player player1 : BasicManager.getCraftPlayersCache().keySet()) {
             if (player1.getPlayer().equals(player)) {
-                return manager.getCraftPlayer(player).getCoins();
+                return manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_COINS);
             }
         }
-        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player.getUniqueId());
+        return Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player.getUniqueId());
     }
 
     @Override
@@ -56,10 +56,10 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
                 Logger.danger("Hrac " + player.getName() + " neni v cache giveCoins zastaven!");
                 return;
             }
-            long actualCoins = manager.getCraftPlayer(player).getCoins();
+            long actualCoins = manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_COINS);
             long finalCoins = actualCoins + amountToAdd;
-            manager.getCraftPlayer(player).setCoins(finalCoins);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, player, finalCoins);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.CRAFT_COINS, finalCoins);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_COINS, player, finalCoins);
             if (player.isOnline()) {
                 player.sendMessage("§aBylo ti pridano §7" + amountToAdd + " CraftCoins.");
             }
@@ -69,7 +69,7 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void giveOffline(@NonNull String player, final long amountToAdd) {
         Main.getAsync().runAsync(() -> {
-            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFTCOINS, player, amountToAdd);
+            Main.getInstance().getMySQL().addEconomy(EconomyType.CRAFT_COINS, player, amountToAdd);
         });
     }
 
@@ -81,13 +81,13 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void take(@NotNull Player player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualCoins = manager.getCraftPlayer(player).getCoins();
+            long actualCoins = manager.getCraftPlayer(player).getEconomyByType(EconomyType.CRAFT_COINS);
             long finalCoins = actualCoins - amountToTake;
             if (finalCoins < 0) {
                 return;
             }
-            manager.getCraftPlayer(player).setCoins(finalCoins);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, player, finalCoins);
+            manager.getCraftPlayer(player).setEconomyByType(EconomyType.CRAFT_COINS, finalCoins);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_COINS, player, finalCoins);
             if (player.isOnline()) {
                 player.sendMessage("§cBylo ti odebrano §7" + amountToTake + " CraftCoins.");
             }
@@ -97,12 +97,12 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
     @Override
     public void takeOffline(@NotNull String player, long amountToTake) {
         Main.getAsync().runAsync(() -> {
-            long actualCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFTCOINS, player);
+            long actualCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player);
             long finalCoins = actualCoins - amountToTake;
             if (finalCoins < 0) {
                 return;
             }
-            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFTCOINS, player, amountToTake);
+            Main.getInstance().getMySQL().takeEconomy(EconomyType.CRAFT_COINS, player, amountToTake);
         });
     }
 
@@ -117,16 +117,16 @@ public class CraftCoinsEconomy implements IEconomy<EconomyAPI> {
                 return;
             }
 
-            long currentCoinsSender = manager.getCraftPlayer(sender).getCoins();
+            long currentCoinsSender = manager.getCraftPlayer(sender).getEconomyByType(EconomyType.CRAFT_COINS);
             long newCoinsSender = currentCoinsSender - amountToPay;
 
-            long currentCoinsTarget = manager.getCraftPlayer(target).getCoins();
+            long currentCoinsTarget = manager.getCraftPlayer(target).getEconomyByType(EconomyType.CRAFT_COINS);
             long newCoinsTarget = currentCoinsTarget + amountToPay;
 
-            manager.getCraftPlayer(sender).setCoins(newCoinsSender);
-            manager.getCraftPlayer(target).setCoins(newCoinsTarget);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, sender, newCoinsSender);
-            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFTCOINS, target, newCoinsTarget);
+            manager.getCraftPlayer(sender).setEconomyByType(EconomyType.CRAFT_COINS, newCoinsSender);
+            manager.getCraftPlayer(target).setEconomyByType(EconomyType.CRAFT_COINS, newCoinsTarget);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_COINS, sender, newCoinsSender);
+            Main.getInstance().getMySQL().setEconomy(EconomyType.CRAFT_COINS, target, newCoinsTarget);
 
             target.sendMessage("§aHráč " + sender.getName() + " ti poslal §7" + amountToPay + " §aCC. Nyní máš §7" + newCoinsTarget + " §aCC.");
         });

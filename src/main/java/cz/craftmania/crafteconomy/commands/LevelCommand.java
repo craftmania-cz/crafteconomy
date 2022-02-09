@@ -5,6 +5,7 @@ import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.FormatUtils;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
@@ -39,7 +40,7 @@ public class LevelCommand extends BaseCommand {
             p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "§7]");
             p.sendMessage("§8- §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "], §cVan-Anar §7[" + craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL) + "]");
             p.sendMessage("§bKarma: §f0");
-            p.sendMessage("§dQuest Points: §f" + craftPlayer.getQuestPoints());
+            p.sendMessage("§dQuest Points: §f" + craftPlayer.getEconomyByType(EconomyType.QUEST_POINTS));
             p.sendMessage("");
             p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         }
