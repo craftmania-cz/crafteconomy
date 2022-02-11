@@ -43,19 +43,17 @@ repositories {
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
     maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
     maven {
-        url "https://maven.pkg.github.com/craftmania-cz/craftcore"
-        credentials {
-            username = GPR_USER
-            password = GPR_TOKEN
+        url "https://gitlab.com/api/v4/groups/craftmania/-/packages/maven"
+        name "GitLab"
+        credentials(HttpHeaderCredentials) {
+            name = 'Private-Token'
+            value = GITLAB_TOKEN
+        }
+        authentication {
+            header(HttpHeaderAuthentication)
         }
     }
-    maven {
-        url "https://maven.pkg.github.com/craftmania-cz/craftlibs"
-        credentials {
-            username = GPR_USER
-            password = GPR_TOKEN
-        }
-    }
+
 }
 
 dependencies {
@@ -66,7 +64,7 @@ dependencies {
 
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.6.2.1'
-    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.8'
+    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.9'
 
     // Other dependecies
     implementation 'com.zaxxer:HikariCP:3.4.5'
