@@ -14,6 +14,7 @@ public enum EconomyType {
     EVENT_POINTS,
     PARKOUR_POINTS,
 
+    // TODO: Odebrat v 2.0.1
     WEEK_VOTES,
     MONTH_VOTES,
     TOTAL_VOTES,
