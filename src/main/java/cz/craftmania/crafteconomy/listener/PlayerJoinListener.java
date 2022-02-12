@@ -5,7 +5,6 @@ import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
-import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -31,10 +30,6 @@ public class PlayerJoinListener implements Listener {
 
         // Zakladni nacteni dat do cache a vytvoření objektu
         CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
-        if (craftPlayer == null) {
-            Logger.danger("Načítání dat pro " + player.getName() + " selhalo.");
-            return;
-        }
         craftPlayer.recalculateGlobalLevel();
 
         // Vytvoření a načtení vault money do craftplayer

@@ -2,7 +2,6 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
-import cz.craftmania.crafteconomy.exceptions.CraftEconomyLoadPlayerDataFailed;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -12,7 +11,6 @@ import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.craftlibs.utils.ChatInfo;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,22 +31,11 @@ public class BasicManager {
      * Načtení dat do interní cache.
      * @param player Bukkit objekt hráče
      */
-    @Nullable
+    @NotNull
     public static CraftPlayer loadPlayerData(final Player player) {
-        try {
-            CraftPlayer cp = getOrRegisterPlayer(player);
-            players.put(player, cp);
-            return cp;
-        } catch (CraftEconomyLoadPlayerDataFailed loadError) {
-            loadError.printStackTrace();
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 3.0f, 1.0f);
-            ChatInfo.DANGER.send(player, "");
-            ChatInfo.DANGER.send(player, "Tvoje data selhaly při načtení! Toto je fatální chyba!");
-            ChatInfo.DANGER.send(player, "Odpoj se nebo se zkus znova připojit.");
-            ChatInfo.DANGER.send(player, "Pokud stále vidíš tuto zprávu, oznam to neprodleně vedení serveru!");
-            ChatInfo.DANGER.send(player, "");
-        }
-        return null;
+        CraftPlayer cp = getOrRegisterPlayer(player);
+        players.put(player, cp);
+        return cp;
     }
 
     /**
@@ -100,7 +87,7 @@ public class BasicManager {
      * @see CraftPlayer
      */
     @NotNull
-    private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) throws CraftEconomyLoadPlayerDataFailed {
+    private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) {
         CraftPlayer cp = null;
         try {
             if (Main.getInstance().getMySQL().hasData(player)) { // Kontrola dle UUID
@@ -139,8 +126,9 @@ public class BasicManager {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         }
+        // Prevence proti NPE z SQL
         if (cp == null) {
-            throw new CraftEconomyLoadPlayerDataFailed(player.getName());
+            cp = new CraftPlayer(player);
         }
         return cp;
     }
