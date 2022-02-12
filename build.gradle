@@ -82,11 +82,13 @@ dependencies {
 }
 
 shadowJar {
+    baseName = 'crafteconomy'
+    classifier = null
+    version = this.version
+
     relocate 'co.aikar.commands', 'cz.craftmania.crafteconomy.acf'
     relocate 'co.aikar.locales', 'cz.craftmania.crafteconomy.locales'
 }
-
-build.dependsOn shadowJar
 
 publishing {
     repositories {
@@ -107,3 +109,5 @@ publishing {
         }
     }
 }
+
+build.dependsOn shadowJar
