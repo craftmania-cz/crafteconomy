@@ -2,7 +2,6 @@ package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.ChangeActions;
 import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
@@ -88,6 +87,7 @@ public class SQLManager {
         }
     }
 
+    //TODO: Rewrite
     public final CraftPlayer getCraftPlayerFromSQL(final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -97,10 +97,10 @@ public class SQLManager {
             ps.setString(1, player.getUniqueId().toString());
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                CraftPlayer craftPlayer = new CraftPlayer(player, //TODO: Změnit?!
-                        ps.getResultSet().getLong("craftcoins"),
-                        ps.getResultSet().getLong("crafttokens"),
-                        ps.getResultSet().getLong("votetokens_2"));
+                CraftPlayer craftPlayer = new CraftPlayer(player);
+                craftPlayer.setEconomyByType(EconomyType.CRAFT_COINS, ps.getResultSet().getLong("craft_coins"));
+                craftPlayer.setEconomyByType(EconomyType.CRAFT_TOKENS, ps.getResultSet().getLong("craft_tokens"));
+                craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS_2, ps.getResultSet().getLong("vote_tokens_2"));
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_LEVEL, ps.getResultSet().getLong("survival_level"));
                 craftPlayer.setLevelByType(LevelType.SKYBLOCK_LEVEL, ps.getResultSet().getLong("skyblock_level"));
                 craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong("creative_level"));
@@ -115,11 +115,19 @@ public class SQLManager {
                 craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong("prison_experience"));
                 craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong("vanilla_experience"));
                 craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong("skycloud_experience"));
-                craftPlayer.setQuestPoints(ps.getResultSet().getLong("achievement_points"));
-                craftPlayer.setSeasonPoints(ps.getResultSet().getLong("season_points"));
-                craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
-                craftPlayer.setEventPoints(ps.getResultSet().getLong("event_points"));
+                craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("quest_points"));
+                craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
+                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
+                craftPlayer.setEconomyByType(EconomyType.PARKOUR_POINTS, ps.getResultSet().getLong("parkour_points"));
+                craftPlayer.setEconomyByType(EconomyType.KARMA_POINTS, ps.getResultSet().getLong("karma_points"));
                 craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
+                craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
+                craftPlayer.setVoteStatistics(
+                        ps.getResultSet().getLong(EconomyType.WEEK_VOTES.name().toLowerCase()),
+                        ps.getResultSet().getLong(EconomyType.MONTH_VOTES.name().toLowerCase()),
+                        ps.getResultSet().getLong(EconomyType.TOTAL_VOTES.name().toLowerCase()),
+                        ps.getResultSet().getLong("last_vote")
+                );
                 return craftPlayer;
             }
         } catch (Exception e) {
@@ -364,7 +372,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final void insertChangeIntoChangelog(final Player player, final String sender, final ChangeActions action,
+    public final void insertChangeIntoChangelog(final Player player, final String sender, final String action,
                                                 final String oldValue, final String newValue) {
         long currentTime = System.currentTimeMillis();
         String serverName = Main.getServerType().name().toLowerCase();
@@ -380,7 +388,7 @@ public class SQLManager {
                     ps.setString(2, player.getName());
                     ps.setString(3, sender);
                     ps.setString(4, serverName);
-                    ps.setString(5, action.toString());
+                    ps.setString(5, action);
                     ps.setString(6, oldValue);
                     ps.setString(7, newValue);
                     ps.setLong(8, currentTime);

@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.utils.hooks;
 
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.FormatUtils;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
@@ -51,37 +52,37 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
 
         // %crafteconomy_player_craftcoins%
         if (identifier.equals("player_craftcoins")) {
-            return String.valueOf(craftPlayer.getCoins());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.CRAFT_COINS));
         }
 
         // %crafteconomy_player_crafttokens%
         if (identifier.equals("player_crafttokens")) {
-            return String.valueOf(craftPlayer.getTokens());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.CRAFT_TOKENS));
         }
 
         // %crafteconomy_player_votetokens%
         if (identifier.equals("player_votetokens")) {
-            return String.valueOf(craftPlayer.getVoteTokens());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.VOTE_TOKENS_2));
         }
 
         // %crafteconomy_player_karma%
         if (identifier.equals("player_karma")) {
-            return String.valueOf(craftPlayer.getKarma());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.KARMA_POINTS));
         }
 
         // %crafteconomy_player_quest_points%
         if (identifier.equals("player_quest_points")) {
-            return String.valueOf(craftPlayer.getQuestPoints());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.QUEST_POINTS));
         }
 
         // %crafteconomy_player_event_points%
         if (identifier.equals("player_event_points")) {
-            return String.valueOf(craftPlayer.getEventPoints());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.EVENT_POINTS));
         }
 
         // %crafteconomy_player_season_points%
         if (identifier.equals("player_season_points")) {
-            return String.valueOf(craftPlayer.getSeasonPoints());
+            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.SEASON_POINTS));
         }
 
         // %crafteconomy_player_votepass_votes%

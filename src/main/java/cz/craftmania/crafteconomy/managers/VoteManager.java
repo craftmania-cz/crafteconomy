@@ -2,8 +2,7 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.craftcore.xseries.messages.Titles;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.api.CraftCoinsAPI;
-import cz.craftmania.crafteconomy.api.VoteTokensAPI;
+import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.events.PlayerVoteEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.VotePassReward;
@@ -34,8 +33,8 @@ public class VoteManager {
         assert player != null; // Hráč nemůže být null jelikož Bungeecord kontroluje zda je na serveru
         CraftPlayer craftPlayer = this.manager.getCraftPlayer(player);
 
-        VoteTokensAPI.giveVoteTokens(player, Integer.parseInt(votetokens));
-        CraftCoinsAPI.giveCoins(player, Integer.parseInt(coins));
+        EconomyAPI.VOTE_TOKENS.give(player, Integer.parseInt(votetokens));
+        EconomyAPI.CRAFT_COINS.give(player, Integer.parseInt(coins));
         Main.getInstance().getMySQL().addPlayerVote(nick);
         craftPlayer.addVote();
         craftPlayer.setLastVote(System.currentTimeMillis());
