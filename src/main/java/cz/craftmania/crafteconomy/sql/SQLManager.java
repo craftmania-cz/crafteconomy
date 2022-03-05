@@ -653,7 +653,7 @@ public class SQLManager {
 
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 ORDER BY `balance` DESC");
+            ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 AND `hide_in_baltop` = 0 ORDER BY `balance` DESC");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
                 balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getLong("balance"));
@@ -666,6 +666,45 @@ public class SQLManager {
         }
 
         return balanceMap;
+    }
+
+    public boolean isHiddenInBaltop(String uuid) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `hide_in_baltop` FROM `player_economy_" + server + "` WHERE `uuid` = ?;");
+            ps.setString(1, uuid);
+            ps.executeQuery();
+
+            ps.getResultSet().next();
+            return ps.getResultSet().getBoolean("hide_in_baltop");
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return false;
+    }
+
+    public void setHideInBaltop(String uuid, boolean hideInBaltop) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE `player_economy_" + server + "` SET `hide_in_baltop` = ? WHERE `uuid` = ?;");
+            ps.setBoolean(1, hideInBaltop);
+            ps.setString(2, uuid);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
     }
 
     public CompletableFuture<List<EconomyLog>> getVaultAllLogsByUUID(UUID uuid) {
