@@ -17,6 +17,8 @@ public class VoteTokensCommand extends BaseCommand {
     private static final BasicManager manager = new BasicManager();
 
     @HelpCommand
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sender.sendMessage("§e§lVoteTokens commands:");
         help.showHelp();

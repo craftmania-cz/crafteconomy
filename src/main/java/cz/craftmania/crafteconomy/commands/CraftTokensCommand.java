@@ -17,6 +17,8 @@ public class CraftTokensCommand extends BaseCommand {
     private static final BasicManager manager = new BasicManager();
 
     @HelpCommand
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sender.sendMessage("§e§lCraftTokens commands:");
         help.showHelp();

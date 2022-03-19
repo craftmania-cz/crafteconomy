@@ -2,10 +2,7 @@ package cz.craftmania.crafteconomy.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.HelpCommand;
+import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.menu.RewardsGUI;
 import org.bukkit.command.CommandSender;
@@ -16,6 +13,8 @@ import org.bukkit.entity.Player;
 public class RewardsCommand extends BaseCommand {
 
     @HelpCommand
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sender.sendMessage("§e§lRewards commands:");
         help.showHelp();
