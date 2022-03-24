@@ -653,7 +653,7 @@ public class SQLManager {
     public Map<String, Long> getVaultAllEcosWithNicks() {
         Map<String, Long> balanceMap = new HashMap<String, Long>();
 
-        final String server = Main.getServerType().name().toLowerCase();
+        final String server = Main.getServerType().getTableId();
         Connection conn = null;
         PreparedStatement ps = null;
 
