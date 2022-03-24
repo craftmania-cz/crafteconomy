@@ -425,32 +425,49 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (type == null) {
             return ServerType.UNKNOWN;
         }
-        if (type.equalsIgnoreCase("survival")) {
-            return ServerType.SURVIVAL_117;
-        } else if (type.equalsIgnoreCase("skyblock")) {
-            return ServerType.SKYBLOCK_117;
-        }else if (type.equalsIgnoreCase("survival_118")) {
-            return ServerType.SKYBLOCK_118;
-        }else if (type.equalsIgnoreCase("skyblock_118")) {
-            return ServerType.SKYBLOCK_118;
-        } else if (type.equalsIgnoreCase("creative")) {
-            return ServerType.CREATIVE;
-        } else if (type.equalsIgnoreCase("prison")) {
-            return ServerType.PRISON;
-        } else if (type.equalsIgnoreCase("vanilla")) {
-            return ServerType.VANILLA;
-        } else if (type.equalsIgnoreCase("skycloud")) {
-            return ServerType.SKYCLOUD;
-        } else if (type.equalsIgnoreCase("lobby")) {
-            return ServerType.LOBBY;
-        } else if (type.equalsIgnoreCase("event-server")) {
-            return ServerType.EVENT_SERVER;
-        } else if (type.equalsIgnoreCase("hardcore-vanilla")) {
-            return ServerType.HARDCORE_VANILLA;
-        } else if (type.equalsIgnoreCase("anarchy")) {
-            return ServerType.ANARCHY;
-        } else {
-            return ServerType.UNKNOWN;
+        switch (type) {
+            case "survival" -> {
+                return ServerType.SURVIVAL_117;
+            }
+            case "skyblock" -> {
+                return ServerType.SKYBLOCK_117;
+            }
+            case "survival_118" -> {
+                return ServerType.SURVIVAL_118;
+            }
+            case "skyblock_118" -> {
+                return ServerType.SKYBLOCK_118;
+            }
+            case "creative" -> {
+                return ServerType.CREATIVE;
+            }
+            case "prison" -> {
+                return ServerType.PRISON;
+            }
+            case "vanilla" -> {
+                return ServerType.VANILLA;
+            }
+            case "skycloud" -> {
+                return ServerType.SKYCLOUD;
+            }
+            case "skygrid" -> {
+                return ServerType.SKYGRID;
+            }
+            case "lobby" -> {
+                return ServerType.LOBBY;
+            }
+            case "event-server" -> {
+                return ServerType.EVENT_SERVER;
+            }
+            case "hardcore-vanilla" -> {
+                return ServerType.HARDCORE_VANILLA;
+            }
+            case "anarchy" -> {
+                return ServerType.ANARCHY;
+            }
+            default -> {
+                return ServerType.UNKNOWN;
+            }
         }
     }
 
