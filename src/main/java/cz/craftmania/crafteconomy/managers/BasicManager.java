@@ -153,8 +153,10 @@ public class BasicManager {
     public LevelType getExperienceByServer(){
         ServerType server = Main.getServerType();
         return switch (server) {
-            case SURVIVAL -> LevelType.SURVIVAL_EXPERIENCE;
-            case SKYBLOCK -> LevelType.SKYBLOCK_EXPERIENCE;
+            case SURVIVAL_117 -> LevelType.SURVIVAL_117_EXPERIENCE;
+            case SKYBLOCK_117 -> LevelType.SKYBLOCK_117_EXPERIENCE;
+            case SURVIVAL_118 -> LevelType.SURVIVAL_118_EXPERIENCE;
+            case SKYBLOCK_118 -> LevelType.SKYBLOCK_118_EXPERIENCE;
             case CREATIVE -> LevelType.CREATIVE_EXPERIENCE;
             case VANILLA -> LevelType.VANILLA_EXPERIENCE;
             case SKYCLOUD -> LevelType.SKYCLOUD_EXPERIENCE;
@@ -173,8 +175,10 @@ public class BasicManager {
     public LevelType getLevelByServer(){
         ServerType server = Main.getServerType();
         return switch (server) {
-            case SURVIVAL -> LevelType.SURVIVAL_LEVEL;
-            case SKYBLOCK -> LevelType.SKYBLOCK_LEVEL;
+            case SURVIVAL_117 -> LevelType.SURVIVAL_117_LEVEL;
+            case SKYBLOCK_117 -> LevelType.SKYBLOCK_117_LEVEL;
+            case SURVIVAL_118 -> LevelType.SURVIVAL_118_LEVEL;
+            case SKYBLOCK_118 -> LevelType.SKYBLOCK_118_LEVEL;
             case CREATIVE -> LevelType.CREATIVE_LEVEL;
             case VANILLA -> LevelType.VANILLA_LEVEL;
             case SKYCLOUD -> LevelType.SKYCLOUD_LEVEL;
@@ -193,8 +197,10 @@ public class BasicManager {
     @Nullable
     public LevelType resolveLevelTypeByString(String server) {
         return switch (server.toLowerCase()) {
-            case "survival" -> LevelType.SURVIVAL_LEVEL;
-            case "skyblock" -> LevelType.SKYBLOCK_LEVEL;
+            case "survival" -> LevelType.SURVIVAL_117_LEVEL;
+            case "skyblock" -> LevelType.SKYBLOCK_117_LEVEL;
+            case "survival_118" -> LevelType.SURVIVAL_118_LEVEL;
+            case "skyblock_118" -> LevelType.SKYBLOCK_118_LEVEL;
             case "creative" -> LevelType.CREATIVE_LEVEL;
             case "vanilla" -> LevelType.VANILLA_LEVEL;
             case "skycloud" -> LevelType.SKYCLOUD_LEVEL;
@@ -213,8 +219,10 @@ public class BasicManager {
     @Nullable
     public LevelType resolveExperienceTypeByString(String server) {
         return switch (server.toLowerCase()) {
-            case "survival" -> LevelType.SURVIVAL_EXPERIENCE;
-            case "skyblock" -> LevelType.SKYBLOCK_EXPERIENCE;
+            case "survival" -> LevelType.SURVIVAL_117_EXPERIENCE;
+            case "skyblock" -> LevelType.SKYBLOCK_117_EXPERIENCE;
+            case "survival_118" -> LevelType.SURVIVAL_118_EXPERIENCE;
+            case "skyblock_118" -> LevelType.SKYBLOCK_118_EXPERIENCE;
             case "creative" -> LevelType.CREATIVE_EXPERIENCE;
             case "vanilla" -> LevelType.VANILLA_EXPERIENCE;
             case "skycloud" -> LevelType.SKYCLOUD_EXPERIENCE;

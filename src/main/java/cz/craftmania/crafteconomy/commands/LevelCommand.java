@@ -37,7 +37,7 @@ public class LevelCommand extends BaseCommand {
             p.sendMessage("§6§lGlobální rank"); //TODO: Předělat na menu
             p.sendMessage("§eCelkový level: §f" + totalGlobalLevel);
             p.sendMessage("§eServer levels: ");
-            p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "§7]");
+            p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_117_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "§7]");
             p.sendMessage("§8- §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "], §cVan-Anar §7[" + craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL) + "]");
             p.sendMessage("§bKarma: §f0");
             p.sendMessage("§dQuest Points: §f" + craftPlayer.getEconomyByType(EconomyType.QUEST_POINTS));
@@ -54,10 +54,10 @@ public class LevelCommand extends BaseCommand {
             Player player = (Player) sender;
             switch (server.toLowerCase()) {
                 case "survival":
-                    generateServerLevelMessage(player, "Survival", LevelType.SURVIVAL_LEVEL, LevelType.SURVIVAL_EXPERIENCE);
+                    generateServerLevelMessage(player, "Survival", LevelType.SURVIVAL_117_LEVEL, LevelType.SURVIVAL_117_EXPERIENCE);
                     break;
                 case "skyblock":
-                    generateServerLevelMessage(player, "Skyblock", LevelType.SKYBLOCK_LEVEL, LevelType.SKYBLOCK_EXPERIENCE);
+                    generateServerLevelMessage(player, "Skyblock", LevelType.SKYBLOCK_117_LEVEL, LevelType.SKYBLOCK_117_EXPERIENCE);
                     break;
                 case "creative":
                     generateServerLevelMessage(player, "Creative", LevelType.CREATIVE_LEVEL, LevelType.CREATIVE_EXPERIENCE);

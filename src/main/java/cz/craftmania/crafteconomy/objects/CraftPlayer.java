@@ -27,8 +27,12 @@ public class CraftPlayer {
     private long globalLevel = 1;
     private long survivalLevel = 1;
     private long survivalExperience = 0;
+    private long survival118Level = 1;
+    private long survival118Experience = 0;
     private long skyblockLevel = 1;
     private long skyblockExperience = 0;
+    private long skyblock118Level = 1;
+    private long skyblock118Experience = 0;
     private long creativeLevel = 1;
     private long creativeExperence = 0;
     private long prisonLevel = 1;
@@ -401,10 +405,14 @@ public class CraftPlayer {
             case GLOBAL_LEVEL:
                 recalculateGlobalLevel();
                 return this.globalLevel;
-            case SURVIVAL_LEVEL:
+            case SURVIVAL_117_LEVEL:
                 return this.survivalLevel;
-            case SKYBLOCK_LEVEL:
+            case SKYBLOCK_117_LEVEL:
                 return this.skyblockLevel;
+            case SURVIVAL_118_LEVEL:
+                return this.survival118Level;
+            case SKYBLOCK_118_LEVEL:
+                return this.skyblock118Level;
             case CREATIVE_LEVEL:
                 return this.creativeLevel;
             case PRISON_LEVEL:
@@ -429,11 +437,17 @@ public class CraftPlayer {
             case GLOBAL_LEVEL:
                 Logger.danger("Nelze nastavit global level!");
                 break;
-            case SURVIVAL_LEVEL:
+            case SURVIVAL_117_LEVEL:
                 this.survivalLevel = level;
                 break;
-            case SKYBLOCK_LEVEL:
+            case SKYBLOCK_117_LEVEL:
                 this.skyblockLevel = level;
+                break;
+            case SURVIVAL_118_LEVEL:
+                this.survival118Level = level;
+                break;
+            case SKYBLOCK_118_LEVEL:
+                this.skyblock118Level = level;
                 break;
             case CREATIVE_LEVEL:
                 this.creativeLevel = level;
@@ -463,10 +477,14 @@ public class CraftPlayer {
 
     public long getExperienceByType(@NonNull final LevelType type) {
         switch(type) {
-            case SURVIVAL_EXPERIENCE:
+            case SURVIVAL_117_EXPERIENCE:
                 return this.survivalExperience;
-            case SKYBLOCK_EXPERIENCE:
+            case SKYBLOCK_117_EXPERIENCE:
                 return this.skyblockExperience;
+            case SURVIVAL_118_EXPERIENCE:
+                return this.survival118Experience;
+            case SKYBLOCK_118_EXPERIENCE:
+                return this.skyblock118Experience;
             case CREATIVE_EXPERIENCE:
                 return this.creativeExperence;
             case PRISON_EXPERIENCE:
@@ -491,11 +509,17 @@ public class CraftPlayer {
             case GLOBAL_EXPERIENCE:
                 Logger.danger("Nelze nastavit global experience!");
                 break;
-            case SURVIVAL_EXPERIENCE:
+            case SURVIVAL_117_EXPERIENCE:
                 this.survivalExperience = experience;
                 break;
-            case SKYBLOCK_EXPERIENCE:
+            case SKYBLOCK_117_EXPERIENCE:
                 this.skyblockExperience = experience;
+                break;
+            case SURVIVAL_118_EXPERIENCE:
+                this.survival118Experience = experience;
+                break;
+            case SKYBLOCK_118_EXPERIENCE:
+                this.skyblock118Experience = experience;
                 break;
             case CREATIVE_EXPERIENCE:
                 this.creativeExperence = experience;
@@ -530,6 +554,8 @@ public class CraftPlayer {
         long finalValue = 1;
         finalValue += canBeAdded(this.survivalLevel);
         finalValue += canBeAdded(this.skyblockLevel);
+        finalValue += canBeAdded(this.survival118Level);
+        finalValue += canBeAdded(this.skyblock118Level);
         finalValue += canBeAdded(this.creativeLevel);
         finalValue += canBeAdded(this.vanillaLevel);
         finalValue += canBeAdded(this.skycloudLevel);

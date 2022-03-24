@@ -425,10 +425,14 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         if (type == null) {
             return ServerType.UNKNOWN;
         }
-        if (type.equalsIgnoreCase("survival") || type.equalsIgnoreCase("survival2")) { // survival2 = 1.15
-            return ServerType.SURVIVAL;
-        } else if (type.equalsIgnoreCase("skyblock") || type.equalsIgnoreCase("skyblock2")) { // skyblock2 = 1.15
-            return ServerType.SKYBLOCK;
+        if (type.equalsIgnoreCase("survival")) {
+            return ServerType.SURVIVAL_117;
+        } else if (type.equalsIgnoreCase("skyblock")) {
+            return ServerType.SKYBLOCK_117;
+        }else if (type.equalsIgnoreCase("survival_118")) {
+            return ServerType.SKYBLOCK_118;
+        }else if (type.equalsIgnoreCase("skyblock_118")) {
+            return ServerType.SKYBLOCK_118;
         } else if (type.equalsIgnoreCase("creative")) {
             return ServerType.CREATIVE;
         } else if (type.equalsIgnoreCase("prison")) {

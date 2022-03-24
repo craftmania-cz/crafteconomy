@@ -101,20 +101,26 @@ public class SQLManager {
                 craftPlayer.setEconomyByType(EconomyType.CRAFT_COINS, ps.getResultSet().getLong("craft_coins"));
                 craftPlayer.setEconomyByType(EconomyType.CRAFT_TOKENS, ps.getResultSet().getLong("craft_tokens"));
                 craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS_2, ps.getResultSet().getLong("vote_tokens_2"));
-                craftPlayer.setLevelByType(LevelType.SURVIVAL_LEVEL, ps.getResultSet().getLong("survival_level"));
-                craftPlayer.setLevelByType(LevelType.SKYBLOCK_LEVEL, ps.getResultSet().getLong("skyblock_level"));
-                craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong("creative_level"));
-                craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, ps.getResultSet().getLong("prison_level"));
-                craftPlayer.setLevelByType(LevelType.VANILLA_LEVEL, ps.getResultSet().getLong("vanilla_level"));
-                craftPlayer.setLevelByType(LevelType.SKYCLOUD_LEVEL, ps.getResultSet().getLong("skycloud_level"));
-                craftPlayer.setLevelByType(LevelType.VANILLA_116_LEVEL, ps.getResultSet().getLong("vanilla_116_level"));
-                craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, ps.getResultSet().getLong("hardcore_vanilla_level"));
-                craftPlayer.setExperienceByType(LevelType.SURVIVAL_EXPERIENCE, ps.getResultSet().getLong("survival_experience"));
-                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_EXPERIENCE, ps.getResultSet().getLong("skyblock_experience"));
-                craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, ps.getResultSet().getLong("creative_experience"));
-                craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong("prison_experience"));
-                craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong("vanilla_experience"));
-                craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong("skycloud_experience"));
+                craftPlayer.setLevelByType(LevelType.SURVIVAL_117_LEVEL, ps.getResultSet().getLong(LevelType.SURVIVAL_117_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE, ps.getResultSet().getLong(LevelType.SURVIVAL_117_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYBLOCK_117_LEVEL, ps.getResultSet().getLong(LevelType.SKYBLOCK_117_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYBLOCK_117_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SURVIVAL_118_LEVEL, ps.getResultSet().getLong(LevelType.SURVIVAL_118_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE, ps.getResultSet().getLong(LevelType.SURVIVAL_118_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYBLOCK_118_LEVEL, ps.getResultSet().getLong(LevelType.SKYBLOCK_118_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYBLOCK_118_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong(LevelType.CREATIVE_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, ps.getResultSet().getLong(LevelType.CREATIVE_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, ps.getResultSet().getLong(LevelType.PRISON_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong(LevelType.PRISON_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.VANILLA_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong(LevelType.VANILLA_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.ANARCHY_LEVEL, ps.getResultSet().getLong(LevelType.ANARCHY_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.ANARCHY_EXPERIENCE, ps.getResultSet().getLong(LevelType.ANARCHY_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYCLOUD_LEVEL, ps.getResultSet().getLong(LevelType.SKYCLOUD_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYCLOUD_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.VANILLA_116_LEVEL, ps.getResultSet().getLong(LevelType.VANILLA_116_LEVEL.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.HARDCORE_VANILLA_LEVEL.getColumnId()));
                 craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("quest_points"));
                 craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
                 craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
@@ -142,7 +148,7 @@ public class SQLManager {
     public void setEconomy(final LevelType type, final Player p, final long value) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String finalType = type.name().toLowerCase();
+        String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("UPDATE player_profile SET " + finalType + " = ? WHERE uuid = ?");
@@ -178,7 +184,7 @@ public class SQLManager {
     public void addEconomy(final LevelType type, final String p, final long value) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String finalType = type.name().toLowerCase();
+        String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("UPDATE player_profile SET " + finalType + " = " + finalType + " + ? WHERE nick = ?");
@@ -214,7 +220,7 @@ public class SQLManager {
     public void takeEconomy(final LevelType type, final String p, final long value) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String finalType = type.name().toLowerCase();
+        String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("UPDATE player_profile SET " + finalType + " = " + finalType + " - ? WHERE nick = ?");
@@ -250,7 +256,7 @@ public class SQLManager {
     public final long getPlayerEconomy(final LevelType type, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String finalType = type.name().toLowerCase();
+        String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE nick = '" + player + "';");
@@ -310,7 +316,7 @@ public class SQLManager {
     public final long getPlayerEconomy(final LevelType type, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
-        String finalType = type.name().toLowerCase();
+        String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");

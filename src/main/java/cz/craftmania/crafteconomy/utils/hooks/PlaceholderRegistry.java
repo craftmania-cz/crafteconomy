@@ -92,25 +92,49 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
 
         // %crafteconomy_player_survival_level%
         if (identifier.equals("player_survival_level")) {
-            return String.valueOf(craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL));
+            return String.valueOf(craftPlayer.getLevelByType(LevelType.SURVIVAL_117_LEVEL));
+        }
+
+        // %crafteconomy_player_survival_118_level%
+        if (identifier.equals("player_survival_118_level")) {
+            return String.valueOf(craftPlayer.getLevelByType(LevelType.SURVIVAL_118_LEVEL));
+        }
+
+        // %crafteconomy_player_skyblock_118_level%
+        if (identifier.equals("player_skyblock_118_level")) {
+            return String.valueOf(craftPlayer.getLevelByType(LevelType.SKYBLOCK_118_LEVEL));
         }
 
         // %crafteconomy_player_survival_level_percentage_next%
         if (identifier.equals("player_survival_level_percentage_next")) {
-            long totalExperience = craftPlayer.getExperienceByType(LevelType.SURVIVAL_EXPERIENCE);
-            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SURVIVAL_LEVEL));
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SURVIVAL_117_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
+        }
+
+        // %crafteconomy_player_survival_118_level_percentage_next%
+        if (identifier.equals("player_survival_118_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SURVIVAL_118_LEVEL));
+            return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
+        }
+
+        // %crafteconomy_player_skyblock_118_level_percentage_next%
+        if (identifier.equals("player_skyblock_118_level_percentage_next")) {
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_118_LEVEL));
             return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
         // %crafteconomy_player_skyblock_level%
         if (identifier.equals("player_skyblock_level")) {
-            return String.valueOf(craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL));
+            return String.valueOf(craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL));
         }
 
         // %crafteconomy_player_skyblock_level_percentage_next%
         if (identifier.equals("player_skyblock_level_percentage_next")) {
-            long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_EXPERIENCE);
-            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_LEVEL));
+            long totalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE);
+            double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL));
             return FormatUtils.roundDouble((totalExperience/totalExperienceForNextLevel)*100, 1) + "%";
         }
 
@@ -186,12 +210,22 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
 
         // %crafteconomy_player_survival_experience%
         if (identifier.equals("player_survival_experience")) {
-            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SURVIVAL_EXPERIENCE));
+            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE));
         }
 
         // %crafteconomy_player_skyblock_experience%
         if (identifier.equals("player_skyblock_experience")) {
-            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SKYBLOCK_EXPERIENCE));
+            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE));
+        }
+
+        // %crafteconomy_player_survival_118_experience%
+        if (identifier.equals("player_survival_118_experience")) {
+            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE));
+        }
+
+        // %crafteconomy_player_skyblock_118_experience%
+        if (identifier.equals("player_skyblock_118_experience")) {
+            return String.valueOf(craftPlayer.getExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE));
         }
 
         // %crafteconomy_player_creative_experience%
