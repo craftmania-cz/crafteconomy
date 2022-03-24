@@ -19,6 +19,8 @@ public class LevelCommand extends BaseCommand {
     private static BasicManager manager = new BasicManager();
 
     @HelpCommand
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sender.sendMessage("§e§lLevel commands:");
         help.showHelp();

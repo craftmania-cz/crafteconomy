@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 public class ProfileCommand extends BaseCommand {
 
     @HelpCommand // Automatický generovaný subpříkaz /cc help [subcommand]
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sender.sendMessage("§e§lProfile commands:"); // Nastavení textu v headu helpu
         help.showHelp(); // Zobrazí basic nápovědu

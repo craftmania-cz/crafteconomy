@@ -20,6 +20,8 @@ public class CraftCoinsCommand extends BaseCommand {
     private static final BasicManager manager = new BasicManager();
 
     @HelpCommand // Automatický generovaný subpříkaz /cc help [subcommand]
+    @Syntax("[stranka]")
+    @CommandCompletion("[stranka]")
     public void helpCommand(CommandSender sender, CommandHelp help) {
         sendMsg(sender, "§e§lCraftCoins commands:"); // Nastavení textu v headu helpu
         help.showHelp(); // Zobrazí basic nápovědu
@@ -56,6 +58,7 @@ public class CraftCoinsCommand extends BaseCommand {
     @Subcommand("take")
     @CommandPermission("crafteconomy.admin.craftcoins")
     @CommandCompletion("@players [pocet]")
+    @Syntax("[nick] [pocet]")
     public void adminTakeCraftCoins(CommandSender sender, String editedPlayer, long coinsToTake) {
         Player targetPlayer = Bukkit.getPlayer(editedPlayer);
         if (coinsToTake <= 0) {
@@ -77,6 +80,7 @@ public class CraftCoinsCommand extends BaseCommand {
 
     @Subcommand("pay")
     @CommandCompletion("@players [pocet]")
+    @Syntax("[nick] [pocet]")
     public void playerPay(CommandSender sender, String selectedPlayer, long coinsToPay) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("§c§l[!] §cPosílat částky může pouze hráč!");
