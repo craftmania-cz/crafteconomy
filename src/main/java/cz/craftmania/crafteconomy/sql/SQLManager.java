@@ -810,6 +810,7 @@ public class SQLManager {
     public final void createVaultEcoProfile(final Player player) {
         long currentTime = System.currentTimeMillis();
         final String server = Main.getServerType().name().toLowerCase();
+        int startValue = Main.getInstance().getConfig().getInt("vault-economy.start-value", 0);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -817,10 +818,11 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, last_update) VALUES (?,?,?);");
+                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?);");
                     ps.setString(1, player.getName());
                     ps.setString(2, player.getUniqueId().toString());
-                    ps.setLong(3, currentTime);
+                    ps.setLong(3, startValue);
+                    ps.setLong(4, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
                     // Hráč má špatný UUID!

@@ -43,3 +43,4 @@ vault-economy:
   enabled: false
   name: "$"
   min-confirm: 1000
+  start-value: 0 # Hodnota, s kterou hráč začne
