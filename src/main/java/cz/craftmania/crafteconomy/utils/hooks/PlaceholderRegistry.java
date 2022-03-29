@@ -1,5 +1,6 @@
 package cz.craftmania.crafteconomy.utils.hooks;
 
+import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.EconomyType;
@@ -62,7 +63,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
 
         // %crafteconomy_player_votetokens%
         if (identifier.equals("player_votetokens")) {
-            return String.valueOf(craftPlayer.getEconomyByType(EconomyType.VOTE_TOKENS_2));
+            return String.valueOf(craftPlayer.getEconomyByType(Main.getInstance().getVoteTokensVersion()));
         }
 
         // %crafteconomy_player_karma%

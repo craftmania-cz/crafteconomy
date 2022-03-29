@@ -218,7 +218,7 @@ public class CraftPlayer {
             case CRAFT_TOKENS -> {
                 return this.craftTokens;
             }
-            case VOTE_TOKENS_2 -> {
+            case VOTE_TOKENS, VOTE_TOKENS_2, VOTE_TOKENS_3 -> {
                 return this.voteTokens;
             }
             case KARMA_POINTS -> {
@@ -248,7 +248,7 @@ public class CraftPlayer {
             case CRAFT_TOKENS -> {
                 this.craftTokens = amount;
             }
-            case VOTE_TOKENS_2 -> {
+            case VOTE_TOKENS, VOTE_TOKENS_2, VOTE_TOKENS_3 -> {
                 this.voteTokens = amount;
             }
             case KARMA_POINTS -> {

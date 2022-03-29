@@ -21,6 +21,15 @@ server: survival
 # Integrace a zasílání exceptions na Sentry
 sentry-dsn: ''
 
+# Nastavení pro globální ekonomiku
+economy:
+
+  # VoteTokens verze se liší dle verze serveru
+  # VoteTokens v1 -> 1.9+
+  # VoteTokens v2 -> 1.14+
+  # VoteTokens v3 -> 1.18+
+  votetokens-version: 2
+
 # Deaktivace určitých věcí z důvodu testů a různých nastavení na serverech
 disables:
   achievement-log: false

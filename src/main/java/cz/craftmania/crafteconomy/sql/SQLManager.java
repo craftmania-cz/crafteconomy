@@ -100,7 +100,8 @@ public class SQLManager {
                 CraftPlayer craftPlayer = new CraftPlayer(player);
                 craftPlayer.setEconomyByType(EconomyType.CRAFT_COINS, ps.getResultSet().getLong("craft_coins"));
                 craftPlayer.setEconomyByType(EconomyType.CRAFT_TOKENS, ps.getResultSet().getLong("craft_tokens"));
-                craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS_2, ps.getResultSet().getLong("vote_tokens_2"));
+                // Zde je jedno jaký mají VoteTokens klíč, jelikož se všechny nastavují stejně
+                craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS, ps.getResultSet().getLong(Main.getInstance().getVoteTokensVersion().name().toLowerCase()));
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_117_LEVEL, ps.getResultSet().getLong(LevelType.SURVIVAL_117_LEVEL.getColumnId()));
                 craftPlayer.setExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE, ps.getResultSet().getLong(LevelType.SURVIVAL_117_EXPERIENCE.getColumnId()));
                 craftPlayer.setLevelByType(LevelType.SKYBLOCK_117_LEVEL, ps.getResultSet().getLong(LevelType.SKYBLOCK_117_LEVEL.getColumnId()));

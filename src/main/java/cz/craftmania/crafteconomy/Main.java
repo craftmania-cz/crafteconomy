@@ -12,6 +12,7 @@ import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.managers.VoteManager;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
+import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
@@ -57,6 +58,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     // Server
     private static ServerType serverType = ServerType.UNKNOWN;
+
+    // Economy
+    private EconomyType voteTokensVersion = null;
 
     // Enabled properties
     private boolean registerEnabled = false;
@@ -165,6 +169,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Register příkazů
         Logger.info("Probíhá registrace příkazů pomocí Aikar commands!");
         loadCommands(manager);
+
+        // Economy settings
+        this.setupVoteTokensVersion();
 
         // Listeners
         loadListeners();
@@ -469,6 +476,37 @@ public class Main extends JavaPlugin implements PluginMessageListener {
                 return ServerType.UNKNOWN;
             }
         }
+    }
+
+    /**
+     * Nastavení verze VoteTokenů dle configu.
+     * Pokud je uvedená špatná verze, plugin se nezapne.
+     */
+    private void setupVoteTokensVersion() {
+        int version = this.getConfig().getInt("economy.votetokens-version");
+        switch (version) {
+            case 1 -> {
+                Logger.info("Nastavena verze VoteTokens: 1 -> 1.9 => 1.13");
+                this.voteTokensVersion = EconomyType.VOTE_TOKENS;
+            }
+            case 2 -> {
+                Logger.info("Nastavena verze VoteTokens: 2 -> 1.4 => 1.17");
+                this.voteTokensVersion = EconomyType.VOTE_TOKENS_2;
+            }
+            case 3 -> {
+                Logger.info("Nastavena verze VoteTokens: 3 -> 1.18+");
+                this.voteTokensVersion = EconomyType.VOTE_TOKENS_3;
+            }
+            default -> {
+                Logger.danger("Nespravna verze VoteTokens. Nastaveno: " + version);
+                Logger.danger("Plugin se kvuli bezpecnosti vypne.");
+                this.getServer().getPluginManager().disablePlugin(this);
+            }
+        }
+    }
+
+    public EconomyType getVoteTokensVersion() {
+        return this.voteTokensVersion;
     }
 
     @Override
