@@ -120,13 +120,14 @@ public class VoteManager {
         reward_4.setMaterial(Material.WOODEN_AXE);
         votePassRewards.add(reward_4);
 
-        // Reward: 5 - Mecha Fist
+        // Reward: 5 - Narwhal Helmet
         VotePassReward reward_5 = new VotePassReward(5);
         reward_5.setName("Tier: 5");
         reward_5.setRequiredVotes(75);
-        reward_5.setDescription("§8- §fCosmetic: Mecha Sword");
-        reward_5.setRequiredSlotInInventory();
-        reward_5.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% mecha-sword %player%");
+        reward_5.setDescription("§8- §fCosmetic: Narwhal Helmet");
+        //reward_5.setRequiredSlotInInventory();
+        //reward_5.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% mecha-sword %player%");
+        reward_5.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.narwhal_horn");
         reward_5.setMaterial(Material.STONE_SWORD);
         votePassRewards.add(reward_5);
 
@@ -258,13 +259,13 @@ public class VoteManager {
         reward_16.setMaterial(Material.HOPPER);
         votePassRewards.add(reward_16);
 
-        // Reward: 17 - Morph: Enderman, 2,000 Server XP
+        // Reward: 17 - Morph: Sheep Yellow, 2,000 Server XP
         VotePassReward reward_17 = new VotePassReward(31);
         reward_17.setName("Tier: 17");
-        reward_17.setDescription("§8- §fMorph: Chest Minecart", "§8- §f2,000 Server XP");
+        reward_17.setDescription("§8- §fMorph: Sheep [Yellow]", "§8- §f2,000 Server XP");
         reward_17.setRequiredVotes(320);
         reward_17.setServerExperience(2000);
-        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.minecart_chest");
+        reward_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.sheep.yellow");
         votePassRewards.add(reward_17);
 
         // Reward: 18 - Sellstick: 200 použití
@@ -285,16 +286,19 @@ public class VoteManager {
         reward_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 5000");
         votePassRewards.add(reward_19);
 
-        // Reward: 20 - Sheep: Red Morph
+        // Reward: 20 - Drowned
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fMorph: Minecart [Classic]");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.minecart");
+        reward_20.setDescription("§8- §fMorph: Drowned");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.disguise.drowned");
         reward_20.setRequiredVotes(380);
         votePassRewards.add(reward_20);
 
         VotePassReward reward_21 = new VotePassReward(35);
-        reward_21.setEmpty();
+        reward_21.setName("Tier: 21");
+        reward_21.setDescription("§8- §fHats: Astronaut [VotePass]");
+        reward_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.astronaut_votepass");
+        reward_21.setRequiredVotes(500);
         votePassRewards.add(reward_21);
 
 
@@ -380,14 +384,16 @@ public class VoteManager {
         reward_plus_6.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_6);
 
-        // Reward+: 7 - Prison Boost → 300% → 24h
+        // Reward+: 7 - Banana Scythe
         VotePassReward reward_plus_7 = new VotePassReward(14);
         reward_plus_7.setName("Tier+: 7");
-        reward_plus_7.setDescription("§8- §fPrison Boost: 300% → 24h");
+        reward_plus_7.setDescription("§8- §fScythe: Banana");
         reward_plus_7.setRequiredVotePassPlus();
         reward_plus_7.setRequiredVotes(105);
-        reward_plus_7.setServerCommand(ServerType.PRISON, "multiplier create %player% personal 86400000 300");
-        reward_plus_7.setMaterial(Material.HORN_CORAL_FAN);
+        reward_plus_7.setRequiredSlotInInventory();
+        reward_plus_7.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% banana-scythe %player%");
+        reward_plus_7.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-scythe %player%");
+        reward_plus_7.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_7);
 
         // PAGE 2
@@ -510,13 +516,13 @@ public class VoteManager {
         // Reward+: 17 - Swords: Scorpion
         VotePassReward reward_plus_17 = new VotePassReward(38);
         reward_plus_17.setName("Tier+: 17");
-        reward_plus_17.setDescription("§8- §f1x Legendary Key");
+        reward_plus_17.setDescription("§8- §fPickaxe: Banana");
         reward_plus_17.setRequiredVotePassPlus();
         reward_plus_17.setRequiredSlotInInventory();
-        reward_plus_17.setServerCommand(ServerType.SURVIVAL_117, "crate give physical Legendary 1 %player%");
-        reward_plus_17.setServerCommand(ServerType.SKYBLOCK_117, "crate give physical Legendary 1 %player%");
+        reward_plus_17.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% banana-pickaxe %player%");
+        reward_plus_17.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-pickaxe %player%");
         reward_plus_17.setRequiredVotes(320);
-        reward_plus_17.setMaterial(Material.TRIPWIRE_HOOK);
+        reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
 
         // Reward+: 18 - 1x CraftToken
@@ -539,13 +545,14 @@ public class VoteManager {
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
 
-        // Reward+: 20 - Item: Lightsaber
+        // Reward+: 20 - Item: Banana
         VotePassReward reward_plus_20 = new VotePassReward(41);
         reward_plus_20.setName("Tier+: 20");
-        reward_plus_20.setDescription("§8- §fHats: Hulk Hat");
+        reward_plus_20.setDescription("§8- §fSword: Banana");
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.hulk");
+        reward_plus_20.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% banana-sword %player%");
+        reward_plus_20.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-sword %player%");
         reward_plus_20.setRequiredVotes(400);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
