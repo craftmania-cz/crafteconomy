@@ -5,20 +5,22 @@ import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
 
-public class PlayerUpdateGlobalLevelTask implements Runnable {
+public class PlayerUpdateGlobalLevelTask implements Job {
 
-    private BasicManager bm = new BasicManager();
+    private BasicManager basicManager = new BasicManager();
 
     @Override
-    public void run() {
+    public void execute(JobExecutionContext context) {
         Bukkit.getOnlinePlayers().forEach(p -> {
             try {
-                long actualLevel = bm.getCraftPlayer(p).getLevelByType(LevelType.GLOBAL_LEVEL);
+                long actualLevel = basicManager.getCraftPlayer(p).getLevelByType(LevelType.GLOBAL_LEVEL);
                 Main.getInstance().getMySQL().setEconomy(LevelType.GLOBAL_LEVEL, p, actualLevel);
                 Logger.debug("Update Global Level: " + p.getName() + " hodnota: " + actualLevel);
             } catch (Exception exception) {
-                Main.getInstance().sendSentryException(exception);
+                exception.printStackTrace();
             }
         });
     }

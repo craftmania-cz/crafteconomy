@@ -4,18 +4,20 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
 
-public class AddRandomExpTask implements Runnable {
+public class AddRandomExpTask implements Job {
 
-    private final BasicManager bm = new BasicManager();
+    private final BasicManager basicManager = new BasicManager();
 
     @Override
-    public void run() {
-        Bukkit.getOnlinePlayers().forEach(p -> {
-            if (bm.getCraftPlayer(p) != null) {
-                if (!bm.getCraftPlayer(p).isAfk()) {
-                    if (!Main.getInstance().getDisabledExperienceInWorlds().contains(bm.getCraftPlayer(p).getPlayer().getWorld().getName())) {
-                        LevelAPI.addExp(p, bm.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp()));
+    public void execute(JobExecutionContext context) {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (basicManager.getCraftPlayer(player) != null) {
+                if (!basicManager.getCraftPlayer(player).isAfk()) {
+                    if (!Main.getInstance().getDisabledExperienceInWorlds().contains(basicManager.getCraftPlayer(player).getPlayer().getWorld().getName())) {
+                        LevelAPI.addExp(player, basicManager.getExperienceByServer(), randomRangeInt(Main.getInstance().getMinExp(), Main.getInstance().getMaxExp()));
                     }
                 }
             }

@@ -41,7 +41,7 @@ disables:
 random-exp:
   enabled: false
   settings:
-    every: 6000
+    every: 5 # Jak často v minutách
     min: 30
     max: 60
   not-in-world:

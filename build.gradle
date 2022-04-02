@@ -6,7 +6,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group 'cz.craftmania.crafteconomy'
-def mainVersion = "2.0.1-no-async"
+def mainVersion = "2.1.0-scheduler-beta"
 
 sourceCompatibility = 16
 targetCompatibility = 16
@@ -68,6 +68,7 @@ dependencies {
 
     // Other dependecies
     implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly group: 'me.clip', name: 'placeholderapi', version: '2.10.9'
 
