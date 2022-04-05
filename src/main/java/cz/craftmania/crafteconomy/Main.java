@@ -12,9 +12,10 @@ import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
-import cz.craftmania.crafteconomy.tasks.CleanUpManager;
+import cz.craftmania.crafteconomy.managers.CleanUpManager;
 import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
 import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
+import cz.craftmania.crafteconomy.tasks.VaultCleanTask;
 import cz.craftmania.crafteconomy.utils.*;
 import cz.craftmania.crafteconomy.utils.configs.Config;
 import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
@@ -27,18 +28,16 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleScheduleBuilder;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.time.DayOfWeek;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.Calendar;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -303,9 +302,20 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         }
 
         if (isCraftCoreEnabled && vaultEconomyEnabled && vaultEconomyCleanUp) {
-            pm.registerEvents(new CleanUpManager(), this);
+            int cleanUpDays = getConfig().getInt("vault-economy.cleanup.days", 150);
             Logger.info("Server bude mazat automaticky každý týden hráče z databáze.");
-            Logger.info("Aktuální čas je nastaven na: " + getConfig().getInt("vault-economy.cleanup.days", 150) + " dní.");
+            Logger.info("Aktuální čas je nastaven na: " + cleanUpDays  + " dní.");
+            try {
+                this.jobScheduler.scheduleWithBuilder(
+                        VaultCleanTask.class,
+                        "vault-clean-task",
+                        CronScheduleBuilder.atHourAndMinuteOnGivenDaysOfWeek(1, 0, Calendar.MONDAY)
+                                .inTimeZone(TimeZone.getTimeZone(ZoneId.of("Europe/Prague")))
+                );
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

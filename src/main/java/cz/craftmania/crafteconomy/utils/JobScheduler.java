@@ -10,13 +10,13 @@ public class JobScheduler {
         this.scheduler = scheduler;
     }
 
-    public void scheduleWithCron(Class<? extends Job> javaClass, String jobKey, String cron) throws SchedulerException {
+    public void scheduleWithBuilder(Class<? extends Job> javaClass, String jobKey, CronScheduleBuilder cron) throws SchedulerException {
         JobDetail job = JobBuilder.newJob(javaClass)
                 .withIdentity(jobKey)
                 .build();
         CronTrigger jobTrigger = TriggerBuilder.newTrigger()
                 .forJob(jobKey)
-                .withSchedule(CronScheduleBuilder.cronSchedule(cron))
+                .withSchedule(cron)
                 .build();
         scheduler.scheduleJob(job, jobTrigger);
     }
@@ -26,6 +26,15 @@ public class JobScheduler {
                 .withIdentity(jobKey)
                 .build();
         SimpleTrigger jobTrigger = TriggerBuilder.newTrigger()
+                .forJob(jobKey).withSchedule(scheduleBuilder).build();
+        scheduler.scheduleJob(job, jobTrigger);
+    }
+
+    public void scheduleWithBuilder(Class<? extends Job> javaClass, String jobKey, DailyTimeIntervalScheduleBuilder scheduleBuilder) throws SchedulerException {
+        JobDetail job = JobBuilder.newJob(javaClass)
+                .withIdentity(jobKey)
+                .build();
+        DailyTimeIntervalTrigger jobTrigger = TriggerBuilder.newTrigger()
                 .forJob(jobKey).withSchedule(scheduleBuilder).build();
         scheduler.scheduleJob(job, jobTrigger);
     }

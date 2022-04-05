@@ -5,6 +5,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
+import cz.craftmania.crafteconomy.utils.Triple;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -820,7 +821,7 @@ public class SQLManager {
                     // Hráč má špatný UUID!
                     Logger.danger("POZOR! Hráč " + player.getName() + " má špatné UUID! Nefungoval mu správně AutoLogin.");
                     udpateUUIDInEconomyTable(player);
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
                 }
@@ -864,6 +865,52 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
+    }
+
+    public final List<Triple<String, Long, Long>> fetchAllEconomyRowsToRemove(long time) {
+        List<Triple<String, Long, Long>> balanceList = new ArrayList<>();
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `nick`, `balance`, `last_update` FROM `player_economy_" + server + "` WHERE `last_update` <= " + time + " ORDER BY `balance` DESC");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                balanceList.add(
+                        new Triple<>(
+                                ps.getResultSet().getString("nick"),
+                                ps.getResultSet().getLong("balance"),
+                                ps.getResultSet().getLong("last_update"))
+                        );
+            }
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return balanceList;
+    }
+
+    public void purgeFromVaultDatabase(String nick, long lastUpdate) {
+        Main.getAsync().runAsync(() -> {
+            final String server = Main.getServerType().name().toLowerCase();
+            Connection conn = null;
+            PreparedStatement ps = null;
+            try {
+                conn = pool.getConnection();
+                ps = conn.prepareStatement("DELETE FROM player_economy_" + server + " WHERE nick = ?");
+                ps.setString(1, nick);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                Main.getInstance().sendSentryException(e);
+                e.printStackTrace();
+            } finally {
+                pool.close(conn, ps, null);
+            }
+        });
     }
 
     /**
