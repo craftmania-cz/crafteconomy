@@ -1,7 +1,7 @@
 package cz.craftmania.crafteconomy.listener;
 
+import cz.craftmania.craftactions.economy.AsyncPlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
@@ -27,32 +27,33 @@ import java.util.Random;
 public class PlayerLevelUpListener implements Listener {
 
     static Random r = new Random();
+    final BasicManager basicManager = new BasicManager();
 
     @EventHandler
-    public void onLevelGain(PlayerLevelUpEvent e) {
-        final CraftPlayer cp = e.getPlayer();
-        final Player p = cp.getPlayer();
+    public void onLevelGain(AsyncPlayerLevelUpEvent event) {
+        final CraftPlayer craftPlayer = basicManager.getCraftPlayer(event.getPlayer());
+        final Player player = event.getPlayer();
 
         BasicManager basicManager = new BasicManager();
-        long currentLevel = cp.getLevelByType(basicManager.getLevelByServer());
+        long currentLevel = craftPlayer.getLevelByType(basicManager.getLevelByServer());
 
-        Logger.info("Hrac: " + p.getName() + ", dostal level up na: " + currentLevel);
+        Logger.info("Hrac: " + player.getName() + ", dostal level up na: " + currentLevel);
 
         RewardManager.getRewards().forEach(level -> {
             if (level.getLevel() == currentLevel) {
-                basicManager.givePlayerManualLevelReward(level, p, true);
+                basicManager.givePlayerManualLevelReward(level, player, true);
             }
         });
 
-        p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 0F);
-        p.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-        p.sendMessage("");
-        p.sendMessage("§6§l* LEVEL UP! *");
-        p.sendMessage("§eNyni jsi level: §f" + currentLevel); //TODO: Odměny boolean
-        p.sendMessage("");
-        p.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-        if (Main.getInstance().getMySQL().getSettings(p, "levelup_firework_enabled") == 1) {
-            this.randomFireworks(p.getLocation(), Main.getInstance().getMySQL().getSettingsString(p, "levelup_firework_type"));
+        player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 0F);
+        player.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+        player.sendMessage("");
+        player.sendMessage("§6§l* LEVEL UP! *");
+        player.sendMessage("§eNyni jsi level: §f" + currentLevel); //TODO: Odměny boolean
+        player.sendMessage("");
+        player.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+        if (Main.getInstance().getMySQL().getSettings(player, "levelup_firework_enabled") == 1) {
+            this.randomFireworks(player.getLocation(), Main.getInstance().getMySQL().getSettingsString(player, "levelup_firework_type"));
         }
     }
 
