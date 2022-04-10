@@ -78,9 +78,7 @@ dependencies {
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.6.2.1'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.9'
-    implementation ('cz.craftmania:craftactions:1.0') {
-        exclude group: 'org.jetbrains.kotlin' //TODO: Odebrat později
-    }
+    implementation 'cz.craftmania:craftactions:1.2-beta.1'
 
     // Other dependecies
     implementation 'com.zaxxer:HikariCP:5.0.1'

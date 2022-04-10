@@ -5,8 +5,8 @@ import cz.craftmania.crafteconomy.utils.Logger;
 import lombok.NonNull;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CraftPlayer {
 
@@ -59,6 +59,10 @@ public class CraftPlayer {
 
     // Vault economy
     private long serverMoney = -1;
+
+    // Notifications
+    private boolean allowNotify = true;
+    private Map<Integer, NotificationObject> notificationList = new LinkedHashMap<>();
 
     // Others
     private HashSet<Multiplier> multipliers;
@@ -609,5 +613,17 @@ public class CraftPlayer {
             return amount;
         }
         return 0;
+    }
+
+    public Map<Integer, NotificationObject> getNotificationList() {
+        return notificationList;
+    }
+
+    public void setNotificationList(Map<Integer, NotificationObject> notificationList) {
+        this.notificationList = notificationList;
+    }
+
+    public void addNotification(NotificationObject notificationObject) {
+        this.notificationList.put(notificationObject.notificationId(), notificationObject);
     }
 }

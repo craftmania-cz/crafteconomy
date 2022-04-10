@@ -67,6 +67,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
     private boolean vaultEconomyCleanUp = false;
+    private boolean notificationListenerEnabled = false;
+    private boolean notificationLoadingEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
@@ -169,6 +171,8 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
         isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
+        notificationListenerEnabled = getConfig().getBoolean("notifications.listener", false);
+        notificationLoadingEnabled = getConfig().getBoolean("notifications.enabled", false);
 
         if (isLuxuryQuestEnabled) {
             Logger.info("LuxuryQuests detekováno, rewardy za questy jsou aktivní.");
@@ -294,10 +298,12 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // CMI Events
         if (isCMIPluginEnabled) {
+            Logger.info("Detekce CMI, plugin bude detekovat AFK stav.");
             pm.registerEvents(new PlayerAfkListener(), this);
         }
 
         if (isLuxuryQuestEnabled) {
+            Logger.info("Detekce LuxuryQuests, odměny za questy jsou aktivní.");
             pm.registerEvents(new QuestCompleteListener(), this);
         }
 
@@ -315,7 +321,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             } catch (SchedulerException e) {
                 e.printStackTrace();
             }
+        }
 
+        if (notificationListenerEnabled) {
+            Logger.info("Aktivace listeneru na ukládání notifikací.");
+            pm.registerEvents(new NotificationManager(), this);
         }
     }
 
@@ -606,5 +616,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public SchedulerFactory getSchedulerFactory() {
         return schedulerFactory;
+    }
+
+    public boolean isNotificationLoadingEnabled() {
+        return notificationLoadingEnabled;
     }
 }

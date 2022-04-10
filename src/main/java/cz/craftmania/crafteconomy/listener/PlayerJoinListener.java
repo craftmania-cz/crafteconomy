@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.listener;
 
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.managers.NotificationManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -18,6 +19,7 @@ public class PlayerJoinListener implements Listener {
 
     private Main main;
     private BasicManager bm = new BasicManager();
+    private final NotificationManager notificationManager = new NotificationManager();
     private PlayerUtils playerUtils = new PlayerUtils();
 
     public PlayerJoinListener(Main main) {
@@ -58,6 +60,11 @@ public class PlayerJoinListener implements Listener {
                 craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
 
             }
+        }
+
+        // Načtení a oznámení zpozornení
+        if (Main.getInstance().isNotificationLoadingEnabled()) {
+            notificationManager.loadAndInformPlayer(player, true);
         }
 
         // Opravy práv pro achievementy
