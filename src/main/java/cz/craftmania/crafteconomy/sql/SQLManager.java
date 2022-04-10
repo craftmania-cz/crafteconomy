@@ -819,7 +819,7 @@ public class SQLManager {
                 PreparedStatement ps = null;
                 try {
                     conn = pool.getConnection();
-                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?);");
+                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?,?);");
                     ps.setString(1, player.getName());
                     ps.setString(2, player.getUniqueId().toString());
                     ps.setLong(3, startValue);
