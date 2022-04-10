@@ -67,7 +67,7 @@ dependencies {
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.9'
 
     // Other dependecies
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
     compileOnly group: 'me.clip', name: 'placeholderapi', version: '2.10.9'
 

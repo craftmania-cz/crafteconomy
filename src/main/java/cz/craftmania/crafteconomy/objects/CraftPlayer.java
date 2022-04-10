@@ -73,9 +73,7 @@ public class CraftPlayer {
     public CraftPlayer() {}
 
     /**
-     * Vytvoří objekt {@link CraftPlayer} podle zadaného hráče a načte data z DB.
-     * <b>Nepoužívat pro klasické použití.</b>
-     *
+     * Vytvoří objekt {@link CraftPlayer} podle zadaného hráče.
      * @param player {@link Player}
      */
     public CraftPlayer(@NonNull final Player player) {
