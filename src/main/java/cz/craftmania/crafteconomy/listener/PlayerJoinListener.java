@@ -8,16 +8,12 @@ import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
-import cz.craftmania.craftlibs.utils.ChatInfo;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.util.concurrent.ExecutionException;
 
 public class PlayerJoinListener implements Listener {
 
@@ -30,26 +26,43 @@ public class PlayerJoinListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onJoin(final PlayerJoinEvent e) throws ExecutionException, InterruptedException {
+    public void onJoin(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
 
         // Zakladni nacteni dat do cache a vytvoření objektu
         CraftPlayer craftPlayer = BasicManager.loadPlayerData(player);
         if (craftPlayer == null) {
             Logger.danger("Načítání dat pro " + player.getName() + " selhalo.");
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 3.0f, 1.0f);
-            ChatInfo.DANGER.send(player, "");
-            ChatInfo.DANGER.send(player, "Tvoje data selhaly při načtení! Toto je fatální chyba!");
-            ChatInfo.DANGER.send(player, "Odpoj se nebo se zkus znova připojit.");
-            ChatInfo.DANGER.send(player, "Pokud stále vidíš tuto zprávu, oznam to neprodleně vedení serveru!");
-            ChatInfo.DANGER.send(player, "");
             return;
         }
         craftPlayer.recalculateGlobalLevel();
 
         // Vytvoření a načtení vault money do craftplayer
         if (Main.getInstance().isVaultEconomyEnabled()) {
-            bm.loadVaultPlayerData(player);
+
+            if (main.getMySQL().hasVaultEcoProfile(player.getUniqueId())) {
+
+                // Originálka si změnila nick -> kontrola -> update -> load podle UUID
+                String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                assert sqlNick != null;
+                if (!sqlNick.equals(player.getName())) {
+                    Main.getInstance().getMySQL().updateNickInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                }
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
+
+            } else if (main.getMySQL().hasVaultEcoProfile(player.getName())) {
+
+                // Chyba UUID (Autologin) -> fix UUID -> load podle nicku
+                Main.getInstance().getMySQL().updateUUIDInTable("player_economy_" + Main.getServerType().toString().toLowerCase(), player);
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getName()));
+
+            } else {
+
+                // Hráč nemá vytvořený profil -> create -> load
+                main.getMySQL().createVaultEcoProfile(player);
+                craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
+
+            }
         }
 
         // Opravy práv pro achievementy

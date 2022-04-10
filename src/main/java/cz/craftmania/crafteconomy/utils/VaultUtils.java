@@ -6,7 +6,6 @@ import cz.craftmania.crafteconomy.events.vault.PlayerVaultWithdrawEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.craftlibs.utils.ChatInfo;
-import lombok.SneakyThrows;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -99,13 +98,12 @@ public class VaultUtils extends AbstractEconomy {
         return player.getMoney();
     }
 
-    @SneakyThrows
     @Override
     public double getBalance(OfflinePlayer playerName) {
         if (playerName.isOnline()) {
             return manager.getCraftPlayer((Player) playerName).getMoney();
         } else if (hasAccount(playerName)) {
-            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getUniqueId()).get();
+            return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getUniqueId());
         }
         return 0;
     }
