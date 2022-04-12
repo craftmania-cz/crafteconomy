@@ -340,9 +340,9 @@ public class SQLManager {
         return 0;
     }
 
-    public final CompletableFuture<Boolean> createCcominutyProfile(final Player p) {
+    public final CompletableFuture<CraftPlayer> createCcominutyProfile(final Player p) {
         String discriminator = PlayerUtils.createDiscriminator();
-        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+        CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -355,10 +355,11 @@ public class SQLManager {
             ps.setLong(5, System.currentTimeMillis());
             ps.setString(6, "lobby");
             ps.executeUpdate();
-            completableFuture.complete(true);
+            completableFuture.complete(new CraftPlayer());
         } catch (Exception e) {
             //e.printStackTrace(); // Schvalne ignorovani, kazdy hrac pohybujici se po CM *musi* mít profil.
-            completableFuture.completeExceptionally(e);
+            //completableFuture.completeExceptionally(e);
+            completableFuture.complete(new CraftPlayer()); // Force true
         } finally {
             pool.close(conn, ps, null);
         }
