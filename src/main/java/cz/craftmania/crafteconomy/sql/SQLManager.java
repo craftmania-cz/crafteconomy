@@ -87,7 +87,6 @@ public class SQLManager {
         }
     }
 
-    //TODO: Rewrite
     public final CraftPlayer getCraftPlayerFromSQL(final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -124,17 +123,9 @@ public class SQLManager {
                 craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.HARDCORE_VANILLA_LEVEL.getColumnId()));
                 craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("quest_points"));
                 craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
-                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
-                craftPlayer.setEconomyByType(EconomyType.PARKOUR_POINTS, ps.getResultSet().getLong("parkour_points"));
-                craftPlayer.setEconomyByType(EconomyType.KARMA_POINTS, ps.getResultSet().getLong("karma_points"));
-                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
                 craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
-                craftPlayer.setVoteStatistics(
-                        ps.getResultSet().getLong(EconomyType.WEEK_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong(EconomyType.MONTH_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong(EconomyType.TOTAL_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong("last_vote")
-                );
+                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
+                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
                 return craftPlayer;
             }
         } catch (Exception e) {

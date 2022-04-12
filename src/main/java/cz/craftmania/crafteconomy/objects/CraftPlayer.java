@@ -78,9 +78,57 @@ public class CraftPlayer {
      *
      * @param player {@link Player}
      */
-    public CraftPlayer(@NonNull final Player player) {
+    @Deprecated
+    public CraftPlayer(@NonNull final Player player) { //TODO: DDoS MySQL? xD
         this.player = player;
         this.multipliers = new HashSet<>();
+        this.craftCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player.getUniqueId());
+        this.craftTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_TOKENS, player.getUniqueId());
+        this.voteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player.getUniqueId());
+        this.survivalLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_LEVEL, player.getUniqueId());
+        this.survivalExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_EXPERIENCE, player.getUniqueId());
+        this.skyblockLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_LEVEL, player.getUniqueId());
+        this.skyblockExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_EXPERIENCE, player.getUniqueId());
+        this.creativeLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.CREATIVE_LEVEL, player.getUniqueId());
+        this.creativeExperence = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.CREATIVE_EXPERIENCE, player.getUniqueId());
+        this.vanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_LEVEL, player.getUniqueId());
+        this.vanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_EXPERIENCE, player.getUniqueId());
+        this.skycloudLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_LEVEL, player.getUniqueId());
+        this.skycloudExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYCLOUD_EXPERIENCE, player.getUniqueId());
+        this.prisonLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_LEVEL, player.getUniqueId());
+        this.prisonExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.PRISON_EXPERIENCE, player.getUniqueId());
+        this.questPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.QUEST_POINTS, player.getUniqueId()); //TODO: Přepnout ve finále
+        this.seasonPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.SEASON_POINTS, player.getUniqueId());
+        this.totalVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.TOTAL_VOTES, player.getUniqueId());
+        this.monthVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.MONTH_VOTES, player.getUniqueId());
+        this.weekVotes = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.WEEK_VOTES, player.getUniqueId());
+        this.votePass = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_PASS, player.getUniqueId());
+        this.eventPoints = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.EVENT_POINTS, player.getUniqueId());
+        this.hardcoreVanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_LEVEL, player.getUniqueId());
+        this.hardcoreVanillaExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.HARDCORE_VANILLA_EXPERIENCE, player.getUniqueId());
+        this.anarchyLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_LEVEL, player.getUniqueId());
+        this.anarchyExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.ANARCHY_EXPERIENCE, player.getUniqueId());
+        this.vanilla116Level = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_116_LEVEL, player.getUniqueId());
+
+        this.payToggle = (Main.getInstance().getMySQL().getSettings(player, "paytoggle") != 0);
+        recalculateGlobalLevel();
+    }
+
+    /**
+     * Metoda pro vytvoření objektu {@link CraftPlayer}
+     *
+     * @param player Zvolený hráč {@link Player}
+     * @param coins Počáteční počet CraftCoins
+     * @param tokens Počáteční počet CraftTokens
+     * @param voteTokens Počáteční počet VoteTokens
+     */
+    public CraftPlayer(@NonNull final Player player, final long coins, final long tokens, final long voteTokens) {
+        this.player = player;
+        this.craftCoins = coins;
+        this.craftTokens = tokens;
+        this.voteTokens = voteTokens;
+        this.multipliers = new HashSet<>();
+        recalculateGlobalLevel();
     }
 
     /**
@@ -311,21 +359,6 @@ public class CraftPlayer {
      */
     public void setLastVote(long last_vote) {
         this.lastVote = last_vote;
-    }
-
-    /**
-     * Nastaví Vote statistiky na vyžadovaný počet.
-     * <b>Nepoužívat v pluginech, slouží k pouze k načítání dat!</b>
-     * @param weekVotes Týdenní hlasy
-     * @param monthVotes Měsíční hlasy
-     * @param totalVotes Celkový hlasy
-     * @param lastVote Poslední hlas
-     */
-    public void setVoteStatistics(long weekVotes, long monthVotes, long totalVotes, long lastVote) {
-        this.weekVotes = weekVotes;
-        this.monthVotes = monthVotes;
-        this.totalVotes = totalVotes;
-        this.lastVote = lastVote;
     }
 
     /**
