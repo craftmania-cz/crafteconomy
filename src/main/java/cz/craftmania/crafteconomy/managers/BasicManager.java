@@ -1,6 +1,8 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
+import cz.craftmania.crafteconomy.exceptions.CraftEconomyLoadPlayerDataFailed;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -10,6 +12,7 @@ import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.craftlibs.utils.ChatInfo;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,12 +35,16 @@ public class BasicManager {
      * Načtení dat do interní cache.
      * @param player Bukkit objekt hráče
      */
-    public CompletableFuture<CraftPlayer> loadPlayerData(final Player player) {
-        CompletableFuture<CraftPlayer> waitOnRegister = this.getOrRegisterPlayer(player);
-        return waitOnRegister.thenApplyAsync((data) -> {
-            players.put(player, data);
-            return data;
-        });
+    @Nullable
+    public static CraftPlayer loadPlayerData(final Player player) {
+        try {
+            CraftPlayer cp = getOrRegisterPlayer(player).get();
+            players.put(player, cp);
+            return cp;
+        } catch (ExecutionException | InterruptedException loadError) {
+            loadError.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -101,7 +108,7 @@ public class BasicManager {
      * @see CraftPlayer
      */
     @NotNull
-    private CompletableFuture<CraftPlayer> getOrRegisterPlayer(@NonNull final Player player) {
+    private static CompletableFuture<CraftPlayer> getOrRegisterPlayer(@NonNull final Player player) {
         CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
         try {
             // Načítání dat dle UUID, pokud si změnil nick dojde k převodu a znovu načtení
@@ -110,11 +117,7 @@ public class BasicManager {
                 // Player profile: Kontrola změny nicku -> update nicku -> load podle UUID
                 Main.getInstance().getMySQL().getNickFromTable("player_profile", player).thenAcceptAsync((sqlNick) -> {
                     if (!sqlNick.equals(player.getName())) {
-                        try {
-                            Main.getInstance().getMySQL().updateNickInTable("player_profile", player).get();
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
+                        Main.getInstance().getMySQL().updateNickInTable("player_profile", player);
                     }
                 }).thenRunAsync(() -> {
                     Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((completableFuture::complete));
@@ -128,16 +131,14 @@ public class BasicManager {
             } else {
                 // Pokud hrac neni vubec v SQL, tak se provede register
                 if (Main.getInstance().isRegisterEnabled()) {
-                    CompletableFuture<CraftPlayer> createProfile = Main.getInstance().getMySQL().createCcominutyProfile(player);
-                    return createProfile.thenApplyAsync((value) -> {
-                        return value;
+                    CompletableFuture<Boolean> createProfile = Main.getInstance().getMySQL().createCcominutyProfile(player);
+                    createProfile.thenRun(() -> {
+                        final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
+                        Bukkit.getPluginManager().callEvent(event);
+                    }).thenRunAsync(() -> {
+                        Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((completableFuture::complete));
                     });
-                } else {
-                    //TODO: Return?
-                    Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((craftPlayer) -> {
-                        completableFuture.complete(craftPlayer);
-                    });
-                };
+                }
             }
         } catch (Exception exception) {
             Main.getInstance().sendSentryException(exception);
