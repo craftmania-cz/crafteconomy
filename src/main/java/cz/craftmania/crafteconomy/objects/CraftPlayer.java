@@ -85,10 +85,10 @@ public class CraftPlayer {
         this.craftCoins = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_COINS, player.getUniqueId());
         this.craftTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.CRAFT_TOKENS, player.getUniqueId());
         this.voteTokens = Main.getInstance().getMySQL().getPlayerEconomy(EconomyType.VOTE_TOKENS_2, player.getUniqueId());
-        this.survivalLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_LEVEL, player.getUniqueId());
-        this.survivalExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_EXPERIENCE, player.getUniqueId());
-        this.skyblockLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_LEVEL, player.getUniqueId());
-        this.skyblockExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_EXPERIENCE, player.getUniqueId());
+        this.survivalLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_117_LEVEL, player.getUniqueId());
+        this.survivalExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SURVIVAL_117_EXPERIENCE, player.getUniqueId());
+        this.skyblockLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_117_LEVEL, player.getUniqueId());
+        this.skyblockExperience = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.SKYBLOCK_117_EXPERIENCE, player.getUniqueId());
         this.creativeLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.CREATIVE_LEVEL, player.getUniqueId());
         this.creativeExperence = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.CREATIVE_EXPERIENCE, player.getUniqueId());
         this.vanillaLevel = Main.getInstance().getMySQL().getPlayerEconomy(LevelType.VANILLA_LEVEL, player.getUniqueId());
