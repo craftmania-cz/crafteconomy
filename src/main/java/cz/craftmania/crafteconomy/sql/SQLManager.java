@@ -33,48 +33,61 @@ public class SQLManager {
         return pool;
     }
 
-    public final CompletableFuture<Boolean> hasDataByUuid(final Player player, final String table) {
-        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+    public final boolean hasData(final Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE uuid = ?;");
-            ps.setString(1, player.getUniqueId().toString());
+            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
+            ps.setString(1, p.getUniqueId().toString());
             ps.executeQuery();
-            completableFuture.complete(ps.getResultSet().next());
+            return ps.getResultSet().next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
-            completableFuture.complete(false);
+            return false;
         } finally {
             pool.close(conn, ps, null);
         }
-        return completableFuture;
     }
 
-    public final CompletableFuture<Boolean> hasDataByNick(final String player, final String table) {
-        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
+    public final boolean hasDataByNick(final String p) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE nick = ?;");
-            ps.setString(1, player);
+            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE nick = ?;");
+            ps.setString(1, p);
             ps.executeQuery();
-            completableFuture.complete(ps.getResultSet().next());
+            return ps.getResultSet().next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
-            completableFuture.complete(false);
+            return false;
         } finally {
             pool.close(conn, ps, null);
         }
-        return completableFuture;
     }
 
-    public final CompletableFuture<CraftPlayer> getCraftPlayerFromSQL(final Player player) {
-        CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
+    public final boolean hasDataByUUID(final UUID uuid) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
+            ps.setString(1, uuid.toString());
+            ps.executeQuery();
+            return ps.getResultSet().next();
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+            return false;
+        } finally {
+            pool.close(conn, ps, null);
+        }
+    }
+
+    public final CraftPlayer getCraftPlayerFromSQL(final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -110,27 +123,18 @@ public class SQLManager {
                 craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.HARDCORE_VANILLA_LEVEL.getColumnId()));
                 craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("quest_points"));
                 craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
-                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
-                craftPlayer.setEconomyByType(EconomyType.PARKOUR_POINTS, ps.getResultSet().getLong("parkour_points"));
-                craftPlayer.setEconomyByType(EconomyType.KARMA_POINTS, ps.getResultSet().getLong("karma_points"));
-                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
                 craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
-                craftPlayer.setVoteStatistics(
-                        ps.getResultSet().getLong(EconomyType.WEEK_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong(EconomyType.MONTH_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong(EconomyType.TOTAL_VOTES.name().toLowerCase()),
-                        ps.getResultSet().getLong("last_vote")
-                );
-                completableFuture.complete(craftPlayer);
+                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
+                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
+                return craftPlayer;
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
-            completableFuture.completeExceptionally(e);
         } finally {
             pool.close(conn, ps, null);
         }
-        return completableFuture;
+        return null;
     }
 
     public void setEconomy(final LevelType type, final Player p, final long value) {
@@ -340,30 +344,30 @@ public class SQLManager {
         return 0;
     }
 
-    public final CompletableFuture<CraftPlayer> createCcominutyProfile(final Player p) {
+    public final void createCcominutyProfile(final Player p) {
         String discriminator = PlayerUtils.createDiscriminator();
-        CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO player_profile (discriminator, nick ,uuid, registred, last_online, last_server) VALUES (?,?,?,?,?,?);");
-            ps.setString(1, discriminator);
-            ps.setString(2, p.getName());
-            ps.setString(3, p.getUniqueId().toString());
-            ps.setLong(4, System.currentTimeMillis());
-            ps.setLong(5, System.currentTimeMillis());
-            ps.setString(6, "lobby");
-            ps.executeUpdate();
-            completableFuture.complete(new CraftPlayer());
-        } catch (Exception e) {
-            //e.printStackTrace(); // Schvalne ignorovani, kazdy hrac pohybujici se po CM *musi* mít profil.
-            //completableFuture.completeExceptionally(e);
-            completableFuture.complete(new CraftPlayer()); // Force true
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return completableFuture;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_profile (discriminator, nick ,uuid, registred, last_online, last_server) VALUES (?,?,?,?,?,?);");
+                    ps.setString(1, discriminator);
+                    ps.setString(2, p.getName());
+                    ps.setString(3, p.getUniqueId().toString());
+                    ps.setLong(4, System.currentTimeMillis());
+                    ps.setLong(5, System.currentTimeMillis());
+                    ps.setString(6, "lobby");
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace(); // Schvalne ignorovani, kazdy hrac pohybujici se po CM *musi* mít profil.
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
     public final void insertChangeIntoChangelog(final Player player, final String sender, final String action,
@@ -397,41 +401,44 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final CompletableFuture<Boolean> updateNickInTable(final String table, final Player p) {
-        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE " + table + " SET nick = ? WHERE uuid = '" + p.getUniqueId().toString() + "';");
-            ps.setString(1, p.getName());
-            ps.executeUpdate();
-            completableFuture.complete(true);
-        } catch (Exception e) {
-            //e.printStackTrace();
-            completableFuture.completeExceptionally(e);
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return completableFuture;
+    public final void updateNickInTable(final String table, final Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE " + table + " SET nick = ? WHERE uuid = '" + p.getUniqueId().toString() + "';");
+                    ps.setString(1, p.getName());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final CompletableFuture<Boolean> updateUUIDInTable(final String table, final Player player) {
-        CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("UPDATE " + table + " SET uuid = ? WHERE nick = '" + player.getName() + "';");
-            ps.setString(1, player.getUniqueId().toString());
-            ps.executeUpdate();
-            completableFuture.complete(true);
-        } catch (Exception e) {
-            completableFuture.completeExceptionally(e);
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return completableFuture;
+    public final void updateUUIDInTable(final String table, final Player p) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE " + table + " SET uuid = ? WHERE nick = '" + p.getName() + "';");
+                    ps.setString(1, p.getUniqueId().toString());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
     public final void sendPlayerAchievementLog(final Player p, final QuestReward achievement) {
@@ -595,8 +602,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final CompletableFuture<Long> getVaultEcoBalance(final UUID uuid) {
-        CompletableFuture<Long> completableFuture = new CompletableFuture<>();
+    public final long getVaultEcoBalance(final UUID uuid) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -605,16 +611,15 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE uuid = '" + uuid + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                completableFuture.complete(ps.getResultSet().getLong("balance"));
+                return ps.getResultSet().getLong("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
-            completableFuture.completeExceptionally(e);
         } finally {
             pool.close(conn, ps, null);
         }
-        return completableFuture;
+        return 0;
     }
 
     public final long getVaultEcoBalance(final String nick) {
@@ -794,29 +799,33 @@ public class SQLManager {
         });
     }
 
-    public final CompletableFuture<Integer> createVaultEcoProfile(final Player player) {
-        CompletableFuture<Integer> completableFuture = new CompletableFuture<>();
+    public final void createVaultEcoProfile(final Player player) {
         long currentTime = System.currentTimeMillis();
         final String server = Main.getServerType().name().toLowerCase();
         int startValue = Main.getInstance().getConfig().getInt("vault-economy.start-value", 0);
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?,?);");
-            ps.setString(1, player.getName());
-            ps.setString(2, player.getUniqueId().toString());
-            ps.setLong(3, startValue);
-            ps.setLong(4, currentTime);
-            ps.executeUpdate();
-            completableFuture.complete(startValue);
-        } catch (Exception e) {
-            //e.printStackTrace();
-            completableFuture.completeExceptionally(e);
-        } finally {
-            pool.close(conn, ps, null);
-        }
-        return completableFuture;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?,?);");
+                    ps.setString(1, player.getName());
+                    ps.setString(2, player.getUniqueId().toString());
+                    ps.setLong(3, startValue);
+                    ps.setLong(4, currentTime);
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    // Hráč má špatný UUID!
+                    Logger.danger("POZOR! Hráč " + player.getName() + " má špatné UUID! Nefungoval mu správně AutoLogin.");
+                    udpateUUIDInEconomyTable(player);
+                    //e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
     }
 
     public void udpateUUIDInEconomyTable(final Player player) {
@@ -863,8 +872,7 @@ public class SQLManager {
      * @param player Hráč k kontrole
      * @return null když hráč neexistuje? jinak nick
      */
-    public final CompletableFuture<String> getNickFromTable(final String table, final Player player) {
-        CompletableFuture<String> completableFuture = new CompletableFuture<>();
+    public final String getNickFromTable(final String table, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -872,16 +880,15 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT nick FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                completableFuture.complete(ps.getResultSet().getString("nick"));
+                return ps.getResultSet().getString("nick");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
-            completableFuture.completeExceptionally(e);
         } finally {
             pool.close(conn, ps, null);
         }
-        return completableFuture;
+        return null;
     }
 
     /**

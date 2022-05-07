@@ -1,6 +1,7 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -16,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -32,24 +31,11 @@ public class BasicManager {
      * Načtení dat do interní cache.
      * @param player Bukkit objekt hráče
      */
-    public CompletableFuture<CraftPlayer> loadPlayerData(final Player player) {
-        CompletableFuture<CraftPlayer> waitOnRegister = this.getOrRegisterPlayer(player);
-        return waitOnRegister.thenApplyAsync((data) -> {
-            players.put(player, data);
-            return data;
-        });
-    }
-
-    /**
-     * Načte Vault data do cache.
-     * @param player Bukkit objekt hráče
-     */
-    public void loadVaultPlayerData(final Player player) {
-        try {
-            this.getOrRegisterVaultData(player).get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    @NotNull
+    public static CraftPlayer loadPlayerData(final Player player) {
+        CraftPlayer cp = getOrRegisterPlayer(player);
+        players.put(player, cp);
+        return cp;
     }
 
     /**
@@ -101,85 +87,50 @@ public class BasicManager {
      * @see CraftPlayer
      */
     @NotNull
-    private CompletableFuture<CraftPlayer> getOrRegisterPlayer(@NonNull final Player player) {
-        CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
+    private static CraftPlayer getOrRegisterPlayer(@NonNull final Player player) {
+        CraftPlayer cp = null;
         try {
-            // Načítání dat dle UUID, pokud si změnil nick dojde k převodu a znovu načtení
-            if (Main.getInstance().getMySQL().hasDataByUuid(player, "player_profile").get()) {
+            if (Main.getInstance().getMySQL().hasData(player)) { // Kontrola dle UUID
 
                 // Player profile: Kontrola změny nicku -> update nicku -> load podle UUID
-                Main.getInstance().getMySQL().getNickFromTable("player_profile", player).thenAcceptAsync((sqlNick) -> {
-                    if (!sqlNick.equals(player.getName())) {
-                        try {
-                            Main.getInstance().getMySQL().updateNickInTable("player_profile", player).get();
-                        } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).thenRunAsync(() -> {
-                    Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((completableFuture::complete));
-                });
+                String sqlNick = Main.getInstance().getMySQL().getNickFromTable("player_profile", player);
+                assert sqlNick != null;
+                if (!sqlNick.equals(player.getName())) {
+                    Main.getInstance().getMySQL().updateNickInTable("player_profile", player);
+                }
 
-            } else if (Main.getInstance().getMySQL().hasDataByNick(player.getName(), "player_profile").get()) {
+                cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+
+            } else if (Main.getInstance().getMySQL().hasDataByNick(player.getName())) {
+
                 // Chyba AutoLoginu -> update UUID -> load podle nicku
-                Main.getInstance().getMySQL().updateUUIDInTable("player_profile", player).thenRunAsync(() -> {
-                    Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((completableFuture::complete));
-                });
-            } else {
+                Main.getInstance().getMySQL().updateUUIDInTable("player_profile", player);
+                System.out.println("BM: Update UUID dokončen");
+
+                cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+            } else { // Jinak klasicky register, jako nový hráč
                 // Pokud hrac neni vubec v SQL, tak se provede register
                 if (Main.getInstance().isRegisterEnabled()) {
-                    CompletableFuture<CraftPlayer> createProfile = Main.getInstance().getMySQL().createCcominutyProfile(player);
-                    return createProfile.thenApplyAsync((value) -> {
-                        return value;
-                    });
-                } else {
-                    //TODO: Return?
-                    Main.getInstance().getMySQL().getCraftPlayerFromSQL(player).thenAcceptAsync((craftPlayer) -> {
-                        completableFuture.complete(craftPlayer);
-                    });
-                };
-            }
-        } catch (Exception exception) {
-            Main.getInstance().sendSentryException(exception);
-            exception.printStackTrace();
-            completableFuture.completeExceptionally(exception);
-        }
-        return completableFuture;
-    }
 
-    private CompletableFuture<CraftPlayer> getOrRegisterVaultData(@NonNull final Player player) {
-        CompletableFuture<CraftPlayer> completableFuture = new CompletableFuture<>();
-        String sqlTableName = "player_economy_" + Main.getServerType().toString().toLowerCase();
-        CraftPlayer craftPlayer = getCraftPlayer(player);
-        assert craftPlayer != null;
-        try {
-            // Načítání dat dle UUID, pokud si změnil nick dojde k převodu a znovu načtení
-            if (Main.getInstance().getMySQL().hasDataByUuid(player, sqlTableName).get()) {
-                Main.getInstance().getMySQL().getNickFromTable(sqlTableName, player).thenAcceptAsync((sqlNick) -> {
-                    if (!sqlNick.equals(player.getName())) {
-                        Main.getInstance().getMySQL().updateNickInTable(sqlTableName, player);
-                    }
-                }).thenRunAsync(() -> {
-                    Main.getInstance().getMySQL().getVaultEcoBalance(player.getUniqueId())
-                            .thenAcceptAsync(craftPlayer::setMoney).thenRunAsync(() -> completableFuture.complete(craftPlayer));
-                });
-            // Chyba autologinu (špatný UUID)
-            } else if (Main.getInstance().getMySQL().hasDataByNick(player.getName(), sqlTableName).get()) {
-                Main.getInstance().getMySQL().updateUUIDInTable(sqlTableName, player).thenRunAsync(() -> {
-                    Main.getInstance().getMySQL().getVaultEcoBalance(player.getUniqueId())
-                            .thenAcceptAsync(craftPlayer::setMoney).thenRunAsync(() -> completableFuture.complete(craftPlayer));;
-                });
-            } else {
-                Main.getInstance().getMySQL().createVaultEcoProfile(player)
-                        .thenAcceptAsync(craftPlayer::setMoney)
-                        .thenRunAsync(() -> completableFuture.complete(craftPlayer));
+                    // Vytvoreni
+                    Main.getInstance().getMySQL().createCcominutyProfile(player);
+
+                    // Event
+                    final PlayerCreateCcomunityProfileEvent event = new PlayerCreateCcomunityProfileEvent(player);
+                    Bukkit.getPluginManager().callEvent(event);
+
+                    cp = Main.getInstance().getMySQL().getCraftPlayerFromSQL(player);
+                }
             }
-        } catch (ExecutionException | InterruptedException exception) {
-            Main.getInstance().sendSentryException(exception);
-            exception.printStackTrace();
-            completableFuture.completeExceptionally(exception);
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
         }
-        return completableFuture;
+        // Prevence proti NPE z SQL
+        if (cp == null) {
+            cp = new CraftPlayer(player);
+        }
+        return cp;
     }
 
     /**
@@ -308,7 +259,7 @@ public class BasicManager {
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
                 Main.getAsync().runSync(() -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getFixedServerType().toLowerCase());
                 });
             });
         }
@@ -354,7 +305,7 @@ public class BasicManager {
     public void removePlayerLevelReward(@NonNull LevelReward level, @NonNull Player player, boolean announce) {
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset " + permission + " " + Main.getServerType().name().toLowerCase());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset " + permission + " " + Main.getFixedServerType().toLowerCase());
             });
         }
 

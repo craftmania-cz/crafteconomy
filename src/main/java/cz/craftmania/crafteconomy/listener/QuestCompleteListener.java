@@ -74,7 +74,7 @@ public class QuestCompleteListener implements Listener {
         // Permissions
         if (!quest.getPermissions().isEmpty()) {
             quest.getPermissions().forEach(permission -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getFixedServerType().toLowerCase());
             });
         }
 
