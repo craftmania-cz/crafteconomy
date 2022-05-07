@@ -8,6 +8,7 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.NotificationObject;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.craftlibs.utils.ChatInfo;
+import cz.craftmania.craftlibs.utils.ServerColors;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -31,44 +32,44 @@ public class NotificationManager implements Listener {
         if (craftPlayer == null) {
             return;
         }
-        CompletableFuture.runAsync(() -> {
-            List<NotificationObject> sqlNotificationList = Main.getInstance().getMySQL().fetchAllPlayerNotifications(player);
-            craftPlayer.getNotificationList().clear();
-            sqlNotificationList.forEach(craftPlayer::addNotification);
-        }).thenRunAsync(() -> {
-            if (informPlayer) {
-                AtomicInteger notificationCount = new AtomicInteger();
-                AtomicInteger notificationUrgentCount = new AtomicInteger();
-                craftPlayer.getNotificationList().forEach((integer, notificationObject) -> {
-                    if (notificationObject.getNotificationPriority() == NotificationPriority.URGENT) {
-                        notificationCount.getAndIncrement();
-                        notificationUrgentCount.getAndIncrement();
-                    }
-                    if (notificationObject.getNotificationPriority() == NotificationPriority.NORMAL
-                            || notificationObject.getNotificationPriority() == NotificationPriority.HIGHER) {
-                        notificationCount.getAndIncrement();
-                    }
-                });
-                //TODO: Lepší formát...
-                if (notificationCount.get() > 0) {
-                    ChatInfo.INFO.send(player, "Máš " + notificationCount.get() + " nepřečtených upozornění.");
+        List<NotificationObject> sqlNotificationList = Main.getInstance().getMySQL().fetchAllPlayerNotifications(player);
+        craftPlayer.getNotificationList().clear();
+        sqlNotificationList.forEach(craftPlayer::addNotification);
+        System.out.println("loadAndInformPlayer");
+
+        if (informPlayer) {
+            AtomicInteger notificationCount = new AtomicInteger();
+            AtomicInteger notificationUrgentCount = new AtomicInteger();
+            craftPlayer.getNotificationList().forEach((integer, notificationObject) -> {
+                if (notificationObject.getNotificationPriority() == NotificationPriority.URGENT) {
+                    notificationCount.getAndIncrement();
+                    notificationUrgentCount.getAndIncrement();
                 }
-                if (notificationUrgentCount.get() > 0) {
-                    ChatInfo.INFO.send(player, "Pozor! Máš " + notificationUrgentCount.get() + " urgentních upozornění!");
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
+                if (notificationObject.getNotificationPriority() == NotificationPriority.NORMAL
+                        || notificationObject.getNotificationPriority() == NotificationPriority.HIGHER) {
+                    notificationCount.getAndIncrement();
                 }
+            });
+            //TODO: Lepší formát...
+            if (notificationCount.get() > 0) {
+                ChatInfo.INFO.send(player, "Máš " + notificationCount.get() + " nepřečtených upozornění.");
             }
-        });
+            if (notificationUrgentCount.get() > 0) {
+                ChatInfo.INFO.send(player, "Pozor! Máš " + notificationUrgentCount.get() + " urgentních upozornění!");
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1.0f, 1.0f);
+            }
+        }
     }
 
     /**
      * Vytváří a ukládá notifikace pro hráče, a pokud je online tak mu jí i oznámí.
-     * @param playerName Nick hráče, pro kterého je notifikace
-     * @param type {@link NotificationType}
-     * @param priority {@link NotificationPriority}
+     *
+     * @param playerName  Nick hráče, pro kterého je notifikace
+     * @param type        {@link NotificationType}
+     * @param priority    {@link NotificationPriority}
      * @param serverScope Kde notifikace platí -> název serveru
-     * @param title Název notifikace
-     * @param message Popis nebo zpráva notifikace
+     * @param title       Název notifikace
+     * @param message     Popis nebo zpráva notifikace
      */
     public void createNotification(
             final String playerName,
@@ -77,23 +78,24 @@ public class NotificationManager implements Listener {
             String serverScope,
             String title,
             String message
-            ) {
+    ) {
         Player player = Bukkit.getPlayer(playerName);
         Logger.info("Ukládání notifikace pro: " + playerName + " -> type:" + type + ", priority: " + priority + ", title: " + title);
 
         Main.getInstance().getMySQL().saveNotification(player, type, priority, serverScope, title, message);
-
         if (player != null) { // online
-            // Reload cache
-            this.loadAndInformPlayer(player, false);
             // Odeslat notifikaci do chatu
             player.sendMessage("");
-            player.sendMessage("§6Obdržel jsi upozornění:");
+            player.sendMessage(ServerColors.SERVER_CREATIVE + "Obdržel jsi upozornění:");
             player.sendMessage("§e" + title);
-            player.sendMessage("§8Priorita: " + priority + ", Typ: " + type);
+            player.sendMessage(ServerColors.DARK_GRAY + "Priorita: §f" + priority + ServerColors.DARK_GRAY + ", Typ: §f" + type);
             player.sendMessage("§7" + message);
             player.sendMessage("");
         }
+
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+            this.loadAndInformPlayer(player, false);
+        }, 50L);
     }
 
     public void markNotificationAsRead(final String player, final int notificationId) {

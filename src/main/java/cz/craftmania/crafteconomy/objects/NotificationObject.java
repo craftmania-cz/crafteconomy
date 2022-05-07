@@ -15,14 +15,16 @@ public class NotificationObject {
     private String message;
     private boolean isRead;
 
-    public NotificationObject(Player player,
-                              int notificationId,
-                              NotificationType notificationType,
-                              NotificationPriority notificationPriority,
-                              String notificationServer,
-                              String title,
-                              String message,
-                              boolean isRead) {
+    public NotificationObject(
+            Player player,
+            int notificationId,
+            NotificationType notificationType,
+            NotificationPriority notificationPriority,
+            String notificationServer,
+            String title,
+            String message,
+            boolean isRead
+    ) {
         this.player = player;
         this.notificationId = notificationId;
         this.notificationType = notificationType;

@@ -2,6 +2,7 @@ package cz.craftmania.crafteconomy.menu;
 
 import cz.craftmania.craftcore.builders.items.ItemBuilder;
 import cz.craftmania.craftcore.inventory.builder.ClickableItem;
+import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.craftcore.inventory.builder.content.*;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
@@ -30,21 +31,20 @@ public class NotificationGUI implements InventoryProvider {
         ClickableItem[] c = new ClickableItem[items.size()];
         c = items.toArray(c);
         pagination.setItems(c);
-        pagination.setItemsPerPage(36);
+        pagination.setItemsPerPage(45);
 
         if (items.size() > 0 && !pagination.isLast()) {
-            contents.set(5, 7, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§f§lDalší stránka").build(), e -> {
+            contents.set(5, 5, ClickableItem.of(new ItemBuilder(Material.IRON_NUGGET).setCustomModelData(100010).setName("§6Další stránka").build(), e -> {
                 contents.inventory().open(player, pagination.next().getPage());
             }));
         }
         if (!pagination.isFirst()) {
-            contents.set(5, 1, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§f§lPředchozí stránka").build(), e -> {
+            contents.set(5, 3, ClickableItem.of(new ItemBuilder(Material.IRON_NUGGET).setCustomModelData(100003).setName("§6Předchozí stránka").build(), e -> {
                 contents.inventory().open(player, pagination.previous().getPage());
             }));
         }
 
         SlotIterator slotIterator = contents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0);
-        slotIterator = slotIterator.allowOverride(false);
         pagination.addToIterator(slotIterator);
     }
 
@@ -80,6 +80,8 @@ public class NotificationGUI implements InventoryProvider {
                     List<String> lore = inventoryClickEvent.getCurrentItem().getItemMeta().getLore();
                     int notifycationId = Integer.parseInt(lore.get(lore.size() -1));
                     notificationManager.markNotificationAsRead(craftPlayer.getPlayer().getName(), notifycationId);
+                    SmartInventory.builder().size(6, 9)
+                            .title("Notifications").provider(new NotificationGUI()).build().open(craftPlayer.getPlayer());
                 }));
                 items.add(clickableItem);
             }
@@ -88,12 +90,5 @@ public class NotificationGUI implements InventoryProvider {
     }
 
     @Override
-    public void update(Player player, InventoryContents contents) {
-        CraftPlayer craftPlayer = manager.getCraftPlayer(player);
-        final ArrayList<ClickableItem> items = getClickableItems(craftPlayer);
-        for (ClickableItem item : items) {
-            contents.add(item);
-        }
-
-    }
+    public void update(Player player, InventoryContents contents) {}
 }
