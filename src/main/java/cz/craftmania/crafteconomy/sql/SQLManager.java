@@ -1135,4 +1135,26 @@ public class SQLManager {
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
+
+    public final void updateNotificationReadStatus(final String player, final int notificationId, final boolean readStatus) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_notifications SET isRead=? WHERE id = ? AND nick=?;");
+                    ps.setBoolean(1, readStatus);
+                    ps.setInt(2, notificationId);
+                    ps.setString(3, player);
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
 }

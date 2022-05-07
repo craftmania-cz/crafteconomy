@@ -2,8 +2,6 @@ package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.craftactions.economy.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.exceptions.CraftEconomyLoadPlayerDataFailed;
-import cz.craftmania.crafteconomy.events.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelReward;
 import cz.craftmania.crafteconomy.objects.LevelType;

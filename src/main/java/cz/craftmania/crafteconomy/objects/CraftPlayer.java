@@ -624,6 +624,6 @@ public class CraftPlayer {
     }
 
     public void addNotification(NotificationObject notificationObject) {
-        this.notificationList.put(notificationObject.notificationId(), notificationObject);
+        this.notificationList.put(notificationObject.getNotificationId(), notificationObject);
     }
 }

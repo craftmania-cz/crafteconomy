@@ -1,6 +1,8 @@
 package cz.craftmania.crafteconomy;
 
 import co.aikar.commands.PaperCommandManager;
+import cz.craftmania.craftactions.profile.NotificationPriority;
+import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
@@ -12,7 +14,6 @@ import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
-import cz.craftmania.crafteconomy.managers.CleanUpManager;
 import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
 import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
 import cz.craftmania.crafteconomy.tasks.VaultCleanTask;
@@ -34,10 +35,10 @@ import org.quartz.impl.StdSchedulerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
-import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.Calendar;
+import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -341,6 +342,15 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());
             manager.registerCommand(new VotePassCommand());
+        }
+        if (this.notificationLoadingEnabled) {
+            manager.registerCommand(new NotificationCommand());
+            manager.getCommandCompletions().registerCompletion("notificationType", context -> {
+                return Arrays.stream(NotificationType.values()).map(Enum::name).collect(Collectors.toList());
+            });
+            manager.getCommandCompletions().registerCompletion("notificationPriority", context -> {
+               return Arrays.stream(NotificationPriority.values()).map(Enum::name).collect(Collectors.toList());
+            });
         }
     }
 

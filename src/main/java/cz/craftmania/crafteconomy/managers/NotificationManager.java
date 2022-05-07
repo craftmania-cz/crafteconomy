@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,12 +40,12 @@ public class NotificationManager implements Listener {
                 AtomicInteger notificationCount = new AtomicInteger();
                 AtomicInteger notificationUrgentCount = new AtomicInteger();
                 craftPlayer.getNotificationList().forEach((integer, notificationObject) -> {
-                    if (notificationObject.notificationPriority() == NotificationPriority.URGENT) {
+                    if (notificationObject.getNotificationPriority() == NotificationPriority.URGENT) {
                         notificationCount.getAndIncrement();
                         notificationUrgentCount.getAndIncrement();
                     }
-                    if (notificationObject.notificationPriority() == NotificationPriority.NORMAL
-                            || notificationObject.notificationPriority() == NotificationPriority.HIGHER) {
+                    if (notificationObject.getNotificationPriority() == NotificationPriority.NORMAL
+                            || notificationObject.getNotificationPriority() == NotificationPriority.HIGHER) {
                         notificationCount.getAndIncrement();
                     }
                 });
@@ -93,6 +94,26 @@ public class NotificationManager implements Listener {
             player.sendMessage("§7" + message);
             player.sendMessage("");
         }
+    }
+
+    public void markNotificationAsRead(final String player, final int notificationId) {
+        Player onlinePlayer = Bukkit.getPlayer(player);
+        if (onlinePlayer != null) {
+            CraftPlayer craftPlayer = basicManager.getCraftPlayer(onlinePlayer);
+            craftPlayer.getNotificationList().forEach(((notifyId, notificationObject) -> {
+                if (notificationObject.getNotificationId() == notificationId) {
+                    notificationObject.setRead(true);
+                    Main.getInstance().getMySQL().updateNotificationReadStatus(player, notificationId, true);
+                }
+            }));
+        } else {
+            Main.getInstance().getMySQL().updateNotificationReadStatus(player, notificationId, true);
+        }
+        //TODO: Call event read
+    }
+
+    public Map<Integer, NotificationObject> getPlayerNotifications(final Player player) {
+        return basicManager.getCraftPlayer(player).getNotificationList();
     }
 
     /**

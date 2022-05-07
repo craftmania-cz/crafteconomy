@@ -4,54 +4,68 @@ import cz.craftmania.craftactions.profile.NotificationPriority;
 import cz.craftmania.craftactions.profile.NotificationType;
 import org.bukkit.entity.Player;
 
-public record NotificationObject(
-        Player player,
-        int notificationId,
-        NotificationType notificationType,
-        NotificationPriority notificationPriority,
-        String notificationServer,
-        String title,
-        String message,
-        boolean isRead
-) {
+public class NotificationObject {
 
-    @Override
-    public Player player() {
+    private int notificationId;
+    private Player player;
+    private NotificationType notificationType;
+    private NotificationPriority notificationPriority;
+    private String notificationServer;
+    private String title;
+    private String message;
+    private boolean isRead;
+
+    public NotificationObject(Player player,
+                              int notificationId,
+                              NotificationType notificationType,
+                              NotificationPriority notificationPriority,
+                              String notificationServer,
+                              String title,
+                              String message,
+                              boolean isRead) {
+        this.player = player;
+        this.notificationId = notificationId;
+        this.notificationType = notificationType;
+        this.notificationPriority = notificationPriority;
+        this.notificationServer = notificationServer;
+        this.title = title;
+        this.message = message;
+        this.isRead = isRead;
+    }
+
+    public Player getPlayer() {
         return player;
     }
 
-    @Override
-    public int notificationId() {
+    public int getNotificationId() {
         return notificationId;
     }
 
-    @Override
-    public NotificationType notificationType() {
+    public NotificationType getNotificationType() {
         return notificationType;
     }
 
-    @Override
-    public NotificationPriority notificationPriority() {
+    public NotificationPriority getNotificationPriority() {
         return notificationPriority;
     }
 
-    @Override
-    public String notificationServer() {
+    public String getNotificationServer() {
         return notificationServer;
     }
 
-    @Override
-    public String title() {
+    public String getTitle() {
         return title;
     }
 
-    @Override
-    public String message() {
+    public String getMessage() {
         return message;
     }
 
-    @Override
     public boolean isRead() {
         return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }
