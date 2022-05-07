@@ -259,7 +259,7 @@ public class BasicManager {
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
                 Main.getAsync().runSync(() -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getServerType().name().toLowerCase());
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + permission + " " + Main.getFixedServerType().toLowerCase());
                 });
             });
         }
@@ -305,7 +305,7 @@ public class BasicManager {
     public void removePlayerLevelReward(@NonNull LevelReward level, @NonNull Player player, boolean announce) {
         if (!level.getPermissions().isEmpty()) {
             level.getPermissions().forEach(permission -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset " + permission + " " + Main.getServerType().name().toLowerCase());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset " + permission + " " + Main.getFixedServerType().toLowerCase());
             });
         }
 

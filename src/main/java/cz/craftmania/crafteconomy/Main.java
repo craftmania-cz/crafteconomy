@@ -378,6 +378,35 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     }
 
     /**
+     * Vrací fixně nastavený hodnoty servertypu
+     * př. survival 1.17, survival 1.18 jako survival
+     * @return {@link String}
+     */
+    public static String getFixedServerType() {
+        switch (serverType) {
+            case SURVIVAL_117, SURVIVAL_118 -> {
+                return "survival";
+            }
+            case SKYBLOCK_117, SKYBLOCK_118 -> {
+                return "skyblock";
+            }
+            case CREATIVE -> {
+                return "creative";
+            }
+            case VANILLA, VANILLA_116 -> {
+                return "vanilla";
+            }
+            case SKYCLOUD -> {
+                return "skycloud";
+            }
+            case PRISON -> {
+                return "prison";
+            }
+        }
+        return "unknown";
+    }
+
+    /**
      * Vrací true, pokud je na serveru aktivní Vault ekonomika
      * @return
      */
