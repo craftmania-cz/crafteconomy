@@ -33,7 +33,7 @@ public class VotePassCommand extends BaseCommand {
                 sender.sendMessage("§c§l[!] §cVotePass nelze používat na lobby. Navštiv nějaký server k získání výhod.");
                 return;
             }
-            SmartInventory.builder().size(3, 9).title("VotePass").provider(new VotePassGUI()).build().open(player);
+            SmartInventory.builder().size(3, 9).title(":offset_-18::votepass_menu:").provider(new VotePassGUI()).build().open(player);
         } else {
             sender.sendMessage("§c§lNelze použít tento příkaz jako konzole.");
         }

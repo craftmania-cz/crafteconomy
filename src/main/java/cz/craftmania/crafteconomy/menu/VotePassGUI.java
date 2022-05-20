@@ -29,9 +29,6 @@ public class VotePassGUI implements InventoryProvider {
 
         CraftPlayer craftPlayer = manager.getCraftPlayer(player);
 
-        // Item UI Menu
-        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE).setCustomModelData(100001).setName("§f").hideAllFlags().build()));
-
         // Statistiky o hlasování
         contents.set(2, 4, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§dTvoje statistiky")
                 .setLore("§7Zde jsou zobrazené tvoje statistiky", "§7v aktuálním VotePassu a měsíci.", "",
@@ -41,7 +38,7 @@ public class VotePassGUI implements InventoryProvider {
         contents.set(1, 0, ClickableItem.of(
                 new ItemBuilder(Material.IRON_NUGGET).setName("§aVotePass+").setCustomModelData(100013).hideAllFlags()
                         .setLore("§7Nákupem VotePass+ si zpřístupníš lepší", "§7odměny napříč hlasováním na serveru.",
-                                "§7", "§eCena: §f5 Euro", "", "§bKliknutím zobrazíš odkaz na nákup v chatu.").build(), click -> {
+                                "§7", "§eCena: §f5 Euro / 120kč", "", "§bKliknutím zobrazíš odkaz na nákup v chatu.").build(), click -> {
                     player.closeInventory();
                     player.sendMessage(ChatColor.AQUA + Constants.CHAT_BOXES);
                     player.sendMessage("§f");
