@@ -123,7 +123,7 @@ public class PlayerJoinListener implements Listener {
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set craftmanager.backpack.axolotl");
                     notificationManager.createNotification(
-                            player.getName(), NotificationType.SERVER, NotificationPriority.NORMAL, "all", "Odměna za připojení: SUrvival 1.18", "Děkujeme za to, že zkusíš hrát na našem novém Survivalu 1.18. Jako odměnu jsme ti aktivovali batoh Axolotl. Najdeš ho v Cosmetic Housu v sekci batohy!");
+                            player.getName(), NotificationType.SERVER, NotificationPriority.NORMAL, "all", "Odměna za připojení: Survival 1.18", "Děkujeme za to, že zkusíš hrát na našem novém Survivalu 1.18. Jako odměnu jsme ti aktivovali batoh Axolotl. Najdeš ho v Cosmetic Housu v sekci batohy!");
                 }, 20L * 60); // Minuta
             }
         }
