@@ -65,7 +65,11 @@ public class PlayerJoinListener implements Listener {
 
             }
 
-            Main.getInstance().getMySQL().setHideInBaltop(player.getUniqueId().toString(), player.hasPermission("craftmania.at"));
+            // Limit jenom na 1.18 eco servery
+            // TODO: Odebrat s odebráním 1.17 serverů
+            if (Main.getServerType() == ServerType.SURVIVAL_118) {
+                Main.getInstance().getMySQL().setHideInBaltop(player.getUniqueId().toString(), player.hasPermission("craftmania.at"));
+            }
         }
 
         // Načtení a oznámení zpozornení
