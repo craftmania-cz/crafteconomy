@@ -8,6 +8,8 @@ import cz.craftmania.crafteconomy.managers.NotificationManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.sql.SQLManager;
+import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -62,6 +64,8 @@ public class PlayerJoinListener implements Listener {
                 craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
 
             }
+
+            Main.getInstance().getMySQL().setHideInBaltop(player.getUniqueId().toString(), player.hasPermission("craftmania.at"));
         }
 
         // Načtení a oznámení zpozornení
@@ -136,7 +140,6 @@ public class PlayerJoinListener implements Listener {
                 }
             }, 20L * 60 * 5); // 5 minut
         }
-
     }
 
     /**
