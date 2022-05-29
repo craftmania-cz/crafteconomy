@@ -254,7 +254,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             if (Bukkit.getOnlinePlayers().size() > 0) {
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     if (this.basicManager.getCraftPlayer(player) != null) {
-                        long balance = this.basicManager.getCraftPlayer(player).getMoney();
+                        double balance = this.basicManager.getCraftPlayer(player).getMoney();
                         Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
                     }
                 });
@@ -495,10 +495,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
      * Převede long říslo na zformátovaný String
      *
      * @param number Jakékoliv číslo (long)
-     * @return (Long)18748724 -> (String)18,748,724
+     * @return (Long)18748724.9 -> (String)18,748,724.2
      */
-    public String getFormattedNumber(Long number) {
-        return NumberFormat.getInstance(Locale.US).format(number);
+    public String getFormattedNumber(Double number) {
+        return String.format("%1$,.1f", number);
     }
 
     public VaultEconomyManager getVaultEconomyManager() {

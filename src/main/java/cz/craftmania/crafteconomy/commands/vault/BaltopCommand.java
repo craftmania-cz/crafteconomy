@@ -22,13 +22,13 @@ public class BaltopCommand extends BaseCommand {
 
     private static int maxTableSize = 10;
 
-    private static void printTableForPlayer(Player player, Map<String, Long> balanceMap, int page) {
+    private static void printTableForPlayer(Player player, Map<String, Double> balanceMap, int page) {
         balanceMap = balanceMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
         List<String> nicks = new ArrayList<>(balanceMap.keySet());
-        List<Long> balances = new ArrayList<>(balanceMap.values());
+        List<Double> balances = new ArrayList<>(balanceMap.values());
 
         if (page > (int) (Math.round((double) nicks.size() / 10))) {
             player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");

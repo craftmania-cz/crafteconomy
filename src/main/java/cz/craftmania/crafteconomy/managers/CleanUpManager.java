@@ -28,7 +28,7 @@ public class CleanUpManager {
         Logger.info("Vypočítaný čas zlomu: <= " + formatDate(cleanTime));
 
         // List všech -> Nick / Balance / Last Updated
-        AtomicReference<List<Triple<String, Long, Long>>> listToRemove = new AtomicReference<>();
+        AtomicReference<List<Triple<String, Double, Long>>> listToRemove = new AtomicReference<>();
         CompletableFuture.runAsync(() -> {
             listToRemove.set(Main.getInstance().getMySQL().fetchAllEconomyRowsToRemove(cleanTime));
             Logger.info("Nalezeno celkem (" + listToRemove.get().size() + ") záznamů k smazání.");

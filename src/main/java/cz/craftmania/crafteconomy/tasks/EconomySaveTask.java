@@ -16,7 +16,7 @@ public class EconomySaveTask implements Job {
     public void execute(JobExecutionContext context) {
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (bm.getCraftPlayer(player) != null) {
-                long balance = bm.getCraftPlayer(player).getMoney();
+                double balance = bm.getCraftPlayer(player).getMoney();
                 Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
             }
         });

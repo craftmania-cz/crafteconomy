@@ -58,7 +58,7 @@ public class CraftPlayer {
     private long votePass = 0;
 
     // Vault economy
-    private long serverMoney = -1;
+    private double serverMoney = -1;
 
     // Notifications
     private boolean allowNotify = true;
@@ -370,7 +370,7 @@ public class CraftPlayer {
      *
      * @return {@link Long}
      */
-    public long getMoney() {
+    public double getMoney() {
         return serverMoney;
     }
 
@@ -379,7 +379,7 @@ public class CraftPlayer {
      *
      * @param serverMoney Počet peněz - musí být finální počet
      */
-    public void setMoney(long serverMoney) {
+    public void setMoney(double serverMoney) {
         this.serverMoney = serverMoney;
     }
 

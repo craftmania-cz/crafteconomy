@@ -33,7 +33,7 @@ public class PayCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players [castka]")
     @Syntax("[hrac] [castka]")
-    public void sendMoney(CommandSender sender, String receiverPlayer,  long moneyToSend) {
+    public void sendMoney(CommandSender sender, String receiverPlayer,  double moneyToSend) {
         if (sender instanceof Player) {
             if (moneyToSend <= 0) {
                 sender.sendMessage("§c§l[!] §cNelze odesílat nulovou nebo zápornou hodnotu!");
@@ -168,9 +168,9 @@ public class PayCommand extends BaseCommand {
 
         private final Player sender;
         private final Player receiver;
-        private final long moneyToSend;
+        private final double moneyToSend;
 
-        PendingPayment(Player sender, Player receiver, long moneyToSend) {
+        PendingPayment(Player sender, Player receiver, double moneyToSend) {
             this.sender = sender;
             this.receiver = receiver;
             this.moneyToSend = moneyToSend;

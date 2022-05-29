@@ -15,10 +15,10 @@ public class CraftEconomyPlayerPayEvent extends Event {
 
     private Player sender;
     private Player reciever;
-    private long amount;
+    private double amount;
     private Date date;
 
-    public CraftEconomyPlayerPayEvent(Player sender, Player reciever, long amount) {
+    public CraftEconomyPlayerPayEvent(Player sender, Player reciever, double amount) {
         super(true);
         this.sender = sender;
         this.reciever = reciever;
@@ -46,7 +46,7 @@ public class CraftEconomyPlayerPayEvent extends Event {
      * Převáděná částka
      * @return {@link Long}
      */
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 

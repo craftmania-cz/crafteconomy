@@ -24,7 +24,7 @@ public class EconomyLog {
     private EconomyAction action;
 
     @NonNull
-    private Long amount;
+    private Double amount;
 
     @NonNull
     private Long time;

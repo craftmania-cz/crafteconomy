@@ -9,10 +9,10 @@ public class CraftEconomyMoneySetEvent extends Event {
 
     private String sender;
     private String reciever;
-    private long oldvalue;
-    private long newValue;
+    private double oldvalue;
+    private double newValue;
 
-    public CraftEconomyMoneySetEvent(String sender, String reciever, long oldValue, long newValue) {
+    public CraftEconomyMoneySetEvent(String sender, String reciever, double oldValue, double newValue) {
         super(true);
         this.sender = sender;
         this.reciever = reciever;
@@ -28,11 +28,11 @@ public class CraftEconomyMoneySetEvent extends Event {
         return reciever;
     }
 
-    public long getOldvalue() {
+    public double getOldvalue() {
         return oldvalue;
     }
 
-    public long getNewValue() {
+    public double getNewValue() {
         return newValue;
     }
 
