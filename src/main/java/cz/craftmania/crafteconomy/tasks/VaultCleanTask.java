@@ -1,9 +1,9 @@
 package cz.craftmania.crafteconomy.tasks;
 
+import cz.craftmania.craftcore.quartz.Job;
+import cz.craftmania.craftcore.quartz.JobExecutionContext;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.CleanUpManager;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
 
 public class VaultCleanTask implements Job {
 

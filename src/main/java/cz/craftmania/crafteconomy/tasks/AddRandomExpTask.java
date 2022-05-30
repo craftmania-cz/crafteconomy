@@ -1,11 +1,11 @@
 package cz.craftmania.crafteconomy.tasks;
 
+import cz.craftmania.craftcore.quartz.Job;
+import cz.craftmania.craftcore.quartz.JobExecutionContext;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import org.bukkit.Bukkit;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
 
 public class AddRandomExpTask implements Job {
 

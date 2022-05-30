@@ -1,6 +1,6 @@
 package cz.craftmania.crafteconomy.utils;
 
-import org.quartz.*;
+import cz.craftmania.craftcore.quartz.*;
 
 public class JobScheduler {
 

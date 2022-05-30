@@ -1,12 +1,12 @@
 package cz.craftmania.crafteconomy.tasks;
 
+import cz.craftmania.craftcore.quartz.Job;
+import cz.craftmania.craftcore.quartz.JobExecutionContext;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
 
 public class PlayerUpdateGlobalLevelTask implements Job {
 

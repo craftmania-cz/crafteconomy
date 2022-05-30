@@ -40,8 +40,8 @@ public class CleanUpManager {
             listToRemove.get().forEach((consumer) -> {
                 Logger.info("Mazání hráče: " + consumer.getFirst() + " - " + consumer.getSecond() + "$ (last update: " + formatDate(consumer.getThird()) + ")");
                 Main.getInstance().getMySQL().purgeFromVaultDatabase(consumer.getFirst(), consumer.getThird());
-                final CraftEconomyVaultCleanUpEvent event = new CraftEconomyVaultCleanUpEvent(consumer.first(), Math.toIntExact(consumer.getSecond()), formatDate(consumer.getThird()));
-                Bukkit.getPluginManager().callEvent(event);
+                //todo: final CraftEconomyVaultCleanUpEvent event = new CraftEconomyVaultCleanUpEvent(consumer.first(), Math.toIntExact(consumer.getSecond()), formatDate(consumer.getThird()));
+                //Bukkit.getPluginManager().callEvent(event);
             });
         }).thenRunAsync(() -> {
             Logger.success("Automatické mazání vault databáze dokončeno.");
