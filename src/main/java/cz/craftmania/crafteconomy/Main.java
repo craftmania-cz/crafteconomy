@@ -120,13 +120,15 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Tasks & schedules
         try {
-            this.schedulerFactory = new StdSchedulerFactory();
+            Properties schedulerProperties = new Properties();
+            schedulerProperties.put("cz.craftmania.craftcore.quartz.threadPool.threadCount", "10");
+            this.schedulerFactory = new StdSchedulerFactory(schedulerProperties);
             this.schedulerFactory.getScheduler().start();
             this.jobScheduler = new JobScheduler(this.schedulerFactory.getScheduler());
             Logger.info("Inicializace interního scheduleru dokončena.");
         } catch (SchedulerException e) {
             Logger.danger("Selhalo spuštění interního scheduleru.");
-            Logger.danger(e.getMessage());
+            e.printStackTrace();
         }
         async = new AsyncUtils(this);
 
