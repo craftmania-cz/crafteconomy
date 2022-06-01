@@ -8,6 +8,8 @@ import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.HelpCommand;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.craftlibs.utils.ChatInfo;
+import cz.craftmania.craftpack.api.TextureItems;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,24 +27,23 @@ public class PaytoggleCommand extends BaseCommand {
 
     @Default
     public void changePaytoggleSettings(CommandSender sender) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            switch (Main.getInstance().getMySQL().getSettings(p, "paytoggle")) {
-                case 0: {
-                    p.sendMessage("§e§l[*] §eAktivoval jsi přijímání peněz!");
-                    Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 1);
-                    manager.getCraftPlayer(p).setPayToggle(true);
-                    break;
+        if (sender instanceof Player player) {
+            switch (Main.getInstance().getMySQL().getSettings(player, "paytoggle")) {
+                case 0 -> {
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                            .send(player, "Aktivoval jsi přijímání peněz!");
+                    Main.getInstance().getMySQL().updateSettings(player, "paytoggle", 1);
+                    manager.getCraftPlayer(player).setPayToggle(true);
                 }
-                case 1: {
-                    p.sendMessage("§e§l[*] §eDeaktivoval jsi přijímání peněz! Nyní ti nikdo nemůže poslat peníze.");
-                    Main.getInstance().getMySQL().updateSettings(p, "paytoggle", 0);
-                    manager.getCraftPlayer(p).setPayToggle(false);
-                    break;
+                case 1 -> {
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                                    .send(player, "Deaktivoval jsi přijímání peněz! Nyní ti nikdo nemůže poslat peníze.");
+                    Main.getInstance().getMySQL().updateSettings(player, "paytoggle", 0);
+                    manager.getCraftPlayer(player).setPayToggle(false);
                 }
             }
         } else {
-            sender.sendMessage("§c§l[!] §cTento příkaz nelze použít v konzoli!");
+            sender.sendMessage("§cTento příkaz nelze použít v konzoli!");
         }
     }
 }

@@ -7,6 +7,7 @@ import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.objects.EconomyLog;
 import cz.craftmania.crafteconomy.objects.Pagination;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import cz.craftmania.craftlibs.utils.TextComponentBuilder;
 import jline.internal.Log;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -79,7 +80,7 @@ public class MoneylogCommand extends BaseCommand {
 
     private void printTableForPlayer(CommandSender player, List<EconomyLog> list, int page, Long started) {
         if (list.isEmpty()) {
-            player.sendMessage(ChatColor.RED + "Takový hráč/ka neexistuje nebo neprovedl/a žádnou platbu nebo zde ještě nehrál/a!");
+            ChatInfo.DANGER.send(player, "Takový hráč neexistuje nebo neprovedl žádnou platbu nebo zde ještě nehrál!");
             return;
         }
 
@@ -88,7 +89,7 @@ public class MoneylogCommand extends BaseCommand {
         final String playerName = pagination.getItems().get(0).getReceiver();
 
         if (page <= 0 || page > pagination.getPageCount()) {
-            player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");
+            ChatInfo.DANGER.send(player, "Taková strana neexistuje!");
             return;
         }
 

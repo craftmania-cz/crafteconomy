@@ -77,8 +77,9 @@ dependencies {
 
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.9'
-    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.9'
+    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.12'
     implementation 'cz.craftmania:craftactions:1.2-beta.1'
+    compileOnly 'cz.craftmania.craftpack:craftpack:1.4.8'
 
     // Other dependecies
     implementation 'com.zaxxer:HikariCP:5.0.1'

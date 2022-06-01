@@ -5,6 +5,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -31,7 +32,7 @@ public class BaltopCommand extends BaseCommand {
         List<Double> balances = new ArrayList<>(balanceMap.values());
 
         if (page > (int) (Math.round((double) nicks.size() / 10))) {
-            player.sendMessage(ChatColor.RED + "Taková strana neexistuje!");
+            ChatInfo.DANGER.send(player, "Taková strana neexistuje.");
             return;
         }
 
@@ -114,7 +115,7 @@ public class BaltopCommand extends BaseCommand {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (page < 1) {
-                player.sendMessage(ChatColor.RED + "Číslo nesmí být menší než 1!");
+                ChatInfo.DANGER.send(player, "Číslo nesmí být menší než 1!");
                 return;
             }
             printTableForPlayer(player, Main.getInstance().getVaultEconomyManager().getBaltopCache(), page);
