@@ -30,13 +30,13 @@ public class PaytoggleCommand extends BaseCommand {
         if (sender instanceof Player player) {
             switch (Main.getInstance().getMySQL().getSettings(player, "paytoggle")) {
                 case 0 -> {
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                             .send(player, "Aktivoval jsi přijímání peněz!");
                     Main.getInstance().getMySQL().updateSettings(player, "paytoggle", 1);
                     manager.getCraftPlayer(player).setPayToggle(true);
                 }
                 case 1 -> {
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(player, "Deaktivoval jsi přijímání peněz! Nyní ti nikdo nemůže poslat peníze.");
                     Main.getInstance().getMySQL().updateSettings(player, "paytoggle", 0);
                     manager.getCraftPlayer(player).setPayToggle(false);

@@ -67,7 +67,7 @@ public class PayCommand extends BaseCommand {
                 if (manager.getCraftPlayer(playerReceiver).getPayToggle()) {
                     if (moneyToSend >= confirmThreshold) {
                         if (!pendingPayments.hasPendingPayment(playerSender)){
-                            ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                            ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                             .send(sender, "Pro potvrzení platby s částkou §f" + moneyToSend + Main.getInstance().getCurrency() + "{c} pro hráče §f" + playerReceiver.getName() + "{c} napiš §7/pay confirm{c}! Pokud sis platbu rozmyslel, můžeš napsat §7/pay cancel{c}.");
                             pendingPayments.addPendingPayment(new PendingPayment(playerSender, playerReceiver, moneyToSend));
                         } else {
@@ -79,15 +79,15 @@ public class PayCommand extends BaseCommand {
                     }
                     Main.getVaultEconomy().withdrawPlayer(playerSender, moneyToSend);
                     Main.getVaultEconomy().depositPlayer(playerReceiver, moneyToSend);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(sender, "Odeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(playerReceiver, "Obdržel jsi peníze od §f" + playerSender.getName() + " §7- {c}" + Main.getInstance().getFormattedNumber(moneyToSend) + Main.getInstance().getCurrency());
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyPlayerPayEvent(playerSender, playerReceiver, moneyToSend)));
                 } else {
                     ChatInfo.DANGER.overridePrefix(TextureItems.BANK_ERROR.getRender())
                             .send(playerSender, "Tento hráč má vypnuté přijímání peněz!");
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                             .send(playerReceiver, "Hráč " + playerSender.getName() + " se ti snaží poslat peníze, ale máš vypnutý /paytoggle!");
                 }
             } else {
@@ -111,7 +111,7 @@ public class PayCommand extends BaseCommand {
                 pendingPayments.removePendingPayment(pendingPayment);
                 Main.getVaultEconomy().withdrawPlayer(pendingPayment.sender, pendingPayment.moneyToSend);
                 Main.getVaultEconomy().depositPlayer(pendingPayment.receiver, pendingPayment.moneyToSend);
-                ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                 .send(sender, "Odeslal jsi hráči: §f" + Main.getInstance().getFormattedNumber(pendingPayment.moneyToSend) + Main.getInstance().getCurrency());
                 ChatInfo.ECONOMY.overridePrefix(TextureItems.BANK_SUCCESS.getRender())
                                 .send(pendingPayment.receiver, "Obdržel jsi peníze od §f" + pendingPayment.sender.getName() + " §7- §a" + Main.getInstance().getFormattedNumber(pendingPayment.moneyToSend) + Main.getInstance().getCurrency());
@@ -128,7 +128,7 @@ public class PayCommand extends BaseCommand {
     private void payCancel(CommandSender sender) {
         if (sender instanceof Player player) {
             if (pendingPayments.removePendingPayment(player)) {
-                ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                 .send(sender, "Tvoje probíhající platba byla úspěšně zrušena.");
             } else {
                 ChatInfo.DANGER.overridePrefix(TextureItems.BANK_ERROR.getRender())

@@ -31,7 +31,7 @@ public class MoneyCommand extends BaseCommand {
     @Default
     public void showMoney(CommandSender sender) {
         if (sender instanceof Player)
-            ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+            ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                     .send(sender, "Aktuálně máš " + Main.getInstance().getFormattedNumber(Main.getVaultEconomy().getBalance((Player) sender)) + "§6" + Main.getInstance().getCurrency());
     }
 
@@ -40,7 +40,7 @@ public class MoneyCommand extends BaseCommand {
     @Syntax("[nick]")
     public void showOthersMoney(CommandSender sender, String targetPlayer) {
         if (Main.getInstance().getMySQL().hasDataByNick(targetPlayer)) {
-            ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+            ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                             .send(sender, "Hráč " + targetPlayer + " má na účtě " + Main.getInstance().getFormattedNumber(Main.getVaultEconomy().getBalance(targetPlayer)) + "§6" + Main.getInstance().getCurrency());
         } else {
             ChatInfo.DANGER.overridePrefix(TextureItems.BANK_ERROR.getRender()).send(sender, "Tento hráč zde ještě nehrál!");
@@ -63,7 +63,7 @@ public class MoneyCommand extends BaseCommand {
                 // Give
                 if (player != null) {
                     Main.getVaultEconomy().depositPlayer(player, moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(sender, "Přidal jsi hráči §f" + targetPlayer + " §7- {c}" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency() + ".");
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), targetPlayer, moneyToEdit)));
                 } else {
@@ -75,7 +75,7 @@ public class MoneyCommand extends BaseCommand {
                     }
                     double actualMoney = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                     Main.getInstance().getMySQL().setVaultEcoBalance(targetPlayer, actualMoney + moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(sender, "Přidal jsi hráči §f" + targetPlayer + " §7- {c}" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency() + ".");
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyGiveEvent(sender.getName(), targetPlayer, moneyToEdit)));
                 }
@@ -95,7 +95,7 @@ public class MoneyCommand extends BaseCommand {
                         return;
                     }
                     Main.getVaultEconomy().withdrawPlayer(player, moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(sender, "Odebral jsi hráči §f" + targetPlayer + " §7- {c}" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency() + ".");
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), targetPlayer, moneyToEdit)));
                 } else {
@@ -112,7 +112,7 @@ public class MoneyCommand extends BaseCommand {
                         return;
                     }
                     Main.getInstance().getMySQL().setVaultEcoBalance(targetPlayer, actualMoney - moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                             .send(sender, "Odebral jsi hráči §f" + targetPlayer + " §7- {c}" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency() + ".");
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneyTakeEvent(sender.getName(), targetPlayer, moneyToEdit)));
                 }
@@ -125,9 +125,9 @@ public class MoneyCommand extends BaseCommand {
                 if (player != null) {
                     double oldBalance = manager.getCraftPlayer(player).getMoney();
                     manager.getCraftPlayer(player).setMoney(moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(sender, "Nastavil jsi hráči" + targetPlayer + " počet peněz na §7- §f" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency());
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                                     .send(player, "Tvoje peníze byůy nastaveny na §7- §f" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency());
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), targetPlayer, oldBalance, moneyToEdit)));
                 } else {
@@ -139,7 +139,7 @@ public class MoneyCommand extends BaseCommand {
                     }
                     double oldBalance = Main.getInstance().getMySQL().getVaultEcoBalance(playerUUID);
                     Main.getInstance().getMySQL().setVaultEcoBalance(targetPlayer, moneyToEdit);
-                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_WARNING.getRender())
+                    ChatInfo.INFO.overridePrefix(TextureItems.BANK_INFO.getRender())
                             .send(sender, "Nastavil jsi hráči" + targetPlayer + " počet peněz na §7- §f" + Main.getInstance().getFormattedNumber(moneyToEdit) + Main.getInstance().getCurrency());
                     Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new CraftEconomyMoneySetEvent(sender.getName(), targetPlayer, oldBalance, moneyToEdit)));
                 }
