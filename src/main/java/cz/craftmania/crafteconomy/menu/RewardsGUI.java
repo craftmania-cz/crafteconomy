@@ -32,14 +32,14 @@ public class RewardsGUI implements InventoryProvider {
             lore.add("§aOdměna:");
             lore.addAll(levelReward.getDescription());
             if (levelReward.getLevel() > craftPlayer.getLevelByType(manager.getLevelByServer())) {
-                ItemStack item = new ItemBuilder(Material.KNOWLEDGE_BOOK).setName("§e§lLevel: §6" + levelReward.getLevel())
+                ItemStack item = new ItemBuilder(Material.KNOWLEDGE_BOOK).setName("§6[" + levelReward.getLevel() + ".] §e" + levelReward.getName())
                         .setLore(lore).build();
                 items.add(ClickableItem.of(item, e -> {
                 }));
             } else {
                 lore.add("§c");
                 lore.add("§cJiž splněno!");
-                ItemStack item = new ItemBuilder(Material.BOOK).setName("§e§lLevel: §6" + levelReward.getLevel())
+                ItemStack item = new ItemBuilder(Material.BOOK).setName("§b[" + levelReward.getLevel() + ".] §e" + levelReward.getName())
                         .setLore(lore).build();
                 items.add(ClickableItem.of(item, e -> {}));
             }
