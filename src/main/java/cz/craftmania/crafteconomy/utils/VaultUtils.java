@@ -250,7 +250,8 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public EconomyResponse bankDeposit(String name, double amount) {
-        return null;
+        Logger.info("Vault -> BankDeposit: " + name + ", money: " + amount);
+        return new EconomyResponse(amount, 0, EconomyResponse.ResponseType.SUCCESS, "");
     }
 
     @Override
