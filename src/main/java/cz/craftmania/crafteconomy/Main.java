@@ -348,6 +348,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             manager.registerCommand(new ProfileCommand());
             manager.registerCommand(new VotePassCommand());
         }
+        manager.registerCommand(new EconomyCommand());
+        manager.getCommandCompletions().registerCompletion("economyType", context
+                -> Arrays.stream(EconomyType.values()).map(Enum::name).collect(Collectors.toList()));
         if (this.notificationLoadingEnabled) {
             manager.registerCommand(new NotificationCommand());
             manager.getCommandCompletions().registerCompletion("notificationType", context -> {
