@@ -1,5 +1,5 @@
 name: CraftEconomy
-version: '2.1.0-scheduler-beta'
+version: '2.1.0'
 description: Economy plugin for Craftmania.cz
 author: MrWakeCZ
 main: cz.craftmania.crafteconomy.Main
@@ -19,7 +19,7 @@ loadbefore:
   - UltraMinions
   - AuctionGUIPlus
   - DeluxeCombat
-api-version: '1.16'
+api-version: '1.17'
 
 permissions:
   crafteconomy.*:
