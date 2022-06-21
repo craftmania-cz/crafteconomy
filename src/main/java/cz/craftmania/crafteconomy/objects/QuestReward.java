@@ -149,13 +149,13 @@ public class QuestReward {
 
         // Pokud neni override, tak podle rarity
         if (rarity == Rarity.COMMON) {
-            return 500;
+            return 300;
         }
         if (rarity == Rarity.RARE) {
-            return 750;
+            return 500;
         }
         if (rarity == Rarity.EPIC) {
-            return 1500;
+            return 1000;
         }
         if (rarity == Rarity.LEGENDARY) {
             return 3000;
