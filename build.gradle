@@ -6,10 +6,23 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group 'cz.craftmania.crafteconomy'
-def mainVersion = "2.0.1-no-async"
+def mainVersion = "2.1.0-scheduler-beta"
 
-sourceCompatibility = 16
-targetCompatibility = 16
+def targetJavaVersion = 17
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -63,8 +76,10 @@ dependencies {
     }
 
     // Craftmania plugins
-    compileOnly 'cz.craftmania.craftcore:craftcore:2.6.2.1'
-    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.9'
+    compileOnly 'cz.craftmania.craftcore:craftcore:2.9'
+    compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.12'
+    implementation 'cz.craftmania:craftactions:1.2-beta.1'
+    compileOnly 'cz.craftmania.craftpack:craftpack:1.4.9'
 
     // Other dependecies
     implementation 'com.zaxxer:HikariCP:5.0.1'
@@ -75,10 +90,10 @@ dependencies {
     implementation 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    testCompileOnly 'org.projectlombok:lombok:1.18.20'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 shadowJar {

@@ -9,9 +9,9 @@ public class CraftEconomyMoneyTakeEvent extends Event {
 
     private String sender;
     private String reciever;
-    private long value;
+    private double value;
 
-    public CraftEconomyMoneyTakeEvent(String sender, String reciever, long value) {
+    public CraftEconomyMoneyTakeEvent(String sender, String reciever, double value) {
         super(true);
         this.sender = sender;
         this.reciever = reciever;
@@ -36,9 +36,9 @@ public class CraftEconomyMoneyTakeEvent extends Event {
 
     /**
      * Hodnota peněz, kterému je částka odebrána
-     * @return {@link Long}
+     * @return {@link Double}
      */
-    public long getValue() {
+    public double getValue() {
         return value;
     }
 

@@ -3,7 +3,10 @@ package cz.craftmania.crafteconomy.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
+import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.menu.LevelGUI;
+import cz.craftmania.crafteconomy.menu.VotePassGUI;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
@@ -29,22 +32,8 @@ public class LevelCommand extends BaseCommand {
     @Default
     public void showLevel(CommandSender sender) {
         if (sender instanceof Player) {
-            Player p = (Player) sender;
-            CraftPlayer craftPlayer = manager.getCraftPlayer(p);
-
-            long totalGlobalLevel = craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL);
-
-            p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
-            p.sendMessage("");
-            p.sendMessage("§6§lGlobální rank"); //TODO: Předělat na menu
-            p.sendMessage("§eCelkový level: §f" + totalGlobalLevel);
-            p.sendMessage("§eServer levels: ");
-            p.sendMessage("§8- §aSurv §7[" + craftPlayer.getLevelByType(LevelType.SURVIVAL_117_LEVEL) + "], §bSky §7[" + craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL) + "], §6Crea §7[" + craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL) + "]§7, §2Vani §7[" + craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL) + "§7]");
-            p.sendMessage("§8- §9Pris §7[" + craftPlayer.getLevelByType(LevelType.PRISON_LEVEL) + "], §cVan-Anar §7[" + craftPlayer.getLevelByType(LevelType.ANARCHY_LEVEL) + "]");
-            p.sendMessage("§bKarma: §f0");
-            p.sendMessage("§dQuest Points: §f" + craftPlayer.getEconomyByType(EconomyType.QUEST_POINTS));
-            p.sendMessage("");
-            p.sendMessage("§3\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
+            Player player = (Player) sender;
+            SmartInventory.builder().size(3, 9).title(":offset_-180::levels_sidebox_info::offset_1::levels_menu:").provider(new LevelGUI()).build().open(player);
         }
     }
 

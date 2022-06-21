@@ -1,22 +1,28 @@
 package cz.craftmania.crafteconomy.tasks;
 
+import cz.craftmania.craftcore.quartz.Job;
+import cz.craftmania.craftcore.quartz.JobExecutionContext;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.Bukkit;
 
-public class EconomySaveTask implements Runnable {
+public class EconomySaveTask implements Job {
 
     private final BasicManager bm = new BasicManager();
 
     @Override
-    public void run() {
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            if (bm.getCraftPlayer(player) != null) {
-                long balance = bm.getCraftPlayer(player).getMoney();
-                Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
-            }
-        });
-        Logger.info("Economy update v MySQL dokončen.");
+    public void execute(JobExecutionContext context) {
+        try {
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (bm.getCraftPlayer(player) != null) {
+                    double balance = bm.getCraftPlayer(player).getMoney();
+                    Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
+                }
+            });
+        } catch (Exception exception) {
+            Logger.danger("Selhalo ukládání hráčů do SQL!");
+            exception.printStackTrace();
+        }
     }
 }

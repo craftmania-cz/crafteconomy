@@ -1,10 +1,15 @@
 package cz.craftmania.crafteconomy.listener;
 
+import cz.craftmania.craftactions.profile.NotificationPriority;
+import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.managers.NotificationManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
+import cz.craftmania.crafteconomy.sql.SQLManager;
+import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import org.bukkit.Bukkit;
@@ -18,6 +23,7 @@ public class PlayerJoinListener implements Listener {
 
     private Main main;
     private BasicManager bm = new BasicManager();
+    private final NotificationManager notificationManager = new NotificationManager();
     private PlayerUtils playerUtils = new PlayerUtils();
 
     public PlayerJoinListener(Main main) {
@@ -58,6 +64,17 @@ public class PlayerJoinListener implements Listener {
                 craftPlayer.setMoney(main.getMySQL().getVaultEcoBalance(player.getUniqueId()));
 
             }
+
+            // Limit jenom na 1.18 eco servery
+            // TODO: Odebrat s odebráním 1.17 serverů
+            if (Main.getServerType() == ServerType.SURVIVAL_118) {
+                Main.getInstance().getMySQL().setHideInBaltop(player.getUniqueId().toString(), player.hasPermission("craftmania.at"));
+            }
+        }
+
+        // Načtení a oznámení zpozornení
+        if (Main.getInstance().isNotificationLoadingEnabled()) {
+            notificationManager.loadAndInformPlayer(player, true);
         }
 
         // Opravy práv pro achievementy
@@ -109,6 +126,16 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
+        if (Main.getServerType() == ServerType.SURVIVAL_118) {
+            if (!player.hasPermission("craftmanager.backpack.axolotl")) {
+                Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set craftmanager.backpack.axolotl");
+                    notificationManager.createNotification(
+                            player.getName(), NotificationType.SERVER, NotificationPriority.NORMAL, "all", "Odměna za připojení: Survival 1.18", "Děkujeme za to, že zkusíš hrát na našem novém Survivalu 1.18. Jako odměnu jsme ti aktivovali batoh Axolotl. Najdeš ho v Cosmetic Housu v sekci batohy!");
+                }, 20L * 60); // Minuta
+            }
+        }
+
         // Informování nových hráčů o návodu na server a wiki
         if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) <= 3) {
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
@@ -117,7 +144,6 @@ public class PlayerJoinListener implements Listener {
                 }
             }, 20L * 60 * 5); // 5 minut
         }
-
     }
 
     /**

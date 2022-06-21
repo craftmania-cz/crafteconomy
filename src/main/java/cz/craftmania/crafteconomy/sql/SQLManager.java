@@ -1,10 +1,14 @@
 package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
+import cz.craftmania.craftactions.profile.NotificationPriority;
+import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.managers.NotificationManager;
 import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
+import cz.craftmania.crafteconomy.utils.Triple;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -602,7 +606,7 @@ public class SQLManager {
         }.runTaskAsynchronously(Main.getInstance());
     }
 
-    public final long getVaultEcoBalance(final UUID uuid) {
+    public final double getVaultEcoBalance(final UUID uuid) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -611,7 +615,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE uuid = '" + uuid + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong("balance");
+                return ps.getResultSet().getDouble("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -622,7 +626,7 @@ public class SQLManager {
         return 0;
     }
 
-    public final long getVaultEcoBalance(final String nick) {
+    public final double getVaultEcoBalance(final String nick) {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -631,7 +635,7 @@ public class SQLManager {
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE nick = '" + nick + "';");
             ps.executeQuery();
             if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong("balance");
+                return ps.getResultSet().getDouble("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -642,8 +646,8 @@ public class SQLManager {
         return 0;
     }
 
-    public Map<String, Long> getVaultAllEcosWithNicks() {
-        Map<String, Long> balanceMap = new HashMap<String, Long>();
+    public Map<String, Double> getVaultAllEcosWithNicks() {
+        Map<String, Double> balanceMap = new HashMap<String, Double>();
 
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
@@ -651,10 +655,10 @@ public class SQLManager {
 
         try {
             conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 ORDER BY `balance` DESC");
+            ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 AND `hide_in_baltop` = 0 ORDER BY `balance` DESC");
             ps.executeQuery();
             while (ps.getResultSet().next()) {
-                balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getLong("balance"));
+                balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getDouble("balance"));
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
@@ -664,6 +668,45 @@ public class SQLManager {
         }
 
         return balanceMap;
+    }
+
+    public boolean isHiddenInBaltop(String uuid) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `hide_in_baltop` FROM `player_economy_" + server + "` WHERE `uuid` = ?;");
+            ps.setString(1, uuid);
+            ps.executeQuery();
+
+            ps.getResultSet().next();
+            return ps.getResultSet().getBoolean("hide_in_baltop");
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return false;
+    }
+
+    public void setHideInBaltop(String uuid, boolean hideInBaltop) {
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("UPDATE `player_economy_" + server + "` SET `hide_in_baltop` = ? WHERE `uuid` = ?;");
+            ps.setBoolean(1, hideInBaltop);
+            ps.setString(2, uuid);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
     }
 
     public CompletableFuture<List<EconomyLog>> getVaultAllLogsByUUID(UUID uuid) {
@@ -690,7 +733,7 @@ public class SQLManager {
                     if (resultSet.getString("s_uuid") == null) senderUUID = null;
                     else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
                     final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
-                    final Long amount = resultSet.getLong("amount");
+                    final double amount = resultSet.getLong("amount");
                     final Long time = resultSet.getLong("time");
 
                     EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
@@ -735,7 +778,7 @@ public class SQLManager {
                     if (resultSet.getString("s_uuid") == null) senderUUID = null;
                     else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
                     final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
-                    final Long amount = resultSet.getLong("amount");
+                    final double amount = resultSet.getLong("amount");
                     final Long time = resultSet.getLong("time");
 
                     EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
@@ -776,7 +819,7 @@ public class SQLManager {
         throw new NullPointerException("UUID pro hrace (" + name + ") nebylo nalezeno!");
     }
 
-    public void setVaultEcoBalance(final String player, final long amount) {
+    public void setVaultEcoBalance(final String player, final double amount) {
         Main.getAsync().runAsync(() -> {
             long milis = System.currentTimeMillis();
             final String server = Main.getServerType().name().toLowerCase();
@@ -785,7 +828,7 @@ public class SQLManager {
             try {
                 conn = pool.getConnection();
                 ps = conn.prepareStatement("UPDATE player_economy_" + server + " SET balance = ?, last_update = ? WHERE nick = ?");
-                ps.setLong(1, amount);
+                ps.setDouble(1, amount);
                 ps.setLong(2, System.currentTimeMillis());
                 ps.setString(3, player);
                 ps.executeUpdate();
@@ -813,14 +856,14 @@ public class SQLManager {
                     ps = conn.prepareStatement("INSERT INTO player_economy_" + server + " (nick, uuid, balance, last_update) VALUES (?,?,?,?);");
                     ps.setString(1, player.getName());
                     ps.setString(2, player.getUniqueId().toString());
-                    ps.setLong(3, startValue);
+                    ps.setDouble(3, startValue);
                     ps.setLong(4, currentTime);
                     ps.executeUpdate();
                 } catch (Exception e) {
                     // Hráč má špatný UUID!
                     Logger.danger("POZOR! Hráč " + player.getName() + " má špatné UUID! Nefungoval mu správně AutoLogin.");
                     udpateUUIDInEconomyTable(player);
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 } finally {
                     pool.close(conn, ps, null);
                 }
@@ -864,6 +907,52 @@ public class SQLManager {
         } finally {
             pool.close(conn, ps, null);
         }
+    }
+
+    public final List<Triple<String, Double, Long>> fetchAllEconomyRowsToRemove(long time) {
+        List<Triple<String, Double, Long>> balanceList = new ArrayList<>();
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `nick`, `balance`, `last_update` FROM `player_economy_" + server + "` WHERE `last_update` <= " + time + " ORDER BY `balance` DESC");
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                balanceList.add(
+                        new Triple<>(
+                                ps.getResultSet().getString("nick"),
+                                ps.getResultSet().getDouble("balance"),
+                                ps.getResultSet().getLong("last_update"))
+                        );
+            }
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return balanceList;
+    }
+
+    public void purgeFromVaultDatabase(String nick, long lastUpdate) {
+        Main.getAsync().runAsync(() -> {
+            final String server = Main.getServerType().name().toLowerCase();
+            Connection conn = null;
+            PreparedStatement ps = null;
+            try {
+                conn = pool.getConnection();
+                ps = conn.prepareStatement("DELETE FROM player_economy_" + server + " WHERE nick = ?");
+                ps.setString(1, nick);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                Main.getInstance().sendSentryException(e);
+                e.printStackTrace();
+            } finally {
+                pool.close(conn, ps, null);
+            }
+        });
     }
 
     /**
@@ -1016,6 +1105,88 @@ public class SQLManager {
                     //ps.setString(1, p.getName());
                     ps.setString(1, value);
                     ps.setString(2, p.getName());
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final List<NotificationObject> fetchAllPlayerNotifications(Player player) {
+        List<NotificationObject> notificationList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT * FROM player_notifications WHERE nick = ? ORDER BY createdAt DESC");
+            ps.setString(1, player.getName());
+            ps.executeQuery();
+            while (ps.getResultSet().next()) {
+                notificationList.add(new NotificationObject(
+                        player,
+                        ps.getResultSet().getInt("id"),
+                        NotificationType.valueOf(ps.getResultSet().getString("type")),
+                        NotificationPriority.valueOf(ps.getResultSet().getString("priority")),
+                        ps.getResultSet().getString("server"),
+                        ps.getResultSet().getString("title"),
+                        ps.getResultSet().getString("message"),
+                        ps.getResultSet().getBoolean("isRead")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, null);
+        }
+        return notificationList;
+    }
+
+    public final void saveNotification(final Player player, final NotificationType type, NotificationPriority priority, String serverScope, String title, String message) {
+        final String server = Main.getServerType().name().toLowerCase();
+        final long currentTime = System.currentTimeMillis();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("INSERT INTO player_notifications (nick,uuid,type,priority,server,title,message,createdAt) VALUES (?,?,?,?,?,?,?,?);");
+                    ps.setString(1, player.getName());
+                    ps.setString(2, player.getUniqueId().toString());
+                    ps.setString(3, type.name());
+                    ps.setString(4, priority.name());
+                    ps.setString(5, "ALL"); //TODO: Podpora pro dynamické notifikace
+                    ps.setString(6, title);
+                    ps.setString(7, message);
+                    ps.setLong(8, currentTime);
+                    ps.executeUpdate();
+                } catch (Exception e) {
+                    Main.getInstance().sendSentryException(e);
+                    e.printStackTrace();
+                } finally {
+                    pool.close(conn, ps, null);
+                }
+            }
+        }.runTaskAsynchronously(Main.getInstance());
+    }
+
+    public final void updateNotificationReadStatus(final String player, final int notificationId, final boolean readStatus) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Connection conn = null;
+                PreparedStatement ps = null;
+                try {
+                    conn = pool.getConnection();
+                    ps = conn.prepareStatement("UPDATE player_notifications SET isRead=? WHERE id = ? AND nick=?;");
+                    ps.setBoolean(1, readStatus);
+                    ps.setInt(2, notificationId);
+                    ps.setString(3, player);
                     ps.executeUpdate();
                 } catch (Exception e) {
                     e.printStackTrace();

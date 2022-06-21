@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.api;
 
+import cz.craftmania.craftactions.economy.AsyncPlayerGainExpEvent;
+import cz.craftmania.craftactions.economy.AsyncPlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.events.PlayerExpGainEvent;
-import cz.craftmania.crafteconomy.events.PlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
@@ -47,7 +47,7 @@ public class LevelAPI {
         long finalLevel = actualLevel + levelsToAdd; // final level
         manager.getCraftPlayer(player).setLevelByType(type, finalLevel);
         Main.getInstance().getMySQL().setEconomy(type, player, finalLevel);
-        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new PlayerLevelUpEvent(manager.getCraftPlayer(player), levelsToAdd, finalLevel)));
+        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new AsyncPlayerLevelUpEvent(player, 0, levelsToAdd, (int) finalLevel)));
     }
 
     /**
@@ -107,7 +107,7 @@ public class LevelAPI {
         long finalExp = actualExp + expToAdd;
         manager.getCraftPlayer(player).setExperienceByType(type, finalExp);
         Main.getInstance().getMySQL().setEconomy(type, player, finalExp);
-        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new PlayerExpGainEvent(manager.getCraftPlayer(player), expToAdd)));
+        Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(new AsyncPlayerGainExpEvent(player, expToAdd)));
     }
 
     /**

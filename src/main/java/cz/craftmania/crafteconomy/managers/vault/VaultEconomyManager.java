@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class VaultEconomyManager {
 
-    private static Map<String, Long> baltopCache;
+    private static Map<String, Double> baltopCache;
 
     public VaultEconomyManager() {
         updateBaltopCache();
@@ -26,7 +26,7 @@ public class VaultEconomyManager {
         baltopCache = Main.getInstance().getMySQL().getVaultAllEcosWithNicks();
     }
 
-    public Map<String, Long> getBaltopCache() {
+    public Map<String, Double> getBaltopCache() {
         return baltopCache;
     }
 }

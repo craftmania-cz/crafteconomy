@@ -1,15 +1,19 @@
 package cz.craftmania.crafteconomy;
 
 import co.aikar.commands.PaperCommandManager;
+import cz.craftmania.craftactions.profile.NotificationPriority;
+import cz.craftmania.craftactions.profile.NotificationType;
+import cz.craftmania.craftcore.quartz.CronScheduleBuilder;
+import cz.craftmania.craftcore.quartz.SchedulerException;
+import cz.craftmania.craftcore.quartz.SchedulerFactory;
+import cz.craftmania.craftcore.quartz.SimpleScheduleBuilder;
+import cz.craftmania.craftcore.quartz.impl.StdSchedulerFactory;
 import cz.craftmania.crafteconomy.commands.*;
 import cz.craftmania.crafteconomy.commands.vault.*;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.DepositCommand;
 import cz.craftmania.crafteconomy.commands.vault.BankCommands.WithdrawCommand;
 import cz.craftmania.crafteconomy.listener.*;
-import cz.craftmania.crafteconomy.managers.BasicManager;
-import cz.craftmania.crafteconomy.managers.QuestManager;
-import cz.craftmania.crafteconomy.managers.RewardManager;
-import cz.craftmania.crafteconomy.managers.VoteManager;
+import cz.craftmania.crafteconomy.managers.*;
 import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
@@ -17,10 +21,8 @@ import cz.craftmania.crafteconomy.sql.SQLManager;
 import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
 import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
 import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
-import cz.craftmania.crafteconomy.utils.AsyncUtils;
-import cz.craftmania.crafteconomy.utils.Logger;
-import cz.craftmania.crafteconomy.utils.ServerType;
-import cz.craftmania.crafteconomy.utils.VaultUtils;
+import cz.craftmania.crafteconomy.tasks.VaultCleanTask;
+import cz.craftmania.crafteconomy.utils.*;
 import cz.craftmania.crafteconomy.utils.configs.Config;
 import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
 import cz.craftmania.crafteconomy.utils.hooks.PlaceholderRegistry;
@@ -36,10 +38,10 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.Calendar;
+import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin implements PluginMessageListener {
 
@@ -47,7 +49,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private static AsyncUtils async;
     private SQLManager sql;
     private ConfigAPI configAPI;
-    private int minExp, maxExp, time;
+    private SchedulerFactory schedulerFactory;
+    private JobScheduler jobScheduler;
+    private int minExp, maxExp, timeInMinutes;
     private boolean debug;
 
     // Vault
@@ -66,6 +70,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean registerEnabled = false;
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
+    private boolean vaultEconomyCleanUp = false;
+    private boolean notificationListenerEnabled = false;
+    private boolean notificationLoadingEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
@@ -96,6 +103,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
+        vaultEconomyCleanUp = getConfig().getBoolean("vault-economy.cleanup.enabled", false);
         if (vaultEconomyEnabled) {
             Logger.info("Injectovani Vault Economy.");
 
@@ -110,15 +118,24 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     @Override
     public void onEnable() {
 
+        // Tasks & schedules
+        try {
+            Properties schedulerProperties = new Properties();
+            schedulerProperties.put("cz.craftmania.craftcore.quartz.threadPool.threadCount", "10");
+            this.schedulerFactory = new StdSchedulerFactory(schedulerProperties);
+            this.schedulerFactory.getScheduler().start();
+            this.jobScheduler = new JobScheduler(this.schedulerFactory.getScheduler());
+            Logger.info("Inicializace interního scheduleru dokončena.");
+        } catch (SchedulerException e) {
+            Logger.danger("Selhalo spuštění interního scheduleru.");
+            e.printStackTrace();
+        }
+        async = new AsyncUtils(this);
+
         if (Bukkit.getPluginManager().isPluginEnabled("CraftCore")) isCraftCoreEnabled = true;
 
         // Plugin messages
         Bukkit.getMessenger().registerIncomingPluginChannel(this, "craftbungee:vote", this);
-
-        // Values
-        minExp = getConfig().getInt("random-exp.settings.min", 30);
-        maxExp = getConfig().getInt("random-exp.settings.max", 60);
-        time = getConfig().getInt("random-exp.settings.every", 6000);
 
         // ID serveru a typ
         serverType = resolveServerType();
@@ -133,9 +150,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             Logger.danger("Sentry integration neni aktivovana!");
         }
 
-        // Asynchronus tasks
-        async = new AsyncUtils(this);
-
         // HikariCP
         initDatabase();
 
@@ -148,14 +162,23 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Tasks
         if (getConfig().getBoolean("random-exp.enabled", false)) {
             Logger.info("Aktivace nahodneho davani expu na serveru!");
+            minExp = getConfig().getInt("random-exp.settings.min", 30);
+            maxExp = getConfig().getInt("random-exp.settings.max", 60);
+            timeInMinutes = getConfig().getInt("random-exp.settings.every", 5);
             RewardManager.loadRewards();
-            Main.getAsync().runAsync(new AddRandomExpTask(), (long) time);
             this.disabledExperienceInWorlds = Main.getInstance().getConfig().getStringList("random-exp.not-in-world");
+            try {
+                this.jobScheduler.scheduleWithBuilder(AddRandomExpTask.class, "random-exp-task", SimpleScheduleBuilder.repeatMinutelyForever(timeInMinutes));
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
         }
 
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
         isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
+        notificationListenerEnabled = getConfig().getBoolean("notifications.listener", false);
+        notificationLoadingEnabled = getConfig().getBoolean("notifications.enabled", false);
 
         if (isLuxuryQuestEnabled) {
             Logger.info("LuxuryQuests detekováno, rewardy za questy jsou aktivní.");
@@ -180,7 +203,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
         if (vaultEconomyEnabled && Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 
-            Main.getAsync().runAsync(new EconomySaveTask(), 1200L);
+            try {
+                this.jobScheduler.scheduleWithBuilder(EconomySaveTask.class, "economy-save", SimpleScheduleBuilder.repeatMinutelyForever());
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
 
             manager.registerCommand(new MoneyCommand());
             manager.registerCommand(new MoneylogCommand());
@@ -201,7 +228,11 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         if (getConfig().getBoolean("disables.global-level-updates", true)) {
             Logger.info("Aktivace updatu global levels pro hrace!");
-            Main.getInstance().getServer().getScheduler().runTaskTimerAsynchronously(this, new PlayerUpdateGlobalLevelTask(), 100L, 18000L); // 15 minut
+            try {
+                this.jobScheduler.scheduleWithBuilder(PlayerUpdateGlobalLevelTask.class, "update-global-levels", SimpleScheduleBuilder.repeatMinutelyForever(15));
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
         } else {
             Logger.info("Server nebude updatovat hracum global level!");
         }
@@ -228,7 +259,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             if (Bukkit.getOnlinePlayers().size() > 0) {
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     if (this.basicManager.getCraftPlayer(player) != null) {
-                        long balance = this.basicManager.getCraftPlayer(player).getMoney();
+                        double balance = this.basicManager.getCraftPlayer(player).getMoney();
                         Main.getInstance().getMySQL().setVaultEcoBalance(player.getName(), balance);
                     }
                 });
@@ -273,11 +304,34 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
         // CMI Events
         if (isCMIPluginEnabled) {
+            Logger.info("Detekce CMI, plugin bude detekovat AFK stav.");
             pm.registerEvents(new PlayerAfkListener(), this);
         }
 
         if (isLuxuryQuestEnabled) {
+            Logger.info("Detekce LuxuryQuests, odměny za questy jsou aktivní.");
             pm.registerEvents(new QuestCompleteListener(), this);
+        }
+
+        if (isCraftCoreEnabled && vaultEconomyEnabled && vaultEconomyCleanUp) {
+            int cleanUpDays = getConfig().getInt("vault-economy.cleanup.days", 150);
+            Logger.info("Server bude mazat automaticky každý týden hráče z databáze.");
+            Logger.info("Aktuální čas je nastaven na: " + cleanUpDays  + " dní.");
+            try {
+                this.jobScheduler.scheduleWithBuilder(
+                        VaultCleanTask.class,
+                        "vault-clean-task",
+                        CronScheduleBuilder.atHourAndMinuteOnGivenDaysOfWeek(1, 0, Calendar.MONDAY)
+                                .inTimeZone(TimeZone.getTimeZone(ZoneId.of("Europe/Prague")))
+                );
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (notificationListenerEnabled) {
+            Logger.info("Aktivace listeneru na ukládání notifikací.");
+            pm.registerEvents(new NotificationManager(), this);
         }
     }
 
@@ -293,6 +347,18 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());
             manager.registerCommand(new VotePassCommand());
+        }
+        manager.registerCommand(new EconomyCommand());
+        manager.getCommandCompletions().registerCompletion("economyType", context
+                -> Arrays.stream(EconomyType.values()).map(Enum::name).collect(Collectors.toList()));
+        if (this.notificationLoadingEnabled) {
+            manager.registerCommand(new NotificationCommand());
+            manager.getCommandCompletions().registerCompletion("notificationType", context -> {
+                return Arrays.stream(NotificationType.values()).map(Enum::name).collect(Collectors.toList());
+            });
+            manager.getCommandCompletions().registerCompletion("notificationPriority", context -> {
+               return Arrays.stream(NotificationPriority.values()).map(Enum::name).collect(Collectors.toList());
+            });
         }
     }
 
@@ -437,10 +503,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
      * Převede long říslo na zformátovaný String
      *
      * @param number Jakékoliv číslo (long)
-     * @return (Long)18748724 -> (String)18,748,724
+     * @return (Long)18748724.9 -> (String)18,748,724.2
      */
-    public String getFormattedNumber(Long number) {
-        return NumberFormat.getInstance(Locale.US).format(number);
+    public String getFormattedNumber(Double number) {
+        return String.format("%1$,.1f", number);
     }
 
     public VaultEconomyManager getVaultEconomyManager() {
@@ -564,5 +630,13 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             return;
         }
         sentry.sendException(exception);
+    }
+
+    public SchedulerFactory getSchedulerFactory() {
+        return schedulerFactory;
+    }
+
+    public boolean isNotificationLoadingEnabled() {
+        return notificationLoadingEnabled;
     }
 }
