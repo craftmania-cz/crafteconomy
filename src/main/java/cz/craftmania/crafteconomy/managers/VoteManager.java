@@ -106,9 +106,10 @@ public class VoteManager {
         VotePassReward reward_4 = new VotePassReward(4);
         reward_4.setName("Tier: 4");
         reward_4.setRequiredVotes(80);
-        reward_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (2,000B)", "§8- §fCreative WorldEdit: 12h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
+        reward_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (2,000B)", "§8- §fSurvival: Fly (2,000B)", "§8- §fCreative WorldEdit: 12h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_4.setRequiredSlotInInventory();
         reward_4.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 2000");
+        reward_4.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 2000");
         reward_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.brush.* 12h creative");
         reward_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.clipboard.(copy|cut|flip|paste|rotate) 12h creative");
         reward_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.fill 12h creative");
@@ -198,8 +199,9 @@ public class VoteManager {
         VotePassReward reward_11 = new VotePassReward(18);
         reward_11.setName("Tier: 11");
         reward_11.setRequiredVotes(220);
-        reward_11.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (6,000B)", "§8- §fCreative WE 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
-        reward_11.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 6000");
+        reward_11.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (3,000B)", "§8- §fSurvival: Fly (3,000B)", "§8- §fCreative WE 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
+        reward_11.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 3000");
+        reward_11.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 3000");
         reward_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.brush.* 24h creative");
         reward_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.clipboard.(copy|cut|flip|paste|rotate) 24h creative");
         reward_11.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.fill 24h creative");
@@ -296,16 +298,16 @@ public class VoteManager {
         // Reward: 19 - Skyblock: Fly (5,000B)
         VotePassReward reward_19 = new VotePassReward(33);
         reward_19.setName("Tier: 19");
-        reward_19.setDescription("§8- §fSkyblock: Fly (5,000B)");
+        reward_19.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (4,000B)", "§8- §fSurvival: Fly (4,000B)");
         reward_19.setRequiredVotes(400);
-        reward_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 5000");
+        reward_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 4000");
+        reward_19.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 4000");
         votePassRewards.add(reward_19);
 
         // Reward: 20 - Backpack: Tortoise Shell
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
         reward_20.setDescription("§8- §fBackpack: Tortoise Shell [Survival 1.18]");
-        reward_20.setTemporaryDisabled();
         reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.tortoise_shell");
         reward_20.setRequiredVotes(425);
         votePassRewards.add(reward_20);
@@ -359,7 +361,7 @@ public class VoteManager {
         // Reward+: 4 - Skyblock: Fly (2,500B) / Creative WE 24h
         VotePassReward reward_plus_4 = new VotePassReward(11);
         reward_plus_4.setName("Tier+: 4");
-        reward_plus_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (2,500B)", "§8- §fCreative WorldEdit 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
+        reward_plus_4.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (1,500B)", "§8- §fSurvival: Fly (1,500B)", "§8- §fCreative WorldEdit 24h", "", "§cVýhoda se aktivuje, tam kde jí otevřeš.");
         reward_plus_4.setRequiredVotePassPlus();
         reward_plus_4.setRequiredVotes(80);
         reward_plus_4.setRequiredSlotInInventory();
@@ -375,7 +377,8 @@ public class VoteManager {
         reward_plus_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.generation.* 24h creative");
         reward_plus_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp worldedit.navigation.up 24h creative");
         reward_plus_4.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp fawe.worldguard 24h creative");
-        reward_plus_4.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 2500");
+        reward_plus_4.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 1500");
+        reward_plus_4.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 1500");
         reward_plus_4.setMaterial(Material.GOLDEN_AXE);
         votePassRewards.add(reward_plus_4);
 
@@ -549,8 +552,7 @@ public class VoteManager {
         reward_plus_17.setDescription("§8- §fFurniture: Octopus [Survival 1.18]");
         reward_plus_17.setRequiredVotePassPlus();
         reward_plus_17.setRequiredSlotInInventory();
-        reward_plus_17.setTemporaryDisabled();
-        reward_plus_17.setServerCommand(ServerType.SURVIVAL_118, ""); //TODO: Doplnit
+        reward_plus_17.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% octopus_plushie");
         //reward_plus_17.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-pickaxe %player%");
         reward_plus_17.setRequiredVotes(350);
         reward_plus_17.setMaterial(Material.NETHER_STAR);
@@ -569,9 +571,10 @@ public class VoteManager {
         // Reward+: 19 - Skyblock: Fly (10,000B)
         VotePassReward reward_plus_19 = new VotePassReward(40);
         reward_plus_19.setName("Tier+: 19");
-        reward_plus_19.setDescription("§8- §fSkyblock: Fly (10,000B)");
+        reward_plus_19.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (5,000B)", "§8- §fSurvival: Fly (5,000B)");
         reward_plus_19.setRequiredVotePassPlus();
-        reward_plus_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 10000");
+        reward_plus_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 5000");
+        reward_plus_19.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 5000");
         reward_plus_19.setRequiredVotes(400);
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
@@ -583,7 +586,6 @@ public class VoteManager {
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
         reward_plus_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.angler_fish");
-        //reward_plus_20.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-sword %player%");
         reward_plus_20.setRequiredVotes(425);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
@@ -593,7 +595,6 @@ public class VoteManager {
         reward_plus_21.setName("Tier+: 21");
         reward_plus_21.setDescription("§8- §fBackpack: Kraken Arms");
         reward_plus_21.setRequiredVotePassPlus();
-        reward_plus_21.setTemporaryDisabled(); //TODO:
         reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.kraken_arms"); //TODO: Zkontrolovat
         reward_plus_21.setRequiredVotes(500);
         reward_plus_21.setMaterial(Material.NETHER_STAR);
