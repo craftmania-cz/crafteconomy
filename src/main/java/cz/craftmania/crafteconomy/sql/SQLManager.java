@@ -40,103 +40,111 @@ public class SQLManager {
     public final boolean hasData(final Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
             ps.setString(1, p.getUniqueId().toString());
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
     }
 
     public final boolean hasDataByNick(final String p) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_profile WHERE nick = ?;");
             ps.setString(1, p);
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
     }
 
     public final boolean hasDataByUUID(final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_profile WHERE uuid = ?;");
             ps.setString(1, uuid.toString());
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
     }
 
     public final CraftPlayer getCraftPlayerFromSQL(final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT player_profile.*, player_settings.paytoggle FROM player_profile, player_settings WHERE player_profile.uuid = ? AND player_profile.nick = player_settings.Nick;");
             ps.setString(1, player.getUniqueId().toString());
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
+            rs = ps.getResultSet();
+            if (rs.next()) {
                 CraftPlayer craftPlayer = new CraftPlayer(player);
-                craftPlayer.setEconomyByType(EconomyType.CRAFT_COINS, ps.getResultSet().getLong("craft_coins"));
-                craftPlayer.setEconomyByType(EconomyType.CRAFT_TOKENS, ps.getResultSet().getLong("craft_tokens"));
+                craftPlayer.setEconomyByType(EconomyType.CRAFT_COINS, rs.getLong("craft_coins"));
+                craftPlayer.setEconomyByType(EconomyType.CRAFT_TOKENS, rs.getLong("craft_tokens"));
                 // Zde je jedno jaký mají VoteTokens klíč, jelikož se všechny nastavují stejně
-                craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS, ps.getResultSet().getLong(Main.getInstance().getVoteTokensVersion().name().toLowerCase()));
-                craftPlayer.setLevelByType(LevelType.SURVIVAL_117_LEVEL, ps.getResultSet().getLong(LevelType.SURVIVAL_117_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE, ps.getResultSet().getLong(LevelType.SURVIVAL_117_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.SKYBLOCK_117_LEVEL, ps.getResultSet().getLong(LevelType.SKYBLOCK_117_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYBLOCK_117_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.SURVIVAL_118_LEVEL, ps.getResultSet().getLong(LevelType.SURVIVAL_118_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE, ps.getResultSet().getLong(LevelType.SURVIVAL_118_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.SKYBLOCK_118_LEVEL, ps.getResultSet().getLong(LevelType.SKYBLOCK_118_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYBLOCK_118_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, ps.getResultSet().getLong(LevelType.CREATIVE_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, ps.getResultSet().getLong(LevelType.CREATIVE_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, ps.getResultSet().getLong(LevelType.PRISON_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, ps.getResultSet().getLong(LevelType.PRISON_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.VANILLA_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, ps.getResultSet().getLong(LevelType.VANILLA_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.ANARCHY_LEVEL, ps.getResultSet().getLong(LevelType.ANARCHY_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.ANARCHY_EXPERIENCE, ps.getResultSet().getLong(LevelType.ANARCHY_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.SKYCLOUD_LEVEL, ps.getResultSet().getLong(LevelType.SKYCLOUD_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, ps.getResultSet().getLong(LevelType.SKYCLOUD_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.VANILLA_116_LEVEL, ps.getResultSet().getLong(LevelType.VANILLA_116_LEVEL.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, ps.getResultSet().getLong(LevelType.HARDCORE_VANILLA_LEVEL.getColumnId()));
-                craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, ps.getResultSet().getLong("quest_points"));
-                craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, ps.getResultSet().getLong("season_points"));
-                craftPlayer.setPayToggle(ps.getResultSet().getBoolean("paytoggle"));
-                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, ps.getResultSet().getLong("event_points"));
-                craftPlayer.setVotePassVotes(ps.getResultSet().getLong("vote_pass"));
+                craftPlayer.setEconomyByType(EconomyType.VOTE_TOKENS, rs.getLong(Main.getInstance().getVoteTokensVersion().name().toLowerCase()));
+                craftPlayer.setLevelByType(LevelType.SURVIVAL_117_LEVEL, rs.getLong(LevelType.SURVIVAL_117_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SURVIVAL_117_EXPERIENCE, rs.getLong(LevelType.SURVIVAL_117_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYBLOCK_117_LEVEL, rs.getLong(LevelType.SKYBLOCK_117_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE, rs.getLong(LevelType.SKYBLOCK_117_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SURVIVAL_118_LEVEL, rs.getLong(LevelType.SURVIVAL_118_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE, rs.getLong(LevelType.SURVIVAL_118_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYBLOCK_118_LEVEL, rs.getLong(LevelType.SKYBLOCK_118_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE, rs.getLong(LevelType.SKYBLOCK_118_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, rs.getLong(LevelType.CREATIVE_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, rs.getLong(LevelType.CREATIVE_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, rs.getLong(LevelType.PRISON_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.PRISON_EXPERIENCE, rs.getLong(LevelType.PRISON_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.VANILLA_LEVEL, rs.getLong(LevelType.VANILLA_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.VANILLA_EXPERIENCE, rs.getLong(LevelType.VANILLA_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.ANARCHY_LEVEL, rs.getLong(LevelType.ANARCHY_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.ANARCHY_EXPERIENCE, rs.getLong(LevelType.ANARCHY_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.SKYCLOUD_LEVEL, rs.getLong(LevelType.SKYCLOUD_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.SKYCLOUD_EXPERIENCE, rs.getLong(LevelType.SKYCLOUD_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.VANILLA_116_LEVEL, rs.getLong(LevelType.VANILLA_116_LEVEL.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.HARDCORE_VANILLA_LEVEL, rs.getLong(LevelType.HARDCORE_VANILLA_LEVEL.getColumnId()));
+                craftPlayer.setEconomyByType(EconomyType.QUEST_POINTS, rs.getLong("quest_points"));
+                craftPlayer.setEconomyByType(EconomyType.SEASON_POINTS, rs.getLong("season_points"));
+                craftPlayer.setPayToggle(rs.getBoolean("paytoggle"));
+                craftPlayer.setEconomyByType(EconomyType.EVENT_POINTS, rs.getLong("event_points"));
+                craftPlayer.setVotePassVotes(rs.getLong("vote_pass"));
                 return craftPlayer;
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return null;
     }
@@ -252,19 +260,21 @@ public class SQLManager {
     public final long getPlayerEconomy(final LevelType type, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE nick = '" + player + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong(finalType);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -272,19 +282,21 @@ public class SQLManager {
     public final long getPlayerEconomy(final EconomyType type, final String player) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         String finalType = type.name().toLowerCase();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE nick = '" + player + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong(finalType);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -292,19 +304,21 @@ public class SQLManager {
     public final long getPlayerEconomy(final EconomyType type, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         String finalType = type.name().toLowerCase();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong(finalType);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -312,19 +326,21 @@ public class SQLManager {
     public final long getPlayerEconomy(final LevelType type, final UUID uuid) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         String finalType = type.getColumnId();
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + finalType + " FROM player_profile WHERE uuid = '" + uuid.toString() + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong(finalType);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getLong(finalType);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -332,18 +348,20 @@ public class SQLManager {
     public final long getPlayerEconomy(final String column, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + column + " FROM player_profile WHERE uuid = '" + player.getUniqueId().toString() + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getLong(column);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getLong(column);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -497,18 +515,20 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_economy_" + server + " WHERE uuid = ?;");
             ps.setString(1, uuid.toString());
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
             return false;
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
     }
 
@@ -516,12 +536,14 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_economy_" + server + " WHERE nick = ?;");
             ps.setString(1, name);
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
@@ -610,18 +632,20 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE uuid = '" + uuid + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getDouble("balance");
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getDouble("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -630,18 +654,20 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT balance FROM player_economy_" + server + " WHERE nick = '" + nick + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getDouble("balance");
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getDouble("balance");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return 0;
     }
@@ -652,19 +678,21 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT `nick`, `balance` FROM `player_economy_" + server + "` WHERE `balance` > 0 AND `hide_in_baltop` = 0 ORDER BY `balance` DESC");
             ps.executeQuery();
-            while (ps.getResultSet().next()) {
-                balanceMap.put(ps.getResultSet().getString("nick"), ps.getResultSet().getDouble("balance"));
+            rs = ps.getResultSet();
+            while (rs.next()) {
+                balanceMap.put(rs.getString("nick"), rs.getDouble("balance"));
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
 
         return balanceMap;
@@ -674,14 +702,15 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT `hide_in_baltop` FROM `player_economy_" + server + "` WHERE `uuid` = ?;");
             ps.setString(1, uuid);
             ps.executeQuery();
-
-            ps.getResultSet().next();
-            return ps.getResultSet().getBoolean("hide_in_baltop");
+            rs = ps.getResultSet();
+            rs.next();
+            return rs.getBoolean("hide_in_baltop");
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
@@ -717,6 +746,7 @@ public class SQLManager {
             final String server = Main.getServerType().name().toLowerCase();
             Connection conn = null;
             PreparedStatement ps = null;
+            ResultSet rs = null;
 
             try {
                 conn = pool.getConnection();
@@ -724,17 +754,17 @@ public class SQLManager {
                 ps.setString(1, uuid.toString());
                 ps.setString(2, uuid.toString());
 
-                final ResultSet resultSet = ps.executeQuery();
-                while (resultSet.next()) {
-                    final String reciever = resultSet.getString("reciever");
-                    final UUID recieverUUID = UUID.fromString(resultSet.getString("r_uuid"));
-                    final String sender = resultSet.getString("sender");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    final String reciever = rs.getString("reciever");
+                    final UUID recieverUUID = UUID.fromString(rs.getString("r_uuid"));
+                    final String sender = rs.getString("sender");
                     UUID senderUUID;
-                    if (resultSet.getString("s_uuid") == null) senderUUID = null;
-                    else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
-                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
-                    final double amount = resultSet.getLong("amount");
-                    final Long time = resultSet.getLong("time");
+                    if (rs.getString("s_uuid") == null) senderUUID = null;
+                    else senderUUID = UUID.fromString(rs.getString("s_uuid"));
+                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(rs.getString("action"));
+                    final double amount = rs.getLong("amount");
+                    final Long time = rs.getLong("time");
 
                     EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
                     list.add(economyLog);
@@ -747,7 +777,7 @@ public class SQLManager {
 
                 completableFuture.completeExceptionally(e);
             } finally {
-                pool.close(conn, ps, null);
+                pool.close(conn, ps, rs);
             }
         });
 
@@ -762,6 +792,7 @@ public class SQLManager {
             final String server = Main.getServerType().name().toLowerCase();
             Connection conn = null;
             PreparedStatement ps = null;
+            ResultSet rs = null;
 
             try {
                 conn = pool.getConnection();
@@ -769,17 +800,17 @@ public class SQLManager {
                 ps.setString(1, nickname);
                 ps.setString(2, nickname);
 
-                final ResultSet resultSet = ps.executeQuery();
-                while (resultSet.next()) {
-                    final String reciever = resultSet.getString("reciever");
-                    final UUID recieverUUID = UUID.fromString(resultSet.getString("r_uuid"));
-                    final String sender = resultSet.getString("sender");
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    final String reciever = rs.getString("reciever");
+                    final UUID recieverUUID = UUID.fromString(rs.getString("r_uuid"));
+                    final String sender = rs.getString("sender");
                     UUID senderUUID;
-                    if (resultSet.getString("s_uuid") == null) senderUUID = null;
-                    else senderUUID = UUID.fromString(resultSet.getString("s_uuid"));
-                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(resultSet.getString("action"));
-                    final double amount = resultSet.getLong("amount");
-                    final Long time = resultSet.getLong("time");
+                    if (rs.getString("s_uuid") == null) senderUUID = null;
+                    else senderUUID = UUID.fromString(rs.getString("s_uuid"));
+                    final EconomyLog.EconomyAction action = EconomyLog.EconomyAction.valueOf(rs.getString("action"));
+                    final double amount = rs.getLong("amount");
+                    final Long time = rs.getLong("time");
 
                     EconomyLog economyLog = new EconomyLog(reciever, recieverUUID, sender, senderUUID, action, amount, time);
                     list.add(economyLog);
@@ -792,7 +823,7 @@ public class SQLManager {
 
                 completableFuture.completeExceptionally(e);
             } finally {
-                pool.close(conn, ps, null);
+                pool.close(conn, ps, rs);
             }
         });
 
@@ -803,18 +834,20 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT uuid FROM player_economy_" + server + " WHERE nick = '" + name + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return UUID.fromString(ps.getResultSet().getString("uuid"));
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return UUID.fromString(rs.getString("uuid"));
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         throw new NullPointerException("UUID pro hrace (" + name + ") nebylo nalezeno!");
     }
@@ -896,11 +929,13 @@ public class SQLManager {
     public final boolean tablePlayerProfileExists() {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT uuid FROM player_profile");
             ps.executeQuery();
-            return ps.getResultSet().next();
+            rs = ps.getResultSet();
+            return rs.next();
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             return false;
@@ -914,24 +949,26 @@ public class SQLManager {
         final String server = Main.getServerType().name().toLowerCase();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT `nick`, `balance`, `last_update` FROM `player_economy_" + server + "` WHERE `last_update` <= " + time + " ORDER BY `balance` DESC");
             ps.executeQuery();
-            while (ps.getResultSet().next()) {
+            rs = ps.getResultSet();
+            while (rs.next()) {
                 balanceList.add(
                         new Triple<>(
-                                ps.getResultSet().getString("nick"),
-                                ps.getResultSet().getDouble("balance"),
-                                ps.getResultSet().getLong("last_update"))
+                                rs.getString("nick"),
+                                rs.getDouble("balance"),
+                                rs.getLong("last_update"))
                         );
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return balanceList;
     }
@@ -964,18 +1001,20 @@ public class SQLManager {
     public final String getNickFromTable(final String table, final Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT nick FROM " + table + " WHERE uuid = '" + player.getUniqueId().toString() + "';");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getString("nick");
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getString("nick");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return null;
     }
@@ -990,18 +1029,20 @@ public class SQLManager {
     public final int getSettings(final Player p, final String settings) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + settings + " FROM player_settings WHERE nick = '" + p.getName() + "'");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt(settings);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getInt(settings);
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return -1;
     }
@@ -1031,18 +1072,20 @@ public class SQLManager {
     public final int getGender(final Player p) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT gender FROM player_profile WHERE nick = '" + p.getName() + "'");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getInt("gender");
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getInt("gender");
             }
         } catch (Exception e) {
             Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return -1;
     }
@@ -1050,17 +1093,19 @@ public class SQLManager {
     public final String getSettingsString(final Player p, final String settings) {
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT " + settings + " FROM player_settings WHERE nick = '" + p.getName() + "'");
             ps.executeQuery();
-            if (ps.getResultSet().next()) {
-                return ps.getResultSet().getString(settings);
+            rs = ps.getResultSet();
+            if (rs.next()) {
+                return rs.getString(settings);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return null;
     }
@@ -1119,28 +1164,30 @@ public class SQLManager {
         List<NotificationObject> notificationList = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
             conn = pool.getConnection();
             ps = conn.prepareStatement("SELECT * FROM player_notifications WHERE nick = ? ORDER BY createdAt DESC");
             ps.setString(1, player.getName());
             ps.executeQuery();
-            while (ps.getResultSet().next()) {
+            rs = ps.getResultSet();
+            while (rs.next()) {
                 notificationList.add(new NotificationObject(
                         player,
-                        ps.getResultSet().getInt("id"),
-                        NotificationType.valueOf(ps.getResultSet().getString("type")),
-                        NotificationPriority.valueOf(ps.getResultSet().getString("priority")),
-                        ps.getResultSet().getString("server"),
-                        ps.getResultSet().getString("title"),
-                        ps.getResultSet().getString("message"),
-                        ps.getResultSet().getBoolean("isRead")
+                        rs.getInt("id"),
+                        NotificationType.valueOf(rs.getString("type")),
+                        NotificationPriority.valueOf(rs.getString("priority")),
+                        rs.getString("server"),
+                        rs.getString("title"),
+                        rs.getString("message"),
+                        rs.getBoolean("isRead")
                 ));
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            pool.close(conn, ps, null);
+            pool.close(conn, ps, rs);
         }
         return notificationList;
     }
