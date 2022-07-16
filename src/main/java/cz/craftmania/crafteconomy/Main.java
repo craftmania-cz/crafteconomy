@@ -1,8 +1,6 @@
 package cz.craftmania.crafteconomy;
 
 import co.aikar.commands.PaperCommandManager;
-import cz.craftmania.craftactions.profile.NotificationPriority;
-import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.craftcore.quartz.CronScheduleBuilder;
 import cz.craftmania.craftcore.quartz.SchedulerException;
 import cz.craftmania.craftcore.quartz.SchedulerFactory;
@@ -37,7 +35,6 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.text.NumberFormat;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.Calendar;
@@ -328,11 +325,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
                 e.printStackTrace();
             }
         }
-
-        if (notificationListenerEnabled) {
-            Logger.info("Aktivace listeneru na ukládání notifikací.");
-            pm.registerEvents(new NotificationManager(), this);
-        }
     }
 
     private void loadCommands(PaperCommandManager manager) {
@@ -351,15 +343,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new EconomyCommand());
         manager.getCommandCompletions().registerCompletion("economyType", context
                 -> Arrays.stream(EconomyType.values()).map(Enum::name).collect(Collectors.toList()));
-        if (this.notificationLoadingEnabled) {
-            manager.registerCommand(new NotificationCommand());
-            manager.getCommandCompletions().registerCompletion("notificationType", context -> {
-                return Arrays.stream(NotificationType.values()).map(Enum::name).collect(Collectors.toList());
-            });
-            manager.getCommandCompletions().registerCompletion("notificationPriority", context -> {
-               return Arrays.stream(NotificationPriority.values()).map(Enum::name).collect(Collectors.toList());
-            });
-        }
     }
 
     private void loadConfiguration() {

@@ -52,12 +52,6 @@ public class VoteManager {
         }
     }
 
-    /**
-     * Vrací aktuální počet hlasů v VotePassu
-     *
-     * @param player {@link Player}
-     * @return {@link Long}
-     */
     public long getVotePassVotes(@NotNull Player player) {
         return this.manager.getCraftPlayer(player).getVotePassVotes();
     }

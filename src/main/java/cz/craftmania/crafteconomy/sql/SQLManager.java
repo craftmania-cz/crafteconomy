@@ -1,10 +1,7 @@
 package cz.craftmania.crafteconomy.sql;
 
 import com.zaxxer.hikari.HikariDataSource;
-import cz.craftmania.craftactions.profile.NotificationPriority;
-import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.managers.NotificationManager;
 import cz.craftmania.crafteconomy.objects.*;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
@@ -1150,90 +1147,6 @@ public class SQLManager {
                     //ps.setString(1, p.getName());
                     ps.setString(1, value);
                     ps.setString(2, p.getName());
-                    ps.executeUpdate();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    pool.close(conn, ps, null);
-                }
-            }
-        }.runTaskAsynchronously(Main.getInstance());
-    }
-
-    public final List<NotificationObject> fetchAllPlayerNotifications(Player player) {
-        List<NotificationObject> notificationList = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            conn = pool.getConnection();
-            ps = conn.prepareStatement("SELECT * FROM player_notifications WHERE nick = ? ORDER BY createdAt DESC");
-            ps.setString(1, player.getName());
-            ps.executeQuery();
-            rs = ps.getResultSet();
-            while (rs.next()) {
-                notificationList.add(new NotificationObject(
-                        player,
-                        rs.getInt("id"),
-                        NotificationType.valueOf(rs.getString("type")),
-                        NotificationPriority.valueOf(rs.getString("priority")),
-                        rs.getString("server"),
-                        rs.getString("title"),
-                        rs.getString("message"),
-                        rs.getBoolean("isRead")
-                ));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            pool.close(conn, ps, rs);
-        }
-        return notificationList;
-    }
-
-    public final void saveNotification(final Player player, final NotificationType type, NotificationPriority priority, String serverScope, String title, String message) {
-        final String server = Main.getServerType().name().toLowerCase();
-        final long currentTime = System.currentTimeMillis();
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Connection conn = null;
-                PreparedStatement ps = null;
-                try {
-                    conn = pool.getConnection();
-                    ps = conn.prepareStatement("INSERT INTO player_notifications (nick,uuid,type,priority,server,title,message,createdAt) VALUES (?,?,?,?,?,?,?,?);");
-                    ps.setString(1, player.getName());
-                    ps.setString(2, player.getUniqueId().toString());
-                    ps.setString(3, type.name());
-                    ps.setString(4, priority.name());
-                    ps.setString(5, "ALL"); //TODO: Podpora pro dynamické notifikace
-                    ps.setString(6, title);
-                    ps.setString(7, message);
-                    ps.setLong(8, currentTime);
-                    ps.executeUpdate();
-                } catch (Exception e) {
-                    Main.getInstance().sendSentryException(e);
-                    e.printStackTrace();
-                } finally {
-                    pool.close(conn, ps, null);
-                }
-            }
-        }.runTaskAsynchronously(Main.getInstance());
-    }
-
-    public final void updateNotificationReadStatus(final String player, final int notificationId, final boolean readStatus) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Connection conn = null;
-                PreparedStatement ps = null;
-                try {
-                    conn = pool.getConnection();
-                    ps = conn.prepareStatement("UPDATE player_notifications SET isRead=? WHERE id = ? AND nick=?;");
-                    ps.setBoolean(1, readStatus);
-                    ps.setInt(2, notificationId);
-                    ps.setString(3, player);
                     ps.executeUpdate();
                 } catch (Exception e) {
                     e.printStackTrace();

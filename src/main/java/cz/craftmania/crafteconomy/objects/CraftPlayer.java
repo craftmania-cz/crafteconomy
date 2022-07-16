@@ -60,10 +60,6 @@ public class CraftPlayer {
     // Vault economy
     private double serverMoney = -1;
 
-    // Notifications
-    private boolean allowNotify = true;
-    private Map<Integer, NotificationObject> notificationList = new LinkedHashMap<>();
-
     // Others
     private HashSet<Multiplier> multipliers;
     private boolean isAfk = false;
@@ -613,17 +609,5 @@ public class CraftPlayer {
             return amount;
         }
         return 0;
-    }
-
-    public Map<Integer, NotificationObject> getNotificationList() {
-        return notificationList;
-    }
-
-    public void setNotificationList(Map<Integer, NotificationObject> notificationList) {
-        this.notificationList = notificationList;
-    }
-
-    public void addNotification(NotificationObject notificationObject) {
-        this.notificationList.put(notificationObject.getNotificationId(), notificationObject);
     }
 }
