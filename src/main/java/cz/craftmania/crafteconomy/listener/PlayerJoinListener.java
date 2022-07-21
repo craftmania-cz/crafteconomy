@@ -18,9 +18,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
 
-    private Main main;
-    private BasicManager bm = new BasicManager();
-    private PlayerUtils playerUtils = new PlayerUtils();
+    private final Main main;
+    private final BasicManager bm = new BasicManager();
+    private final PlayerUtils playerUtils = new PlayerUtils();
 
     public PlayerJoinListener(Main main) {
         this.main = main;
@@ -128,12 +128,12 @@ public class PlayerJoinListener implements Listener {
         }
 
         // Informování nových hráčů o návodu na server a wiki
-        if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) <= 3) {
+        if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) <= 2) {
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                 if (playerUtils.isOnline(player)) {
                     playerUtils.infoNewPlayer(player);
                 }
-            }, 20L * 60 * 5); // 5 minut
+            }, 20L * 60 * 30); // 30 minut
         }
     }
 
