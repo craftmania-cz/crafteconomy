@@ -100,7 +100,7 @@ public class VaultUtils extends AbstractEconomy {
 
     @Override
     public double getBalance(OfflinePlayer playerName) {
-        if (playerName.isOnline()) {
+        if (playerName.isOnline() && manager.getCraftPlayer((Player) playerName) != null) {
             return manager.getCraftPlayer((Player) playerName).getMoney();
         } else if (hasAccount(playerName)) {
             return Main.getInstance().getMySQL().getVaultEcoBalance(playerName.getUniqueId());
