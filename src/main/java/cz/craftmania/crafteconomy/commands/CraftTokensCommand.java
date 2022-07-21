@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,8 +27,9 @@ public class CraftTokensCommand extends BaseCommand {
 
     @Default
     public void showCraftTokens(CommandSender sender) {
-        if (sender instanceof Player)
-            sender.sendMessage("§e§l[*] §eAktuálně máš " + EconomyAPI.CRAFT_TOKENS.get((Player) sender) + " CraftTokens.");
+        if (sender instanceof Player player) {
+            ChatInfo.INFO.send(sender, "Aktuálně máš " + EconomyAPI.CRAFT_TOKENS.get(player) + " CraftTokens.");
+        }
     }
 
     @Subcommand("add|give")

@@ -3,10 +3,10 @@ package cz.craftmania.crafteconomy.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
 import co.aikar.commands.annotation.*;
-import cz.craftmania.craftcore.messages.chat.ChatInfo;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
+import cz.craftmania.craftlibs.utils.ChatInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,10 +29,9 @@ public class CraftCoinsCommand extends BaseCommand {
 
     @Default // Deafult = Přkíaz bez argumentů -> /cc
     public void showCraftCoins(CommandSender sender) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             long coins = EconomyAPI.CRAFT_COINS.get(player);
-            player.sendMessage("§e§l[*] §eAktuálně máš " + coins + " CraftCoins.");
+            ChatInfo.INFO.send(player, "Aktuálně máš §6" + coins + " {c}CraftCoins.");
         }
     }
 
@@ -43,12 +42,12 @@ public class CraftCoinsCommand extends BaseCommand {
     public void adminGiveCraftCoins(CommandSender sender, String editedPlayer, long coinsToAdd) { // 1. je vždy sender, a pak zbytek podle CommandCompletion
         Player targetPlayer = Bukkit.getPlayer(editedPlayer);
         if (coinsToAdd <= 0) {
-            sender.sendMessage("§c§l[!!] §cHodnota nesmí být menší než 0!");
+            ChatInfo.DANGER.send(sender, "Hodnota nesmí být menší nebo rovna 0!");
             return;
         }
         if (targetPlayer != null) {
             EconomyAPI.CRAFT_COINS.give(targetPlayer, coinsToAdd);
-            sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToAdd + " CC.");
+            ChatInfo.INFO.send(sender, "Přidal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToAdd + " {c}CC.");
         } else {
             EconomyAPI.CRAFT_COINS.giveOffline(editedPlayer, coinsToAdd);
             sender.sendMessage("§e§l[*] §ePřidal jsi hráči §f" + editedPlayer + " §7- §6" + coinsToAdd + " CC.");
@@ -82,30 +81,33 @@ public class CraftCoinsCommand extends BaseCommand {
     @CommandCompletion("@players [pocet]")
     @Syntax("[nick] [pocet]")
     public void playerPay(CommandSender sender, String selectedPlayer, long coinsToPay) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("§c§l[!] §cPosílat částky může pouze hráč!");
+        if (!(sender instanceof Player senderAsPlayer)) {
+            ChatInfo.INFO.send(sender, "Posílat částky může pouze hráč!");
             return;
         }
         if(sender.getName().equalsIgnoreCase(selectedPlayer)) {
-            sender.sendMessage("§e§l[*] §eNemůžeš poslat CraftCoiny sobě.");
+            ChatInfo.INFO.send(sender, "Nemůžeš poslat CraftCoiny sobě.");
             return;
         }
         if (coinsToPay <= 0) {
-            ChatInfo.error((Player) sender, "Hodnota nesmí být menší než 0!");
+            ChatInfo.INFO.send(sender, "Hodnota nesmí být menší než 0!");
             return;
         }
         Player targetPlayer = Bukkit.getPlayer(selectedPlayer);
-        Player senderAsPlayer = (Player)sender;
+        if (targetPlayer == sender) {
+            ChatInfo.INFO.send(sender, "Nemůžeš poslat CraftCoiny sobě.");
+            return;
+        }
         long senderCoins = EconomyAPI.CRAFT_COINS.get(senderAsPlayer);
         if(senderCoins < coinsToPay) {
-            sender.sendMessage("§e§l[*] §eNemáš nedostatek CraftCoinů pro tuto platbu!");;
+            ChatInfo.INFO.send(sender, "Nemáš nedostatek CraftCoinů pro tuto platbu!");
             return;
         }
         if (targetPlayer != null) {
             EconomyAPI.CRAFT_COINS.payBetween(senderAsPlayer, targetPlayer, coinsToPay);
-            sender.sendMessage("§e§l[*] §ePoslal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToPay + " CC.");
+            ChatInfo.INFO.send(sender, "Poslal jsi hráči §f" + targetPlayer.getName() + " §7- §6" + coinsToPay + " {c}CC.");
         } else {
-            sender.sendMessage("§c§l[!] §cNemůžeš posílat CraftCoiny hráči, který není online!");
+            ChatInfo.DANGER.send(sender, "Nemůžeš posílat CraftCoiny hráči, který není online!");
         }
     }
 
