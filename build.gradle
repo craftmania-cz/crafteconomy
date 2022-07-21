@@ -47,6 +47,15 @@ task generateJavadocs(type: Javadoc) {
     classpath = sourceSets.main.compileClasspath
 }
 
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
 repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
