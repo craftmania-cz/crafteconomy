@@ -68,8 +68,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
     private boolean vaultEconomyCleanUp = false;
-    private boolean notificationListenerEnabled = false;
-    private boolean notificationLoadingEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
@@ -174,8 +172,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
         isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
-        notificationListenerEnabled = getConfig().getBoolean("notifications.listener", false);
-        notificationLoadingEnabled = getConfig().getBoolean("notifications.enabled", false);
 
         if (isLuxuryQuestEnabled) {
             Logger.info("LuxuryQuests detekováno, rewardy za questy jsou aktivní.");
@@ -617,9 +613,5 @@ public class Main extends JavaPlugin implements PluginMessageListener {
 
     public SchedulerFactory getSchedulerFactory() {
         return schedulerFactory;
-    }
-
-    public boolean isNotificationLoadingEnabled() {
-        return notificationLoadingEnabled;
     }
 }

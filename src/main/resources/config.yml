@@ -56,10 +56,3 @@ vault-economy:
   cleanup:
     enabled: false
     days: 150
-
-# Integrace notifikací a upozornění pro hráče
-notifications:
-  # Pokud je true, plugin bude načítat a oznamovat upozornění po připojení na server
-  enabled: false
-  # Pokud je true, server bude naslouchat eventu pro ukládání z jiných pluginů.
-  listener: false
