@@ -87,7 +87,9 @@ dependencies {
     // Craftmania plugins
     compileOnly 'cz.craftmania.craftcore:craftcore:2.9'
     compileOnly 'cz.craftmania.craftlibs:craftlibs:1.1.12'
-    implementation 'cz.craftmania:craftactions:1.2-beta.1'
+    implementation ('cz.craftmania:craftactions:1.1.9') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
     compileOnly 'cz.craftmania.craftpack:craftpack:1.4.9'
 
     // Other dependecies
