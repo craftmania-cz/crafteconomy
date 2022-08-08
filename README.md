@@ -1,46 +1,22 @@
-<br />
-<p align="center">
-      <h1 align="center">CraftEconomy</h1>
-</p>
-<p align="center">
-  <a href="https://java.com/">
-    <img src="http://ForTheBadge.com/images/badges/made-with-java.svg" alt="Made with Java">
-    
-  </a>
-</p>
-<p align="center">
-    Plugin spravující ekonomiku na serverech - CraftCoins, CraftTokens atd. + Vault
-</p
+# CraftEconomy
+Ekonomický plugin na správu server ekonomiky, vault ekonomiky a základních statistik hráčů.
 
-## Obsah
-
-* [Integrace do pluginu](#integrace-crafteconomy-do-pluginu)
-
-## Integrace CraftEconomy do pluginu
-
-#### Gradle
+### Integrace
 
 ```
-repositories {
-    maven { url "https://packages.craftmania.cz/repository/craftmania/" }
+maven {
+    url "https://gitlab.com/api/v4/groups/craftmania/-/packages/maven"
+    name "GitLab"
+    credentials(HttpHeaderCredentials) {
+        name = 'Private-Token'
+        value = GITLAB_TOKEN
+    }
+    authentication {
+        header(HttpHeaderAuthentication)
+    }
 }
 
 dependencies {
-    compileOnly group: 'cz.craftmania.crafteconomy', name:'crafteconomy', version: '1.4.1'
+    compileOnly group: 'cz.craftmania.crafteconomy', name:'crafteconomy', version: '2.1.0'
 }
-```
-
-#### Maven
-
-```
-<repository>
-    <id>craftmania</id>
-    <url>https://packages.craftmania.cz/repository/craftmania/</url>
-</repository>
-
-<dependency>
-    <groupId>cz.craftmania.crafteconomy</groupId>
-    <artifactId>crafteconomy</artifactId>
-    <version>1.4.1</version>
-</dependency>
 ```
