@@ -9,6 +9,7 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import cz.craftmania.notifications.api.NotificationsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,7 @@ public class PlayerJoinListener implements Listener {
     private final Main main;
     private final BasicManager bm = new BasicManager();
     private final PlayerUtils playerUtils = new PlayerUtils();
+    private final NotificationsAPI notificationsAPI = new NotificationsAPI();
 
     public PlayerJoinListener(Main main) {
         this.main = main;
@@ -121,9 +123,15 @@ public class PlayerJoinListener implements Listener {
             if (!player.hasPermission("craftmanager.backpack.axolotl")) {
                 Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set craftmanager.backpack.axolotl");
-                    //notificationManager.createNotification(
-                    //        player.getName(), NotificationType.SERVER, NotificationPriority.NORMAL, "all", "Odměna za připojení: Survival 1.18", "Děkujeme za to, že zkusíš hrát na našem novém Survivalu 1.18. Jako odměnu jsme ti aktivovali batoh Axolotl. Najdeš ho v Cosmetic Housu v sekci batohy!");
-                }, 20L * 60); // Minuta
+                    notificationsAPI.createNotification(
+                            player.getUniqueId(),
+                            NotificationType.SERVER,
+                            NotificationPriority.NORMAL,
+                            "ALL",
+                            "Cosmetic Odměna",
+                            "Děkujeme za hraní na novém Survivalu 1.18! Jako odměnu jsi dostal(a) cosmetic Axolotl Backpack. Najdeš jej v Cosmetic Housu."
+                            );
+                }, 20L * 120); // 2 minuty
             }
         }
 
