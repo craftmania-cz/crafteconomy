@@ -119,14 +119,14 @@ public class VoteManager {
         reward_4.setMaterial(Material.WOODEN_AXE);
         votePassRewards.add(reward_4);
 
-        // Reward: 5 - Scooba Googles
+        // Reward: 5 - Boxovací rukavice
         VotePassReward reward_5 = new VotePassReward(5);
         reward_5.setName("Tier: 5");
         reward_5.setRequiredVotes(100);
-        reward_5.setDescription("§8- §fCosmetic: Scooba Googles");
-        //reward_5.setRequiredSlotInInventory();
-        //reward_5.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% mecha-sword %player%");
-        reward_5.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.scuba_goggles");
+        reward_5.setDescription("§8- §fCosmetic: Boxovací rukavice");
+        reward_5.setRequiredSlotInInventory();
+        reward_5.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% boxing_glove %player%");
+        //reward_5.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.scuba_goggles");
         reward_5.setMaterial(Material.STONE_SWORD);
         votePassRewards.add(reward_5);
 
@@ -142,7 +142,7 @@ public class VoteManager {
         reward_6.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_6);
 
-        // Reward: 7 - Prison Boost → 200% → 48h, 1,000 Server XP
+        // Reward: 7 - 1,000 Server XP
         VotePassReward reward_7 = new VotePassReward(7);
         reward_7.setName("Tier: 7");
         reward_7.setRequiredVotes(140);
@@ -224,12 +224,13 @@ public class VoteManager {
         reward_12.setMaterial(Material.STICK);
         votePassRewards.add(reward_12);
 
-        // Reward: 13 - Skyblock: Gold Ore Minion
+        // Reward: 13 - 500 CraftCoins
         VotePassReward reward_13 = new VotePassReward(20);
         reward_13.setName("Tier: 13");
         reward_13.setRequiredVotes(260);
-        reward_13.setDescription("§8- §fSkyblock: Gold Ore Minion");
-        reward_13.setServerCommand(ServerType.SKYBLOCK_117, "msetup give minion gold %player% 1");
+        reward_13.setDescription("§8- §fSurvival 1.18: Jobs: +20% Boost - 3 dny");
+        reward_13.setServerCommand(ServerType.SURVIVAL_118, "lp user %player% permission settemp jobs.boost.all.money.0.20 48h survival");
+        //reward_13.setCraftCoins(500);
         reward_13.setMaterial(Material.GOLD_ORE);
         votePassRewards.add(reward_13);
 
@@ -251,21 +252,20 @@ public class VoteManager {
         // Reward: 15 - McMMO: 200% Boost - 3d
         VotePassReward reward_15 = new VotePassReward(29);
         reward_15.setName("Tier: 15");
-        reward_15.setDescription("§8- §fMcMMO: 200% Boost - 3 dny");
+        reward_15.setDescription("", "§eVolba:", "§8- §fSurvival 1.18: Jobs: +25% Boost - 3 dny", "§8- §fSkyblock 1.17: McMMO 200% boost 2 dny", "§8- §fSurvival 1.17: McMMO 200% boost 2 dny");
         reward_15.setRequiredVotes(300);
-        reward_15.setServerCommand(ServerType.SURVIVAL_117, "lp user %player% permission settemp mcmmo.perks.xp.double.* 72h survival");
-        reward_15.setServerCommand(ServerType.SKYBLOCK_117, "lp user %player% permission settemp mcmmo.perks.xp.double.* 72h skyblock");
+        reward_15.setServerCommand(ServerType.SURVIVAL_118, "lp user %player% permission settemp jobs.boost.all.money.0.25 72h survival");
+        reward_15.setServerCommand(ServerType.SKYBLOCK_117, "lp user %player% permission settemp mcmmo.perks.xp.double.* 48h skyblock");
+        reward_15.setServerCommand(ServerType.SURVIVAL_117, "lp user %player% permission settemp mcmmo.perks.xp.double.* 48h survival");
         reward_15.setMaterial(Material.GOLD_INGOT);
         votePassRewards.add(reward_15);
 
-        // Reward: 16 - Item: Atlantis Staff
+        // Reward: 16 - Cosmetic: Chicken Helmet
         VotePassReward reward_16 = new VotePassReward(30);
         reward_16.setName("Tier: 16");
-        reward_16.setDescription("§8- §fItem: Atlantis Staff");
+        reward_16.setDescription("§8- §fCosmetic: Chicken Helmet");
         reward_16.setRequiredVotes(325);
-        reward_16.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% atlantis-staff %player%");
-        reward_16.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% atlantis-staff %player%");
-        reward_16.setServerCommand(ServerType.SURVIVAL_118, "cosadmin %player% atlantis-staff %player%");
+        reward_16.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.chicken_helmet");
         reward_16.setMaterial(Material.BLAZE_ROD);
         votePassRewards.add(reward_16);
 
@@ -289,20 +289,20 @@ public class VoteManager {
         //TODO: Survival 1.18?
         votePassRewards.add(reward_18);
 
-        // Reward: 19 - Skyblock: Fly (5,000B)
+        // Reward: 19 - Skyblock: Fly (4,000B)
         VotePassReward reward_19 = new VotePassReward(33);
         reward_19.setName("Tier: 19");
-        reward_19.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (4,000B)", "§8- §fSurvival: Fly (4,000B)");
+        reward_19.setDescription("", "§eVolba:", "§8- §fSkyblock 1.17: Fly (3,000B)", "§8- §fSurvival 1.18: Fly (3,000B)");
         reward_19.setRequiredVotes(400);
-        reward_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 4000");
-        reward_19.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 4000");
+        reward_19.setServerCommand(ServerType.SKYBLOCK_117, "cmi flightcharge add %player% 3000");
+        reward_19.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 3000");
         votePassRewards.add(reward_19);
 
-        // Reward: 20 - Backpack: Tortoise Shell
+        // Reward: 20 - Backpack: Gold Crystal Wings
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fBackpack: Tortoise Shell [Survival 1.18]");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.tortoise_shell");
+        reward_20.setDescription("§8- §fBackpack: Gold Crystal Wings [Survival 1.18]");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.wings_gold_crystal");
         reward_20.setRequiredVotes(425);
         votePassRewards.add(reward_20);
 
@@ -403,16 +403,14 @@ public class VoteManager {
         reward_plus_6.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_6);
 
-        // Reward+: 7 - Crab Pickaxe
+        // Reward+: 7 - Cosmetic: Golem Head
         VotePassReward reward_plus_7 = new VotePassReward(14);
         reward_plus_7.setName("Tier+: 7");
-        reward_plus_7.setDescription("§8- §fItems: Crab Pickaxe");
+        reward_plus_7.setDescription("§8- §fCosmetic: Golem Head");
         reward_plus_7.setRequiredVotePassPlus();
         reward_plus_7.setRequiredVotes(140);
         reward_plus_7.setRequiredSlotInInventory();
-        reward_plus_7.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% crab-pickaxe %player%");
-        reward_plus_7.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% crab-pickaxe %player%");
-        reward_plus_7.setServerCommand(ServerType.SURVIVAL_118, "cosadmin %player% crab-pickaxe %player%");
+        reward_plus_7.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.golem_head");
         reward_plus_7.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_7);
 
@@ -518,10 +516,11 @@ public class VoteManager {
         // Reward+: 15 - McMMO: 300% Boost
         VotePassReward reward_plus_15 = new VotePassReward(36);
         reward_plus_15.setName("Tier+: 15");
-        reward_plus_15.setDescription("§8- §fMcMMO: 300% Boost - 72h");
+        reward_plus_15.setDescription("", "§eVolba:", "§8- §fSurvival 1.18: Jobs: +40% Boost - 3 dny", "§8- §fSkyblock: 1.17 McMMO: 300% Boost - 72h", "§8- §fSurvival: 1.17 McMMO: 300% Boost - 72h");
         reward_plus_15.setRequiredVotePassPlus();
         reward_plus_15.setServerCommand(ServerType.SURVIVAL_117, "lp user %player% permission settemp mcmmo.perks.xp.triple.* 72h survival");
         reward_plus_15.setServerCommand(ServerType.SKYBLOCK_117, "lp user %player% permission settemp mcmmo.perks.xp.triple.* 72h skyblock");
+        reward_plus_15.setServerCommand(ServerType.SURVIVAL_118, "lp user %player% permission settemp jobs.boost.all.money.0.40 72h survival");
         reward_plus_15.setRequiredVotes(300);
         reward_plus_15.setMaterial(Material.IRON_INGOT);
         votePassRewards.add(reward_plus_15);
@@ -540,14 +539,13 @@ public class VoteManager {
         reward_plus_16.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_plus_16);
 
-        // Reward+: 17 - Furniture: Octopus
+        // Reward+: 17 - Balloon: Shark
         VotePassReward reward_plus_17 = new VotePassReward(38);
         reward_plus_17.setName("Tier+: 17");
-        reward_plus_17.setDescription("§8- §fFurniture: Octopus [Survival 1.18]");
+        reward_plus_17.setDescription("§8- §fBalloon: Shark [Survival 1.18]");
         reward_plus_17.setRequiredVotePassPlus();
         reward_plus_17.setRequiredSlotInInventory();
-        reward_plus_17.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% octopus_plushie");
-        //reward_plus_17.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% banana-pickaxe %player%");
+        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.balloons.shark");
         reward_plus_17.setRequiredVotes(350);
         reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
@@ -573,26 +571,26 @@ public class VoteManager {
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
 
-        // Reward+: 20 - Cosmetics: Angler Fish Hat
+        // Reward+: 20 - Cosmetics: Dark Gold Crystal Wings
         VotePassReward reward_plus_20 = new VotePassReward(41);
         reward_plus_20.setName("Tier+: 20");
-        reward_plus_20.setDescription("§8- §fCosmetics: Angler Fish Hat");
+        reward_plus_20.setDescription("§8- §fCosmetics: Dark Gold Crystal Wings");
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.angler_fish");
+        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.wings_dark_gold_crystal");
         reward_plus_20.setRequiredVotes(425);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
 
         // Reward+: 21 - Backpack: Kraken Arms
-        VotePassReward reward_plus_21 = new VotePassReward(42);
-        reward_plus_21.setName("Tier+: 21");
-        reward_plus_21.setDescription("§8- §fBackpack: Kraken Arms");
-        reward_plus_21.setRequiredVotePassPlus();
-        reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.kraken_arms"); //TODO: Zkontrolovat
-        reward_plus_21.setRequiredVotes(500);
-        reward_plus_21.setMaterial(Material.NETHER_STAR);
-        votePassRewards.add(reward_plus_21);
+        //VotePassReward reward_plus_21 = new VotePassReward(42);
+        //reward_plus_21.setName("Tier+: 21");
+        //reward_plus_21.setDescription("§8- §fBackpack: Kraken Arms");
+        //reward_plus_21.setRequiredVotePassPlus();
+        //reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.kraken_arms"); //TODO: Zkontrolovat
+        //reward_plus_21.setRequiredVotes(500);
+        //reward_plus_21.setMaterial(Material.NETHER_STAR);
+        //votePassRewards.add(reward_plus_21);
 
 
 
