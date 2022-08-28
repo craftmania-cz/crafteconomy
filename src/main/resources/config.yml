@@ -56,3 +56,7 @@ vault-economy:
   cleanup:
     enabled: false
     days: 150
+  tax-payments: # Každo týdenní placení poplatků serveru
+    enabled: false
+    min-balance: 150000
+    percentage: 5

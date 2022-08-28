@@ -16,10 +16,7 @@ import cz.craftmania.crafteconomy.managers.vault.DepositGUI;
 import cz.craftmania.crafteconomy.managers.vault.VaultEconomyManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.sql.SQLManager;
-import cz.craftmania.crafteconomy.tasks.AddRandomExpTask;
-import cz.craftmania.crafteconomy.tasks.EconomySaveTask;
-import cz.craftmania.crafteconomy.tasks.PlayerUpdateGlobalLevelTask;
-import cz.craftmania.crafteconomy.tasks.VaultCleanTask;
+import cz.craftmania.crafteconomy.tasks.*;
 import cz.craftmania.crafteconomy.utils.*;
 import cz.craftmania.crafteconomy.utils.configs.Config;
 import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
@@ -68,6 +65,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean isCMIPluginEnabled = false;
     private boolean vaultEconomyEnabled = false;
     private boolean vaultEconomyCleanUp = false;
+    private boolean vaultEconomyWeeklyTaxesEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
 
     // Sentry
@@ -99,6 +97,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Vault init
         vaultEconomyEnabled = getConfig().getBoolean("vault-economy.enabled", false);
         vaultEconomyCleanUp = getConfig().getBoolean("vault-economy.cleanup.enabled", false);
+        vaultEconomyWeeklyTaxesEnabled = getConfig().getBoolean("vault-economy.tax-payments.enabled", false);
         if (vaultEconomyEnabled) {
             Logger.info("Injectovani Vault Economy.");
 
@@ -306,19 +305,35 @@ public class Main extends JavaPlugin implements PluginMessageListener {
             pm.registerEvents(new QuestCompleteListener(), this);
         }
 
-        if (isCraftCoreEnabled && vaultEconomyEnabled && vaultEconomyCleanUp) {
-            int cleanUpDays = getConfig().getInt("vault-economy.cleanup.days", 150);
-            Logger.info("Server bude mazat automaticky každý týden hráče z databáze.");
-            Logger.info("Aktuální čas je nastaven na: " + cleanUpDays  + " dní.");
-            try {
-                this.jobScheduler.scheduleWithBuilder(
-                        VaultCleanTask.class,
-                        "vault-clean-task",
-                        CronScheduleBuilder.atHourAndMinuteOnGivenDaysOfWeek(1, 0, Calendar.MONDAY)
-                                .inTimeZone(TimeZone.getTimeZone(ZoneId.of("Europe/Prague")))
-                );
-            } catch (SchedulerException e) {
-                e.printStackTrace();
+        if (isCraftCoreEnabled && vaultEconomyEnabled) {
+            if (vaultEconomyCleanUp) {
+                int cleanUpDays = getConfig().getInt("vault-economy.cleanup.days", 150);
+                Logger.info("Server bude mazat automaticky každý týden hráče z databáze.");
+                Logger.info("Aktuální čas je nastaven na: " + cleanUpDays  + " dní.");
+                try {
+                    this.jobScheduler.scheduleWithBuilder(
+                            VaultCleanTask.class,
+                            "vault-clean-task",
+                            CronScheduleBuilder.atHourAndMinuteOnGivenDaysOfWeek(1, 0, Calendar.MONDAY)
+                                    .inTimeZone(TimeZone.getTimeZone(ZoneId.of("Europe/Prague")))
+                    );
+                } catch (SchedulerException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (vaultEconomyWeeklyTaxesEnabled) {
+                long minBalanceForTaxes = getConfig().getLong("vault-economy.tax-payments.min-balance", 15000);
+                Logger.info("Server bude automaticky odečítat % daň hráčů od hodnoty: " + minBalanceForTaxes);
+                try {
+                    this.jobScheduler.scheduleWithBuilder(
+                            VaultWeeklyTaxTask.class,
+                            "vault-weekly-taxttask",
+                            CronScheduleBuilder.atHourAndMinuteOnGivenDaysOfWeek(2, 0, Calendar.MONDAY)
+                                    .inTimeZone(TimeZone.getTimeZone(ZoneId.of("Europe/Prague")))
+                    );
+                } catch (SchedulerException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

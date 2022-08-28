@@ -1156,4 +1156,33 @@ public class SQLManager {
             }
         }.runTaskAsynchronously(Main.getInstance());
     }
+
+    public final List<Triple<String, UUID, Double>> fetchAllEconomyTaxPaymentPlayers(long minBalance) {
+        List<Triple<String, UUID, Double>> balanceList = new ArrayList<>();
+        final String server = Main.getServerType().name().toLowerCase();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = pool.getConnection();
+            ps = conn.prepareStatement("SELECT `nick`, `uuid`, `balance` FROM `player_economy_" + server + "` WHERE `balance` >= " + minBalance);
+            ps.executeQuery();
+            rs = ps.getResultSet();
+            while (rs.next()) {
+                balanceList.add(
+                        new Triple<>(
+                                rs.getString("nick"),
+                                UUID.fromString(rs.getString("uuid")),
+                                rs.getDouble("balance"))
+                );
+            }
+        } catch (Exception e) {
+            Main.getInstance().sendSentryException(e);
+            e.printStackTrace();
+        } finally {
+            pool.close(conn, ps, rs);
+        }
+        return balanceList;
+    }
 }
