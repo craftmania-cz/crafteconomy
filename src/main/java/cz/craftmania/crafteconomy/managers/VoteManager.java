@@ -308,9 +308,11 @@ public class VoteManager {
 
         VotePassReward reward_21 = new VotePassReward(35);
         reward_21.setName("Tier: 21");
-        reward_21.setDescription("§8- §fHats: Astronaut [VotePass]");
-        reward_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.astronaut_votepass");
-        reward_21.setRequiredVotes(750);
+        reward_21.setDescription("§8- §fSword: Skyward (Limited Bonus Item)");
+        reward_21.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% skyward_sword %player%");
+        reward_21.setServerCommand(ServerType.SURVIVAL_118, "cosadmin %player% skyward_sword %player%");
+        reward_21.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% skyward_sword %player%");
+        reward_21.setRequiredVotes(800);
         votePassRewards.add(reward_21);
 
 
