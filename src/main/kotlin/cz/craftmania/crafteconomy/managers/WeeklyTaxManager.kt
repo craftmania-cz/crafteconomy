@@ -43,7 +43,7 @@ class WeeklyTaxManager {
                         NotificationPriority.NORMAL,
                         Main.getFixedServerType(),
                         "Týdenní stržení poplatků",
-                        "Jelikož jsi dosáhl(a) částky k stržení poplatků, bylo ti z účtu automaticky strženo: §f§$balanceToTake"
+                        "Jelikož jsi dosáhl(a) částky k stržení poplatků, bylo ti z účtu automaticky strženo: §f$$balanceToTake"
                     )
                 })
         }.thenRunAsync {
