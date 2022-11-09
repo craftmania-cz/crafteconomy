@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.api;
 
-import cz.craftmania.craftactions.economy.AsyncPlayerGainExpEvent;
-import cz.craftmania.craftactions.economy.AsyncPlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.economy.AsyncPlayerGainExpEvent;
+import cz.craftmania.crafteconomy.events.economy.AsyncPlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;

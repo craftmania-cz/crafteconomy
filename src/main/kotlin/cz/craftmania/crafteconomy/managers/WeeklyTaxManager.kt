@@ -1,12 +1,12 @@
 package cz.craftmania.crafteconomy.managers
 
-import cz.craftmania.craftactions.profile.NotificationPriority
-import cz.craftmania.craftactions.profile.NotificationType
 import cz.craftmania.crafteconomy.Main
 import cz.craftmania.crafteconomy.utils.Logger
 import cz.craftmania.crafteconomy.utils.Triple
 import cz.craftmania.crafteconomy.utils.VaultUtils
 import cz.craftmania.craftnotifications.api.NotificationsAPI
+import cz.craftmania.craftnotifications.objects.NotificationPriority
+import cz.craftmania.craftnotifications.objects.NotificationType
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.atomic.AtomicReference

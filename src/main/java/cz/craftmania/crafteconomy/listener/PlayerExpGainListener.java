@@ -1,8 +1,8 @@
 package cz.craftmania.crafteconomy.listener;
 
-import cz.craftmania.craftactions.economy.AsyncPlayerGainExpEvent;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.LevelAPI;
+import cz.craftmania.crafteconomy.events.economy.AsyncPlayerGainExpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
@@ -31,11 +31,13 @@ public class PlayerExpGainListener implements Listener {
                     >= LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(basicManager.getLevelByServer()))) {
                 double remainingExp = craftPlayer.getExperienceByType(basicManager.getExperienceByServer()) - LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(basicManager.getLevelByServer()));
                 LevelAPI.addLevel(craftPlayer.getPlayer(), basicManager.getLevelByServer(), 1);
-                if (remainingExp <= 0)
+                if (remainingExp <= 0) {
                     LevelAPI.resetExperienceToZero(craftPlayer.getPlayer());
-                else
+                }
+                else {
                     LevelAPI.resetExperienceToZero(craftPlayer.getPlayer());
                     LevelAPI.addExp(craftPlayer.getPlayer(), basicManager.getExperienceByServer(), ((int) remainingExp));
+                }
             }
         });
     }

@@ -1,7 +1,7 @@
 package cz.craftmania.crafteconomy.listener;
 
-import cz.craftmania.craftactions.economy.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.economy.PlayerCreateCcomunityProfileEvent;
 import cz.craftmania.crafteconomy.utils.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

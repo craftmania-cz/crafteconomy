@@ -1,7 +1,7 @@
 package cz.craftmania.crafteconomy.managers;
 
-import cz.craftmania.craftactions.economy.CraftEconomyVaultCleanUpEvent;
 import cz.craftmania.crafteconomy.Main;
+import cz.craftmania.crafteconomy.events.economy.CraftEconomyVaultCleanUpEvent;
 import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.Triple;

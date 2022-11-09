@@ -1,7 +1,5 @@
 package cz.craftmania.crafteconomy.listener;
 
-import cz.craftmania.craftactions.profile.NotificationPriority;
-import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
@@ -10,6 +8,8 @@ import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
 import cz.craftmania.craftnotifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.objects.NotificationPriority;
+import cz.craftmania.craftnotifications.objects.NotificationType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

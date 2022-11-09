@@ -1,9 +1,9 @@
 package cz.craftmania.crafteconomy.managers;
 
-import cz.craftmania.craftactions.economy.PlayerVoteEvent;
 import cz.craftmania.craftcore.xseries.messages.Titles;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
+import cz.craftmania.crafteconomy.events.economy.PlayerVoteEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.VotePassReward;
 import cz.craftmania.crafteconomy.utils.ServerType;
