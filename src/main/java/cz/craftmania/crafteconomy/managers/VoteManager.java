@@ -6,7 +6,11 @@ import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.events.economy.PlayerVoteEvent;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.VotePassReward;
+import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import cz.craftmania.craftnotifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.objects.NotificationPriority;
+import cz.craftmania.craftnotifications.objects.NotificationType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +23,7 @@ import java.util.List;
 public class VoteManager {
 
     private BasicManager manager = new BasicManager();
+    private PlayerUtils playerUtils = new PlayerUtils();
     public static List<VotePassReward> votePassRewards = new ArrayList<>();
 
     /**
@@ -49,6 +54,18 @@ public class VoteManager {
         player.sendMessage("");
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage("§b" + player.getName() + " §ehlasoval a získal §aodměnu! §c/vote");
+        }
+        // Reward: Heart Cape - 1500 Votes
+        if (craftPlayer.getTotalVotes() >= 1500) {
+            playerUtils.givePermission(player, "craftmanager.backpack.heart_cape");
+            NotificationsAPI.Companion.createNotificationByUUID(
+                    player.getUniqueId(),
+                    NotificationType.INFO,
+                    NotificationPriority.NORMAL,
+                    "ALL",
+                    "Aktivace cosmetics: 1500 hlasů",
+                    "Na tvém účtu byla aktivována cosmetic odměna za 1500 hlasů §7- §cHeart Cape."
+            );
         }
     }
 

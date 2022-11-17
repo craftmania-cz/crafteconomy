@@ -5,7 +5,12 @@ import cz.craftmania.crafteconomy.events.economy.AsyncPlayerLevelUpEvent;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.RewardManager;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
+import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.PlayerUtils;
+import cz.craftmania.craftnotifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.objects.NotificationPriority;
+import cz.craftmania.craftnotifications.objects.NotificationType;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -27,7 +32,8 @@ import java.util.Random;
 public class PlayerLevelUpListener implements Listener {
 
     static Random r = new Random();
-    final BasicManager basicManager = new BasicManager();
+    private final BasicManager basicManager = new BasicManager();
+    private final PlayerUtils playerUtils = new PlayerUtils();
 
     @EventHandler
     public void onLevelGain(AsyncPlayerLevelUpEvent event) {
@@ -54,6 +60,21 @@ public class PlayerLevelUpListener implements Listener {
         player.sendMessage("§9\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac");
         if (Main.getInstance().getMySQL().getSettings(player, "levelup_firework_enabled") == 1) {
             this.randomFireworks(player.getLocation(), Main.getInstance().getMySQL().getSettingsString(player, "levelup_firework_type"));
+        }
+
+        craftPlayer.recalculateGlobalLevel();
+
+        // Reward: Heart Cape - 200 Global Levels
+        if (craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) >= 200) {
+            playerUtils.givePermission(player, "craftmanager.backpack.cyber_wings");
+            NotificationsAPI.Companion.createNotificationByUUID(
+                    player.getUniqueId(),
+                    NotificationType.INFO,
+                    NotificationPriority.NORMAL,
+                    "ALL",
+                    "Aktivace cosmetics: 200 Global Levels",
+                    "Na tvém účtu byla aktivována cosmetic odměna za dosažení 200 celkových levelů §7- §bCyber Wings."
+            );
         }
     }
 
