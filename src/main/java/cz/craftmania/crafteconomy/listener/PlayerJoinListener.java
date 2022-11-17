@@ -7,9 +7,6 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
-import cz.craftmania.craftnotifications.api.NotificationsAPI;
-import cz.craftmania.craftnotifications.objects.NotificationPriority;
-import cz.craftmania.craftnotifications.objects.NotificationType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -115,22 +112,6 @@ public class PlayerJoinListener implements Listener {
         if (Main.getServerType() == ServerType.CREATIVE) {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.CREATIVE_LEVEL) >= 15 && !player.hasPermission("plots.set.biome")) {
                 bm.givePlayerManualLevelReward(player, 15, true);
-            }
-        }
-
-        if (Main.getServerType() == ServerType.SURVIVAL_118) {
-            if (!player.hasPermission("craftmanager.backpack.axolotl")) {
-                Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set craftmanager.backpack.axolotl");
-                    NotificationsAPI.Companion.createNotificationByUUID(
-                            player.getUniqueId(),
-                            NotificationType.SERVER,
-                            NotificationPriority.NORMAL,
-                            Main.getFixedServerType(),
-                            "Cosmetic Odměna",
-                            "Děkujeme za hraní na novém Survivalu 1.18! Jako odměnu jsi dostal(a) cosmetic Axolotl Backpack. Najdeš jej v Cosmetic Housu."
-                            );
-                }, 20L * 120); // 2 minuty
             }
         }
 
