@@ -20,6 +20,7 @@ public class SQLManager {
     private final Main plugin;
     private final ConnectionPoolManager pool;
     private HikariDataSource dataSource;
+    private final PlayerUtils playerUtils = new PlayerUtils();
 
     public SQLManager(Main plugin) {
         this.plugin = plugin;
@@ -364,7 +365,7 @@ public class SQLManager {
     }
 
     public final void createCcominutyProfile(final Player p) {
-        String discriminator = PlayerUtils.createDiscriminator();
+        String discriminator = playerUtils.createDiscriminator();
         new BukkitRunnable() {
             @Override
             public void run() {
