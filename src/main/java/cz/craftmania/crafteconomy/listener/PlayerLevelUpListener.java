@@ -65,7 +65,7 @@ public class PlayerLevelUpListener implements Listener {
         craftPlayer.recalculateGlobalLevel();
 
         // Reward: Heart Cape - 200 Global Levels
-        if (craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) >= 200) {
+        if (craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL) >= 200 && !player.hasPermission("craftmanager.backpack.cyber_wings")) {
             playerUtils.givePermission(player, "craftmanager.backpack.cyber_wings");
             NotificationsAPI.Companion.createNotificationByUUID(
                     player.getUniqueId(),

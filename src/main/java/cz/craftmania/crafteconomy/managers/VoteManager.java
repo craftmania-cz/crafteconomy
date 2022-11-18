@@ -56,7 +56,7 @@ public class VoteManager {
             p.sendMessage("§b" + player.getName() + " §ehlasoval a získal §aodměnu! §c/vote");
         }
         // Reward: Heart Cape - 1500 Votes
-        if (craftPlayer.getTotalVotes() >= 1500) {
+        if (craftPlayer.getTotalVotes() >= 1500 && !player.hasPermission("craftmanager.backpack.heart_cape")) {
             playerUtils.givePermission(player, "craftmanager.backpack.heart_cape");
             NotificationsAPI.Companion.createNotificationByUUID(
                     player.getUniqueId(),
