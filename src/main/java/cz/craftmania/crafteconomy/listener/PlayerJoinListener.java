@@ -7,6 +7,9 @@ import cz.craftmania.crafteconomy.objects.CraftPlayer;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.PlayerUtils;
 import cz.craftmania.crafteconomy.utils.ServerType;
+import cz.craftmania.craftnotifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.objects.NotificationPriority;
+import cz.craftmania.craftnotifications.objects.NotificationType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -112,6 +115,20 @@ public class PlayerJoinListener implements Listener {
         if (Main.getServerType() == ServerType.CREATIVE) {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.CREATIVE_LEVEL) >= 15 && !player.hasPermission("plots.set.biome")) {
                 bm.givePlayerManualLevelReward(player, 15, true);
+            }
+        }
+
+        if (Main.getServerType() == ServerType.SURVIVAL_118) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SURVIVAL_118_LEVEL) >= 21 && !player.hasPermission("cmi.command.fly")) {
+                bm.givePlayerManualLevelReward(player, 21, false);
+                NotificationsAPI.Companion.createNotificationByUUID(
+                        player.getUniqueId(),
+                        NotificationType.SERVER,
+                        NotificationPriority.NORMAL,
+                        "SURVIVAL",
+                        "Oprava: Odměna za 21. survival level",
+                        "§7Nyní můžeš použít příkaz §e/fly §7k neomezenému lítání."
+                );
             }
         }
 
