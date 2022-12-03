@@ -136,23 +136,23 @@ public class VoteManager {
         reward_4.setMaterial(Material.WOODEN_AXE);
         votePassRewards.add(reward_4);
 
-        // Reward: 5 - Boxovací rukavice
+        // Reward: 5 - 500 CraftCoins
         VotePassReward reward_5 = new VotePassReward(5);
         reward_5.setName("Tier: 5");
         reward_5.setRequiredVotes(100);
-        reward_5.setDescription("§8- §fCosmetic: Boxovací rukavice");
-        reward_5.setRequiredSlotInInventory();
-        reward_5.setServerCommand(ServerType.UNKNOWN, "cosadmin %player% boxing_glove %player%");
+        reward_5.setDescription("§8- §f500 CraftCoins");
+        //reward_5.setRequiredSlotInInventory();
+        //reward_5.setServerCommand(ServerType.SURVIVAL_118, "cosadmin %player% aqua_dragon_boots %player%");
         //reward_5.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.scuba_goggles");
-        reward_5.setMaterial(Material.STONE_SWORD);
+        reward_5.setCraftCoins(500);
+        reward_5.setMaterial(Material.EMERALD);
         votePassRewards.add(reward_5);
 
         // Reward: 6 - 500 CraftCoins, 3x Basic Key
         VotePassReward reward_6 = new VotePassReward(6);
         reward_6.setName("Tier: 6");
         reward_6.setRequiredVotes(120);
-        reward_6.setDescription("§8- §f500 CraftCoins", "§8- §f3x Basic Key");
-        reward_6.setCraftCoins(500);
+        reward_6.setDescription("§8- §f3x Basic Key");
         reward_6.setServerCommand(ServerType.SKYBLOCK_117, "crate give physical Basic 3 %player%");
         reward_6.setServerCommand(ServerType.SURVIVAL_117, "crate give physical Basic 3 %player%");
         reward_6.setServerCommand(ServerType.SURVIVAL_118, "crate give physical Basic 3 %player%");
@@ -193,7 +193,7 @@ public class VoteManager {
         reward_9.setServerCommand(ServerType.SURVIVAL_118, "lp user %player% permission settemp asedit.* 7d survival");
         reward_9.setServerCommand(ServerType.CREATIVE, "lp user %player% permission settemp asedit.* 7d creative");
         reward_9.setServerCommand(ServerType.VANILLA, "lp user %player% permission settemp asedit.* 7d vanilla");
-        reward_8.setMaterial(Material.ARMOR_STAND);
+        reward_9.setMaterial(Material.ARMOR_STAND);
         votePassRewards.add(reward_9);
 
         // Reward: 10 - 1 CraftToken, 2000 Server XP
@@ -228,17 +228,14 @@ public class VoteManager {
         reward_11.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_11);
 
-        // Reward: 12 - původne: SellStick: 50 použití, 500 Server XP
-        // Reward: 12 - 1500 Server XP
+        // Reward: 12 - Butterfly Wings
         VotePassReward reward_12 = new VotePassReward(19);
         reward_12.setName("Tier: 12");
         reward_12.setRequiredVotes(240);
-        reward_12.setDescription("§8- §f1500 Server XP");
+        reward_12.setDescription("§8- §fCosmetic: Butterfly Wings");
         reward_12.setServerExperience(1500);
-        //reward_12.setRequiredSlotInInventory();
-        //reward_12.setServerCommand(ServerType.SURVIVAL_117, "sellstick give %player% 1 50");
-        //reward_12.setServerCommand(ServerType.SKYBLOCK_117, "sellstick give %player% 1 50");
-        reward_12.setMaterial(Material.STICK);
+        reward_12.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission craftmanager.backpack.wings_butterfly");
+        reward_12.setMaterial(Material.GOLD_INGOT);
         votePassRewards.add(reward_12);
 
         // Reward: 13 - 500 CraftCoins
@@ -277,12 +274,13 @@ public class VoteManager {
         reward_15.setMaterial(Material.GOLD_INGOT);
         votePassRewards.add(reward_15);
 
-        // Reward: 16 - Cosmetic: Chicken Helmet
+        // Reward: 16 - 600 CraftCoins
         VotePassReward reward_16 = new VotePassReward(30);
         reward_16.setName("Tier: 16");
-        reward_16.setDescription("§8- §fCosmetic: Chicken Helmet");
+        reward_16.setDescription("§8- §f600 CraftCoins");
         reward_16.setRequiredVotes(325);
-        reward_16.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.chicken_helmet");
+        reward_16.setCraftCoins(600);
+        //reward_16.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.chicken_helmet");
         reward_16.setMaterial(Material.BLAZE_ROD);
         votePassRewards.add(reward_16);
 
@@ -315,20 +313,18 @@ public class VoteManager {
         reward_19.setServerCommand(ServerType.SURVIVAL_118, "cmi flightcharge add %player% 3000");
         votePassRewards.add(reward_19);
 
-        // Reward: 20 - Backpack: Gold Crystal Wings
+        // Reward: 20 - Balloon -> Beach Ball
         VotePassReward reward_20 = new VotePassReward(34);
         reward_20.setName("Tier: 20");
-        reward_20.setDescription("§8- §fBackpack: Gold Crystal Wings [Survival 1.18]");
-        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.wings_gold_crystal");
+        reward_20.setDescription("§8- §fBalloon: Beach ball [1.19]");
+        reward_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.balloons.beach_ball_balloon");
         reward_20.setRequiredVotes(425);
         votePassRewards.add(reward_20);
 
         VotePassReward reward_21 = new VotePassReward(35);
         reward_21.setName("Tier: 21");
-        reward_21.setDescription("§8- §fSword: Skyward (Limited Bonus Item)");
-        reward_21.setServerCommand(ServerType.SURVIVAL_117, "cosadmin %player% skyward_sword %player%");
-        reward_21.setServerCommand(ServerType.SURVIVAL_118, "cosadmin %player% skyward_sword %player%");
-        reward_21.setServerCommand(ServerType.SKYBLOCK_117, "cosadmin %player% skyward_sword %player%");
+        reward_21.setDescription("§8- §fBackpack: Mythical Blades [LIMITED]");
+        reward_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.mythical_blades");
         reward_21.setRequiredVotes(800);
         votePassRewards.add(reward_21);
 
@@ -422,14 +418,15 @@ public class VoteManager {
         reward_plus_6.setMaterial(Material.TRIPWIRE_HOOK);
         votePassRewards.add(reward_plus_6);
 
-        // Reward+: 7 - Cosmetic: Golem Head
+        // Reward+: 7 - Cosmetic Armor: Aqua Dragon Helmet
         VotePassReward reward_plus_7 = new VotePassReward(14);
         reward_plus_7.setName("Tier+: 7");
-        reward_plus_7.setDescription("§8- §fCosmetic: Golem Head");
+        reward_plus_7.setDescription("§8- §fCosmetic Armor: Aqua Dragon Helmet", "§8- §fCosmetic Armor: Aqua Dragon Boots");
         reward_plus_7.setRequiredVotePassPlus();
         reward_plus_7.setRequiredVotes(140);
         reward_plus_7.setRequiredSlotInInventory();
-        reward_plus_7.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.hats.golem_head");
+        reward_plus_7.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_helmet 1");
+        reward_plus_7.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_boots 1");
         reward_plus_7.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_7);
 
@@ -558,13 +555,14 @@ public class VoteManager {
         reward_plus_16.setMaterial(Material.EXPERIENCE_BOTTLE);
         votePassRewards.add(reward_plus_16);
 
-        // Reward+: 17 - Balloon: Shark
+        // Reward+: 17 - Aqua Dragon Chestplate + Leggings
         VotePassReward reward_plus_17 = new VotePassReward(38);
         reward_plus_17.setName("Tier+: 17");
-        reward_plus_17.setDescription("§8- §fBalloon: Shark [Survival 1.18]");
+        reward_plus_17.setDescription("§8- §fCosmetic Armor: Aqua Dragon Chestplate", "§8- §fCosmetic Armor: Aqua Dragon Leggings");
         reward_plus_17.setRequiredVotePassPlus();
         reward_plus_17.setRequiredSlotInInventory();
-        reward_plus_17.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.balloons.shark");
+        reward_plus_17.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_chestplate 1");
+        reward_plus_17.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_leggings 1");
         reward_plus_17.setRequiredVotes(350);
         reward_plus_17.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_17);
@@ -579,7 +577,7 @@ public class VoteManager {
         reward_plus_18.setMaterial(Material.EMERALD);
         votePassRewards.add(reward_plus_18);
 
-        // Reward+: 19 - Skyblock: Fly (10,000B)
+        // Reward+: 19 - Skyblock: Fly (5,000B)
         VotePassReward reward_plus_19 = new VotePassReward(40);
         reward_plus_19.setName("Tier+: 19");
         reward_plus_19.setDescription("", "§eVolba:", "§8- §fSkyblock: Fly (5,000B)", "§8- §fSurvival: Fly (5,000B)");
@@ -590,26 +588,29 @@ public class VoteManager {
         reward_plus_19.setMaterial(Material.FEATHER);
         votePassRewards.add(reward_plus_19);
 
-        // Reward+: 20 - Cosmetics: Dark Gold Crystal Wings
+        // Reward+: 20 - Cosmetics: Aqua Dragon Shovel, Pickaxe, Axe
         VotePassReward reward_plus_20 = new VotePassReward(41);
         reward_plus_20.setName("Tier+: 20");
-        reward_plus_20.setDescription("§8- §fCosmetics: Dark Gold Crystal Wings");
+        reward_plus_20.setDescription("§8- §fCosmetics Armor: Aqua Dragon Shovel", "§8- §fCosmetics Armor: Aqua Dragon Pickaxe", "§8- §fCosmetics Armor: Aqua Dragon Axe");
         reward_plus_20.setRequiredVotePassPlus();
         reward_plus_20.setRequiredSlotInInventory();
-        reward_plus_20.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.wings_dark_gold_crystal");
+        reward_plus_20.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_shovel 1");
+        reward_plus_20.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_pickaxe 1");
+        reward_plus_20.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_axe 1");
         reward_plus_20.setRequiredVotes(425);
         reward_plus_20.setMaterial(Material.NETHER_STAR);
         votePassRewards.add(reward_plus_20);
 
-        // Reward+: 21 - Backpack: Kraken Arms
-        //VotePassReward reward_plus_21 = new VotePassReward(42);
-        //reward_plus_21.setName("Tier+: 21");
-        //reward_plus_21.setDescription("§8- §fBackpack: Kraken Arms");
-        //reward_plus_21.setRequiredVotePassPlus();
-        //reward_plus_21.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.kraken_arms"); //TODO: Zkontrolovat
-        //reward_plus_21.setRequiredVotes(500);
-        //reward_plus_21.setMaterial(Material.NETHER_STAR);
-        //votePassRewards.add(reward_plus_21);
+        // Reward+: 21 - Cosmetic: Aqua Dragon Sword + Bow
+        VotePassReward reward_plus_21 = new VotePassReward(42);
+        reward_plus_21.setName("Tier+: 21");
+        reward_plus_21.setDescription("§8- §fCosmetic Armor: Aqua Dragon Sword", "§8- §fCosmetic Armor: Aqua Dragon Bow");
+        reward_plus_21.setRequiredVotePassPlus();
+        reward_plus_21.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_sword 1");
+        reward_plus_21.setServerCommand(ServerType.SURVIVAL_118, "iagive %player% aqua_bow 1");
+        reward_plus_21.setRequiredVotes(500);
+        reward_plus_21.setMaterial(Material.NETHER_STAR);
+        votePassRewards.add(reward_plus_21);
 
 
 
