@@ -346,6 +346,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new VoteTokensCommand());
         manager.registerCommand(new KarmaCommand());
         manager.registerCommand(new SeasonPointsCommand());
+        manager.registerCommand(new KalendarCommand()); //TODO: Sezoni toggle
         if (isCraftCoreEnabled) {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());
