@@ -234,7 +234,7 @@ public class VoteManager {
         reward_12.setRequiredVotes(240);
         reward_12.setDescription("§8- §fCosmetic: Butterfly Wings");
         reward_12.setServerExperience(1500);
-        reward_12.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission craftmanager.backpack.wings_butterfly");
+        reward_12.setServerCommand(ServerType.UNKNOWN, "lp user %player% permission set craftmanager.backpack.wings_butterfly");
         reward_12.setMaterial(Material.GOLD_INGOT);
         votePassRewards.add(reward_12);
 
