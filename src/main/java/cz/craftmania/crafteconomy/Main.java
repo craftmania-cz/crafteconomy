@@ -346,7 +346,9 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.registerCommand(new VoteTokensCommand());
         manager.registerCommand(new KarmaCommand());
         manager.registerCommand(new SeasonPointsCommand());
-        manager.registerCommand(new KalendarCommand()); //TODO: Sezoni toggle
+        if (getServerType() == ServerType.SURVIVAL_118 || getServerType() == ServerType.VANILLA || getServerType() == ServerType.CREATIVE) {
+            manager.registerCommand(new KalendarCommand());
+        }
         if (isCraftCoreEnabled) {
             manager.registerCommand(new RewardsCommand());
             manager.registerCommand(new ProfileCommand());

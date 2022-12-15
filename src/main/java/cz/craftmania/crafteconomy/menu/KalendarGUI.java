@@ -6,6 +6,8 @@ import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.craftcore.inventory.builder.content.InventoryContents;
 import cz.craftmania.craftcore.inventory.builder.content.InventoryProvider;
 import cz.craftmania.craftcore.inventory.builder.content.SlotPos;
+import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.craftlibs.utils.ChatInfo;
 import cz.craftmania.craftpack.api.Buttons;
 import lombok.Getter;
