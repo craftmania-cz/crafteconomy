@@ -10,6 +10,7 @@ quests:
     rarity: "COMMON" # Rarita - UNCOMMON, COMMON, RARE, LEGENDARY, MYTHIC SECRET
     points: 10 # Pokud má být hodnota QUest points jiná, než dle rarity
     experience: 100 # Pokud má hráč za quest obdržet jiný počet expů, než dle rarity
+    money: 1000 # Peníze, které dostane hráč při splnění questu
     permissions: # Permisse dány při splnění
       - 'some.super.perms'
     commands: # Příkaz, který se spustí v konzoli, př. na dávání odměn z jiných pluginů atd.

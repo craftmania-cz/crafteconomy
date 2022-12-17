@@ -7,6 +7,7 @@ import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.managers.QuestManager;
 import cz.craftmania.crafteconomy.objects.QuestReward;
 import cz.craftmania.crafteconomy.utils.Logger;
+import cz.craftmania.crafteconomy.utils.VaultUtils;
 import io.github.luxuryquests.api.events.PlayerCompletedQuestEvent;
 import io.github.luxuryquests.objects.quest.Quest;
 import org.bukkit.Bukkit;
@@ -17,6 +18,7 @@ import org.bukkit.event.Listener;
 public class QuestCompleteListener implements Listener {
 
     private final BasicManager manager = new BasicManager();
+    private final VaultUtils vaultUtils = new VaultUtils();
 
     @EventHandler
     public void onQuestComplete(final PlayerCompletedQuestEvent event) {
@@ -68,6 +70,14 @@ public class QuestCompleteListener implements Listener {
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-experience", false)) {
                 LevelAPI.addExp(player, manager.getExperienceByServer(), quest.getExperienceValue());
                 finalRewards.append("§6" + quest.getExperienceValue() + " EXP");
+            }
+        }
+
+        // Vault money
+        if (quest.getMoneyValue() > 0 && Main.getInstance().isVaultEconomyEnabled()) {
+            if (!Main.getInstance().getConfig().getBoolean("disables.quest-money", false)) {
+                vaultUtils.depositPlayer(player, quest.getMoneyValue());
+                finalRewards.append("§6" + quest.getMoneyValue() + "$");
             }
         }
 

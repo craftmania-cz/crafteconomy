@@ -17,6 +17,7 @@ public class QuestReward {
     private boolean requireSlotInInventory = false;
     private int questPointsValue = 0;
     private int experienceValue = 0;
+    private int moneyValue = 0;
     private List<String> permissions = new ArrayList<>();
     private List<String> commands = new ArrayList<>();
 
@@ -71,6 +72,11 @@ public class QuestReward {
         return this;
     }
 
+    public QuestReward setMoney(final int moneyValue) {
+        this.moneyValue = moneyValue;
+        return this;
+    }
+
     public String getId() {
         return id;
     }
@@ -93,6 +99,10 @@ public class QuestReward {
 
     public List<String> getCommands() {
         return commands;
+    }
+
+    public int getMoneyValue() {
+        return moneyValue;
     }
 
     /**

@@ -35,6 +35,9 @@ public class QuestManager {
                 if (quest.contains("experience")) {
                     questReward.overrideExperienceValue(quest.getInt("experience"));
                 }
+                if (quest.contains("money")) {
+                    questReward.setMoney(quest.getInt("money"));
+                }
                 if (quest.contains("permissions")) {
                     questReward.setPermissions(quest.getStringList("permissions"));
                 }
