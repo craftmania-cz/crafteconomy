@@ -47,14 +47,14 @@ public class LevelGUI implements InventoryProvider {
             player.closeInventory();
         })));
 
-        LevelType preferredSurvivalLevelType = null;
-        LevelType preferredSurvivalExpType = null;
+        /**
+         * Survival Icon
+         */
+        LevelType preferredSurvivalLevelType = LevelType.SURVIVAL_118_LEVEL;
+        LevelType preferredSurvivalExpType = LevelType.SURVIVAL_118_EXPERIENCE;;
         if (Main.getServerType() == ServerType.SURVIVAL_117) {
             preferredSurvivalLevelType = LevelType.SURVIVAL_117_LEVEL;
             preferredSurvivalExpType = LevelType.SURVIVAL_117_EXPERIENCE;
-        } else if (Main.getServerType() == ServerType.SURVIVAL_118) {
-            preferredSurvivalLevelType = LevelType.SURVIVAL_118_LEVEL;
-            preferredSurvivalExpType = LevelType.SURVIVAL_118_EXPERIENCE;
         }
 
         long survLevel = craftPlayer.getLevelByType(preferredSurvivalLevelType);
@@ -81,9 +81,18 @@ public class LevelGUI implements InventoryProvider {
             inventoryContents.set(2, 2, ClickableItem.empty(survival));
         }
 
-        long skyblockLevel = craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL);
-        long skyblockTotalExperience = craftPlayer.getExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE);
-        double skyblockTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.SKYBLOCK_117_LEVEL));
+        /**
+         * Skyblock Icon
+         */
+        LevelType preferredSkyblockLevelType = LevelType.SKYBLOCK_118_LEVEL;
+        LevelType preferredSkyblockExpType = LevelType.SKYBLOCK_118_EXPERIENCE;
+        if (Main.getServerType() == ServerType.SKYBLOCK_117) {
+            preferredSkyblockLevelType = LevelType.SKYBLOCK_117_LEVEL;
+            preferredSkyblockExpType = LevelType.SKYBLOCK_117_EXPERIENCE;
+        }
+        long skyblockLevel = craftPlayer.getLevelByType(preferredSkyblockLevelType);
+        long skyblockTotalExperience = craftPlayer.getExperienceByType(preferredSkyblockExpType);
+        double skyblockTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(preferredSkyblockLevelType));
         double skyblockPercentage = FormatUtils.roundDouble((skyblockTotalExperience/skyblockTotalExperienceForNextLevel)*100, 3);
 
         ItemStack skyblock = new ItemBuilder(Material.NAUTILUS_SHELL)
@@ -105,6 +114,9 @@ public class LevelGUI implements InventoryProvider {
             inventoryContents.set(2, 3, ClickableItem.empty(skyblock));
         }
 
+        /**
+         * Creative Icon
+         */
         long creativeLevel = craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL);
         long creativeTotalExperience = craftPlayer.getExperienceByType(LevelType.CREATIVE_EXPERIENCE);
         double creativeTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.CREATIVE_LEVEL));
@@ -129,6 +141,9 @@ public class LevelGUI implements InventoryProvider {
             inventoryContents.set(2, 4, ClickableItem.empty(creative));
         }
 
+        /**
+         * Vanilla Icon
+         */
         long vanillaLevel = craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL);
         long vanillaTotalExperience = craftPlayer.getExperienceByType(LevelType.VANILLA_EXPERIENCE);
         double vanillaTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
@@ -153,6 +168,9 @@ public class LevelGUI implements InventoryProvider {
             inventoryContents.set(2, 5, ClickableItem.empty(vanilla));
         }
 
+        /**
+         * Prison Icon (odebrat a nahradit starými servery)
+         */
         long prisonLevel = craftPlayer.getLevelByType(LevelType.PRISON_LEVEL);
         long prisonTotalExperience = craftPlayer.getExperienceByType(LevelType.PRISON_EXPERIENCE);
         double prisonTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.PRISON_LEVEL));
