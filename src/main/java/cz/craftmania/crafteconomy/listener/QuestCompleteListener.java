@@ -61,7 +61,7 @@ public class QuestCompleteListener implements Listener {
         if (quest.getQuestPointsValue() > 0) { // Default = 0
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-points", false)) {
                 EconomyAPI.QUEST_POINTS.give(player, quest.getQuestPointsValue());
-                finalRewards.append("§d" + quest.getQuestPointsValue() + " QuestPoints").append("§7, ");
+                finalRewards.append("§d" + quest.getQuestPointsValue() + " QuestPoints");
             }
         }
 
@@ -69,7 +69,7 @@ public class QuestCompleteListener implements Listener {
         if (quest.getExperienceValue() > 0) {
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-experience", false)) {
                 LevelAPI.addExp(player, manager.getExperienceByServer(), quest.getExperienceValue());
-                finalRewards.append("§6" + quest.getExperienceValue() + " EXP");
+                finalRewards.append("§7, ").append("§6" + quest.getExperienceValue() + " EXP");
             }
         }
 
@@ -77,7 +77,7 @@ public class QuestCompleteListener implements Listener {
         if (quest.getMoneyValue() > 0 && Main.getInstance().isVaultEconomyEnabled()) {
             if (!Main.getInstance().getConfig().getBoolean("disables.quest-money", false)) {
                 vaultUtils.depositPlayer(player, quest.getMoneyValue());
-                finalRewards.append("§6" + quest.getMoneyValue() + "$");
+                finalRewards.append("§7, ").append("§e" + quest.getMoneyValue() + "$");
             }
         }
 
