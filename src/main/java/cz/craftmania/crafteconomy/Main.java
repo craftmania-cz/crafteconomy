@@ -77,6 +77,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     // Plugins
     public static boolean isCraftCoreEnabled = false;
     public static boolean isLuxuryQuestEnabled = false;
+    public static boolean isPlaceholderAPIEnabled = false;
 
     @Override
     public void onLoad() {
@@ -171,6 +172,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // Final boolean values
         isCMIPluginEnabled = Bukkit.getPluginManager().isPluginEnabled("CMI");
         isLuxuryQuestEnabled = Bukkit.getPluginManager().isPluginEnabled("LuxuryQuests");
+        isPlaceholderAPIEnabled = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
 
         if (isLuxuryQuestEnabled) {
             Logger.info("LuxuryQuests detekováno, rewardy za questy jsou aktivní.");
@@ -238,8 +240,10 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         VoteManager.loadVotePassRewards();
 
         // Placeholders
-        Logger.info("Registrace economy placeholderů do PlaceholderAPI");
-        new PlaceholderRegistry().register();
+        if (isCMIPluginEnabled) {
+            Logger.info("Registrace economy placeholderů do PlaceholderAPI");
+            new PlaceholderRegistry().register();
+        }
     }
 
     @Override
