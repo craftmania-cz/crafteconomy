@@ -22,7 +22,6 @@ public class PlayerJoinListener implements Listener {
     private final Main main;
     private final BasicManager bm = new BasicManager();
     private final PlayerUtils playerUtils = new PlayerUtils();
-    private final NotificationsAPI notificationsAPI = new NotificationsAPI();
 
     public PlayerJoinListener(Main main) {
         this.main = main;

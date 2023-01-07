@@ -43,7 +43,7 @@ public class WeeklyTaxManager {
                         NotificationPriority.NORMAL,
                         "Survival 1.18",
                         "Týdenní stržení poplatků",
-                        "Jelikož jsi dosáhl(a) částky k stržení poplatků, bylo ti z účtu automaticky strženo: §f§" + balanceToTake);
+                        "Jelikož jsi dosáhl(a) částky k stržení poplatků, bylo ti z účtu automaticky strženo: §f$" + balanceToTake);
             });
         }).thenRunAsync(() -> {
             Logger.success("Automatické placení poplatků dokončeno.");
