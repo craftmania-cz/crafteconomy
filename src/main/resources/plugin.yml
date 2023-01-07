@@ -10,7 +10,6 @@ depend:
   - Vault
 softdepend:
   - LuxuryQuests
-  - CraftNotifications
 loadbefore:
   - QuickShop
   - CMI
@@ -22,8 +21,6 @@ loadbefore:
   - DeluxeCombat
   - CrazyCrates
 api-version: '1.17'
-libraries:
-  - "org.jetbrains.kotlin:kotlin-stdlib:1.6.20"
 
 permissions:
   crafteconomy.*:
