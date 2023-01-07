@@ -132,20 +132,6 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
-        if (Main.getServerType() == ServerType.SKYBLOCK_118 || Main.getServerType() == ServerType.SURVIVAL_118 || Main.getServerType() == ServerType.CREATIVE || Main.getServerType() == ServerType.VANILLA) {
-            if (!player.hasPermission("craftmanager.set.newyear_2023")) {
-                playerUtils.givePermission(player, "craftmanager.set.newyear_2023");
-                NotificationsAPI.Companion.createNotificationByUUID(
-                        player.getUniqueId(),
-                        NotificationType.SERVER,
-                        NotificationPriority.NORMAL,
-                        "ALL",
-                        "New Year Cosmetics",
-                        "§7Na tvém účtu byly aktivovány speciální Silvester cosmetics. Najdeš je v /cosmetics! Obsahuje: čepice, batoh & balónek"
-                );
-            }
-        }
-
         // Informování nových hráčů o návodu na server a wiki
         if (bm.getCraftPlayer(player).getLevelByType(LevelType.GLOBAL_LEVEL) <= 2) {
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
