@@ -64,7 +64,7 @@ public class PlayerJoinListener implements Listener {
 
             // Limit jenom na 1.18 eco servery
             // TODO: Odebrat s odebráním 1.17 serverů
-            if (Main.getServerType() == ServerType.SURVIVAL_118) {
+            if (Main.getServerType() == ServerType.SURVIVAL_118 || Main.getServerType() == ServerType.SKYBLOCK_118) {
                 Main.getInstance().getMySQL().setHideInBaltop(player.getUniqueId().toString(), player.hasPermission("craftmania.at"));
             }
         }
