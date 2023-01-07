@@ -1,7 +1,6 @@
 package cz.craftmania.crafteconomy.utils;
 
 import cz.craftmania.craftlibs.utils.ServerColors;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -12,6 +11,18 @@ import java.util.Random;
 import java.util.UUID;
 
 public class PlayerUtils {
+
+    public void givePermission(Player player, String permission) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user %s permission set %s".formatted(player.getName(), permission));
+    }
+
+    public void givePermission(String player, String permission) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user %s permission set %s".formatted(player, permission));
+    }
+
+    public void givePermission(Player player, String permission, String server) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user %s permission set %s %s".formatted(player.getName(), permission, server));
+    }
 
     public boolean isOnline(UUID uuid) {
         return Bukkit.getPlayer(uuid) != null && Bukkit.getPlayer(uuid).isOnline();

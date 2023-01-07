@@ -1,16 +1,14 @@
 package cz.craftmania.crafteconomy.managers;
 
-import cz.craftmania.craftactions.profile.NotificationPriority;
-import cz.craftmania.craftactions.profile.NotificationType;
 import cz.craftmania.crafteconomy.Main;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.Triple;
 import cz.craftmania.crafteconomy.utils.VaultUtils;
-import cz.craftmania.notifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.api.NotificationsAPI;
+import cz.craftmania.craftnotifications.objects.NotificationPriority;
+import cz.craftmania.craftnotifications.objects.NotificationType;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,7 +16,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class WeeklyTaxManager {
 
     private VaultUtils vaultUtils = new VaultUtils();
-    private NotificationsAPI notificationsAPI = new NotificationsAPI();
 
     public void doPlayerPayTax(long minBalance, int percentage) {
 
@@ -40,7 +37,7 @@ public class WeeklyTaxManager {
                 int balanceToTake = (int) ((consumer.getThird() * percentage) / 100);
                 Logger.info("Hráč " + consumer.getFirst() + "(" + consumer.getSecond() + ") zaplatí: $" + balanceToTake);
                 vaultUtils.withdrawPlayer(consumer.getFirst(), balanceToTake);
-                notificationsAPI.createNotification(
+                NotificationsAPI.Companion.createNotificationByUUID(
                         consumer.getSecond(),
                         NotificationType.ECONOMY,
                         NotificationPriority.NORMAL,

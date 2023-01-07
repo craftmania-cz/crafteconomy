@@ -1,9 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
-    id 'org.jetbrains.kotlin.jvm' version '1.6.20'
 }
 
-apply plugin: 'kotlin'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
@@ -114,22 +112,6 @@ shadowJar {
 
     relocate 'co.aikar.commands', 'cz.craftmania.crafteconomy.acf'
     relocate 'co.aikar.locales', 'cz.craftmania.crafteconomy.locales'
-
-    dependencies {
-        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-        exclude("kotlin")
-    }
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 publishing {
