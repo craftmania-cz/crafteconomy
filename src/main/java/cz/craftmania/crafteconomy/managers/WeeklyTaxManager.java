@@ -29,7 +29,7 @@ public class WeeklyTaxManager {
             listToTakeTax.set(Main.getInstance().getMySQL().fetchAllEconomyTaxPaymentPlayers(minBalance));
             Logger.info("Nalezeno celkem (" + listToTakeTax.get().size() + ") hráčů, kteří budou platit poplatek.");
             if (listToTakeTax.get().size() == 0) {
-                Logger.success("Seznam hráčů je prázný, ukončiji task.");
+                Logger.success("Seznam hráčů je prázný, ukončuji task.");
                 CompletableFuture.completedFuture(null);
             }
         }).thenRunAsync(() -> {
@@ -41,7 +41,7 @@ public class WeeklyTaxManager {
                         consumer.getSecond(),
                         NotificationType.ECONOMY,
                         NotificationPriority.NORMAL,
-                        "Survival 1.18",
+                        Main.getFixedServerType(),
                         "Týdenní stržení poplatků",
                         "Jelikož jsi dosáhl(a) částky k stržení poplatků, bylo ti z účtu automaticky strženo: §f$" + balanceToTake);
             });

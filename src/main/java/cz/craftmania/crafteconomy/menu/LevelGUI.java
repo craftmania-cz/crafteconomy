@@ -31,7 +31,7 @@ public class LevelGUI implements InventoryProvider {
         ItemStack playerHead = new ItemBuilder(Material.PLAYER_HEAD)
                 .setCustomModelData(500)
                 .setSkullOwner(player)
-                .setName(ServerColors.SERVER_CREATIVE.get() + "Tvůj profil")
+                .setName(ServerColors.SERVER_CREATIVE.getChatColor() + "Tvůj profil")
                 .setLore(
                         "§7Globální level: §f" + craftPlayer.getLevelByType(LevelType.GLOBAL_LEVEL),
                         "§7Karma: §f" + craftPlayer.getEconomyByType(EconomyType.KARMA_POINTS),
@@ -63,7 +63,7 @@ public class LevelGUI implements InventoryProvider {
         double percentage = FormatUtils.roundDouble((survivalTotalExperience/survivalTotalExperienceForNextLevel)*100, 3);
 
         ItemStack survival = new ItemBuilder(Material.DIAMOND_PICKAXE)
-                .setName(ServerColors.SERVER_SURVIVAL.get() + "Survival")
+                .setName(ServerColors.SERVER_SURVIVAL.getChatColor() + "Survival")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + survLevel,
@@ -96,7 +96,7 @@ public class LevelGUI implements InventoryProvider {
         double skyblockPercentage = FormatUtils.roundDouble((skyblockTotalExperience/skyblockTotalExperienceForNextLevel)*100, 3);
 
         ItemStack skyblock = new ItemBuilder(Material.NAUTILUS_SHELL)
-                .setName(ServerColors.SERVER_SKYBLOCK.get() + "Skyblock")
+                .setName(ServerColors.SERVER_SKYBLOCK.getChatColor() + "Skyblock")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + skyblockLevel,
@@ -123,7 +123,7 @@ public class LevelGUI implements InventoryProvider {
         double creativePercentage = FormatUtils.roundDouble((creativeTotalExperience/creativeTotalExperienceForNextLevel)*100, 3);
 
         ItemStack creative = new ItemBuilder(Material.LAVA_BUCKET)
-                .setName(ServerColors.SERVER_CREATIVE.get() + "Creative")
+                .setName(ServerColors.SERVER_CREATIVE.getChatColor() + "Creative")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + creativeLevel,
@@ -150,7 +150,7 @@ public class LevelGUI implements InventoryProvider {
         double vanillaPercentage = FormatUtils.roundDouble((vanillaTotalExperience/vanillaTotalExperienceForNextLevel)*100, 3);
 
         ItemStack vanilla = new ItemBuilder(Material.IRON_NUGGET).setCustomModelData(100014)
-                .setName(ServerColors.SERVER_VANILLA_LANDS.get() + "Vanilla: Lands")
+                .setName(ServerColors.SERVER_VANILLA_LANDS.getChatColor() + "Vanilla: Lands")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + vanillaLevel,
@@ -177,7 +177,7 @@ public class LevelGUI implements InventoryProvider {
         double prisonPercentage = FormatUtils.roundDouble((prisonTotalExperience/prisonTotalExperienceForNextLevel)*100, 3);
 
         ItemStack prison = new ItemBuilder(Material.IRON_BARS)
-                .setName(ServerColors.SERVER_PRISON.get() + "Prison")
+                .setName(ServerColors.SERVER_PRISON.getChatColor() + "Prison")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + prisonLevel,
