@@ -240,7 +240,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         VoteManager.loadVotePassRewards();
 
         // Placeholders
-        if (isCMIPluginEnabled) {
+        if (isPlaceholderAPIEnabled) {
             Logger.info("Registrace economy placeholderů do PlaceholderAPI");
             new PlaceholderRegistry().register();
         }
