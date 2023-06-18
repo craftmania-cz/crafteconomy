@@ -98,20 +98,6 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
-        if (Main.getServerType() == ServerType.SKYBLOCK_117) {
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_117_LEVEL) >= 25 && !player.hasPermission("cmi.command.flightcharge")) {
-                bm.givePlayerManualLevelReward(player, 25, true);
-            }
-
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_117_LEVEL) >= 47 && !player.hasPermission("shopguiplus.item.spawners.12")) {
-                bm.givePlayerManualLevelReward(player, 47, true);
-            }
-
-            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SKYBLOCK_117_LEVEL) >= 50 && !player.hasPermission("shopguiplus.item.spawners.13")) {
-                bm.givePlayerManualLevelReward(player, 50, true);
-            }
-        }
-
         if (Main.getServerType() == ServerType.CREATIVE) {
             if (bm.getCraftPlayer(player).getLevelByType(LevelType.CREATIVE_LEVEL) >= 15 && !player.hasPermission("plots.set.biome")) {
                 bm.givePlayerManualLevelReward(player, 15, true);
@@ -128,6 +114,20 @@ public class PlayerJoinListener implements Listener {
                         "SURVIVAL",
                         "Oprava: Odměna za 21. survival level",
                         "§7Nyní můžeš použít příkaz §e/fly §7k neomezenému lítání."
+                );
+            }
+        }
+
+        if (Main.getServerType() == ServerType.SURVIVAL_117) {
+            if (bm.getCraftPlayer(player).getLevelByType(LevelType.SURVIVAL_117_LEVEL) >= 7 && !player.hasPermission("craftmanager.jobs.allow-hunter")) {
+                bm.givePlayerManualLevelReward(player, 7, false);
+                NotificationsAPI.Companion.createNotificationByUUID(
+                        player.getUniqueId(),
+                        NotificationType.SERVER,
+                        NotificationPriority.NORMAL,
+                        "SURVIVAL",
+                        "Oprava: Odměna za 7. survival level",
+                        "§7Nyní můžeš pracovat jako §eHunter §7a zabíjet moby."
                 );
             }
         }
