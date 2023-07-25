@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.*;
 import cz.craftmania.crafteconomy.api.EconomyAPI;
 import cz.craftmania.crafteconomy.api.LevelAPI;
 import cz.craftmania.crafteconomy.managers.BasicManager;
+import cz.craftmania.crafteconomy.managers.CleanUpManager;
 import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.craftlibs.utils.ChatInfo;
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class EconomyCommand extends BaseCommand {
 
     private static final BasicManager manager = new BasicManager();
+    private CleanUpManager cleanUpManager = new CleanUpManager();
 
     @HelpCommand
     @Syntax("[stranka]")
@@ -77,5 +79,25 @@ public class EconomyCommand extends BaseCommand {
         } else {
             ChatInfo.DANGER.send(sender, "Hráč je offline, nelze mu přidat expy.");
         }
+    }
+
+    @Subcommand("cleanup")
+    @CommandPermission("crafteconomy.admin.cleanup")
+    @CommandCompletion("[pocetDni] confirm")
+    @Syntax("[pocetDni] confirm")
+    public void adminCleanup(CommandSender sender, int days, String confirm) {
+        if (sender instanceof Player) {
+            ChatInfo.DANGER.send(sender, "Tento příkaz můžeš použít pouze z konzole.");
+            return;
+        }
+        if (confirm == null) {
+            ChatInfo.DANGER.send(sender, "Musíš potvrdit smazání databáze.");
+            return;
+        }
+        if (days < 180) {
+            ChatInfo.DANGER.send(sender, "Nelze smazat ekonomiku starou méně než 180 dní.");
+            return;
+        }
+        cleanUpManager.cleanUpDatabase(days);
     }
 }

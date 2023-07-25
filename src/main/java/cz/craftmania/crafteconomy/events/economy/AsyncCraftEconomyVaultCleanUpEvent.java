@@ -8,13 +8,14 @@ import org.jetbrains.annotations.NotNull;
  * Calls when:<br>
  * - CraftEconomy plugin run task for deleting old players from vault database.
  */
-public class CraftEconomyVaultCleanUpEvent extends Event {
+public class AsyncCraftEconomyVaultCleanUpEvent extends Event {
 
     private final String playerName;
     private final double moneyAmount;
     private final String lastUpdated;
 
-    public CraftEconomyVaultCleanUpEvent(final String playerName, double moneyAmount, final String lastUpdated) {
+    public AsyncCraftEconomyVaultCleanUpEvent(final String playerName, double moneyAmount, final String lastUpdated) {
+        super(true);
         this.playerName = playerName;
         this.moneyAmount = moneyAmount;
         this.lastUpdated = lastUpdated;

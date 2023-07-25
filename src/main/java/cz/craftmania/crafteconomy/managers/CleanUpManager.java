@@ -1,7 +1,8 @@
 package cz.craftmania.crafteconomy.managers;
 
 import cz.craftmania.crafteconomy.Main;
-import cz.craftmania.crafteconomy.events.economy.CraftEconomyVaultCleanUpEvent;
+import cz.craftmania.crafteconomy.events.economy.AsyncCraftEconomyVaultCleanUpEvent;
+import cz.craftmania.crafteconomy.events.economy.AsyncPlayerGainExpEvent;
 import cz.craftmania.crafteconomy.utils.Constants;
 import cz.craftmania.crafteconomy.utils.Logger;
 import cz.craftmania.crafteconomy.utils.Triple;
@@ -40,8 +41,8 @@ public class CleanUpManager {
             listToRemove.get().forEach((consumer) -> {
                 Logger.info("Mazání hráče: " + consumer.getFirst() + " - " + consumer.getSecond() + "$ (last update: " + formatDate(consumer.getThird()) + ")");
                 Main.getInstance().getMySQL().purgeFromVaultDatabase(consumer.getFirst(), consumer.getThird());
-                final CraftEconomyVaultCleanUpEvent event = new CraftEconomyVaultCleanUpEvent(consumer.first(), consumer.getSecond(), formatDate(consumer.getThird()));
-                Bukkit.getPluginManager().callEvent(event);
+                final AsyncCraftEconomyVaultCleanUpEvent event = new AsyncCraftEconomyVaultCleanUpEvent(consumer.first(), consumer.getSecond(), formatDate(consumer.getThird()));
+                Main.getAsync().runAsync(() -> Bukkit.getPluginManager().callEvent(event));
             });
         }).thenRunAsync(() -> {
             Logger.success("Automatické mazání vault databáze dokončeno.");
