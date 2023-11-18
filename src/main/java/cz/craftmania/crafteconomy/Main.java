@@ -21,7 +21,6 @@ import cz.craftmania.crafteconomy.utils.*;
 import cz.craftmania.crafteconomy.utils.configs.Config;
 import cz.craftmania.crafteconomy.utils.configs.ConfigAPI;
 import cz.craftmania.crafteconomy.utils.hooks.PlaceholderRegistry;
-import cz.craftmania.craftlibs.sentry.CraftSentry;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -67,9 +66,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
     private boolean vaultEconomyCleanUp = false;
     private boolean vaultEconomyWeeklyTaxesEnabled = false;
     private List<String> disabledExperienceInWorlds = new ArrayList<>();
-
-    // Sentry
-    private CraftSentry sentry = null;
 
     // Commands manager
     private PaperCommandManager manager;
@@ -135,15 +131,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         // ID serveru a typ
         serverType = resolveServerType();
         Logger.info("Server zaevidovany jako: " + serverType.name());
-
-        // Sentry integration
-        if (!(Objects.requireNonNull(getConfig().getString("sentry-dsn")).length() == 0) && Bukkit.getPluginManager().isPluginEnabled("CraftLibs")) {
-            String dsn = getConfig().getString("sentry-dsn");
-            Logger.info("Sentry integration je aktivní: §7" + dsn);
-            sentry = new CraftSentry(dsn);
-        } else {
-            Logger.danger("Sentry integration neni aktivovana!");
-        }
 
         // HikariCP
         initDatabase();
@@ -617,17 +604,6 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Odesilá exception na Sentry
-     */
-    public void sendSentryException(Exception exception) {
-        if (sentry == null) {
-            Logger.danger("Sentry neni aktivovany, error nebude zaslan!");
-            return;
-        }
-        sentry.sendException(exception);
     }
 
     public SchedulerFactory getSchedulerFactory() {

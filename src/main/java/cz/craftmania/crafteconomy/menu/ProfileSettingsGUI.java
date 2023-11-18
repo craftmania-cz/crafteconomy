@@ -96,7 +96,6 @@ public class ProfileSettingsGUI implements InventoryProvider {
                             , "", "§eKliknutím si vybereš zvuk"));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Main.getInstance().sendSentryException(e);
                     Logger.danger("getSettingsString() z MySQL navrátilo null při požadavku na \"lobby_joinbroadcast_sound\"?!");
                 }
 

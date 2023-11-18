@@ -123,7 +123,6 @@ public class BasicManager {
                 }
             }
         } catch (Exception e) {
-            Main.getInstance().sendSentryException(e);
             e.printStackTrace();
         }
         // Prevence proti NPE z SQL
