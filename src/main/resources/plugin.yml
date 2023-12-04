@@ -21,7 +21,7 @@ loadbefore:
   - AuctionGUIPlus
   - DeluxeCombat
   - CrazyCrates
-api-version: '1.17'
+api-version: '1.19'
 
 permissions:
   crafteconomy.*:
