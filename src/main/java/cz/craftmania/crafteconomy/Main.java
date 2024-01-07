@@ -346,7 +346,7 @@ public class Main extends JavaPlugin implements PluginMessageListener {
         manager.getCommandCompletions().registerCompletion("economyType", context
                 -> Arrays.stream(EconomyType.values()).map(Enum::name).collect(Collectors.toList()));
         if (this.resolveServerType() != ServerType.LOBBY) {
-            manager.registerCommand(new KalendarCommand());
+            //manager.registerCommand(new KalendarCommand());
         }
     }
 
