@@ -193,6 +193,7 @@ public class KalendarGUI implements InventoryProvider {
                     ChatInfo.SUCCESS.send(player, "Vybral jsi si odměnu z kalendáře: §f" + calendarReward.getName() + " {c}za §e" + calendarReward.getDay() + ". {c}den.");
                     NotificationsAPI.Companion.createNotificationByUUID(player.getUniqueId(), NotificationType.SERVER,  NotificationPriority.NORMAL, "ALL", "§6Vánoční kalendář","§7Byla ti aktivována odměna za Vánoční kalendář - Gold VIP na 30 dní");
                 }
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set " + calendarReward.getPermission());
                 player.closeInventory();
             }));
         } else {
