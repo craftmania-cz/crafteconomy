@@ -6,9 +6,7 @@ import co.aikar.commands.annotation.*;
 import cz.craftmania.craftcore.inventory.builder.SmartInventory;
 import cz.craftmania.crafteconomy.managers.BasicManager;
 import cz.craftmania.crafteconomy.menu.LevelGUI;
-import cz.craftmania.crafteconomy.menu.VotePassGUI;
 import cz.craftmania.crafteconomy.objects.CraftPlayer;
-import cz.craftmania.crafteconomy.objects.EconomyType;
 import cz.craftmania.crafteconomy.objects.LevelType;
 import cz.craftmania.crafteconomy.utils.FormatUtils;
 import cz.craftmania.crafteconomy.utils.LevelUtils;
@@ -38,35 +36,20 @@ public class LevelCommand extends BaseCommand {
     }
 
     @Default
-    @CommandCompletion("survival|skyblock|vanilla|creative|skycloud|hardcore-vanilla|prison|anarchy")
+    @CommandCompletion("survival|oneblock|creative")
     @Syntax("[server]")
     public void showLevelByServer(CommandSender sender, String server) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             switch (server.toLowerCase()) {
                 case "survival":
-                    generateServerLevelMessage(player, "Survival", LevelType.SURVIVAL_117_LEVEL, LevelType.SURVIVAL_117_EXPERIENCE);
+                    generateServerLevelMessage(player, "Survival: Classic", LevelType.SURVIVAL_117_LEVEL, LevelType.SURVIVAL_117_EXPERIENCE);
                     break;
-                case "skyblock":
-                    generateServerLevelMessage(player, "Skyblock", LevelType.SKYBLOCK_117_LEVEL, LevelType.SKYBLOCK_117_EXPERIENCE);
+                case "oneblock":
+                    generateServerLevelMessage(player, "Oneblock", LevelType.ONEBLOCK_LEVEL, LevelType.ONEBLOCK_EXPERIENCE);
                     break;
                 case "creative":
                     generateServerLevelMessage(player, "Creative", LevelType.CREATIVE_LEVEL, LevelType.CREATIVE_EXPERIENCE);
-                    break;
-                case "vanilla":
-                    generateServerLevelMessage(player, "Vanilla", LevelType.VANILLA_LEVEL, LevelType.VANILLA_EXPERIENCE);
-                    break;
-                case "skycloud":
-                    generateServerLevelMessage(player, "Skycloud", LevelType.SKYCLOUD_LEVEL, LevelType.SKYCLOUD_EXPERIENCE);
-                    break;
-                case "hardcore-vanilla":
-                    generateServerLevelMessage(player, "Hardcore Vanilla", LevelType.HARDCORE_VANILLA_LEVEL, LevelType.HARDCORE_VANILLA_EXPERIENCE);
-                    break;
-                case "prison":
-                    generateServerLevelMessage(player, "Prison", LevelType.PRISON_LEVEL, LevelType.PRISON_EXPERIENCE);
-                    break;
-                case "anarchy":
-                    generateServerLevelMessage(player, "Vanilla: Anarchy", LevelType.ANARCHY_LEVEL, LevelType.ANARCHY_EXPERIENCE);
                     break;
             }
         }

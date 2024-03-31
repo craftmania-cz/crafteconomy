@@ -50,12 +50,8 @@ public class LevelGUI implements InventoryProvider {
         /**
          * Survival Icon
          */
-        LevelType preferredSurvivalLevelType = LevelType.SURVIVAL_118_LEVEL;
-        LevelType preferredSurvivalExpType = LevelType.SURVIVAL_118_EXPERIENCE;;
-        if (Main.getServerType() == ServerType.SURVIVAL_117) {
-            preferredSurvivalLevelType = LevelType.SURVIVAL_117_LEVEL;
-            preferredSurvivalExpType = LevelType.SURVIVAL_117_EXPERIENCE;
-        }
+        LevelType preferredSurvivalLevelType = LevelType.SURVIVAL_117_LEVEL;
+        LevelType preferredSurvivalExpType = LevelType.SURVIVAL_117_EXPERIENCE;;
 
         long survLevel = craftPlayer.getLevelByType(preferredSurvivalLevelType);
         long survivalTotalExperience = craftPlayer.getExperienceByType(preferredSurvivalExpType);
@@ -74,29 +70,26 @@ public class LevelGUI implements InventoryProvider {
                 ).build();
         if (Main.getServerType() == ServerType.SURVIVAL_117 || Main.getServerType() == ServerType.SURVIVAL_118) {
             ItemStack modifiedSurvivalItem = new ItemBuilder(survival).addLoreLine("").addLoreLine("§e[LTM] Zobrazení odměn za level").build();
-            inventoryContents.set(2, 2, ClickableItem.of(modifiedSurvivalItem, inventoryClickEvent -> {
+            inventoryContents.set(2, 3, ClickableItem.of(modifiedSurvivalItem, inventoryClickEvent -> {
                 SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
             }));
         } else {
-            inventoryContents.set(2, 2, ClickableItem.empty(survival));
+            inventoryContents.set(2, 3, ClickableItem.empty(survival));
         }
 
         /**
          * Skyblock Icon
          */
-        LevelType preferredSkyblockLevelType = LevelType.SKYBLOCK_118_LEVEL;
-        LevelType preferredSkyblockExpType = LevelType.SKYBLOCK_118_EXPERIENCE;
-        if (Main.getServerType() == ServerType.SKYBLOCK_117) {
-            preferredSkyblockLevelType = LevelType.SKYBLOCK_117_LEVEL;
-            preferredSkyblockExpType = LevelType.SKYBLOCK_117_EXPERIENCE;
-        }
+        LevelType preferredSkyblockLevelType = LevelType.ONEBLOCK_LEVEL;
+        LevelType preferredSkyblockExpType = LevelType.ONEBLOCK_EXPERIENCE;
+
         long skyblockLevel = craftPlayer.getLevelByType(preferredSkyblockLevelType);
         long skyblockTotalExperience = craftPlayer.getExperienceByType(preferredSkyblockExpType);
         double skyblockTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(preferredSkyblockLevelType));
         double skyblockPercentage = FormatUtils.roundDouble((skyblockTotalExperience/skyblockTotalExperienceForNextLevel)*100, 3);
 
         ItemStack skyblock = new ItemBuilder(Material.NAUTILUS_SHELL)
-                .setName(ServerColors.SERVER_SKYBLOCK.getChatColor() + "Skyblock")
+                .setName(ServerColors.SERVER_SKYBLOCK.getChatColor() + "Oneblock")
                 .hideAllFlags()
                 .setLore(
                         "§7Level: §f" + skyblockLevel,
@@ -107,11 +100,11 @@ public class LevelGUI implements InventoryProvider {
                 ).build();
         if (Main.getServerType() == ServerType.SKYBLOCK_117 || Main.getServerType() == ServerType.SKYBLOCK_118) {
             ItemStack modifiedSkyblockItem = new ItemBuilder(skyblock).addLoreLine("").addLoreLine("§e[LTM] Zobrazení odměn za level").build();
-            inventoryContents.set(2, 3, ClickableItem.of(modifiedSkyblockItem, inventoryClickEvent -> {
+            inventoryContents.set(2, 4, ClickableItem.of(modifiedSkyblockItem, inventoryClickEvent -> {
                 SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
             }));
         } else {
-            inventoryContents.set(2, 3, ClickableItem.empty(skyblock));
+            inventoryContents.set(2, 4, ClickableItem.empty(skyblock));
         }
 
         /**
@@ -134,67 +127,12 @@ public class LevelGUI implements InventoryProvider {
                 ).build();
         if (Main.getServerType() == ServerType.CREATIVE) {
             ItemStack modifiedCreativeItem = new ItemBuilder(creative).addLoreLine("").addLoreLine("§e[LTM] Zobrazení odměn za level").build();
-            inventoryContents.set(2, 4, ClickableItem.of(modifiedCreativeItem, inventoryClickEvent -> {
+            inventoryContents.set(2, 5, ClickableItem.of(modifiedCreativeItem, inventoryClickEvent -> {
                 SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
             }));
         } else {
-            inventoryContents.set(2, 4, ClickableItem.empty(creative));
+            inventoryContents.set(2, 5, ClickableItem.empty(creative));
         }
-
-        /**
-         * Vanilla Icon
-         */
-        long vanillaLevel = craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL);
-        long vanillaTotalExperience = craftPlayer.getExperienceByType(LevelType.VANILLA_EXPERIENCE);
-        double vanillaTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.VANILLA_LEVEL));
-        double vanillaPercentage = FormatUtils.roundDouble((vanillaTotalExperience/vanillaTotalExperienceForNextLevel)*100, 3);
-
-        ItemStack vanilla = new ItemBuilder(Material.IRON_NUGGET).setCustomModelData(100014)
-                .setName(ServerColors.SERVER_VANILLA_LANDS.getChatColor() + "Vanilla: Lands")
-                .hideAllFlags()
-                .setLore(
-                        "§7Level: §f" + vanillaLevel,
-                        "§7Další level: §f" + vanillaTotalExperience + "/" + Math.round(vanillaTotalExperienceForNextLevel) + " EXP",
-                        "§7Procentuálně: ",
-                        getPercentageBar(vanillaPercentage) + " §7[" + vanillaPercentage + "%]"
-
-                ).build();
-        if (Main.getServerType() == ServerType.VANILLA) {
-            ItemStack modifiedVanillaItem = new ItemBuilder(vanilla).addLoreLine("").addLoreLine("§e[LTM] Zobrazení odměn za level").build();
-            inventoryContents.set(2, 5, ClickableItem.of(modifiedVanillaItem, inventoryClickEvent -> {
-                SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
-            }));
-        } else {
-            inventoryContents.set(2, 5, ClickableItem.empty(vanilla));
-        }
-
-        /**
-         * Prison Icon (odebrat a nahradit starými servery)
-         */
-        long prisonLevel = craftPlayer.getLevelByType(LevelType.PRISON_LEVEL);
-        long prisonTotalExperience = craftPlayer.getExperienceByType(LevelType.PRISON_EXPERIENCE);
-        double prisonTotalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(LevelType.PRISON_LEVEL));
-        double prisonPercentage = FormatUtils.roundDouble((prisonTotalExperience/prisonTotalExperienceForNextLevel)*100, 3);
-
-        ItemStack prison = new ItemBuilder(Material.IRON_BARS)
-                .setName(ServerColors.SERVER_PRISON.getChatColor() + "Prison")
-                .hideAllFlags()
-                .setLore(
-                        "§7Level: §f" + prisonLevel,
-                        "§7Další level: §f" + prisonTotalExperience + "/" + Math.round(prisonTotalExperienceForNextLevel) + " EXP",
-                        "§7Procentuálně: ",
-                        getPercentageBar(prisonPercentage) + " §7[" + prisonPercentage + "%]"
-
-                ).build();
-        if (Main.getServerType() == ServerType.PRISON) {
-            ItemStack modifiedPrisonItem = new ItemBuilder(prison).addLoreLine("").addLoreLine("§e[LTM] Zobrazení odměn za level").build();
-            inventoryContents.set(2, 6, ClickableItem.of(modifiedPrisonItem, inventoryClickEvent -> {
-                SmartInventory.builder().size(6, 9).title("Level rewards").provider(new RewardsGUI()).build().open(player);
-            }));
-        } else {
-            inventoryContents.set(2, 6, ClickableItem.empty(prison));
-        }
-
     }
 
     @Override
