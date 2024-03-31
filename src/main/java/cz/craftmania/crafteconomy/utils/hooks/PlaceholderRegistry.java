@@ -118,7 +118,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_skyblock_level")) {
             LevelType predefinedLevel = LevelType.SKYBLOCK_117_LEVEL;
             if (Main.getServerType() == ServerType.SKYBLOCK_118) {
-                predefinedLevel = LevelType.SKYBLOCK_118_LEVEL;
+                predefinedLevel = LevelType.ONEBLOCK_LEVEL;
             }
             return String.valueOf(craftPlayer.getLevelByType(predefinedLevel));
         }
@@ -128,8 +128,8 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
             LevelType predefinedExperience = LevelType.SKYBLOCK_117_EXPERIENCE;
             LevelType predefinedLevel = LevelType.SKYBLOCK_117_LEVEL;
             if (Main.getServerType() == ServerType.SKYBLOCK_118) {
-                predefinedExperience = LevelType.SKYBLOCK_118_EXPERIENCE;
-                predefinedLevel = LevelType.SKYBLOCK_118_LEVEL;
+                predefinedExperience = LevelType.ONEBLOCK_EXPERIENCE;
+                predefinedLevel = LevelType.ONEBLOCK_LEVEL;
             }
             long totalExperience = craftPlayer.getExperienceByType(predefinedExperience);
             double totalExperienceForNextLevel = LevelUtils.getExpFromLevelToNext(craftPlayer.getLevelByType(predefinedLevel));
@@ -219,7 +219,7 @@ public class PlaceholderRegistry extends PlaceholderExpansion {
         if (identifier.equals("player_skyblock_experience")) {
             LevelType predefinedExperience = LevelType.SKYBLOCK_117_EXPERIENCE;
             if (Main.getServerType() == ServerType.SKYBLOCK_118) {
-                predefinedExperience = LevelType.SKYBLOCK_118_EXPERIENCE;
+                predefinedExperience = LevelType.ONEBLOCK_EXPERIENCE;
             }
             return String.valueOf(craftPlayer.getExperienceByType(predefinedExperience));
         }

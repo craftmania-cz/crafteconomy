@@ -6,7 +6,6 @@ import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CraftPlayer {
 
@@ -31,8 +30,8 @@ public class CraftPlayer {
     private long survival118Experience = 0;
     private long skyblockLevel = 1;
     private long skyblockExperience = 0;
-    private long skyblock118Level = 1;
-    private long skyblock118Experience = 0;
+    private long oneblockLevel = 1;
+    private long oneblockExperience = 0;
     private long creativeLevel = 1;
     private long creativeExperence = 0;
     private long prisonLevel = 1;
@@ -444,8 +443,8 @@ public class CraftPlayer {
                 return this.skyblockLevel;
             case SURVIVAL_118_LEVEL:
                 return this.survival118Level;
-            case SKYBLOCK_118_LEVEL:
-                return this.skyblock118Level;
+            case ONEBLOCK_LEVEL:
+                return this.oneblockLevel;
             case CREATIVE_LEVEL:
                 return this.creativeLevel;
             case PRISON_LEVEL:
@@ -479,8 +478,8 @@ public class CraftPlayer {
             case SURVIVAL_118_LEVEL:
                 this.survival118Level = level;
                 break;
-            case SKYBLOCK_118_LEVEL:
-                this.skyblock118Level = level;
+            case ONEBLOCK_LEVEL:
+                this.oneblockLevel = level;
                 break;
             case CREATIVE_LEVEL:
                 this.creativeLevel = level;
@@ -516,8 +515,8 @@ public class CraftPlayer {
                 return this.skyblockExperience;
             case SURVIVAL_118_EXPERIENCE:
                 return this.survival118Experience;
-            case SKYBLOCK_118_EXPERIENCE:
-                return this.skyblock118Experience;
+            case ONEBLOCK_EXPERIENCE:
+                return this.oneblockExperience;
             case CREATIVE_EXPERIENCE:
                 return this.creativeExperence;
             case PRISON_EXPERIENCE:
@@ -551,8 +550,8 @@ public class CraftPlayer {
             case SURVIVAL_118_EXPERIENCE:
                 this.survival118Experience = experience;
                 break;
-            case SKYBLOCK_118_EXPERIENCE:
-                this.skyblock118Experience = experience;
+            case ONEBLOCK_EXPERIENCE:
+                this.oneblockExperience = experience;
                 break;
             case CREATIVE_EXPERIENCE:
                 this.creativeExperence = experience;
@@ -588,7 +587,7 @@ public class CraftPlayer {
         finalValue += canBeAdded(this.survivalLevel);
         finalValue += canBeAdded(this.skyblockLevel);
         finalValue += canBeAdded(this.survival118Level);
-        finalValue += canBeAdded(this.skyblock118Level);
+        finalValue += canBeAdded(this.oneblockLevel);
         finalValue += canBeAdded(this.creativeLevel);
         finalValue += canBeAdded(this.vanillaLevel);
         finalValue += canBeAdded(this.skycloudLevel);

@@ -113,8 +113,8 @@ public class SQLManager {
                 craftPlayer.setExperienceByType(LevelType.SKYBLOCK_117_EXPERIENCE, rs.getLong(LevelType.SKYBLOCK_117_EXPERIENCE.getColumnId()));
                 craftPlayer.setLevelByType(LevelType.SURVIVAL_118_LEVEL, rs.getLong(LevelType.SURVIVAL_118_LEVEL.getColumnId()));
                 craftPlayer.setExperienceByType(LevelType.SURVIVAL_118_EXPERIENCE, rs.getLong(LevelType.SURVIVAL_118_EXPERIENCE.getColumnId()));
-                craftPlayer.setLevelByType(LevelType.SKYBLOCK_118_LEVEL, rs.getLong(LevelType.SKYBLOCK_118_LEVEL.getColumnId()));
-                craftPlayer.setExperienceByType(LevelType.SKYBLOCK_118_EXPERIENCE, rs.getLong(LevelType.SKYBLOCK_118_EXPERIENCE.getColumnId()));
+                craftPlayer.setLevelByType(LevelType.ONEBLOCK_LEVEL, rs.getLong(LevelType.ONEBLOCK_LEVEL.getColumnId()));
+                craftPlayer.setExperienceByType(LevelType.ONEBLOCK_EXPERIENCE, rs.getLong(LevelType.ONEBLOCK_EXPERIENCE.getColumnId()));
                 craftPlayer.setLevelByType(LevelType.CREATIVE_LEVEL, rs.getLong(LevelType.CREATIVE_LEVEL.getColumnId()));
                 craftPlayer.setExperienceByType(LevelType.CREATIVE_EXPERIENCE, rs.getLong(LevelType.CREATIVE_EXPERIENCE.getColumnId()));
                 craftPlayer.setLevelByType(LevelType.PRISON_LEVEL, rs.getLong(LevelType.PRISON_LEVEL.getColumnId()));
